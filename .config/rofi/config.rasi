@@ -1,0 +1,15 @@
+configuration {
+	theme: "/usr/share/rofi/themes/gruvbox-dark.rasi";
+    modi: "drun,run,window,ssh"; 
+    width: 30;              
+/*  lines: 15;*/              
+/*  columns: 1;*/             
+    font: "TerminessTTF Nerd Font Bold 16";        
+/*  bw: 1;*/                  
+/*  location: 0;*/            
+/* padding: 10; */             
+/*  yoffset: 0;*/             
+/*  xoffset: 0;*/             
+/*  fixed-num-lines: true;*/  
+    show-icons: true;         
+}

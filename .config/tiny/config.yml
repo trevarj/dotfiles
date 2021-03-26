@@ -1,0 +1,151 @@
+# Servers to auto-connect
+servers:
+    - addr: irc.oftc.net
+      port: 6697
+      tls: true
+      realname: trevor
+      nicks: [trevarj]
+
+      # (optional) Server alias for display in tab line
+      alias: oftc
+
+      # Channels to automatically join
+      join:
+          - "#tiny"
+
+      # Three authentication methods: pass, sasl, and nickserv_ident
+      # These are optional and you probably only need one of these, delete
+      # others.
+
+      # Server or nick password
+      pass: 'hehehehe hunter2!'
+
+      # SASL authentication
+
+      # Identify nick by sending a message to NickServ:
+      # (useful when `pass` or `sasl` fields above are not used)
+      # nickserv_ident: 'hunter2'
+    - addr: irc.freenode.net
+      port: 6697
+      tls: true
+      realname: trevor
+      nicks: [trevarj]
+      alias: freenode
+      join:
+        - "##rust"
+        - "#neovim"
+        - "#archlinux"
+      pass: 'hehehehe hunter2!'
+
+# Defaults used when connecting to servers via the /connect command
+defaults:
+    nicks: [trev]
+    realname: trevor
+    join: []
+    tls: false
+    # DCC Downloads
+    download_dir: "/home/trevor/Downloads/tiny_downloads"
+
+# Where to put log files
+log_dir: "/home/trevor/tiny_logs"
+
+# (Optional) Limits the maximum number of messages stored for each UI tab. Defaults to unlimited.
+# scrollback: 512
+
+# (Optional) UI Message Layout Style. Defaults to 'compact'
+# ui_style: compact
+ui_style:
+   aligned:
+      # Nicks greater than this value will be truncated
+      max_nick_length: 12
+
+# Color theme based on 256 colors. Colors can be defined as color indices
+# (0-255) or with their names.
+#
+# Below are the defaults. You can delete them if you don't want to change
+# anything.
+#
+# Accepted color names are:
+# default (0), black (0), maroon (1), green (2), olive (3), navy (4),
+# purple (5), teal (6), silver (7), gray (8), red (9), lime (10),
+# yellow (11), blue (12), magenta (13), cyan (14), white (15)
+#
+# Attributes can be combined (e.g [bold, underline]), and valid values are bold
+# and underline.
+colors:
+    nick: [1, 2, 4, 6, 7, 9, 10, 11, 12, 13, 14]
+
+    clear:
+        fg: default
+        bg: default
+
+    user_msg:
+        fg: black
+        bg: default
+
+    err_msg:
+        fg: 242
+        bg: default
+        attrs: [bold]
+
+    topic:
+        fg: cyan
+        bg: default
+        attrs: [bold]
+
+    cursor:
+        fg: black
+        bg: default
+
+    join:
+        fg: lime
+        bg: default
+        attrs: [bold]
+
+    part:
+        fg: maroon
+        bg: default
+        attrs: [bold]
+
+    nick_change:
+        fg: lime
+        bg: default
+        attrs: [bold]
+
+    faded:
+        fg: 242
+        bg: default
+
+    exit_dialogue:
+        fg: default
+        bg: navy
+
+    highlight:
+        fg: red
+        bg: default
+        attrs: [bold]
+
+    completion:
+        fg: 84
+        bg: default
+
+    timestamp:
+        fg: 242
+        bg: default
+
+    tab_active:
+        fg: default
+        bg: default
+
+    tab_normal:
+        fg: gray
+        bg: default
+
+    tab_new_msg:
+        fg: 83
+        bg: default
+
+    tab_highlight:
+        fg: 83
+        bg: default
+        attrs: [bold]
