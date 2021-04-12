@@ -11,6 +11,10 @@ zmodload zsh/complist
 zstyle ':completion:*' menu yes select
 
 bindkey -M menuselect '?' history-incremental-search-forward
+bindkey '^[[H' beginning-of-line
+bindkey '^[[F' end-of-line
+bindkey '^[[2~' vi-put-after
+bindkey '^[[3~' delete-char
 
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 bindkey '^ ' autosuggest-accept
