@@ -230,7 +230,8 @@ label-foreground = ${colors.separator}
 
 [module/eth]
 type = internal/network
-interface = enp3s0
+; interface = eth0
+interface-type = wired
 interval = 3.0
 
 ; format-connected-prefix = " "
