@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if bat=$(arctis -b);
+if bat=$(arctis7-controls battery);
 then
         bat="${bat#Battery level: *}"
         bat="${bat%*%}"

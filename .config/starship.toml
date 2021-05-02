@@ -8,5 +8,5 @@ error_symbol = "[➜](red)"
 vicmd_symbol = "[](grey)"
 
 [line_break]
-disabled = true
+disabled = false
 
