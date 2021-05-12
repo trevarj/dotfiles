@@ -69,7 +69,7 @@ font-1 = TerminessTTF Nerd Font Mono:pixelsize=18;6
 
 modules-left = bspwm cpu memory
 modules-center = world-clock date weather
-modules-right = notification-github updates-pacman pulseaudio arctis xkeyboard eth powermenu
+modules-right = notification-github updates-pacman crypto pulseaudio arctis xkeyboard eth powermenu
 
 tray-position = right
 tray-maxsize = 24
@@ -387,6 +387,12 @@ format-foreground = ${colors.separator}
 type = custom/script
 exec = ~/.config/polybar/notification-github.sh
 interval = 300
+
+[module/crypto]
+format-foreground = ${colors.separator}
+type = custom/script
+exec = ~/.config/polybar/crypto.sh
+interval = 600
 
 [settings]
 screenchange-reload = true
