@@ -65,7 +65,8 @@ dpi-x = 0
 dpi-y = 0
 
 font-0 = Terminus:style=Medium:pixelsize=20;3
-font-1 = TerminessTTF Nerd Font Mono:pixelsize=18;6
+font-1 = cryptocoins:style=Regular:pixelsize=10;2
+font-2 = TerminessTTF Nerd Font Mono:pixelsize=18;6
 
 modules-left = bspwm cpu memory crypto 
 modules-center = world-clock date weather
