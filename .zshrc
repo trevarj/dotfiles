@@ -4,7 +4,7 @@ HISTSIZE=2000
 SAVEHIST=6000
 unsetopt beep
 setopt nonomatch
-bindkey -v
+# bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 zstyle :compinstall filename '/home/trevor/.zshrc'
@@ -31,6 +31,8 @@ compinit
 # End of lines added by compinstall
 
 alias ls='exa'
+alias open='xdg-open'
+alias idris2='rlwrap idris2'
 
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
