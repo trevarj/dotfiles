@@ -29,12 +29,28 @@ alert = #bd2c40
 ; secondary="#8EC07C"
 
 ; Nord
-background="#3B4252"
-foreground="#EBCB8B"
-background-alt="#434C5E"
-separator="#5E81AC"
-accent="#D08770"
-secondary="#8EC07C"
+; background="#3B4252"
+; foreground="#EBCB8B"
+; background-alt="#434C5E"
+; separator="#5E81AC"
+; accent="#D08770"
+; secondary="#8EC07C"
+
+; Challenger deep
+; background="#1b182c"
+; foreground="#cbe3e7"
+; background-alt="#312F41"
+; separator="#CC8400"
+; accent="#CC8400"
+; secondary="#CC8400"
+
+; argonaut
+background="#292C3E"
+foreground="#EBEBEB"
+background-alt="#312F41"
+separator="#CC8400"
+accent="#CC8400"
+secondary="#CC8400"
 
 [bar/mybar]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -65,8 +81,9 @@ dpi-x = 0
 dpi-y = 0
 
 font-0 = Terminus:style=Medium:pixelsize=20;3
-font-1 = cryptocoins:style=Regular:pixelsize=10;2
-font-2 = TerminessTTF Nerd Font Mono:pixelsize=18;6
+font-1 = Noto Color Emoji:style=Regular:scale=8:2
+font-2 = cryptocoins:style=Regular:pixelsize=10;2
+font-3 = TerminessTTF Nerd Font Mono:pixelsize=18;6
 
 modules-left = bspwm cpu memory crypto 
 modules-center = world-clock date weather

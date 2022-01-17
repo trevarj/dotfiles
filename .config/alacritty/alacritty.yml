@@ -114,7 +114,7 @@ font:
     family: FiraCode Nerd Font
 
     # The `style` can be specified to pick a specific face.
-    style: Regular
+    style: Medium
 
   # Bold font face
   #bold:
@@ -203,34 +203,68 @@ font:
 #      cyan:    '#8FBCBB'
 #      white:   '#ECEFF4'
 
-# Challenger deep
+# argonaut
 colors:
   # Default colors
   primary:
-    background: '0x1b182c'
-    foreground: '0xcbe3e7'
+    background: '0x292C3E'
+    foreground: '0xEBEBEB'
+
+  # Cursor colors
+  cursor:
+    text: '0xFF261E'
+    cursor: '0xa36900'
 
   # Normal colors
   normal:
-    black:   '0x100e23'
-    red:     '0xff8080'
-    green:   '0x95ffa4'
-    yellow:  '0xffe9aa'
-    blue:    '0x91ddff'
-    magenta: '0xc991e1'
-    cyan:    '0xaaffe4'
-    white:   '0xcbe3e7'
+    black:   '0x0d0d0d'
+    red:     '0xFF301B'
+    green:   '0xA0E521'
+    yellow:  '0xFFC620'
+    blue:    '0x1BA6FA'
+    magenta: '0x8763B8'
+    cyan:    '0x21DEEF'
+    white:   '0xEBEBEB'
 
   # Bright colors
   bright:
-    black:   '0x565575'
-    red:     '0xff5458'
-    green:   '0x62d196'
-    yellow:  '0xffb378'
-    blue:    '0x65b2ff'
-    magenta: '0x906cff'
-    cyan:    '0x63f2f1'
-    white:   '0xa6b3cc'
+    black:   '0x6D7070'
+    red:     '0xFF4352'
+    green:   '0xB8E466'
+    yellow:  '0xFFD750'
+    blue:    '0x1BA6FA'
+    magenta: '0xA578EA'
+    cyan:    '0x73FBF1'
+    white:   '0xFEFEF8'
+    
+# Challenger deep
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x1b182c'
+#     foreground: '0xcbe3e7'
+
+#   # Normal colors
+#   normal:
+#     black:   '0x100e23'
+#     red:     '0xff8080'
+#     green:   '0x95ffa4'
+#     yellow:  '0xffe9aa'
+#     blue:    '0x91ddff'
+#     magenta: '0xc991e1'
+#     cyan:    '0xaaffe4'
+#     white:   '0xcbe3e7'
+
+#   # Bright colors
+#   bright:
+#     black:   '0x565575'
+#     red:     '0xff5458'
+#     green:   '0x62d196'
+#     yellow:  '0xffb378'
+#     blue:    '0x65b2ff'
+#     magenta: '0x906cff'
+#     cyan:    '0x63f2f1'
+#     white:   '0xa6b3cc'
 
 # colors:
 #   primary:
