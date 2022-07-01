@@ -26,8 +26,8 @@ bindkey '^ ' autosuggest-accept
 export TERM=alacritty
 export EDITOR=vim
 
-autoload -Uz compinit
-compinit
+autoload -Uz compinit && compinit
+autoload -Uz bashcompinit && bashcompinit
 # End of lines added by compinstall
 
 alias ls='exa'
@@ -37,4 +37,8 @@ alias idris2='rlwrap idris2'
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-eval "$(starship init zsh)"
+eval "$(pack completion-script pack)"
+eval "$(oh-my-posh init --config ~/.config/oh-my-posh/theme.omp.json zsh)"
+
+# opam configuration
+[[ ! -r /home/trevor/.opam/opam-init/init.zsh ]] || source /home/trevor/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
