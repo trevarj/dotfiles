@@ -19,6 +19,8 @@ bindkey '^[[3~' delete-char
 bindkey "^R" history-incremental-search-backward
 bindkey "^[[1;5D" backward-word
 bindkey "^[[1;5C" forward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 bindkey '^ ' autosuggest-accept

@@ -15,11 +15,11 @@ trap "toggle" USR1
 
 while true; do
     if [ $t -eq 0 ]; then
-        echo ""
+		TZ=''
+        date +"%a %b %d %-I:%M %p"
     else
-		HK=$(TZ='Asia/Hong_Kong' date +'%-H:%M')
-		NY=$(TZ='America/New_York' date +'%-H:%M')
-		echo "HK $HK NY $NY"
+        TZ='America/New_York' 
+		date +"%a %b %d %-I:%M %p"
     fi
     sleep 1 &
     sleep_pid=$!

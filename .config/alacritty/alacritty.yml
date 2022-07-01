@@ -150,7 +150,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 11.0
+  size: 12.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -204,38 +204,38 @@ font:
 #      white:   '#ECEFF4'
 
 # argonaut
-colors:
-  # Default colors
-  primary:
-    background: '0x292C3E'
-    foreground: '0xEBEBEB'
+# colors:
+#   # Default colors
+#   primary:
+#     background: '0x292C3E'
+#     foreground: '0xEBEBEB'
 
-  # Cursor colors
-  cursor:
-    text: '0xFF261E'
-    cursor: '0xa36900'
+#   # Cursor colors
+#   cursor:
+#     text: '0xEBEBEB'
+#     cursor: '0xa36900'
 
-  # Normal colors
-  normal:
-    black:   '0x0d0d0d'
-    red:     '0xFF301B'
-    green:   '0xA0E521'
-    yellow:  '0xFFC620'
-    blue:    '0x1BA6FA'
-    magenta: '0x8763B8'
-    cyan:    '0x21DEEF'
-    white:   '0xEBEBEB'
+#   # Normal colors
+#   normal:
+#     black:   '0x0d0d0d'
+#     red:     '0xFF301B'
+#     green:   '0xA0E521'
+#     yellow:  '0xFFC620'
+#     blue:    '0x1BA6FA'
+#     magenta: '0x8763B8'
+#     cyan:    '0x21DEEF'
+#     white:   '0xEBEBEB'
 
-  # Bright colors
-  bright:
-    black:   '0x6D7070'
-    red:     '0xFF4352'
-    green:   '0xB8E466'
-    yellow:  '0xFFD750'
-    blue:    '0x1BA6FA'
-    magenta: '0xA578EA'
-    cyan:    '0x73FBF1'
-    white:   '0xFEFEF8'
+#   # Bright colors
+#   bright:
+#     black:   '0x6D7070'
+#     red:     '0xFF4352'
+#     green:   '0xB8E466'
+#     yellow:  '0xFFD750'
+#     blue:    '0x1BA6FA'
+#     magenta: '0xA578EA'
+#     cyan:    '0x73FBF1'
+#     white:   '0xFEFEF8'
     
 # Challenger deep
 # colors:
@@ -488,7 +488,7 @@ colors:
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
-#background_opacity: 1.0
+# background_opacity: 1.0
 
 #selection:
   # This string contains all characters that are used as separators for
@@ -564,7 +564,7 @@ colors:
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
 
-mouse:
+# mouse:
   # Click settings
   #
   # The `double_click` and `triple_click` settings control the time
@@ -575,29 +575,6 @@ mouse:
 
   # If this is `true`, the cursor is temporarily hidden when typing.
   #hide_when_typing: false
-
-  url:
-    # URL launcher
-    #
-    # This program is executed when clicking on a text which is recognized as a
-    # URL. The URL is always added to the command as the last parameter.
-    #
-    # When set to `launcher: None`, URL launching will be disabled completely.
-    #
-    # Default:
-    #   - (macOS) open
-    #   - (Linux/BSD) xdg-open
-    #   - (Windows) explorer
-    #launcher:
-    #  program: xdg-open
-    #  args: []
-
-    # URL modifiers
-    #
-    # These are the modifiers that need to be held down for opening URLs when
-    # clicking on them. The available modifiers are documented in the key
-    # binding section.
-    modifiers: Control
 
 # Mouse bindings
 #

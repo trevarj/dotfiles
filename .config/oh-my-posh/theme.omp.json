@@ -34,17 +34,6 @@
           "type": "git"
         },
         {
-          "background": "#8800dd",
-          "foreground": "#ffffff",
-          "properties": {
-            "style": "austin",
-            "threshold": 1
-          },
-          "style": "plain",
-          "template": " <#fefefe>\ufbab</> {{ .FormattedMs }} ",
-          "type": "executiontime"
-        },
-        {
           "foreground": "#e84311",
           "style": "plain",
           "template": " \uE7a8 {{ .Full }} ",

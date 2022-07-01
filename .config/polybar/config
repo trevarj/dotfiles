@@ -45,20 +45,25 @@ alert = #bd2c40
 ; secondary="#CC8400"
 
 ; argonaut
-background="#292C3E"
-foreground="#EBEBEB"
+; background="#292C3E"
+; foreground="#EBEBEB"
+; background-alt="#312F41"
+; separator="#CC8400"
+; accent="#CC8400"
+; secondary="#CC8400"
+
+; dark
 background-alt="#312F41"
-separator="#CC8400"
-accent="#CC8400"
-secondary="#CC8400"
+separator="#888888"
+secondary="#888888"
 
 [bar/mybar]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 36
+height = 38
 ; offset-x = 1%
-; offset-y = 1%
-radius = 0
+; offset-y = 1%:-2
+; radius = 12
 ; radius-bottom = 6
 fixed-center = true
 
@@ -82,7 +87,7 @@ dpi-y = 0
 
 font-0 = Terminus:style=Medium:pixelsize=20;3
 font-1 = Noto Color Emoji:style=Regular:scale=8:2
-font-2 = cryptocoins:style=Regular:pixelsize=10;2
+font-2 = cryptofont:style=Regular:pixelsize=10;2
 font-3 = TerminessTTF Nerd Font Mono:pixelsize=18;6
 
 modules-left = bspwm cpu memory crypto 
@@ -329,13 +334,13 @@ click-right = alacritty -e pulsemixer
 [module/arctis]
 type = custom/script
 exec = ~/.config/polybar/headset.sh
-interval = 300
+interval = 1800
 label-foreground = ${colors.foreground}
 
 [module/weather]
 type = custom/script
-exec = ~/.config/polybar/openweathermap-simple.sh
-interval = 600
+exec = ~/.config/polybar/yweather.sh
+interval = 1800
 label-foreground = ${colors.foreground}
 
 [module/temperature]

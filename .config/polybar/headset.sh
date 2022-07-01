@@ -8,14 +8,14 @@ then
         if [ $bat -eq 0 ]; then
                 echo ""
         elif [ $bat -le 10 ]; then
-                echo ""
+                echo " "
         elif [ $bat -le 25 ]; then
-                echo ""
+                echo " "
         elif [ $bat -le 50 ]; then
-                echo ""
+                echo " "
         elif [ $bat -le 75 ]; then
-                echo ""
+                echo " "
         else
-                echo ""
+                echo " "
         fi
 fi
