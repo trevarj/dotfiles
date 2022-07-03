@@ -40,13 +40,9 @@
           "type": "rust"
         },
         {
-          "background": "#33DD2D",
-          "background_templates": [
-            "{{ if gt .Code 0 }}#f1184c{{ end }}"
-          ],
-          "foreground": "#242424",
+          "foreground": "#ff0000",
           "style": "plain",
-          "template": " \ufc38 ",
+          "template": "{{ if gt .Code 0 }}\ufc38{{ end }}",
           "type": "exit"
         }
       ],
