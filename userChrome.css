@@ -1,0 +1,10 @@
+/* Change font UI globally */
+* {
+    font-family: "JetBrains Mono" !important;
+    font-size: 12 !important; 
+    font-weight: normal;
+}
+
+#urlbar-background{
+    background-color: inherit !important;
+}
