@@ -6,5 +6,9 @@
 }
 
 #urlbar-background{
-    background-color: inherit !important;
+    background-color: #2b2a33 !important;
+}
+
+#navigator-toolbox {
+    background-color: #2b2a33 !important;
 }
