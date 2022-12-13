@@ -9,6 +9,14 @@
     background-color: #2b2a33 !important;
 }
 
+#urlbar-input{
+    font-weight: bold !important;
+}
+
+#urlbar {
+    color: #0DE2FF !important;
+}
+
 #navigator-toolbox {
     background-color: #2b2a33 !important;
 }
