@@ -207,6 +207,7 @@ local config = {
       ["<leader>bt"] = { "<cmd>BufferLineSortByTabs<cr>", desc = "Sort by tabs" },
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
+      ["<leader>mt"] = { "<cmd>lua MiniMap.toggle()<cr>", desc = "Toggle MiniMap" },
     },
     t = {
       -- setting a mapping to false will disable it
@@ -310,6 +311,7 @@ local config = {
           -- third key is the key to bring up next level and its displayed
           -- group name in which-key top level menu
           ["b"] = { name = "Buffer" },
+          ["m"] = { name = "MiniMap" },
         },
       },
     },
@@ -319,6 +321,13 @@ local config = {
   -- augroups/autocommands and custom filetypes also this just pure lua so
   -- anything that doesn't fit in the normal config locations above can go here
   polish = function()
+    -- start MiniMap opened
+    vim.api.nvim_create_autocmd("VimEnter", {
+      desc = "Start MiniMap",
+      callback = function()
+        MiniMap.open()
+      end,
+    })
     -- Set up custom filetypes
     -- vim.filetype.add {
     --   extension = {

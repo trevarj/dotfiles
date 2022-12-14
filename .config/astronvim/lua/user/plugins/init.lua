@@ -20,4 +20,9 @@ return {
       astronvim.add_user_cmp_source("nvim_lsp_signature_help")
     end,
   },
+  ["echasnovski/mini.map"] = {
+    config = function()
+      require("user.plugins.minimap")
+    end,
+  },
 }
