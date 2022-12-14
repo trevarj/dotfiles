@@ -292,6 +292,7 @@ local config = {
   cmp = {
     source_priority = {
       nvim_lsp = 1000,
+      nvim_lsp_signature_help = 900,
       luasnip = 750,
       buffer = 500,
       path = 250,
