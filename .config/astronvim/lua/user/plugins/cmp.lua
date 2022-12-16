@@ -3,9 +3,9 @@ return {
   sorting = {
     priority_weight = 2,
     comparators = {
-      compare.exact,
       compare.order,
       -- compare.offset,
+      compare.exact,
       -- compare.scopes,
       -- compare.score,
       compare.recently_used,

@@ -208,10 +208,17 @@ local config = {
       -- quick save
       -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
       ["<leader>mt"] = { "<cmd>lua MiniMap.toggle()<cr>", desc = "Toggle MiniMap" },
+
+      ["<C-d"] = { "<C-d>zz", desc = "Center after half page down" },
+      ["<C-u"] = { "<C-u>zz", desc = "Center after half page up" },
     },
     t = {
       -- setting a mapping to false will disable it
       -- ["<esc>"] = false,
+    },
+    v = {
+      ["<A-j>"] = { "<cmd>m '>+1<cr>gv=gv", desc = "Move selected lines down" },
+      ["<A-k>"] = { "<cmd>m '<-2<cr>gv=gv", desc = "Move selected lines up" },
     },
   },
 
