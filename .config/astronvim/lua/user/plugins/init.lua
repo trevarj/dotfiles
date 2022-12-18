@@ -30,4 +30,9 @@ return {
 			require("user.plugins.git-blame")
 		end,
 	},
+	["shaunsingh/nord.nvim"] = {
+		config = function()
+			require("user.plugins.nord")
+		end,
+	},
 }

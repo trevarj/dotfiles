@@ -26,7 +26,8 @@ local config = {
   },
 
   -- Set colorscheme to use
-  colorscheme = "default_theme",
+  -- colorscheme = "default_theme",
+  colorscheme = "nord",
 
   -- Add highlight groups in any theme
   highlights = {
