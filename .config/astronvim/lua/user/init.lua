@@ -48,6 +48,7 @@ local config = {
             spell = false, -- sets vim.opt.spell
             signcolumn = "auto", -- sets vim.opt.signcolumn to auto
             wrap = false, -- sets vim.opt.wrap
+            guicursor = "n-v-c:block,i:blinkon1", -- block cursor shape, with blinking on insert
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
