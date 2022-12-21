@@ -34,9 +34,10 @@ local config = {
         -- init = { -- this table overrides highlights in all themes
         --   Normal = { bg = "#000000" },
         -- }
-        -- duskfox = { -- a table of overrides/changes to the duskfox theme
-        --   Normal = { bg = "#000000" },
-        -- },
+        nord = { -- a table of overrides/changes to the nord theme
+            IncSearch = { bg = "#d08770" },
+            Substitute = { bg = "#d08770" },
+        },
     },
 
     -- set vim options here (vim.<first_key>.<second_key> = value)
@@ -49,6 +50,7 @@ local config = {
             signcolumn = "auto", -- sets vim.opt.signcolumn to auto
             wrap = false, -- sets vim.opt.wrap
             guicursor = "n-v-c:block,i:blinkon1", -- block cursor shape, with blinking on insert
+            scrolloff = 8,
         },
         g = {
             mapleader = " ", -- sets vim.g.mapleader
@@ -208,6 +210,9 @@ local config = {
 
             ["<C-d>"] = { "<C-d>zz", desc = "Center after half page down" },
             ["<C-u>"] = { "<C-u>zz", desc = "Center after half page up" },
+
+            ["n"] = { "nzzzv", desc = "Search next" },
+            ["N"] = { "Nzzzv", desc = "Search prev" },
         },
         t = {
             -- setting a mapping to false will disable it

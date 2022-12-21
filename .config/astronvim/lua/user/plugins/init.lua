@@ -35,4 +35,10 @@ return {
 			require("user.plugins.nord")
 		end,
 	},
+	-- ["chipsenkbeil/distant.nvim"] = {
+	-- 	tag = "v0.2",
+	-- 	config = function()
+	-- 		require("user.plugins.distant")
+	-- 	end,
+	-- },
 }
