@@ -112,7 +112,7 @@ font:
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
     # family: FiraCode Nerd Font
-    family: JetBrains Mono Medium
+    family: JetBrains Mono Nerd Font
     # family: Terminus
 
     # The `style` can be specified to pick a specific face.
