@@ -41,4 +41,13 @@ return {
 	-- 		require("user.plugins.distant")
 	-- 	end,
 	-- },
+	["saecki/crates.nvim"] = {
+		event = { "BufRead Cargo.toml" },
+		after = "nvim-cmp",
+		tag = "v0.3.0",
+		config = function()
+			require("crates").setup()
+			astronvim.add_user_cmp_source({ name = "crates", priority = 700 })
+		end,
+	},
 }
