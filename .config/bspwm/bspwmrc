@@ -7,7 +7,7 @@ pgrep -x redshift > /dev/null || redshift &
 pgrep -x telegram-desktop > /dev/null || telegram-desktop &
 pgrep -x polybar > /dev/null || polybar mybar &
 pgrep -x discord > /dev/null || discord &
-pgrep -x alacritty > /dev/null || alacritty &
+pgrep -x alacritty > /dev/null || alacritty -e tmux &
 
 xsetroot -cursor_name left_ptr &
 
