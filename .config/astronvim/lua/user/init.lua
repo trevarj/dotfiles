@@ -304,6 +304,7 @@ local config = {
             nvim_lsp = 1000,
             nvim_lsp_signature_help = 900,
             luasnip = 750,
+            crates = "700",
             buffer = 500,
             path = 250,
         },
