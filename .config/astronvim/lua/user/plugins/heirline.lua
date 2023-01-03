@@ -11,7 +11,9 @@ return function(config)
     }),
     -- add all the other components for the statusline
     astronvim.status.component.git_branch(),
-    astronvim.status.component.file_info(),
+    astronvim.status.component.file_info({
+      filename = { modify = ":." },
+    }),
     astronvim.status.component.git_diff(),
     astronvim.status.component.diagnostics(),
     astronvim.status.component.fill(),
