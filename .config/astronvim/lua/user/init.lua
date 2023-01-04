@@ -266,7 +266,7 @@ local config = {
             return config -- return final config table
         end,
         treesitter = { -- overrides `require("treesitter").setup(...)`
-            -- ensure_installed = { "lua" },
+            ensure_installed = { "lua", "rust", "bash", "haskell", "toml", "yaml", "awk", "diff", "json" },
         },
         -- use mason-lspconfig to configure LSP installations
         ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`

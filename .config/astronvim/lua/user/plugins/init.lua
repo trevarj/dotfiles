@@ -50,4 +50,9 @@ return {
 			astronvim.add_user_cmp_source({ name = "crates", priority = 700 })
 		end,
 	},
+	["kylechui/nvim-surround"] = {
+		config = function()
+			require("nvim-surround").setup({})
+		end,
+	},
 }
