@@ -48,7 +48,7 @@ local config = {
             number = true, -- sets vim.opt.number
             spell = false, -- sets vim.opt.spell
             signcolumn = "auto", -- sets vim.opt.signcolumn to auto
-            wrap = false, -- sets vim.opt.wrap
+            wrap = true, -- sets vim.opt.wrap
             guicursor = "n-v-c:block,i:blinkon1", -- block cursor shape, with blinking on insert
             scrolloff = 8,
         },
@@ -208,6 +208,12 @@ local config = {
             -- quick save
             -- ["<C-s>"] = { ":w!<cr>", desc = "Save File" },  -- change description but the same command
             ["<leader>mt"] = { "<cmd>lua MiniMap.toggle()<cr>", desc = "Toggle MiniMap" },
+            ["<leader><space>"] = {
+                function()
+                    require("telescope.builtin").resume()
+                end,
+                desc = "Telescope Last Search",
+            },
 
             ["<C-d>"] = { "<C-d>zz", desc = "Center after half page down" },
             ["<C-u>"] = { "<C-u>zz", desc = "Center after half page up" },
@@ -266,7 +272,19 @@ local config = {
             return config -- return final config table
         end,
         treesitter = { -- overrides `require("treesitter").setup(...)`
-            ensure_installed = { "lua", "rust", "bash", "haskell", "toml", "yaml", "awk", "diff", "json" },
+            ensure_installed = {
+                "lua",
+                "rust",
+                "bash",
+                "haskell",
+                "toml",
+                "yaml",
+                "awk",
+                "diff",
+                "json",
+                "markdown",
+                "markdown_inline",
+            },
         },
         -- use mason-lspconfig to configure LSP installations
         ["mason-lspconfig"] = { -- overrides `require("mason-lspconfig").setup(...)`
