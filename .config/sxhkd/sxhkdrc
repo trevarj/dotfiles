@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + Return
-	alacritty
+	kitty
 
 # browser
 super + b
-    brave
+    firefox
 
 # program launcher
 super + @space
@@ -41,6 +41,10 @@ super + y
 # swap the current node and the biggest window
 super + g
 	bspc node -s biggest.window
+
+# translate highlighted text ru<->en
+super + u
+	bspc rule --add \* --one-shot state=floating center=on rectangle=600x200+0+0 && alacritty -e  ~/Workspace/ydictionary/scripts/highlight_translate.sh
 
 #
 # state/flags
