@@ -91,12 +91,12 @@ source $ZSH/oh-my-zsh.sh
 
 bindkey '^ ' autosuggest-accept
 
-export TERM=alacritty
+export TERM=kitty
 export EDITOR=vim
 
 alias ls='exa --icons'
 alias open='xdg-open'
-alias idris2='rlwrap idris2'
+# alias idris2='rlwrap idris2'
 
 # eval "$(pack completion-script pack)" # idris-pack
 
@@ -121,3 +121,5 @@ alias idris2='rlwrap idris2'
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+[ -f "/home/trevor/.ghcup/env" ] && source "/home/trevor/.ghcup/env" # ghcup-env
