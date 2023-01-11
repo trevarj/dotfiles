@@ -1,5 +1,5 @@
 {
-  "LazyVim": { "branch": "main", "commit": "207beafda215e4657bf083b94c80d455fc5de86b" },
+  "LazyVim": { "branch": "main", "commit": "83d18dbcee2af8cacbb6861e574f5f393d630618" },
   "LuaSnip": { "branch": "master", "commit": "563827f00bb4fe43269e3be653deabc0005f1302" },
   "alpha-nvim": { "branch": "main", "commit": "21a0f2520ad3a7c32c0822f943368dc063a569fb" },
   "better-escape.nvim": { "branch": "master", "commit": "6fed33809cde3b416087fc540ad9eb17ec470193" },
