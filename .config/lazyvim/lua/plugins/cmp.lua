@@ -29,9 +29,10 @@ return {
   },
   {
     "saecki/crates.nvim",
-    dependencies = {
-      "hrsh7th/nvim-cmp",
-    },
+    dependencies = "hrsh7th/nvim-cmp",
     ft = "Cargo.toml",
+    init = function()
+      require("crates").setup()
+    end,
   },
 }

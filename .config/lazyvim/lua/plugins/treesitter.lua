@@ -3,12 +3,10 @@ return {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
       vim.list_extend(opts.ensure_installed, {
-        ensure_installed = {
-          "rust",
-          "toml",
-          "haskell",
-          "diff",
-        },
+        "rust",
+        "toml",
+        "haskell",
+        "diff",
       })
     end,
   },
