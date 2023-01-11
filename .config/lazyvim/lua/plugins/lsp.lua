@@ -14,7 +14,33 @@ return {
       setup = {
         rust_analyzer = function(_, opts)
           local rt = require("rust-tools")
-          rt.setup({ server = opts })
+          local rust_tools_opts = vim.tbl_deep_extend("force", opts, {
+            tools = {
+              hover_actions = {
+                auto_focus = false,
+              },
+              inlay_hints = {
+                auto = true,
+                show_parameter_hints = true,
+              },
+            },
+            settings = {
+              ["rust-analyzer"] = {
+                cargo = {
+                  allFeatures = true,
+                  loadOutDirsFromCheck = true,
+                  runBuildScripts = true,
+                },
+                checkOnSave = {
+                  command = "clippy",
+                },
+                procMacro = {
+                  enable = true,
+                },
+              },
+            },
+          })
+          rt.setup({ server = rust_tools_opts })
 
           require("lazyvim.util").on_attach(function(client, bufnr)
             if client.name == "rust_analyzer" then
@@ -45,6 +71,18 @@ return {
           end)
           return true
         end,
+      },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "stylua",
+        "shellcheck",
+        "shfmt",
+        "rust-analyzer",
+        "markdownlint",
       },
     },
   },

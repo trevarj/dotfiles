@@ -1,5 +1,13 @@
 return {
   {
+    "f-person/git-blame.nvim",
+    event = "BufReadPre",
+  },
+  {
+    "mrjones2014/smart-splits.nvim",
+    lazy = false,
+  },
+  {
     "max397574/better-escape.nvim",
     lazy = false,
     opts = {
