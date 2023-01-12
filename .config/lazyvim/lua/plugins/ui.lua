@@ -29,6 +29,10 @@ return {
           },
         },
       },
+      messages = {
+        view = "mini",
+        view_error = "notify",
+      },
       popupmenu = {
         backend = "cmp",
       },
