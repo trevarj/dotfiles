@@ -15,6 +15,12 @@ return {
         rust_analyzer = function(_, opts)
           local rt = require("rust-tools")
           local rust_tools_opts = vim.tbl_deep_extend("force", opts, {
+            root_dir = function(fname)
+              local util = require("lspconfig/util")
+              return util.find_git_ancestor(fname)
+                or util.root_pattern("rust-project.json")(fname)
+                or util.root_pattern("Cargo.toml")(fname)
+            end,
             tools = {
               hover_actions = {
                 auto_focus = false,
