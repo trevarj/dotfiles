@@ -5,4 +5,5 @@ return {
   { "folke/tokyonight.nvim", enabled = false },
   { "echasnovski/mini.ai", enabled = false },
   { "echasnovski/mini.indentscope", enabled = false },
+  { "ggandor/leap.nvim", enabled = false },
 }
