@@ -3,6 +3,20 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     dependencies = { { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+    keys = {
+      {
+        "<leader>fc",
+        function()
+          require("telescope.builtin").grep_string()
+        end,
+        desc = "Search for word under cursor",
+      },
+      {
+        "<leader>fl",
+        "<cmd>Telescope resume<cr>",
+        desc = "Resume last search",
+      },
+    },
     -- apply the config and additionally load fzf-native
     config = function(_, opts)
       local telescope = require("telescope")
