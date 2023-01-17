@@ -127,4 +127,11 @@ return {
       require("crates").setup()
     end,
   },
+  {
+    "sindrets/diffview.nvim",
+    keys = {
+      { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
+    },
+    opts = {},
+  },
 }
