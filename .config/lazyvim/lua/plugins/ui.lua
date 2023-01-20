@@ -31,7 +31,8 @@ return {
       },
       messages = {
         view = "mini",
-        view_error = "notify",
+        view_warn = "mini",
+        view_error = "mini",
       },
       popupmenu = {
         backend = "cmp",
