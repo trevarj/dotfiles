@@ -1,6 +1,6 @@
 -- LazyVim plugins that I don't want
 return {
-  { "catppuccin/nvim", enabled = false },
+  { "catppuccin", enabled = false },
   { "folke/trouble.nvim", enabled = false },
   { "folke/tokyonight.nvim", enabled = false },
   { "echasnovski/mini.ai", enabled = false },
