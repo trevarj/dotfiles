@@ -1,5 +1,36 @@
 return {
-  { "shaunsingh/nord.nvim" },
+  -- { "shaunsingh/nord.nvim" },
+  {
+    "gbprod/nord.nvim",
+    opts = {
+      styles = {
+        -- Style to be applied to different syntax groups
+        -- Value is any valid attr-list value for `:help nvim_set_hl`
+        comments = { italic = false },
+        keywords = { bold = true },
+        functions = {},
+        variables = {},
+
+        -- To customize lualine/bufferline
+        bufferline = {
+          current = {},
+          modified = { italic = true },
+        },
+      },
+
+      -- colorblind mode
+      -- see https://github.com/EdenEast/nightfox.nvim#colorblind
+      -- simulation mode has not been implemented yet.
+      colorblind = {
+        enable = false,
+        severity = {
+          protan = 1.0,
+          deutan = 1.0,
+          tritan = 0.0,
+        },
+      },
+    },
+  },
   -- Configure LazyVim to load gruvbox
   {
     "LazyVim/LazyVim",
