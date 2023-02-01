@@ -132,6 +132,12 @@ return {
     keys = {
       { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
     },
-    opts = {},
+    opts = {
+      view = {
+        merge_tool = {
+          disable_diagnostics = true,
+        },
+      },
+    },
   },
 }
