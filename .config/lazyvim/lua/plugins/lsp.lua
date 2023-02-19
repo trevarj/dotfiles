@@ -9,7 +9,7 @@ return {
       ---@type lspconfig.options
       servers = {
         rust_analyzer = {},
-        sumneko_lua = {},
+        lua_ls = {},
       },
       setup = {
         rust_analyzer = function(_, opts)
