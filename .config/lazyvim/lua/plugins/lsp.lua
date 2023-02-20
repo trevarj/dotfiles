@@ -33,12 +33,16 @@ return {
             settings = {
               ["rust-analyzer"] = {
                 cargo = {
-                  allFeatures = true,
+                  features = "all",
                   loadOutDirsFromCheck = true,
-                  runBuildScripts = true,
+                  buildScripts = {
+                    enable = true,
+                  },
                 },
-                checkOnSave = {
+                checkOnSave = true,
+                check = {
                   command = "clippy",
+                  extraArgs = { "--no-deps", "--", "--message-format=json" },
                 },
                 procMacro = {
                   enable = true,
