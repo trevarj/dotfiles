@@ -39,13 +39,16 @@ return {
                     enable = true,
                   },
                 },
-                checkOnSave = true,
+                checkOnSave = false,
                 check = {
                   command = "clippy",
                   extraArgs = { "--no-deps", "--", "--message-format=json" },
                 },
                 procMacro = {
                   enable = true,
+                },
+                lens = {
+                  enable = false,
                 },
               },
             },
