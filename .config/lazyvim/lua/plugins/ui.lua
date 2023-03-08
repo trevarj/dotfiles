@@ -74,7 +74,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    -- dependencies = { "nvim-lua/lsp-status.nvim" },
+    dependencies = { "nvim-lua/lsp-status.nvim" },
     event = "VeryLazy",
     opts = function(_, opts)
       opts.sections.lualine_y = {
@@ -82,7 +82,15 @@ return {
         { "location", padding = { left = 0, right = 1 } },
       }
       table.remove(opts.sections.lualine_z)
-      -- table.insert(opts.sections.lualine_z, "require('lsp-status').status()")
+      table.insert(opts.sections.lualine_z, "require('lsp-status').status()")
+    end,
+  },
+  {
+    "nvim-lua/lsp-status.nvim",
+    config = function(_, _)
+      require("lsp-status").config({
+        status_symbol = "",
+      })
     end,
   },
 }
