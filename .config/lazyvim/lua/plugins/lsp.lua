@@ -50,6 +50,9 @@ return {
                 lens = {
                   enable = false,
                 },
+                imports = {
+                  prefix = "crate",
+                },
               },
             },
           })
