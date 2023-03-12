@@ -138,3 +138,8 @@ super + alt + {5-9,0}
 # Remove current desktop
 super + Delete
     bspc desktop -r
+
+# Monitor brightness - PgUp/PgDown
+super + alt + {Prior, Next}
+    ddcutil setvcp 10 {+, -} 10
+
