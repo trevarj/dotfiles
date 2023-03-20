@@ -11,3 +11,5 @@ vim.opt.guicursor = "n-v-c:block,i:blinkon1"
 
 -- tildes...
 vim.opt.fillchars = "eob: "
+
+vim.opt.conceallevel = 0
