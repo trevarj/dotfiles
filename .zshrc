@@ -93,6 +93,8 @@ bindkey '^ ' autosuggest-accept
 
 export TERM=kitty
 export EDITOR=vim
+GPG_TTY=$(tty)
+export GPG_TTY
 
 alias ls='exa --icons'
 alias open='xdg-open'
