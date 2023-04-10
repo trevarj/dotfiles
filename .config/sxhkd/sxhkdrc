@@ -3,8 +3,10 @@
 #
 
 # terminal emulator
+# super + Return
+#	kitty
 super + Return
-	kitty
+	st
 
 # browser
 super + b
