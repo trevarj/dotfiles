@@ -93,13 +93,13 @@ return {
   {
     "williamboman/mason.nvim",
     opts = {
-      ensure_installed = {
-        "stylua",
-        "shellcheck",
-        "shfmt",
-        "rust-analyzer",
-        "markdownlint",
-      },
+      -- ensure_installed = {
+      --   "stylua",
+      --   "shellcheck",
+      --   "shfmt",
+      --   "rust-analyzer",
+      --   "markdownlint",
+      -- },
     },
   },
 }
