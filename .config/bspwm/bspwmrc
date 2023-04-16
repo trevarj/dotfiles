@@ -5,9 +5,10 @@ pgrep -x sxhkd >/dev/null || sxhkd &
 pgrep -x feh >/dev/null || feh --bg-fill --randomize ~/Pictures/Wallpapers &
 pgrep -x redshift >/dev/null || redshift &
 pgrep -x telegram-desktop >/dev/null || telegram-desktop &
+pgrep -x panel >/dev/null || panel &
 pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
-pgrep -x alacritty >/dev/null || kitty --hold tmux &
+pgrep -x kitty >/dev/null || kitty --hold tmux &
 
 xsetroot -cursor_name left_ptr &
 
