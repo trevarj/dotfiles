@@ -5,9 +5,9 @@
  */
 
 * {
-    background-color:      Black;
+    background-color:      #3b4252;
     border-color:          White;
-    text-color:           White;
+    text-color:           #d08770;
     font:            "TerminessTTF Nerd Font Mono Bold 16";
 }
 window {
@@ -19,7 +19,7 @@ window {
 }
 horibox {
     orientation: horizontal;
-    children:   [ prompt, entry, listview ];
+    children:   [ entry, listview ];
 }
 listview {
     layout:     horizontal;
@@ -34,7 +34,7 @@ element {
     padding: 0px 2px;
 }
 element selected {
-    background-color: SteelBlue;
+    background-color: #4c566a;
 }
 
 element-text, element-icon {
