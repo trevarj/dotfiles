@@ -28,10 +28,15 @@ while true; do
 	sleep 20
 done &
 
+while true; do
+  panel_weather > "$PANEL_FIFO"
+	sleep 1h
+done &
+
 # Network
 while true; do
   panel_network > "$PANEL_FIFO"
-	sleep 5
+	sleep 1m
 done &
 
 # Playerctl - Music
@@ -61,7 +66,7 @@ panel_volume &
 # Crypto tickers
 while true; do
   panel_crypto > "$PANEL_FIFO"
-	sleep 15
+	sleep 15m
 done &
 
 #############################################

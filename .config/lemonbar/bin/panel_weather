@@ -1,0 +1,40 @@
+#!/bin/sh
+
+. panel_env
+. panel_colors
+
+response=$(curl -s -X GET \
+    -H "Access-Control-Allow-Headers: X-Yandex-API-Key" \
+    -H "X-Yandex-API-Key: $YWEATHER_API_KEY" \
+    https://api.weather.yandex.ru/v2/informers?lat=$YWEATHER_LAT&lon=$YWEATHER_LONG
+)
+if [ $? -eq 0 ]; then
+  temp=$(echo $response | jq -rn 'try input.fact.temp catch "0"' )
+  condition=$(echo $response | jq -rn 'try input.fact.condition catch "0"' )
+  printf "F%%{B$COLOR_BLOCK}%%{F$YELLOW} %d° " $temp
+  case "$condition" in
+        "clear") printf "%s" " ";;
+        "partly-cloudy") printf "%s" " ";;
+        "cloudy") printf "%s" " ";;
+        "overcast") printf "%s" " ";;
+        "drizzle") printf "%s" " ";;
+        "light-rain") printf "%s" " ";;
+        "rain") printf "%s" " ";;
+        "moderate-rain") printf "%s" " ";;
+        "heavy-rain") printf "%s" " ";;
+        "continuous-heavy-rain") printf "%s" " ";;
+        "showers") printf "%s" " ";;
+        "wet-snow") printf "%s" " ";;
+        "light-snow") printf "%s" " ";;
+        "snow") printf "%s" " ";;
+        "snow-showers") printf "%s" " ";;
+        "hail") printf "%s" " ";;
+        "thunderstorm") printf "%s" " ";;
+        "thunderstorm-with-rain") printf "%s" " ";;
+        "thunderstorm-with-hail") printf "%s" " ";;
+        *) printf "%s" "";;
+  esac
+  printf "\n"
+else
+  printf "N/A\n"
+fi

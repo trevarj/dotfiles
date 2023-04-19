@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Colors
+# Nord Colors
 WHITE="#e5e9f0"
 LDIM_WHITE="#aeb3bb"
 DIM_WHITE="#aeb3bb"
