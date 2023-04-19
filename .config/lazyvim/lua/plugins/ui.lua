@@ -69,6 +69,9 @@ return {
       popupmenu = {
         backend = "cmp",
       },
+      notify = {
+        view = "mini",
+      }
     },
   },
   {
