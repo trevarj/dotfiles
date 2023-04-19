@@ -34,6 +34,11 @@ while read -r line ; do
       crypto="$underline${line#?}$reset"
       ;;
 
+    F*)
+      # temp and condition
+      weather="$underline${line#?}$reset"
+      ;;
+
 		# L*)
 		# 	# playerctl - music output
 		# 	playerctl="%{A:playerctl play-pause:}${line#?}%{A}$reset"
@@ -157,6 +162,6 @@ while read -r line ; do
 	tray_space="%{B$COLOR_BLOCK}%{U$COLOR_TRAY}$underline       %{U-}%{-u}%{B-}"
   seperator="%{B$BLACK} $reset"
 
-	printf "%s\n" "%{l}%{F$RED} ${os} ${wm} ${crypto} ${playerctl}%{r}${seperator}${time} ${mem} ${cpu} ${network} ${volume} ${tray_space}"
+	printf "%s\n" "%{l}%{F$RED} ${os} ${wm} ${crypto} ${playerctl} %{c}${time} ${weather} %{r}${volume} ${network} ${sys}"
 	sleep 0.01;
 done
