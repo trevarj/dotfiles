@@ -143,3 +143,6 @@ super + Delete
 super + alt + {Prior, Next}
     ddcutil setvcp 10 {+, -} 10
 
+# Language layout
+Shift_R + Alt_R
+    setxkbmap -query | grep -q 'layout:.*ru' && setxkbmap us || setxkbmap ru,us
