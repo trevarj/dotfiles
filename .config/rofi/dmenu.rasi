@@ -19,7 +19,7 @@ window {
 }
 horibox {
     orientation: horizontal;
-    children:   [ entry, listview ];
+    children:   [ prompt, entry, listview ];
 }
 listview {
     layout:     horizontal;
