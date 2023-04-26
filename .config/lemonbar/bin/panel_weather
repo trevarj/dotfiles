@@ -9,7 +9,7 @@ response=$(curl -s -X GET \
     https://api.weather.yandex.ru/v2/informers?lat=$YWEATHER_LAT&lon=$YWEATHER_LONG
 )
 if [ $? -eq 0 ]; then
-  temp=$(echo $response | jq -rn 'try input.fact.temp catch "0"' )
+  temp=$(echo $response | jq -rn 'try input.fact.temp catch "N/A"' )
   condition=$(echo $response | jq -rn 'try input.fact.condition catch "0"' )
   printf "F%%{B$COLOR_BLOCK}%%{F$YELLOW} %d° " $temp
   case "$condition" in
@@ -36,5 +36,5 @@ if [ $? -eq 0 ]; then
   esac
   printf "\n"
 else
-  printf "N/A\n"
+  printf "\n"
 fi
