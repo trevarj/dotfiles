@@ -8,8 +8,9 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
-        rust_analyzer = {},
-        lua_ls = {},
+        -- rust_analyzer = { mason = false },
+        lua_ls = { mason = false },
+        jsonls = { mason = false }
       },
       setup = {
         rust_analyzer = function(_, opts)
@@ -88,18 +89,6 @@ return {
           return true
         end,
       },
-    },
-  },
-  {
-    "williamboman/mason.nvim",
-    opts = {
-      -- ensure_installed = {
-      --   "stylua",
-      --   "shellcheck",
-      --   "shfmt",
-      --   "rust-analyzer",
-      --   "markdownlint",
-      -- },
     },
   },
 }
