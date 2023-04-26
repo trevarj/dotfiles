@@ -122,11 +122,9 @@ return {
   },
   {
     "saecki/crates.nvim",
+    event = { "BufRead Cargo.toml" },
+    config = true,   
     dependencies = "hrsh7th/nvim-cmp",
-    ft = "Cargo.toml",
-    init = function()
-      require("crates").setup()
-    end,
   },
   {
     "sindrets/diffview.nvim",
