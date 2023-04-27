@@ -16,7 +16,7 @@ super + @space
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill -USR1 -x sxhkd
+	pkill sxkhd && sxhkd
 
 #
 # bspwm hotkeys
@@ -142,3 +142,6 @@ super + Delete
 # Monitor brightness - PgUp/PgDown
 super + alt + {Prior, Next}
     ddcutil setvcp 10 {+, -} 10
+
+super + shift + {equal, minus}
+    ~/.config/sxhkd/bin/gaps {+, -}
