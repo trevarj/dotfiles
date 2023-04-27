@@ -3,16 +3,22 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "simrat39/rust-tools.nvim",
+      "p00f/clangd_extensions.nvim",
     },
     ---@class PluginLspOpts
     opts = {
       ---@type lspconfig.options
       servers = {
-        -- rust_analyzer = { mason = false },
-        lua_ls = { mason = false },
-        jsonls = { mason = false }
+        rust_analyzer = {},
+        lua_ls = {},
+        jsonls = {},
+        clangd = {},
       },
       setup = {
+        clangd = function(_, opts)
+          require("clangd_extensions").setup()
+          return true
+        end,
         rust_analyzer = function(_, opts)
           local rt = require("rust-tools")
           local rust_tools_opts = vim.tbl_deep_extend("force", opts, {
