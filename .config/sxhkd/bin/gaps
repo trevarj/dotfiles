@@ -1,0 +1,12 @@
+#!/bin/sh
+
+current=$(bspc config -d focused window_gap)
+new=$(($current $1 30))
+
+if [ $new -lt 0 ]; then
+  new=200
+elif [ $new -gt 200 ]; then
+  new=0
+fi
+
+bspc config -d focused window_gap $new
