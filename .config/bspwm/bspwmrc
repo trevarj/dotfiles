@@ -4,12 +4,13 @@ pgrep -x sxhkd >/dev/null || sxhkd &
 # pgrep -x picom > /dev/null || picom &
 pgrep -x feh >/dev/null || feh --bg-fill --randomize ~/Pictures/Wallpapers &
 pgrep -x redshift >/dev/null || redshift &
+pgrep -x firefox >/dev/null || firefox &
 pgrep -x telegram-desktop >/dev/null || telegram-desktop &
 pgrep -x panel >/dev/null || panel &
 pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
 pgrep -x kitty >/dev/null || kitty --hold tmux &
-pgrep -x st >/dev/null || st --hold tmux &
+pgrep -x st >/dev/null || st -e tmux &
 
 xsetroot -cursor_name left_ptr &
 
@@ -30,6 +31,7 @@ bspc config split_ratio 0.50
 bspc config borderless_monocle true
 bspc config gapless_monocle false
 
+bspc rule -a firefox desktop='^1' --one-shot
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a *:google-chrome desktop='^2' follow=on
 bspc rule -a TelegramDesktop:* desktop='^4'
