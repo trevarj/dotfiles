@@ -1,7 +1,7 @@
 -- LazyVim plugins that I don't want
 local osName = io.popen("uname -s"):read("*a")
-local freebsdDisable = osName == "FreeBSD"
-return  {
+local freebsdDisable = osName ~= "FreeBSD"
+return {
   { "catppuccin", enabled = false },
   { "folke/trouble.nvim", enabled = false },
   { "folke/tokyonight.nvim", enabled = false },
