@@ -15,7 +15,7 @@ return {
         clangd = {},
       },
       setup = {
-        clangd = function(_, opts)
+        clangd = function(_, _)
           require("clangd_extensions").setup()
           return true
         end,
@@ -25,8 +25,8 @@ return {
             root_dir = function(fname)
               local util = require("lspconfig/util")
               return util.find_git_ancestor(fname)
-                or util.root_pattern("rust-project.json")(fname)
-                or util.root_pattern("Cargo.toml")(fname)
+                  or util.root_pattern("rust-project.json")(fname)
+                  or util.root_pattern("Cargo.toml")(fname)
             end,
             tools = {
               hover_actions = {
