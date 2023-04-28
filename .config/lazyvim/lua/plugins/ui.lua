@@ -11,14 +11,12 @@ return {
         keywords = { bold = true },
         functions = {},
         variables = {},
-
         -- To customize lualine/bufferline
         bufferline = {
           current = {},
           modified = { italic = true },
         },
       },
-
       -- colorblind mode
       -- see https://github.com/EdenEast/nightfox.nvim#colorblind
       -- simulation mode has not been implemented yet.
@@ -45,6 +43,7 @@ return {
       close_if_last_window = true,
       filesystem = {
         filtered_items = {
+          hide_dotfiles = false,
           hide_gitignored = false,
         },
       },
@@ -80,7 +79,7 @@ return {
     event = "VeryLazy",
     opts = function(_, opts)
       opts.sections.lualine_y = {
-        { "progress", separator = "", padding = { left = 1, right = 1 } },
+        { "progress", separator = "",                   padding = { left = 1, right = 1 } },
         { "location", padding = { left = 0, right = 1 } },
       }
       table.remove(opts.sections.lualine_z)
