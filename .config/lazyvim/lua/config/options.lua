@@ -13,3 +13,5 @@ vim.opt.guicursor = "n-v-c:block,i:blinkon1"
 vim.opt.fillchars = "eob: "
 
 vim.opt.conceallevel = 0
+vim.opt.cmdheight = 0
+vim.o.timeoutlen = 500
