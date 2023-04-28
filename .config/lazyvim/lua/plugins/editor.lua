@@ -26,7 +26,6 @@ return {
         layout_config = { prompt_position = "top" },
         sorting_strategy = "ascending",
         winblend = 0,
-
         mappings = {
           i = {
             ["<C-n>"] = actions.cycle_history_next,
@@ -64,7 +63,6 @@ return {
       local compare = cmp.config.compare
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, { { name = "emoji" }, { name = "crates" } }))
       opts.sorting = {
-
         priority_weight = 2,
         comparators = {
           compare.exact,
@@ -94,7 +92,7 @@ return {
             cmp.select_next_item()
             -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable()
             -- they way you will only jump inside the snippet region
-          elseif luasnip.expand_or_jumpable() then
+          elseif luasnip.expand_or_locally_jumpable() then
             luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
@@ -123,7 +121,7 @@ return {
   {
     "saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
-    config = true,   
+    config = true,
     dependencies = "hrsh7th/nvim-cmp",
   },
   {
