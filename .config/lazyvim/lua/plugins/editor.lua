@@ -16,6 +16,13 @@ return {
         "<cmd>Telescope resume<cr>",
         desc = "Resume last search",
       },
+      {
+        "<leader>j",
+        function()
+          require("telescope.builtin").jumplist()
+        end,
+        desc = "Jumplist",
+      }
     },
     -- apply the config and additionally load fzf-native
     config = function(_, opts)
@@ -34,7 +41,9 @@ return {
             ["<C-k>"] = actions.move_selection_previous,
             ["<Del>"] = actions.delete_buffer,
           },
-          n = { ["q"] = actions.close },
+          n = {
+            ["q"] = actions.close,
+          },
         },
       }
       telescope.setup(opts)
