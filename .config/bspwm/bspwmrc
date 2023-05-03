@@ -37,5 +37,5 @@ bspc rule -a *:google-chrome desktop='^2' follow=on
 bspc rule -a TelegramDesktop:* desktop='^4'
 bspc rule -a *:discord desktop='^4'
 bspc rule -a kitty desktop='^4' follow=off --one-shot
-bspc rule -a st desktop='^4' follow=off --one-shot
+bspc rule -a tmux desktop='^4' follow=off --one-shot # st
 bspc rule -a Emacs state=tiled
