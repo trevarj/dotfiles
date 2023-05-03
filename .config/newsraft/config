@@ -6,7 +6,6 @@
 # Here we set some settings.
 set scrolloff 5
 set download-timeout 20
-set color-list-item-important-fg bold red
 
 # That's how you bind a regular action.
 bind ^P mark-unread-all
@@ -18,3 +17,19 @@ bind f exec feh "%l"
 bind m exec mpv --no-terminal "%l" &
 # This will launch mpv interactively.
 bind M exec mpv "%l"
+
+set color-list-item-fg cyan
+set color-list-item-bg default
+set color-list-feed-fg bold cyan
+set color-list-feed-bg default
+set color-list-section-fg bold cyan
+set color-list-section-bg default
+
+set color-list-item-unread-fg bold green
+set color-list-item-unread-bg default
+set color-list-feed-unread-fg bold green
+set color-list-feed-unread-bg default
+set color-list-section-unread-fg bold green
+set color-list-section-unread-bg default
+
+set color-list-item-important-fg bold red
