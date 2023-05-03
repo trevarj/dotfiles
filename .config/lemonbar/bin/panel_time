@@ -2,7 +2,7 @@
 
 . panel_colors
 
-text=$(date +'%a, %b %d  %-I:%M %p')
+text=$(date +'%a, %b %d %-I:%M %p')
 color="$COLOR_SYS"
 icon=""
 
