@@ -5,10 +5,10 @@
  */
 
 * {
-    background-color:      #3b4252;
-    border-color:          White;
-    text-color:           #d08770;
-    font:            "TerminessTTF Nerd Font Mono Bold 16";
+    background-color: #3b4252;
+    border-color:     White;
+    text-color:       #88c0d0;
+    font:             "TerminessTTF Nerd Font Mono Bold 16";
 }
 window {
     anchor:     north;
@@ -31,7 +31,7 @@ entry {
     width:      10em;
 }
 element {
-    padding: 0px 2px;
+    padding: 2px 2px;
 }
 element selected {
     background-color: #4c566a;
