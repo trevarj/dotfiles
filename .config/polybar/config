@@ -87,8 +87,8 @@ dpi-y = 0
 
 font-0 = Terminus:style=Bold:pixelsize=20;4
 font-1 = Noto Color Emoji:style=Regular:scale=8:2
-font-2 = cryptofont:style=Regular:pixelsize=10;4
-font-3 = TerminessTTF Nerd Font Mono:pixelsize=18;7
+font-2 = cryptofont:style=Regular:pixelsize=10;5
+font-3 = JetBrains Mono Nerd Font Mono:pixelsize=16;6
 
 modules-left = bspwm cpu memory crypto 
 modules-center = world-clock date weather
@@ -270,8 +270,8 @@ interval = 3.0
 
 ; format-connected-prefix = " "
 ; format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = "󰈀"
-label-disconnected = "󰈀"
+label-connected = ""
+label-disconnected = "󰌙"
 label-disconnected-foreground = ${colors.accent}
 ;format-disconnected =
 ;format-disconnected = <label-disconnected>
