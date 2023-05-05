@@ -14,6 +14,7 @@
     - [ ] LSPs (Mason unsupported - manually install requires more configs)
   - [ ] Behyve
     - [ ] Work VM with Chrome (check if sound/mic works)
+  - [ ] Linux compat browser (tried and didn't work cause of pulseaudio)
 
 ### Chat
 - [x] IRC
