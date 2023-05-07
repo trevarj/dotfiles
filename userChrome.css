@@ -20,3 +20,7 @@
 #navigator-toolbox {
     background-color: #2b2a33 !important;
 }
+
+#webrtcIndicator {
+  display: none;
+}
