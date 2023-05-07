@@ -10,7 +10,7 @@ response=$(curl -s -X GET \
 )
 if [ $? -eq 0 ]; then
   temp=$(echo $response | jq -rn 'try input.fact.temp catch "N/A"' )
-  condition=$(echo $response | jq -rn 'try input.fact.condition catch "0"' )
+  condition=$(echo $response | jq -rn 'try input.fact.condition catch ""' )
   printf "F%%{B$COLOR_BLOCK}%%{F$YELLOW} %d° " $temp
   case "$condition" in
         "clear") printf "%s" " ";;
