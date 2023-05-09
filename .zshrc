@@ -98,6 +98,7 @@ export GPG_TTY
 
 alias ls='exa --icons'
 alias open='xdg-open'
+alias emacs='emacs -nw'
 # alias idris2='rlwrap idris2'
 
 # eval "$(pack completion-script pack)" # idris-pack
