@@ -19,7 +19,8 @@
 (global-set-key (kbd "C-c p") 'previous-buffer)
 (global-set-key (kbd "C-c f r") 'recentf-open-files)
 (global-set-key (kbd "C-c f p") '(lambda () "Show current file path" (interactive) (message (buffer-file-name))))
-(global-set-key (kbd "C-c k") 'counsel-rg)
+(global-set-key (kbd "C-c k") '(lambda () "Ripgrep" (interactive) (counsel-rg nil nil "--hidden" nil)))
+(global-set-key (kbd "C-c f f") 'counsel-fzf)
 
 ;;
 ;; Options
@@ -34,7 +35,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-; Highlight cursor line
+					; Highlight cursor line
 (global-hl-line-mode t)
 
 ;; Fix vertical split character (terminal)
@@ -65,7 +66,7 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-; Highlight cursor line
+					; Highlight cursor line
 (global-hl-line-mode t)
 
 ;; Fix vertical split character (terminal)
@@ -119,7 +120,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages '(counsel ivy company deadgrep diff-hl nord-theme)))
+ '(package-selected-packages '(counsel ivy company diff-hl nord-theme)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
