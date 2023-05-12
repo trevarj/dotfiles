@@ -22,7 +22,7 @@
 ;; accept. For example:
 ;;
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
-     doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -83,3 +83,9 @@
 ;; Rust
 (after! rustic
   (setf rustic-analyzer-command '("rustup" "run" "nightly" "rust-analyzer")))
+
+;; Elfeed
+(after! rss
+  (add-hook 'elfeed-search-mode-hook #'elfeed-update)
+  ;; I thought this was the default, but I guess not.
+  (setf rmh-elfeed-org-files '("~/org/elfeed.org")))
