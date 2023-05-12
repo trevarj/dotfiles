@@ -11,6 +11,7 @@ pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
 pgrep -x kitty >/dev/null || kitty --hold tmux &
 pgrep -x st >/dev/null || st -e tmux &
+pgrep -x emacs >/dev/null || emacs --daemon &
 
 xsetroot -cursor_name left_ptr &
 

@@ -92,7 +92,7 @@ source $ZSH/oh-my-zsh.sh
 bindkey '^ ' autosuggest-accept
 
 export TERM=kitty
-export EDITOR=vim
+export EDITOR=emacsclient
 GPG_TTY=$(tty)
 export GPG_TTY
 
