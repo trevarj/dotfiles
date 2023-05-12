@@ -41,7 +41,7 @@ zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 # DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
 # You can also set it to another string to have that shown instead of the default red dots.
@@ -92,13 +92,13 @@ source $ZSH/oh-my-zsh.sh
 bindkey '^ ' autosuggest-accept
 
 export TERM=kitty
-export EDITOR=emacsclient
+export EDITOR='emacsclient -nw'
 GPG_TTY=$(tty)
 export GPG_TTY
 
 alias ls='exa --icons'
 alias open='xdg-open'
-alias emacs='emacs -nw'
+alias emacs='emacsclient -nw'
 # alias idris2='rlwrap idris2'
 
 # eval "$(pack completion-script pack)" # idris-pack
