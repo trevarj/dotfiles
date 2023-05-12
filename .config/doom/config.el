@@ -89,3 +89,7 @@
   (add-hook 'elfeed-search-mode-hook #'elfeed-update)
   ;; I thought this was the default, but I guess not.
   (setf rmh-elfeed-org-files '("~/org/elfeed.org")))
+
+;; Custom Keybindings
+(map! :desc "Scroll up half a page and center" :n "C-u" (cmd! (evil-scroll-up 0) (recenter)))
+(map! :desc "Scroll down half a page and center" :n "C-d" (cmd! (evil-scroll-down 0) (recenter)))
