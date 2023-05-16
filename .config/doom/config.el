@@ -21,7 +21,10 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
+
+;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
+;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
+(setq doom-font (font-spec :family "Iosevka Comfy Wide" :size 20 :weight 'normal :width 'expanded)
       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
@@ -83,6 +86,10 @@
 ;; Rust
 (after! rustic
   (setf rustic-analyzer-command '("rustup" "run" "nightly" "rust-analyzer")))
+
+;; Common Lisp
+(after! sly
+  (setf sly-command-switch-to-existing-lisp 'always))
 
 ;; Elfeed
 (after! rss
