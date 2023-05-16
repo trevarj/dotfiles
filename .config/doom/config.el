@@ -22,11 +22,11 @@
 ;; accept. For example:
 ;;
 
-;; (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
-;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
-(setq doom-font (font-spec :family "Iosevka Comfy Wide" :size 20 :weight 'normal :width 'expanded)
+(setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
-;;
+;; (setq doom-font (font-spec :family "Iosevka Comfy Wide" :size 20 :weight 'normal :width 'expanded)
+;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
+
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
 ;; refresh your font settings. If Emacs still can't find your font, it likely
@@ -100,3 +100,4 @@
 ;; Custom Keybindings
 (map! :desc "Scroll up half a page and center" :n "C-u" (cmd! (evil-scroll-up 0) (recenter)))
 (map! :desc "Scroll down half a page and center" :n "C-d" (cmd! (evil-scroll-down 0) (recenter)))
+(map! :desc "Save buffer" :nvi "C-s" (cmd! (save-buffer) (evil-force-normal-state)))
