@@ -81,7 +81,8 @@
 ;; Evil mode
 (after! evil
   (setq evil-escape-key-sequence "ww")
-  (setf evil-insert-state-cursor 'box))
+  (setq evil-move-cursor-back nil)
+  (setq evil-insert-state-cursor 'box))
 
 ;; Rust
 (after! rustic
