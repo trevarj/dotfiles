@@ -33,7 +33,7 @@ bspc config borderless_monocle true
 bspc config gapless_monocle false
 
 bspc rule -a firefox desktop='^1' --one-shot
-bspc rule -a firefox desktop='^4' --one-shot # workaround for discord/telegram in browser
+# bspc rule -a firefox desktop='^4' --one-shot # workaround for discord/telegram in browser
 bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a *:google-chrome desktop='^2' follow=on
 bspc rule -a TelegramDesktop:* desktop='^4'

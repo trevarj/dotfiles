@@ -95,10 +95,11 @@ export TERM=kitty
 export EDITOR='emacsclient -nw'
 GPG_TTY=$(tty)
 export GPG_TTY
+# Doom Emacs requirement on Emacs 28
+export EMACSNATIVELOADPATH="~/.emacs.d/.local/cache/eln"
 
 alias ls='exa --icons'
 alias open='xdg-open'
-alias emacs='emacsclient -nw'
 # alias idris2='rlwrap idris2'
 
 # eval "$(pack completion-script pack)" # idris-pack
