@@ -98,6 +98,14 @@
   ;; I thought this was the default, but I guess not.
   (setf rmh-elfeed-org-files '("~/org/elfeed.org")))
 
+;; org-habits
+(after! org
+  (setq org-modules '(org-habit)
+        org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "INPROGRESS(i)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)" )
+                          (sequence "EVENT(e)" "PROJ(p)" "BACKLOG(b)" "|" "COMPLETED(C)"))
+        org-agenda-files '("~/org/habits.org"
+                           "~/org/projects.org")))
+
 ;; Custom Keybindings
 (map! :desc "Scroll up half a page and center" :n "C-u" (cmd! (evil-scroll-up 0) (recenter)))
 (map! :desc "Scroll down half a page and center" :n "C-d" (cmd! (evil-scroll-down 0) (recenter)))
