@@ -23,7 +23,7 @@
 ;;
 
 (setq doom-font (font-spec :family "JetBrainsMono Nerd Font Mono" :size 22 :weight 'normal)
-      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
+      doom-variable-pitch-font (font-spec :family "Noto Sans" :size 23))
 ;; (setq doom-font (font-spec :family "Iosevka Comfy Wide" :size 20 :weight 'normal :width 'expanded)
 ;;       doom-variable-pitch-font (font-spec :family "Noto Sans" :size 13))
 
@@ -78,11 +78,17 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
+;; GPG
+(setq epg-pinentry-mode 'loopback)
+
 ;; Evil mode
 (after! evil
-  (setq evil-escape-key-sequence "ww")
-  (setq evil-move-cursor-back nil)
-  (setq evil-insert-state-cursor 'box))
+  (setq evil-escape-key-sequence "ww"
+        evil-move-cursor-back nil
+        evil-insert-state-cursor 'box))
+
+(after! (smartparens evil-smartparens)
+  (add-hook! 'smartparens-enabled-hook #'evil-smartparens-mode))
 
 ;; Rust
 (after! rustic
@@ -90,7 +96,19 @@
 
 ;; Common Lisp
 (after! sly
-  (setf sly-command-switch-to-existing-lisp 'always))
+  (let ((clhs-root (expand-file-name "~/Workspace/CLHS/HyperSpec/")))
+    (setq common-lisp-hyperspec-root clhs-root
+          common-lisp-hyperspec-symbol-table (concat clhs-root "Data/Map_Sym.txt")
+          sly-command-switch-to-existing-lisp 'always
+          sly-complete-symbol*-fancy t
+          ;; open clhs in eww but not other links
+          browse-url-handlers '((".HyperSpec." . (lambda (url &rest args) (eww-open-file url)))
+                                ("." . browse-url-default-browser))))
+  (map! :desc "sly-hyperspec-lookup" :mode lisp-mode "C-c l" #'sly-hyperspec-lookup))
+
+
+;; Lisp parens
+(add-hook 'lisp-mode-hook #'evil-cleverparens-mode)
 
 ;; Elfeed
 (after! rss
@@ -102,11 +120,14 @@
 (after! org
   (setq org-modules '(org-habit)
         org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "INPROGRESS(i)" "WAIT(w)" "HOLD(h)" "|" "DONE(d)" "CANCELLED(c)" )
-                          (sequence "EVENT(e)" "PROJ(p)" "BACKLOG(b)" "|" "COMPLETED(C)"))
+                            (sequence "EVENT(e)" "PROJ(p)" "BACKLOG(b)" "|" "COMPLETED(C)"))
         org-agenda-files '("~/org/habits.org"
                            "~/org/projects.org")))
 
-;; Custom Keybindings
-(map! :desc "Scroll up half a page and center" :n "C-u" (cmd! (evil-scroll-up 0) (recenter)))
-(map! :desc "Scroll down half a page and center" :n "C-d" (cmd! (evil-scroll-down 0) (recenter)))
-(map! :desc "Save buffer" :nvi "C-s" (cmd! (save-buffer) (evil-force-normal-state)))
+;; Keybindings
+(map! :desc "Scroll up half a page and center" :n "C-u" (cmd! (evil-scroll-up 0) (recenter))
+      :desc "Scroll down half a page and center" :n "C-d" (cmd! (evil-scroll-down 0) (recenter))
+      :desc "Save buffer" :nvoi "C-s" (cmd! (save-buffer) (evil-escape)))
+(after! company
+  ;; this annoys me when I'm done typing and want to save and get out of the completions
+  (map! :map company-active-map "C-s" nil))
