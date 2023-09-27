@@ -92,7 +92,7 @@ source $ZSH/oh-my-zsh.sh
 bindkey '^ ' autosuggest-accept
 
 export TERM=kitty
-export EDITOR='emacsclient -nw'
+export EDITOR='nvim'
 GPG_TTY=$(tty)
 export GPG_TTY
 # Doom Emacs requirement on Emacs 28
