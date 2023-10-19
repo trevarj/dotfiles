@@ -2,18 +2,13 @@
 local osName = io.popen("uname -s"):read("*a")
 local enable = osName ~= "FreeBSD\n"
 return {
-  { "catppuccin",                        enabled = false },
-  { "folke/trouble.nvim",                enabled = false },
-  { "folke/tokyonight.nvim",             enabled = false },
-  { "echasnovski/mini.ai",               enabled = false },
-  { "echasnovski/mini.indentscope",      enabled = false },
-  { "ggandor/leap.nvim",                 enabled = false },
-  { "ggandor/flit.nvim",                 enabled = false },
-  { "rcarriga/nvim-notify",              enabled = false },
-  { "jose-elias-alvarez/null-ls.nvim",   enabled = false },
-  { "stevearc/dressing.nvim",            enabled = false },
-  { "folke/noice.nvim",                  enabled = false },
-  { "jose-elias-alvarez/null-ls.nvim",   enabled = false },
+  { "catppuccin", enabled = false },
+  { "folke/trouble.nvim", enabled = false },
+  { "folke/tokyonight.nvim", enabled = false },
+  { "echasnovski/mini.ai", enabled = false },
+  { "echasnovski/mini.indentscope", enabled = false },
+  { "ggandor/leap.nvim", enabled = false },
+  { "ggandor/flit.nvim", enabled = false },
   { "williamboman/mason-lspconfig.nvim", enabled = enable },
-  { "williamboman/mason.nvim",           enabled = enable },
+  { "williamboman/mason.nvim", enabled = enable },
 }
