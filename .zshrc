@@ -86,13 +86,13 @@ source $ZSH/oh-my-zsh.sh
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
 bindkey '^ ' autosuggest-accept
 
-export TERM=kitty
 export EDITOR='nvim'
+export LANGUAGE='en_US.UTF-8'
+export LANG='en_US.UTF-8'
+export LC_TYPE='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
 GPG_TTY=$(tty)
 export GPG_TTY
 # Doom Emacs requirement on Emacs 28

@@ -9,7 +9,7 @@ pgrep -x telegram-desktop >/dev/null || telegram-desktop &
 pgrep -x panel >/dev/null || panel &
 pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
-pgrep -x kitty >/dev/null || kitty --hold tmux &
+# pgrep -x kitty >/dev/null || kitty -o font_size=20 --hold tmux &
 pgrep -x st >/dev/null || st -e tmux &
 
 export EMACSNATIVELOADPATH="~/.emacs.d/.local/cache/eln"
@@ -40,6 +40,6 @@ bspc rule -a Gimp desktop='^8' state=floating follow=on
 bspc rule -a *:google-chrome desktop='^2' follow=on
 bspc rule -a TelegramDesktop:* desktop='^4'
 bspc rule -a *:discord desktop='^4'
-bspc rule -a kitty desktop='^4' follow=off --one-shot
-bspc rule -a *:st desktop='^4' follow=off --one-shot # st
+bspc rule -a kitty desktop='^3' follow=off --one-shot
+bspc rule -a *:st desktop='^3' follow=off --one-shot # st
 bspc rule -a Emacs state=tiled

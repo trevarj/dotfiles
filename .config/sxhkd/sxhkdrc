@@ -4,11 +4,11 @@
 
 # terminal emulator
 super + Return
-	kitty
+  st
 
 # browser
 super + b
-    firefox
+  firefox
 
 # program launcher
 super + @space
@@ -16,7 +16,7 @@ super + @space
 
 # make sxhkd reload its configuration files:
 super + Escape
-	pkill sxkhd && sxhkd
+	pkill sxhkd && sxhkd
 
 #
 # bspwm hotkeys
