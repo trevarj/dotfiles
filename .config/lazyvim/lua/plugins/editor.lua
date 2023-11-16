@@ -2,7 +2,13 @@ return {
   -- add telescope-fzf-native
   {
     "nvim-telescope/telescope.nvim",
-    dependencies = { { "nvim-telescope/telescope-fzf-native.nvim", build = "make" } },
+    dependencies = {
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      -- { "camgraff/telescope-tmux.nvim" },
+      -- { dir = "~/Workspace/telescope-tmux.nvim" },
+      { "trevarj/telescope-tmux.nvim", branch = "develop" },
+      { "norcalli/nvim-terminal.lua" }, -- mostly for tmux pane contents
+    },
     keys = {
       {
         "<leader>fc",
@@ -46,8 +52,12 @@ return {
           },
         },
       }
+      opts.extensions = {
+        tmux = {},
+      }
       telescope.setup(opts)
       telescope.load_extension("fzf")
+      telescope.load_extension("tmux")
     end,
   },
   {
@@ -67,5 +77,9 @@ return {
     "lewis6991/spaceless.nvim",
     config = true,
     lazy = false,
+  },
+  {
+    "norcalli/nvim-terminal.lua",
+    config = true,
   },
 }
