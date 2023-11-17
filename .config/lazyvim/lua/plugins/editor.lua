@@ -4,9 +4,7 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      -- { "camgraff/telescope-tmux.nvim" },
-      -- { dir = "~/Workspace/telescope-tmux.nvim" },
-      { "trevarj/telescope-tmux.nvim", branch = "develop" },
+      { "trevarj/telescope-tmux.nvim", dev = false },
       { "norcalli/nvim-terminal.lua" }, -- mostly for tmux pane contents
     },
     keys = {

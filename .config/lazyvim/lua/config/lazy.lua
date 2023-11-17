@@ -22,6 +22,9 @@ require("lazy").setup({
     -- version = "*", -- try installing the latest stable version for plugins that support semver
     version = false, -- always use the latest git commit
   },
+  dev = {
+    path = "~/Workspace",
+  },
   install = { colorscheme = { "nord" } },
   checker = { enabled = true }, -- automatically check for plugin updates
   performance = {
