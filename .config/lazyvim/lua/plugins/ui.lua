@@ -51,6 +51,7 @@ return {
   },
   {
     "folke/noice.nvim",
+    enabled = true,
     opts = {
       cmdline = {
         view = "cmdline",
@@ -66,7 +67,7 @@ return {
         view_error = "mini",
       },
       popupmenu = {
-        backend = "cmp",
+        enabled = false,
       },
       notify = {
         view = "mini",
