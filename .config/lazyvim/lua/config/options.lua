@@ -14,6 +14,7 @@ vim.g.rustaceanvim = {
   -- LSP configuration
   server = {
     on_attach = function(client, bufnr)
+      vim.lsp.inlay_hint.enable(bufnr)
       -- you can also put keymaps in here
     end,
     settings = {
