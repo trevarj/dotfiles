@@ -1,0 +1,14 @@
+[user]
+	email = tmarjeski@gmail.com
+	name = Trevor Arjeski
+	signingkey = A52D68794EBED758
+[pull]
+	rebase = true
+[push]
+	autoSetupRemote = true
+[init]
+	defaultBranch = master
+[commit]
+	gpgSign = true
+[core]
+	editor = nvim
