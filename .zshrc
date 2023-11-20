@@ -100,6 +100,11 @@ export EMACSNATIVELOADPATH="~/.emacs.d/.local/cache/eln"
 
 alias ls='exa --icons'
 alias open='xdg-open'
+
+# usage:
+#   echo "test" | ix
+#   ix < file.txt
+alias ix='curl -F "f:1=<-" ix.io'
 # alias idris2='rlwrap idris2'
 
 # eval "$(pack completion-script pack)" # idris-pack
