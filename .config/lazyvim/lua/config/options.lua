@@ -54,3 +54,5 @@ vim.opt.fillchars = "eob: "
 vim.opt.conceallevel = 0
 vim.opt.cmdheight = 0
 vim.o.timeoutlen = 500
+
+-- vim.lsp.set_log_level("debug")

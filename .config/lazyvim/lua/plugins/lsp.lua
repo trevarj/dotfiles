@@ -7,7 +7,8 @@ return {
   },
   {
     "Olical/conjure",
-    ft = { "scheme", "lisp", "fennel" },
+    branch = "develop",
+    ft = { "scheme" },
     dependencies = {
       {
         "PaterJason/cmp-conjure",
@@ -33,8 +34,27 @@ return {
     init = function()
       -- Set configuration options here
       -- vim.g["conjure#debug"] = true
-      vim.g["conjure#filetype#scheme"] = "conjure.client.guile.socket"
-      vim.g["conjure#client#guile#socket#pipename"] = ".guile-repl.socket"
+      vim.g["conjure#filetype#scheme"] = "conjure.client.scheme.stdio"
+      vim.g["conjure#client#scheme#stdio#command"] = "chicken-csi -q"
+      vim.g["conjure#client#scheme#stdio#prompt_pattern"] = "\n#;%d> "
+      vim.g["conjure#client#scheme#stdio#value_prefix_pattern"] = false
     end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        guile_ls = {
+          mason = false,
+          cmd = { "/home/trevor/Workspace/chicken-5.3.0/start_chicken_ls.sh" },
+          filetypes = { "scheme" },
+          single_file_support = true,
+          root_dir = require("lspconfig.util").root_pattern(".git"),
+        },
+      },
+      setup = {
+        guile_ls = function(_, opts) end,
+      },
+    },
   },
 }
