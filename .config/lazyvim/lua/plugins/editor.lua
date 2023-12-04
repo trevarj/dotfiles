@@ -27,6 +27,16 @@ return {
         end,
         desc = "Jumplist",
       },
+      {
+        "<leader>fh",
+        function()
+          require("telescope.builtin").find_files({
+            no_ignore = true,
+            hidden = true,
+          })
+        end,
+        desc = "Find Files (cwd, no ignore)",
+      },
     },
     -- apply the config and additionally load fzf-native
     config = function(_, opts)
