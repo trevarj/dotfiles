@@ -47,6 +47,9 @@ vim.opt.fillchars = "eob: "
 
 vim.opt.conceallevel = 0
 vim.opt.cmdheight = 0
+vim.opt.formatexpr = '' -- reset formatexpr
 vim.o.timeoutlen = 200
-
+vim.diagnostic.config({
+  float = { border = "rounded" },
+})
 -- vim.lsp.set_log_level("debug")

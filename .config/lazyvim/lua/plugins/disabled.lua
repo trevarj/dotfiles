@@ -4,8 +4,8 @@ local enable = osName ~= "FreeBSD\n"
 return {
   { "catppuccin", enabled = false },
   { "folke/tokyonight.nvim", enabled = false },
-  { "echasnovski/mini.ai", enabled = true },
-  { "echasnovski/mini.indentscope", enabled = true },
+  { "echasnovski/mini.ai", enabled = false },
+  { "echasnovski/mini.indentscope", enabled = false },
   { "williamboman/mason-lspconfig.nvim", enabled = enable },
   { "williamboman/mason.nvim", enabled = enable },
 }
