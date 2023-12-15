@@ -4,7 +4,7 @@ return {
     "nvim-telescope/telescope.nvim",
     dependencies = {
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
-      { "trevarj/telescope-tmux.nvim", dev = false, branch = "develop" },
+      { "trevarj/telescope-tmux.nvim", dev = true, branch = "develop" },
       { "norcalli/nvim-terminal.lua" }, -- mostly for tmux pane contents
     },
     keys = {
@@ -61,7 +61,9 @@ return {
         },
       }
       opts.extensions = {
-        tmux = {},
+        tmux = {
+          grep_cmd = "rg -oe",
+        },
       }
       telescope.setup(opts)
       telescope.load_extension("fzf")
@@ -71,7 +73,21 @@ return {
   {
     "sindrets/diffview.nvim",
     keys = {
-      { "<leader>gD", "<cmd>DiffviewOpen<cr>", desc = "Open Diffview" },
+      {
+        "<leader>gd",
+        function()
+          local lib = require("diffview.lib")
+          local view = lib.get_current_view()
+          if view then
+            -- Current tabpage is a Diffview; close it
+            vim.cmd(":DiffviewClose")
+          else
+            -- No open Diffview exists: open a new one
+            vim.cmd(":DiffviewOpen")
+          end
+        end,
+        desc = "Diff View",
+      },
     },
     opts = {
       view = {
