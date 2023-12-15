@@ -42,12 +42,12 @@ vim.g.rustaceanvim = {
 }
 
 vim.opt.guicursor = "n-v-c:block,i:blinkon1"
--- tildes...
-vim.opt.fillchars = "eob: "
+-- tildes and diff view deletions
+vim.opt.fillchars = "eob: ,diff:╱"
 
 vim.opt.conceallevel = 0
 vim.opt.cmdheight = 0
-vim.opt.formatexpr = '' -- reset formatexpr
+vim.opt.formatexpr = "" -- reset formatexpr for gq to work
 vim.o.timeoutlen = 200
 vim.diagnostic.config({
   float = { border = "rounded" },
