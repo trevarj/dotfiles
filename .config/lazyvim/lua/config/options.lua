@@ -48,7 +48,7 @@ vim.opt.fillchars = "eob: ,diff:╱"
 vim.opt.conceallevel = 0
 vim.opt.cmdheight = 0
 vim.opt.formatexpr = "" -- reset formatexpr for gq to work
-vim.o.timeoutlen = 200
+vim.o.timeoutlen = 1000
 vim.diagnostic.config({
   float = { border = "rounded" },
 })

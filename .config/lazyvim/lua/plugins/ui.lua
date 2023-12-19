@@ -1,6 +1,7 @@
 return {
   {
     "gbprod/nord.nvim",
+    dev = false,
     opts = {
       transparent = false, -- Enable this to disable setting the background color
       terminal_colors = true, -- Configure the colors used when opening a `:terminal` in Neovim
@@ -36,13 +37,13 @@ return {
             tritan = 0.0,
           },
         },
-
-        --- You can override specific highlights to use other groups or a hex color
-        --- function will be called with all highlights and the colorScheme table
-        on_highlights = function(hl, colors)
-          hl.LspInlayHint = { fg = colors.palette.aurora.orange }
-        end,
       },
+
+      --- You can override specific highlights to use other groups or a hex color
+      --- function will be called with all highlights and the colorScheme table
+      on_highlights = function(hl, c)
+        hl.LspInlayHint = { fg = c.frost.artic_ocean }
+      end,
     },
   },
   {
