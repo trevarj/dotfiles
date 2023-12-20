@@ -17,8 +17,8 @@ return {
           -- Style to be applied to different syntax groups
           -- Value is any valid attr-list value for `:help nvim_set_hl`
           comments = { italic = false },
-          keywords = { bold = true },
-          functions = { fg = colors.aurora.orange, bold = true },
+          keywords = { fg = colors.aurora.orange, bold = true },
+          functions = { bold = true },
           variables = {},
 
           -- To customize lualine/bufferline
