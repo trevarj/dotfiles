@@ -98,11 +98,6 @@ return {
     },
   },
   {
-    "lewis6991/spaceless.nvim",
-    config = true,
-    lazy = false,
-  },
-  {
     "norcalli/nvim-terminal.lua",
     config = true,
   },

@@ -44,6 +44,8 @@ return {
         --- function will be called with all highlights and the colorScheme table
         on_highlights = function(hl, c)
           hl.LspInlayHint = { fg = c.frost.artic_ocean }
+          hl.GitSignsCurrentLineBlame = { fg = c.polar_night.light }
+          -- hl.NonText = { fg = c.polar_night.light }
         end,
       }
     end,
