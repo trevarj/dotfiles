@@ -45,6 +45,7 @@ return {
         on_highlights = function(hl, c)
           hl.LspInlayHint = { fg = c.frost.artic_ocean }
           hl.GitSignsCurrentLineBlame = { fg = c.polar_night.light }
+          hl.MatchParen = { fg = c.aurora.yellow, bg = c.frost.artic_ocean }
           -- hl.NonText = { fg = c.polar_night.light }
         end,
       }
@@ -66,11 +67,13 @@ return {
           hide_gitignored = false,
         },
       },
+      window = {
+        width = 30,
+      },
     },
   },
   {
     "folke/noice.nvim",
-    enabled = true,
     opts = {
       cmdline = {
         view = "cmdline",
@@ -98,37 +101,75 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "nvim-lua/lsp-status.nvim" },
+    -- dependencies = { "nvim-lua/lsp-status.nvim" },
+    dependencies = { "gbprod/nord.nvim" },
     event = "VeryLazy",
     opts = function(_, opts)
+      local colors = require("nord.colors").palette
+      local nord = require("lualine.themes.nord")
+      nord.normal.a.fg = colors.snow_storm.brighter
+      nord.normal.a.bg = colors.polar_night.light
+      nord.insert.a.bg = colors.aurora.red
+      opts.options.theme = nord
       opts.sections.lualine_y = {
         { "progress", separator = "", padding = { left = 1, right = 1 } },
         { "location", padding = { left = 0, right = 1 } },
       }
+
+      opts.sections.lualine_c = {}
+      table.insert(opts.sections.lualine_c, {
+        "filename",
+        path = 1,
+        shorting_target = 80,
+      })
       table.remove(opts.sections.lualine_z)
-      table.insert(opts.sections.lualine_z, "require('lsp-status').status()")
-    end,
-  },
-  {
-    "nvim-lua/lsp-status.nvim",
-    config = function(_, _)
-      require("lsp-status").config({
-        status_symbol = "",
+      -- table.insert(opts.sections.lualine_z, "require('lsp-status').status()")
+      table.insert(opts.sections.lualine_z, {
+        "filetype",
+        icon_only = true,
+        color = {
+          bg = colors.polar_night.brightest,
+        },
       })
     end,
+  },
+  -- {
+  --   "nvim-lua/lsp-status.nvim",
+  --   config = function(_, _)
+  --     require("lsp-status").config({
+  --       status_symbol = "",
+  --     })
+  --   end,
+  -- },
+  {
+    "akinsho/bufferline.nvim",
+    opts = {
+      options = {
+        always_show_bufferline = false,
+        show_buffer_close_icons = false,
+      },
+    },
   },
   {
     "nvimdev/dashboard-nvim",
     event = "VimEnter",
     opts = function(_, opts)
       local logo = [[
-████████╗██████╗ ███████╗██╗   ██╗  ██╗███╗   ███╗
-╚══██╔══╝██╔══██╗██╔════╝██║   ██║  ██║████╗ ████║
-   ██║   ██████╔╝█████╗  ██║   ██║  ██║██╔████╔██║
-   ██║   ██╔══██╗██╔══╝  ╚██╗ ██╔╝  ██║██║╚██╔╝██║
-   ██║   ██║  ██║███████╗ ╚████╔╝██╗██║██║ ╚═╝ ██║
-   ╚═╝   ╚═╝  ╚═╝╚══════╝  ╚═══╝ ╚═╝╚═╝╚═╝     ╚═╝
-]]
+    .                  .-.    .  _   *     _   .                  
+           *          /   \     ((       _/ \       *    .        
+         _    .   .--'\/\_ \     `      /    \  *    ___          
+     *  / \_    _/ ^      \/\'__        /\/\  /\  __/   \ *       
+       /    \  /    .'   _/  /  \  *' /    \/  \/ .`'\_/\   .     
+  .   /\/\  /\/ :' __  ^/  ^/    `--./.'  ^  `-.\ _    _:\ _      
+     /    \/  \  _/  \-' __/.' ^ _   \_   .'\   _/ \ .  __/ \     
+   /\  .-   `. \/     \ / -.   _/ \ -. `_/   \ /    `._/  ^  \    
+  /  `-.__ ^   / .-'.--'    . /    `--./ .-'  `-.  `-. `.  -  `.  
+@/        `.  / /      `-.   /  .-'   / .   .'   \    \  \  .-  \%
+@&8jgs@@%% @)&@&(88&@.-_=_-=_-=_-=_-=_.8@% &@&&8(8%@%8)(8@%8 8%@)%
+@88:::&(&8&&8:::::%&`.~-_~~-~~_~-~_~-~~=.'@(&%::::%@8&8)::&#@8::::
+::::::::8%@@%:::::@%&8:`.=~~-.~~-.~~=..~'8::::::::&@8:::::&8::::::
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+ ]]
       logo = string.rep("\n", 8) .. logo .. "\n\n"
       opts.config.header = vim.split(logo, "\n")
     end,

@@ -106,4 +106,14 @@ return {
     event = "InsertEnter",
     config = true,
   },
+  {
+    "folke/flash.nvim",
+    opts = {
+      modes = {
+        search = {
+          enabled = false,
+        },
+      },
+    },
+  },
 }
