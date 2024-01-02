@@ -1,6 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.lang.clangd",
+    "lazyvim.plugins.extras.lang.haskell",
     "lazyvim.plugins.extras.lang.yaml"
   ],
   "news": {
