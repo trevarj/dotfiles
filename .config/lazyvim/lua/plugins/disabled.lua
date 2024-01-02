@@ -9,7 +9,7 @@ return {
   { "folke/noice.nvim", enabled = true },
   { "folke/tokyonight.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
-  { "stevearc/dressing.nvim", enabled = false },
+  { "stevearc/dressing.nvim", enabled = true },
   { "williamboman/mason-lspconfig.nvim", enabled = enable },
   { "williamboman/mason.nvim", enabled = enable },
 }
