@@ -1,5 +1,6 @@
 # Created by Zap installer
 [ -f "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh" ] && source "${XDG_DATA_HOME:-$HOME/.local/share}/zap/zap.zsh"
+plug "embeddedpenguin/sanekeybinds"
 plug "zsh-users/zsh-autosuggestions"
 plug "zap-zsh/supercharge"
 plug "zap-zsh/zap-prompt"
@@ -24,7 +25,7 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 alias open='xdg-open'
-alias nvim-wip='NVIM_APPNAME="nvim-wip" nvim'
+alias lazyvim='NVIM_APPNAME="lazyvim" nvim'
 
 # Haskell
 [ -f "/home/trevor/.ghcup/env" ] && source "/home/trevor/.ghcup/env"

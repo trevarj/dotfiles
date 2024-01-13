@@ -46,6 +46,7 @@ return {
           hl.LspInlayHint = { fg = c.frost.artic_ocean }
           hl.GitSignsCurrentLineBlame = { fg = c.polar_night.light }
           hl.MatchParen = { fg = c.aurora.yellow, bg = c.frost.artic_ocean }
+          hl.TreesitterContext = { bg = c.polar_night.bright }
           -- hl.NonText = { fg = c.polar_night.light }
         end,
       }
@@ -113,7 +114,7 @@ return {
       opts.options.theme = nord
       opts.sections.lualine_y = {
         { "progress", separator = "", padding = { left = 1, right = 1 } },
-        { "location", padding = { left = 0, right = 1 } },
+        { "location", padding = { left = 1, right = 1 } },
       }
 
       opts.sections.lualine_c = {}
