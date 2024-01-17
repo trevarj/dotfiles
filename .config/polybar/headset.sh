@@ -10,5 +10,7 @@ if bat=$(arctis7-controls battery); then
   if [ $bat -ne 0 ]; then
     idx=$(( (($bat + $perc - 1) / $perc) % $len ))
     echo "󰋎 ${icons[idx]}"
+  else 
+    echo ""
   fi
 fi
