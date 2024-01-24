@@ -1,6 +1,5 @@
 configuration {
 	modi: "drun,run,window,ssh";
-	font: "TerminessTTF Nerd Font Mono Bold 16";
 /*	location: 0;*/
 /*	yoffset: 0;*/
 /*	xoffset: 0;*/
@@ -138,7 +137,7 @@ configuration {
 /*	me-accept-custom: "Control+MouseDPrimary";*/
   timeout {
       action: "kb-cancel";
-      delay:  0;
+      delay:  5;
   }
   filebrowser {
       directories-first: true;

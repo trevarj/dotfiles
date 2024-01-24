@@ -8,7 +8,7 @@
     background-color: #3b4252;
     border-color:     White;
     text-color:       #88c0d0;
-    font:             "TerminessTTF Nerd Font Mono Bold 16";
+    font:             "Terminus Bold 18";
 }
 window {
     anchor:     north;
@@ -23,7 +23,7 @@ horibox {
 }
 listview {
     layout:     horizontal;
-    spacing:    5px;
+    spacing:    0px;
     lines:      100;
 }
 entry {
