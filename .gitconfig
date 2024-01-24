@@ -12,3 +12,9 @@
 	gpgSign = true
 [core]
 	editor = nvim
+[gpg]
+	program = gpg2
+[alias]
+  cleanup = !git branch | egrep -v '(master|main|dev)' | xargs git branch -D
+  cm = commit -m
+  sps = !git stash && git pull && git stash pop
