@@ -1,0 +1,111 @@
+[buildPlans.IosevkaJbm]
+family = "Iosevka JBM"
+# spacing = "fontconfig-mono"
+spacing = "term"
+serifs = "sans"
+noCvSs = true
+exportGlyphNames = true
+
+[buildPlans.IosevkaJbm.variants]
+inherits = "ss14"
+
+[buildPlans.IosevkaJbm.variants.design]
+capital-j = "serifless"
+j = "serifless"
+l = "serifed-flat-tailed"
+t = "flat-hook"
+one = "no-base"
+two = "curly-neck"
+three = "two-arcs"
+four = "closed"
+six = "straight-bar"
+seven = "straight-serifless"
+asterisk = "hex-mid"
+underscore = "above-baseline"
+paren = "flat-arc"
+brace = "straight"
+guillemet = "straight"
+number-sign = "upright"
+ampersand = "closed"
+at = "fourfold"
+dollar = "open"
+percent = "rings-continuous-slash"
+bar = "force-upright"
+question = "corner-flat-hooked"
+lig-ltgteq = "flat"
+lig-equal-chain = "without-notch"
+lig-hyphen-chain = "without-notch"
+
+[buildPlans.IosevkaJbm.variants.italic]
+capital-j = "serifless"
+f = "flat-hook-serifless"
+j = "serifless"
+l = "serifed-flat-tailed"
+t = "flat-hook"
+one = "no-base"
+two = "curly-neck"
+three = "two-arcs"
+four = "closed"
+six = "straight-bar"
+seven = "straight-serifless"
+asterisk = "hex-mid"
+underscore = "above-baseline"
+paren = "flat-arc"
+brace = "straight"
+guillemet = "straight"
+number-sign = "upright"
+ampersand = "closed"
+at = "fourfold"
+dollar = "open"
+percent = "rings-continuous-slash"
+lig-ltgteq = "flat"
+lig-equal-chain = "without-notch"
+lig-hyphen-chain = "without-notch"
+
+[buildPlans.IosevkaJbm.ligations]
+inherits = "dlig"
+
+[buildPlans.IosevkaJbm.weights.Regular]
+shape = 400
+menu = 400
+css = 400
+
+[buildPlans.IosevkaJbm.weights.Medium]
+shape = 500
+menu = 500
+css = 500
+
+[buildPlans.IosevkaJbm.weights.SemiBold]
+shape = 600
+menu = 600
+css = 600
+
+[buildPlans.IosevkaJbm.weights.Bold]
+shape = 700
+menu = 700
+css = 700
+
+[buildPlans.IosevkaJbm.weights.ExtraBold]
+shape = 800
+menu = 800
+css = 800
+
+[buildPlans.IosevkaJbm.weights.Heavy]
+shape = 900
+menu = 900
+css = 900
+
+[buildPlans.IosevkaJbm.widths.Normal]
+shape = 500
+menu = 5
+css = "normal"
+
+[buildPlans.IosevkaJbm.widths.SemiExtended]
+shape = 548
+menu = 6
+css = "semi-expanded"
+
+[buildPlans.IosevkaJbm.widths.Extended]
+shape = 600
+menu = 7
+css = "expanded"
