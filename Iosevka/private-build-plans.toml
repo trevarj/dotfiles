@@ -1,6 +1,5 @@
 [buildPlans.IosevkaJbm]
 family = "Iosevka JBM"
-# spacing = "fontconfig-mono"
 spacing = "term"
 serifs = "sans"
 noCvSs = true
@@ -32,7 +31,7 @@ dollar = "open"
 percent = "rings-continuous-slash"
 bar = "force-upright"
 question = "corner-flat-hooked"
-lig-ltgteq = "flat"
+lig-ltgteq = "slanted"
 lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
@@ -58,7 +57,7 @@ ampersand = "closed"
 at = "fourfold"
 dollar = "open"
 percent = "rings-continuous-slash"
-lig-ltgteq = "flat"
+lig-ltgteq = "slanted"
 lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
 
