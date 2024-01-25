@@ -1,8 +1,7 @@
 /* Change font UI globally */
 * {
-    font-family: "JetBrains Mono Medium" !important;
-    font-size: 12 !important; 
-    font-weight: normal;
+    font-family: "Iosevka JBM" !important;
+    font-size: 12pt !important; 
 }
 
 #urlbar-background{
