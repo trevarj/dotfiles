@@ -6,7 +6,7 @@ back font.
 It is the version [on the
 repo](https://github.com/ryanoasis/nerd-fonts/tree/master/patched-fonts/NerdFontsSymbolsOnly)
 transformed in fontforge:
-    - scaled 75%
-    - shifted -2 on the y-axis
+    - scaled uniformly 64%
+    - Transform Width UNCHECKED
 
-This is suitable when using a condensed font like Iosevka.
+This is suitable when using alongside a condensed font like Iosevka.
