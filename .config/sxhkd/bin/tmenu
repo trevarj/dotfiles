@@ -1,0 +1,69 @@
+#!/usr/bin/env bash
+#
+# ████████╗███╗   ███╗███████╗███╗   ██╗██╗   ██╗
+# ╚══██╔══╝████╗ ████║██╔════╝████╗  ██║██║   ██║
+#    ██║   ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
+#    ██║   ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
+#    ██║   ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
+#    ╚═╝   ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
+#
+# An alternative to dmenu or rofi
+#
+# Required: awk, fd, fzf, gio
+#
+# Pass '-r' to reset the cache file which is stored in /tmp/ and has a suffix
+# of .tmenu
+#
+# To use as a WM launcher:
+#
+# sxhkdrc:
+# super + {_,shift +} @space
+#   kitty --name tmenu -e ~/.config/sxhkd/bin/tmenu {'',-r}
+#
+# A handy bspwm rule:
+# bspc rule -a kitty:tmenu state=floating
+#
+
+cache_file=$(fd --type=file --extension=".tmenu" --newer=1d . '/tmp')
+
+if [[ -n "$cache_file" && "$1" == "-r" ]]; then
+	# reset cache
+	rm "$cache_file"
+	cache_file=
+fi
+
+fzf_cmd="fzf --preview=''"
+
+# If there is a cache restore or else run again
+if [ -n "$cache_file" ]; then
+	# shellcheck source=/dev/null
+	source "$cache_file" else
+else
+	# Function to extract the value of a given field from desktop entry file
+	get_value() {
+		awk -F "=" -v field="$1" '$1 == field { gsub(/^[[:blank:]]+|[[:blank:]]+$/, "", $2); print $2; exit; }' "$2"
+	}
+
+	desktop_files=$(fd --type=file --extension=".desktop" . '/usr' '/opt')
+	declare -A entries=()
+	for file in $desktop_files; do
+		# Extract "Name" field value
+		# Do not care about terminal or nodisplay apps
+		name=$(get_value "Name" "$file")
+		terminal=$(get_value "Terminal" "$file")
+		nodisplay=$(get_value "NoDisplay" "$file")
+		if [[ "$terminal" != "true" && "$nodisplay" != "true" ]]; then
+			entries+=(["$name"]="$file")
+		fi
+	done
+	# Save entries in cache
+	cache_file=$(mktemp --suffix=".tmenu")
+	chmod 755 "$cache_file"
+	declare -p entries >"$cache_file"
+fi
+
+selected_entry=$(printf "%s\n" "${!entries[@]}" | eval "$fzf_cmd")
+
+if [ -n "$selected_entry" ]; then
+	setsid gio launch "${entries[$selected_entry]}" </dev/null &>/dev/null
+fi
