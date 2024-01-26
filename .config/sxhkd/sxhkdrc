@@ -11,8 +11,9 @@ super + b
   firefox
 
 # program launcher
-super + @space
-	rofi -show drun
+super + {_,shift +} @space 
+  kitty --name tmenu -e ~/.config/sxhkd/bin/tmenu {'',-r}
+  # rofi -show drun
 
 # make sxhkd reload its configuration files:
 super + Escape
