@@ -32,7 +32,7 @@ if [[ -n "$cache_file" && "$1" == "-r" ]]; then
 	cache_file=
 fi
 
-fzf_cmd="fzf --preview=''"
+fzf_cmd="fzf --preview='' --no-multi --prompt='run: ' --header='Applications' --keep-right"
 
 # If there is a cache restore or else run again
 if [ -n "$cache_file" ]; then
@@ -44,7 +44,7 @@ else
 		awk -F "=" -v field="$1" '$1 == field { gsub(/^[[:blank:]]+|[[:blank:]]+$/, "", $2); print $2; exit; }' "$2"
 	}
 
-	desktop_files=$(fd --type=file --extension=".desktop" . '/usr' '/opt')
+	desktop_files=$(fd --type=file --extension=".desktop" -E templates . '/usr' '/opt')
 	declare -A entries=()
 	for file in $desktop_files; do
 		# Extract "Name" field value
