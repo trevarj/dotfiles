@@ -25,7 +25,6 @@ GPG_TTY=$(tty)
 export GPG_TTY
 
 alias open='xdg-open'
-alias lazyvim='NVIM_APPNAME="lazyvim" nvim'
 
 # Haskell
 [ -f "/home/trevor/.ghcup/env" ] && source "/home/trevor/.ghcup/env"
