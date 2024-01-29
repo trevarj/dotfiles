@@ -1,25 +1,28 @@
 /* Change font UI globally */
 * {
     font-family: "Iosevka JBM" !important;
-    font-size: 12pt !important; 
-}
-
-#urlbar-background{
-    background-color: #2b2a33 !important;
-}
-
-#urlbar-input{
+    font-size: 13pt !important; 
     font-weight: bold !important;
 }
 
-#urlbar {
-    color: #0DE2FF !important;
+#urlbar-input, #urlbar, .tab-content {
+    font-weight: bold !important;
+    color: #EBCB8B !important;
 }
 
-#navigator-toolbox {
-    background-color: #2b2a33 !important;
+.browser-toolbar,
+.toolbar-menupopup,
+#navigator-toolbox,
+#urlbar-background,
+.menu-iconic {
+    background-color: #3B4252 !important;
 }
 
 #webrtcIndicator {
   display: none;
+}
+
+.tab-background:is([selected], [multiselected]) {
+  outline: 2px solid #A3BE8C !important;
+  box-shadow: none !important;
 }
