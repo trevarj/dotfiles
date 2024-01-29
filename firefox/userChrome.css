@@ -1,13 +1,13 @@
 /* Change font UI globally */
 * {
     font-family: "Iosevka JBM" !important;
-    font-size: 13pt !important; 
-    font-weight: bold !important;
-}
-
-#urlbar-input, #urlbar, .tab-content {
     font-weight: bold !important;
     color: #EBCB8B !important;
+}
+
+#urlbar-input, #urlbar, .tab-label {
+    font-size: 12pt !important; 
+    font-weight: bold !important;
 }
 
 .browser-toolbar,
@@ -23,6 +23,6 @@
 }
 
 .tab-background:is([selected], [multiselected]) {
-  outline: 2px solid #A3BE8C !important;
+  outline: 2px solid #EBCB8B !important;
   box-shadow: none !important;
 }
