@@ -63,7 +63,7 @@ else
 	declare -p entries >"$cache_file"
 fi
 
-selected_entry=$(printf "%s\n" "${!entries[@]}" | eval "$fzf_cmd")
+selected_entry=$(printf "%s\n" "${!entries[@]}" | sort | eval "$fzf_cmd")
 
 if [ -n "$selected_entry" ]; then
 	setsid gio launch "${entries[$selected_entry]}" </dev/null &>/dev/null
