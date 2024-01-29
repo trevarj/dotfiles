@@ -16,9 +16,9 @@ xsetroot -cursor_name left_ptr &
 
 bspc monitor -d web work code chat
 
-bspc config border_width 8
+bspc config border_width 4
 # Nord
-bspc config normal_border_color "#2E3440"
+bspc config normal_border_color "#3B4252"
 bspc config focused_border_color "#d08770"
 # Challenger deep
 # bspc config normal_border_color  "#292C3E"
