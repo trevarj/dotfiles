@@ -29,7 +29,7 @@ cache_file=$(fd --type=file --extension=".tmenu" --newer=1d . '/tmp')
 if [[ -n "$cache_file" && "$1" == "-r" ]]; then
 	# reset cache
 	rm "$cache_file"
-	cache_file=
+	unset cache_file
 fi
 
 fzf_cmd="fzf --layout=reverse --preview='' --no-multi --prompt='Run: ' --header='Applications' --keep-right"
