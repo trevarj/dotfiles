@@ -5,7 +5,10 @@
     color: #EBCB8B !important;
 }
 
-#urlbar-input, #urlbar, .tab-label {
+#urlbar-input, 
+#urlbar, 
+.tab-label, 
+.menu-iconic-text {
     font-size: 12pt !important; 
     font-weight: bold !important;
 }
@@ -13,8 +16,7 @@
 .browser-toolbar,
 .toolbar-menupopup,
 #navigator-toolbox,
-#urlbar-background,
-.menu-iconic {
+#urlbar-background {
     background-color: #3B4252 !important;
 }
 
