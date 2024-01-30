@@ -40,4 +40,4 @@ bspc rule -a *:discord desktop='^4'
 bspc rule -a kitty desktop='^3' follow=off --one-shot
 bspc rule -a *:st desktop='^3' follow=off --one-shot # st
 bspc rule -a Emacs state=tiled
-bspc rule -a kitty:tmenu state=floating
+bspc rule -a kitty:tmenu state=floating locked=on center=true rectangle=1280x480+0+0
