@@ -32,7 +32,7 @@ if [[ -n "$cache_file" && "$1" == "-r" ]]; then
 	cache_file=
 fi
 
-fzf_cmd="fzf --preview='' --no-multi --prompt='run: ' --header='Applications' --keep-right"
+fzf_cmd="fzf --layout=reverse --preview='' --no-multi --prompt='Run: ' --header='Applications' --keep-right"
 
 # If there is a cache restore or else run again
 if [ -n "$cache_file" ]; then
