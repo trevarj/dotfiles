@@ -29,12 +29,12 @@
 }
 
 .tab-background:is([selected], [multiselected]) {
-  outline: 2px solid #EBCB8B !important;
+  outline: 2px solid #88c0d0 !important;
   box-shadow: none !important;
 }
 
 #urlbar[focused="true"]:not([suppress-focus-border]) > #urlbar-background,
 #searchbar:focus-within
 {
-  outline-color: #EBCB8B !important;
+  outline-color: #88c0d0 !important;
 }
