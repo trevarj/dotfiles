@@ -24,7 +24,8 @@
 # bspc rule -a kitty:tmenu state=floating
 #
 
-cache_file=$(fd --type=file --extension=".tmenu" --newer=1d . '/tmp')
+cache_dir="$HOME/.cache/tmenu"
+cache_file=$(fd --type=file --extension=".tmenu" --newer=30d . "$cache_dir")
 
 if [[ -n "$cache_file" && "$1" == "-r" ]]; then
 	# reset cache
@@ -58,7 +59,8 @@ else
 		fi
 	done
 	# Save entries in cache
-	cache_file=$(mktemp --suffix=".tmenu")
+	mkdir -p "$cache_dir"
+	cache_file=$(mktemp -p "$cache_dir" --suffix=".tmenu")
 	chmod 755 "$cache_file"
 	declare -p entries >"$cache_file"
 fi
