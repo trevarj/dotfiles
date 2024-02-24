@@ -38,6 +38,9 @@ fzf_cmd() {
 		--no-multi \
 		--prompt="Run: " \
 		--header="Applications" \
+		--info="inline-right" \
+		--pointer="" \
+		--color="gutter:-1" \
 		--keep-right \
 		--delimiter ':' \
 		--with-nth=2 \
