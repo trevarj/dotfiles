@@ -1,0 +1,70 @@
+#!/bin/bash --
+
+# ████████╗███╗   ███╗███████╗███╗   ██╗██╗   ██╗
+# ╚══██╔══╝████╗ ████║██╔════╝████╗  ██║██║   ██║
+#    ██║   ██╔████╔██║█████╗  ██╔██╗ ██║██║   ██║
+#    ██║   ██║╚██╔╝██║██╔══╝  ██║╚██╗██║██║   ██║
+#    ██║   ██║ ╚═╝ ██║███████╗██║ ╚████║╚██████╔╝
+#    ╚═╝   ╚═╝     ╚═╝╚══════╝╚═╝  ╚═══╝ ╚═════╝
+#
+# An alternative to dmenu or rofi
+#
+# Required: fzf gio
+#
+# To use as a WM launcher:
+#
+# sxhkdrc:
+# super + @space
+#   kitty --name tmenu -e ~/.config/sxhkd/bin/tmenu
+#
+# A handy bspwm rule:
+# bspc rule -a kitty:tmenu state=floating
+
+# Notes
+#   Filenames can only be separated by NUL, by definition a filename is any
+#   sequence of bytes except / and NUL.
+#
+#   A path is separated by / so this uses that fact to include the path to the
+#   desktop file while embedding the name as a final path component. This can
+#   then be safely removed at the end to recover the original .desktop path.
+#
+#   fzf's --read0 and --print0 are used for this reason.
+
+set -- "${XDG_DATA_HOME:-$HOME/.local/share}"/applications
+
+if [ "$XDG_DATA_DIRS" ]; then
+	# Takes advantage of wordsplitting over : but make sure to turn off file
+	# glob expansions while doing this. The rest of the script doesn't need IFS
+	# or set +f, so they are left.
+	set -f
+	IFS=:
+
+	for dir in $XDG_DATA_DIRS; do
+		set -- "$@" "$dir"/applications
+	done
+else
+	set -- "$@" /usr/share/applications
+fi
+
+find "$@" -type f -name '*.desktop' -exec awk -f ./desktop_files.awk {} + |
+	fzf --read0 \
+		--print0 \
+		--no-sort \
+		--multi \
+		--header=Applications \
+		--prompt='Run: ' \
+		--pointer= \
+		--layout=reverse \
+		--info=inline-right \
+		--keep-right \
+		--color=gutter:-1 \
+		--preview= \
+		--delimiter / \
+		--with-nth=-1 |
+	while read -rd '' entry; do
+		desktop=${entry%/*}
+
+		if [ -f "$desktop" ]; then
+			echo gio launch "$desktop"
+		fi
+	done
