@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-  kitty
+  kitty ~
 
 # browser
 super + b
@@ -16,7 +16,7 @@ super + @space
   # rofi -show drun
 
 # make sxhkd reload its configuration files:
-super + Escape
+super + ctrl + shift + q
 	pkill sxhkd && sxhkd
 
 #
