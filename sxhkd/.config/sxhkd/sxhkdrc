@@ -19,6 +19,9 @@ super + @space
 super + ctrl + shift + q
 	pkill sxhkd && sxhkd
 
+super + @Print
+  maim -q -s | xclip -selection clipboard -t image/png
+
 #
 # bspwm hotkeys
 #
