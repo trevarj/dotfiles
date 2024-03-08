@@ -7,7 +7,8 @@ local chans = {
 	"#systemcrafters",
 }
 
-local greetings = { "good morning", "good day", "good evening", "hi", "hey", "howdy" }
+local greetings = { "good morning", "good day", "good evening" }
+local personal_greetings = { "hello", "hi", "hey", "howdy", "yo", "hiya", "sup" }
 
 local function init()
 	if wee.register("goodmorning", "trevarj", "1.0", "GPL3", "", "", "") then
@@ -23,13 +24,10 @@ end
 
 local function contains_phrase(msg, phrase_list)
 	for _, phrase in ipairs(phrase_list) do
-		wee.print("", phrase)
 		if string.match(msg, "%f[%a]" .. phrase .. "%f[%A]") then
-			wee.print("", "matched" .. phrase)
-			return true, phrase
+			return phrase
 		end
 	end
-	return false
 end
 
 function GoodMorning(_, _, signal_data)
@@ -38,10 +36,22 @@ function GoodMorning(_, _, signal_data)
 	if chans[chan] ~= nil then
 		local buffer = wee.info_get("irc_buffer", string.format("%s,%s", server, chan))
 		local message = string.lower(msg.text)
+		local response
 
-		local matched, phrase = contains_phrase(message, greetings)
-		if matched then
-			wee.command(buffer, string.format("%s: %s", msg.nick, phrase))
+		if string.match(message, "trev") then
+			local phrase = contains_phrase(message, personal_greetings)
+			if phrase ~= nil then
+				response = phrase
+			end
+		end
+
+		local phrase = contains_phrase(message, greetings)
+		if phrase ~= nil then
+			response = phrase
+		end
+
+		if response ~= nil then
+			wee.command(buffer, string.format("%s: %s", msg.nick, response))
 		end
 	end
 end
