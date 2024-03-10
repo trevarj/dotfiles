@@ -19,8 +19,13 @@ super + @space
 super + ctrl + shift + q
 	pkill sxhkd && sxhkd
 
+# save screenshot to clipboard
 super + @Print
   maim -q -s | xclip -selection clipboard -t image/png
+
+# save screenshot to file and clipboard
+super + ctrl + @Print
+  maim -q -s | tee ~/Pictures/Screenshot_$(date +%s).png | xclip -selection clipboard -t image/png
 
 #
 # bspwm hotkeys
