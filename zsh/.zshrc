@@ -3,7 +3,6 @@
 plug "embeddedpenguin/sanekeybinds"
 plug "zsh-users/zsh-autosuggestions"
 plug "zap-zsh/supercharge"
-plug "zap-zsh/zap-prompt"
 plug "zap-zsh/exa"
 plug "zsh-users/zsh-syntax-highlighting"
 plug "hlissner/zsh-autopair"
