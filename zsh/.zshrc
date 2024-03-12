@@ -25,9 +25,6 @@ export GPG_TTY
 
 alias open='xdg-open'
 
-# Haskell
-[ -f "/home/trevor/.ghcup/env" ] && source "/home/trevor/.ghcup/env"
-
 # Load and initialise completion system
 autoload -Uz compinit
 compinit
