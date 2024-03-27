@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "󰃭"
-
 launch_cal() {
 	i=0
 	while true; do
@@ -21,14 +19,27 @@ launch_cal() {
 			offset="+${i}month"
 		elif [ "$i" -lt 0 ]; then
 			offset="${i}month"
+		else
+			offset=
 		fi
 	done
 }
 
-case "$1" in
---toggle)
-	if ! pgrep cal.sh | grep -v "$$" | xargs -n1 pkill -P; then
-		kitty --name cal --hold bash -c "$(declare -f launch_cal); tput civis; launch_cal;"
+t=0
+toggle() {
+	t=$(((t + 1) % 2))
+	if [ $t -eq 1 ]; then
+		kitty --name cal --hold bash -c "$(declare -f launch_cal); tput civis; launch_cal;" 2>/dev/null &
+		kitty_pid=$!
+	else
+		kill "$kitty_pid" >/dev/null 2>&1
 	fi
-	;;
-esac
+}
+
+trap "toggle" USR1
+
+echo "󰃭"
+while true; do
+	sleep 60 &
+	wait >/dev/null 2>&1
+done
