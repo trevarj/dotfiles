@@ -14,25 +14,29 @@ launch_cal() {
 		p)
 			((i--))
 			;;
+		q)
+			break
+			;;
 		esac
 		if [ "$i" -gt 0 ]; then
 			offset="+${i}month"
 		elif [ "$i" -lt 0 ]; then
 			offset="${i}month"
 		else
-			offset=
+			unset offset
 		fi
 	done
 }
 
-t=0
 toggle() {
-	t=$(((t + 1) % 2))
-	if [ $t -eq 1 ]; then
-		kitty --name cal --hold bash -c "$(declare -f launch_cal); tput civis; launch_cal;" 2>/dev/null &
-		kitty_pid=$!
+	ps -p "$kitty_pid" >/dev/null 2>&1
+	alive=$? # may have been killed with 'q'
+	if [[ -n "$kitty_pid" && $alive == 0 ]]; then
+		kill "$kitty_pid"
+		unset kitty_pid
 	else
-		kill "$kitty_pid" >/dev/null 2>&1
+		kitty --name cal bash -c "$(declare -f launch_cal); tput civis; launch_cal;" 2>/dev/null &
+		kitty_pid=$!
 	fi
 }
 
@@ -41,5 +45,5 @@ trap "toggle" USR1
 echo "󰃭"
 while true; do
 	sleep 60 &
-	wait >/dev/null 2>&1
+	wait
 done
