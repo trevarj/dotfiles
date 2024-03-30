@@ -64,3 +64,5 @@
   conflictstyle = diff3
 [diff]
   colorMoved = default
+[include]
+  path = "~/.gitconfig-sendmail"
