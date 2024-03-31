@@ -18,7 +18,7 @@ while true; do
 	else
 		HK=$(TZ='Asia/Hong_Kong' date +'%-H:%M')
 		NY=$(TZ='America/New_York' date +'%-H:%M')
-		echo "HK $HK NY $NY"
+		printf '%%{B#434c5e} HK %s %%{B-} %%{B#434c5e} NY %s %%{B-}\n' "$HK" "$NY"
 	fi
 	sleep 1 &
 	sleep_pid=$!
