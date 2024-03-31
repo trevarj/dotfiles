@@ -18,12 +18,10 @@ launch_cal() {
 			break
 			;;
 		esac
-		if [ "$i" -gt 0 ]; then
-			offset="+${i}month"
-		elif [ "$i" -lt 0 ]; then
-			offset="${i}month"
-		else
+		if [ $i -eq 0 ]; then
 			unset offset
+		else
+			offset=$(date -d "$(date +'%a %b 01 %r %Z %Y') $i month" +'%m %Y')
 		fi
 	done
 }
