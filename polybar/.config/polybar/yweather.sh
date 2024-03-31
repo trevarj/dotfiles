@@ -2,33 +2,29 @@
 
 . "$HOME/.dotenv"
 
-out() {
-	printf "%s %d°" "$1" "$temp"
-}
-
+temp="N/A"
 if
 	res=$(curl -s -X GET \
 		-H "Access-Control-Allow-Headers: X-Yandex-API-Key" \
 		-H "X-Yandex-API-Key: $YW_API_KEY" \
 		"https://api.weather.yandex.ru/v2/informers?lat=$YW_LAT&lon=$YW_LONG")
 then
-	temp=$(echo "$res" | jq -rn 'try input.fact.temp catch "N/A"')
+	temp=$(echo "$res" | jq -r 'try input.fact.temp catch "N/A"')
 	condition=$(echo "$res" | jq -rn 'try input.fact.condition catch ""')
 	case "$condition" in
-	"clear") out "󰖙" ;;
-	"partly-cloudy") out "󰖕" ;;
-	"cloudy" | "overcast") out "󰖐" ;;
-	"drizzle" | "light-rain" | "rain" | "moderate-rain") out "󰖗" ;;
-	"showers" | "heavy-rain" | "continuous-heavy-rain") out "󰖖" ;;
-	"wet-snow") out "󰙿" ;;
-	"light-snow") out "󰖘" ;;
-	"snow" | "snow-showers") out "󰼶" ;;
-	"hail") out "󰖒" ;;
-	"thunderstorm") out "󰖓" ;;
-	"thunderstorm-with-rain" | "thunderstorm-with-hail") out "󰙾" ;;
-	*) out "-" ;;
+	"clear") cond="󰖙" ;;
+	"partly-cloudy") cond="󰖕" ;;
+	"cloudy" | "overcast") cond="󰖐" ;;
+	"drizzle" | "light-rain" | "rain" | "moderate-rain") cond="󰖗" ;;
+	"showers" | "heavy-rain" | "continuous-heavy-rain") cond="󰖖" ;;
+	"wet-snow") cond="󰙿" ;;
+	"light-snow") cond="󰖘" ;;
+	"snow" | "snow-showers") cond="󰼶" ;;
+	"hail") cond="󰖒" ;;
+	"thunderstorm") cond="󰖓" ;;
+	"thunderstorm-with-rain" | "thunderstorm-with-hail") cond="󰙾" ;;
+	*) cond="" ;;
 	esac
-else
-	temp="N/A"
-	out "-"
 fi
+
+printf "%s %s" "$cond" "$temp"
