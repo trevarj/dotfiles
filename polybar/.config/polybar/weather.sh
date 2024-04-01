@@ -1,15 +1,18 @@
 #!/bin/sh
 
+# shellcheck source=/dev/null
 . "$HOME/.dotenv"
 
+res=$(curl -s -X GET \
+	-H "Access-Control-Allow-Headers: X-Yandex-API-Key" \
+	-H "X-Yandex-API-Key: $YW_API_KEY" \
+	"https://api.weather.yandex.ru/v2/informers?lat=$YW_LAT&lon=$YW_LONG")
+
 if
-	res=$(curl -s -X GET \
-		-H "Access-Control-Allow-Headers: X-Yandex-API-Key" \
-		-H "X-Yandex-API-Key: $YW_API_KEY" \
-		"https://api.weather.yandex.ru/v2/informers?lat=$YW_LAT&lon=$YW_LONG")
+	temp=$(echo "$res" | jq -r '.fact.temp' 2>/dev/null)
+	[ "$temp" != null ]
 then
-	temp=$(echo "$res" | jq -rn 'try input.fact.temp catch ""')
-	condition=$(echo "$res" | jq -rn 'try input.fact.condition catch ""')
+	condition=$(echo "$res" | jq -r '.fact.condition')
 	case "$condition" in
 	"clear") cond="󰖙" ;;
 	"partly-cloudy") cond="󰖕" ;;
@@ -24,10 +27,7 @@ then
 	"thunderstorm-with-rain" | "thunderstorm-with-hail") cond="󰙾" ;;
 	*) cond="" ;;
 	esac
-fi
-
-if [ -n "$temp" ]; then
 	printf "%s %s°" "$cond" "$temp"
 else
-	printf "Weather N/A"
+	printf "N/A"
 fi
