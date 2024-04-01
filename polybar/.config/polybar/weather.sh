@@ -2,14 +2,13 @@
 
 . "$HOME/.dotenv"
 
-temp="N/A"
 if
 	res=$(curl -s -X GET \
 		-H "Access-Control-Allow-Headers: X-Yandex-API-Key" \
 		-H "X-Yandex-API-Key: $YW_API_KEY" \
 		"https://api.weather.yandex.ru/v2/informers?lat=$YW_LAT&lon=$YW_LONG")
 then
-	temp=$(echo "$res" | jq -r 'try input.fact.temp catch "N/A"')
+	temp=$(echo "$res" | jq -rn 'try input.fact.temp catch ""')
 	condition=$(echo "$res" | jq -rn 'try input.fact.condition catch ""')
 	case "$condition" in
 	"clear") cond="󰖙" ;;
@@ -27,4 +26,8 @@ then
 	esac
 fi
 
-printf "%s %s" "$cond" "$temp"
+if [ -n "$temp" ]; then
+	printf "%s %s°" "$cond" "$temp"
+else
+	printf "Weather N/A"
+fi
