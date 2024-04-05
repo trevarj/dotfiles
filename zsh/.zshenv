@@ -18,5 +18,5 @@ export GUILE_LOAD_PATH="/usr/local/share/guile/site/3.0${GUILE_LOAD_PATH:+:}$GUI
 . "$HOME/.cargo/env"
 
 # Ocaml
-eval $(opam env)
+# eval $(opam env)
 
