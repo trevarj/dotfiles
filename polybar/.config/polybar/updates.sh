@@ -1,0 +1,31 @@
+#!/bin/sh
+# Check for updates on Arch or Gentoo
+#
+# Gentoo expects a cron job that will drop a file in /tmp/ called `time2update`
+
+if [ -e /etc/gentoo-release ]; then
+  is_gentoo=1
+fi
+
+case "$1" in
+  run)
+    if [ -n "$is_gentoo" ]; then
+      sudo emerge --ask --deep --update @world
+    else
+      sudo pacman -Syu
+    fi
+    ;;
+  *)
+    if [ -n "$is_gentoo" ]; then
+      updates=$(emerge -DNuvp --quiet world | wc -l) 
+    else
+      updates=$(checkupdates 2>/dev/null | wc -l)
+    fi
+
+    if [ $((updates)) -gt 0 ]; then
+      echo "󰏗 $updates"
+    else
+      echo ""
+    fi
+    ;; 
+esac 
