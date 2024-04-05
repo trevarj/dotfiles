@@ -1,7 +1,5 @@
 #!/bin/sh
 # Check for updates on Arch or Gentoo
-#
-# Gentoo expects a cron job that will drop a file in /tmp/ called `time2update`
 
 if [ -e /etc/gentoo-release ]; then
   is_gentoo=1

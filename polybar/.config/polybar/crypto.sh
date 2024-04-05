@@ -7,9 +7,9 @@ if [ "$1" = "-d" ]; then
     exit;
 fi
 
-btc=$(jq -rn 'try input.bitcoin.usd catch "0"' <<< $query)
-eth=$(jq -rn 'try input.ethereum.usd catch "0"' <<< $query)
-ada=$(jq -rn 'try input.cardano.usd catch "0"' <<< $query)
-cro=$(jq -rn 'try input."crypto-com-chain".usd catch 0' <<< $query)
-printf "%%{T4} %%{T-}%.0f %%{T4} %%{T-}%.0f %%{T4} %%{T-}%.2f %%{T4} %%{T-}%.2f\n" $btc $eth $ada $cro
+btc=$(echo "$query" | jq -rn 'try input.bitcoin.usd catch "0"')
+eth=$(echo "$query" | jq -rn 'try input.ethereum.usd catch "0"')
+ada=$(echo "$query" | jq -rn 'try input.cardano.usd catch "0"')
+cro=$(echo "$query" | jq -rn 'try input."crypto-com-chain".usd catch 0')
+printf "%%{T4} %%{T-}%.0f %%{T4} %%{T-}%.0f %%{T4} %%{T-}%.2f %%{T4} %%{T-}%.2f\n" "$btc" "$eth" "$ada" "$cro"
 
