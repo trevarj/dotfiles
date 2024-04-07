@@ -1,3 +1,13 @@
+export EDITOR='nvim'
+export LANGUAGE='en_US.UTF-8'
+export LANG='en_US.UTF-8'
+export LC_TYPE='en_US.UTF-8'
+export LC_ALL='en_US.UTF-8'
+export LESSCOLORIZER='bat --color=always --style=plain,changes' # for lesspipe
+export BAT_THEME='Nord'
+GPG_TTY=$(tty)
+export GPG_TTY
+
 if [[ -z $TMUX ]]; then
   path+=("$HOME/.local/bin" "$HOME/.luarocks/bin/")
   export PATH
