@@ -101,6 +101,7 @@ source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
 source $HOME/.zsh_prompt.zsh-theme
 
 # Load and initialise completion system
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
 autoload -Uz compinit
 compinit
 
