@@ -27,6 +27,10 @@ super + @Print
 super + ctrl + @Print
   maim -q -s | tee ~/Pictures/Screenshot_$(date +%s).png | xclip -selection clipboard -t image/png
 
+# restart polybar
+super + alt + p
+  pkill polybar && polybar && disown
+
 #
 # bspwm hotkeys
 #
