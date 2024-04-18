@@ -2,6 +2,7 @@
 HISTSIZE=10000
 HISTFILE="$HOME/.zsh_history"
 HIST_STAMPS="mm/dd/yyyy"
+HISTORY_IGNORE="(ls|cd|pwd|exit|cd|cp|mv|rm|sudo poweroff|sudo reboot)"
 SAVEHIST=$HISTSIZE
 
 # Option
@@ -87,6 +88,7 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 ## Aliases
 
 alias open='xdg-open'
+alias tb='nc termbin.com 9999'
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh

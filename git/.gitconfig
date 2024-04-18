@@ -18,7 +18,8 @@
   sps = !git stash && git pull && git stash pop
 [core]
 	editor = nvim
-  pager = delta # this and below requires git delta
+  ; pager = delta # this and below requires git delta
+  pager = less # this and below requires git delta
 [interactive]
   diffFilter = delta --color-only
 [delta]
