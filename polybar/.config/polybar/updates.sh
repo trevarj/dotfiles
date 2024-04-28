@@ -3,7 +3,7 @@
 
 if [ -e /etc/gentoo-release ]; then
 	is_gentoo=1
-	emerge_update="/tmp/updates.emerge"
+	emerge_update="/var/tmp/updates.emerge"
 fi
 
 case "$1" in
