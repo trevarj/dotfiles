@@ -9,7 +9,7 @@
 # shellcheck disable=SC1090
 source ~/.config/frdr/feeds.bash
 
-FRDR_PAGER="w3m -T text/html confirm_qq=false"
+FRDR_PAGER="w3m -T text/html"
 FRDR_PREVIEWER="w3m -T text/html"
 FRDR_SHOW_HELP=true
 
