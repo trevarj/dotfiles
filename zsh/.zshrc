@@ -87,10 +87,12 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 
 ## Aliases
 
+alias sudo='sudo '
 alias open='xdg-open'
 alias tb='nc termbin.com 9999'
 # Gentoo
-alias emerge-upgrade='emerge --ask --verbose --update --deep --changed-use @world'
+alias emerge-upgrade='emerge -avDuN @world'
+alias emerge-update='emerge -avDuN'
 alias emerge-depclean='emerge --ask --depclean'
 alias emerge-sync='emaint --auto sync'
 
