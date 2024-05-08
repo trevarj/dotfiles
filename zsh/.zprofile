@@ -26,6 +26,15 @@ export GOPATH="$HOME/Workspace"
 # Ocaml
 # eval $(opam env)
 
+# Guix
+GUIX_PROFILE="$HOME/.guix-profile"
+. "$GUIX_PROFILE/etc/profile"
+
+# Start up tmux session
+if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
+    exec tmux a -d >/dev/null 2>&1
+fi
+
 # Must be last
 if [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
           exec startx
