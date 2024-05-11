@@ -142,13 +142,14 @@
                                 "/share/consolefonts/ter-132n")))
                    '("tty1" "tty2" "tty3")))
 
-    ;; Non-Guix
+    ;; Substitutes
     (services (modify-services %desktop-services)
            (guix-service-type config => (guix-configuration)
              (inherit config)
              (substitute-urls
-              (append (list "https://substitutes.nonguix.org")
-                %default-substitute-urls))
+              (list "https://substitutes.nonguix.org"
+                    "https://ci.guix.trop.in"))
+
              (authorized-keys
                (append (list (plain-file "nonguix.pub"
                                          "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
