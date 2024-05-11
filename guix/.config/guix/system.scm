@@ -69,6 +69,11 @@
                          (type "vfat")))
                  %base-file-systems))
 
+  ;; Swap partition
+  (swap-devices
+   (list (swap-space
+          (target (uuid "1234-ABCD")))))
+
   (users (cons (user-account
                 (name "trev")
                 (comment "Trevor Arjeski")
