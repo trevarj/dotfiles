@@ -19,6 +19,7 @@
                      cups
                      file-systems
                      fonts
+                     gnome-xyz
                      image-viewers
                      package-management
                      shells
@@ -96,7 +97,7 @@
                      netcat stow xclip xsetroot
                      ;; fonts
                      font-google-noto font-google-noto-emoji
-                     font-terminus
+                     font-terminus bibata-cursor-theme
                      ;; printer
                      epson-inkjet-printer-escpr
                      ;; for HTTPS access
