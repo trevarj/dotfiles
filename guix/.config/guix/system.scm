@@ -54,7 +54,7 @@
 
   ;; non-free firmware
   (initrd microcode-initrd)
-  (firmware %base-firmware)
+  (firmware (list linux-firmware))
 
   ;; Assume the target root file system is labelled "my-root",
   ;; and the EFI System Partition has UUID 1234-ABCD.
