@@ -100,10 +100,10 @@ alias emerge-sync='emaint --auto sync'
 source $HOME/.zsh_eza.zsh
 
 # Autosuggetions (ghost text)
-source /usr/share/zsh/site-functions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Syntax highlighting on command line
-source /usr/share/zsh/site-functions/zsh-syntax-highlighting.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
@@ -120,4 +120,4 @@ bindkey '\C-x\C-e' edit-command-line
 
 # Ffz-tab completion
 # must come after compinit
-source /usr/share/zsh/site-functions/fzf-tab.zsh
+source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
