@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 cmd="-R"
 if [ "$1" = "-d" ]; then
