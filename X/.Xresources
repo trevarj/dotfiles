@@ -1,6 +1,8 @@
 
 ! HiDPI
 Xft.dpi: 138
+xterm*faceName: Iosevka JBM
+xterm*faceSize: 16
 
 !Xft.autohint: 0
 !Xft.lcdfilter: lcddefault
