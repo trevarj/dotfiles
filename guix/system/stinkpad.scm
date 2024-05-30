@@ -44,6 +44,8 @@
 
   ;; Non-free Linux and firmware
   (kernel linux)
+  (kernel-arguments (cons* "modprobe.blacklist=pcspkr"
+                           %default-kernel-arguments))
   (firmware (list linux-firmware))
   (initrd microcode-initrd)
 
@@ -127,7 +129,7 @@
               ;; Use a larger font for HIDPI screens
               (cons tty (file-append
                          font-terminus
-                         "/share/consolefonts/ter-128n")))
+                         "/share/consolefonts/ter-72n")))
             '("tty1" "tty2" "tty3")))
 
      (service greetd-service-type
@@ -156,8 +158,10 @@
                      guix-service-type
                      (guix-extension
                       (substitute-urls
-                       (list "https://substitutes.nonguix.org"
-                             "https://ci.guix.trop.in"))
+                       (list 
+                        "https://ci.guix.trop.in"
+                        "https://bordeaux.guix.gnu.org"
+                        "https://substitutes.nonguix.org"))
                       (authorized-keys
                        (append (list (plain-file "nonguix.pub"
                                                  "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
@@ -171,7 +175,6 @@
               (network-manager-configuration))
 
      (service wpa-supplicant-service-type) ;; Needed by NetworkManager
-     (service modem-manager-service-type)  ;; For cellular modems
      (service bluetooth-service-type
               (bluetooth-configuration
                (auto-enable? #t)))
@@ -198,7 +201,7 @@
      (service openssh-service-type
               (openssh-configuration
                (openssh openssh-sans-x)
-               (port-number 2222)))
+               (port-number 22)))
 
      ;; Enable printing and scanning
      (service sane-service-type)
@@ -221,7 +224,3 @@
      ;; Add udev rules for a few packages
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
      (udev-rules-service 'brightnessctl-udev-rules brightnessctl)))))
-
-                  
- 
- 
