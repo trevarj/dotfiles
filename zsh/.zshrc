@@ -97,7 +97,7 @@ alias emerge-depclean='emerge --ask --depclean'
 alias emerge-sync='emaint --auto sync'
 
 ## eza instead of ls
-source $HOME/.zsh_eza.zsh
+# source $HOME/.zsh_eza.zsh
 
 # Autosuggetions (ghost text)
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
