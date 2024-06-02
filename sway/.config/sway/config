@@ -73,6 +73,8 @@ input type:keyboard {
     # Start a terminal
     bindsym $mod+Return exec $term
 
+    bindsym $mod+c exec flatpak run org.mozilla.firefox
+
     # Kill focused window
     bindsym $mod+w kill
 
