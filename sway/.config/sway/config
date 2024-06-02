@@ -231,7 +231,7 @@ gaps outer 0
 gaps inner 8
 
 # Font
-font pango: Iosevka JBM 10
+font pango: Iosevka JBM Bold 11
 
 # Colors
 # Nord
@@ -265,11 +265,14 @@ client.urgent $aurora_11 $polar_night0 $aurora_13 $aurora_14 $aurora_11
 # Read `man 5 sway-bar` for more information about this section.
 bar {
     position top
-    font pango: Terminus 12
+    font pango: Iosevka JBM Bold 12
     # When the status_command prints a new line to stdout, swaybar updates.
     # The default just shows the current date and time.
     status_command while date +'%a %b %e %Y  %l:%M %p'; do sleep 60; done
 
+    tray_bindsym button1 Activate
+    tray_bindsym button2 ContextMenu
+    
     colors {
         statusline $aurora_13
         background $polar_night0
