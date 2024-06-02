@@ -285,12 +285,14 @@ include /gnu/store/bisqn01njx1l3rr2wimrhsrcr7xxhaah-sway-1.9/etc/sway/config.d/*
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # Startup Applications
-exec gammastep-indicator -l 55.7558:37.6173 -t 6500:3500
+exec gammastep -l 55.7558:37.6173 -t 6500:3500
 
 workspace 1
 exec flatpak run org.mozilla.firefox
 
 workspace 2
+exec emacs
+
 workspace 3
 exec kitty --hold weechat &
 workspace 4
