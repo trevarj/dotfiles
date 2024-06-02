@@ -56,7 +56,7 @@ caps-lock-bs-hl-color=d08770ff
 caps-lock-key-hl-color=ebcb8bff
 
 # Sets the font of the text
-font=Iosevka JBM Bold
+font=Iosevka JBM
 
 # FUTURE RELEASE
 # Sets a fixed font size for the indicator text
