@@ -11,7 +11,7 @@
 [commit]
 	gpgSign = true
 [gpg]
-	program = gpg2
+	program = gpg
 [alias]
   cleanup = !git branch | egrep -v '(master|main|dev)' | xargs git branch -D
   cm = commit -m

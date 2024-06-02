@@ -28,14 +28,14 @@ selected=$(
 		-m 1 \
 		'^\[Desktop Entry\](?:\s|.)*?^Name=(.*)\n(?:\s|.)*?^Exec=.*' \
 		-or '$1' \
-		-g '*.desktop' '/usr' '/opt' \
+		-g '*.desktop' '/usr' '/opt' '/gnu/store' \
 		2>/dev/null | sort -t: -k2 -u |
 		fzf --layout=reverse \
 			--preview="" \
 			--no-multi \
 			--prompt="Run: " \
 			--header="Applications" \
-			--info="inline-right" \
+			--info="inline" \
 			--pointer="" \
 			--color="gutter:-1" \
 			--keep-right \
