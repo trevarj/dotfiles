@@ -99,6 +99,9 @@ alias tb='nc termbin.com 9999'
 ## eza instead of ls
 # source $HOME/.zsh_eza.zsh
 
+# For use within a guix shell
+GUIX_PROFILE=${GUIX_ENVIRONMENT:=GUIX_PROFILE}
+
 # Autosuggetions (ghost text)
 source $GUIX_PROFILE/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
@@ -123,4 +126,4 @@ bindkey '\C-x\C-e' edit-command-line
 
 # Ffz-tab completion
 # must come after compinit
-source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
+source $GUIX_PROFILE/share/zsh/plugins/fzf-tab/fzf-tab.zsh
