@@ -100,7 +100,9 @@ alias tb='nc termbin.com 9999'
 # source $HOME/.zsh_eza.zsh
 
 # For use within a guix shell
-GUIX_PROFILE=${GUIX_ENVIRONMENT:=GUIX_PROFILE}
+if [ -n "$GUIX_ENVIRONMENT" ]; then
+    GUIX_PROFILE=$GUIX_ENVIRONMENT
+fi
 
 # Autosuggetions (ghost text)
 source $GUIX_PROFILE/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh

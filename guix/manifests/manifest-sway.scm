@@ -5,7 +5,9 @@
 ;; See the "Replicating Guix" section in the manual.
 
 (specifications->manifest
-  (list "pinentry-tty"
+  (list "weechat"
+        "msmtp"
+        "pinentry-tty"
         "flatpak-xdg-utils"
         "wireplumber"
         "emacs-pgtk"
@@ -16,7 +18,6 @@
         "gammastep"
         "pavucontrol"
         "dbus"
-        "weechat"
         "flatpak"
         "libtool"
         "libvterm"
