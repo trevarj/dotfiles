@@ -110,6 +110,8 @@
                    git
                    sway
                    swaylock
+                   swaybg
+                   swayidle
                    zsh
                    %base-packages))
 
