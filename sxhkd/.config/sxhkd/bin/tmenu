@@ -28,7 +28,7 @@ selected=$(
 		-m 1 \
 		'^\[Desktop Entry\](?:\s|.)*?^Name=(.*)\n(?:\s|.)*?^Exec=.*' \
 		-or '$1' \
-		-g '*.desktop' '/usr' '/opt' '/gnu/store' \
+		-g '*.desktop' '/usr' '/opt' \
 		2>/dev/null | sort -t: -k2 -u |
 		fzf --layout=reverse \
 			--preview="" \

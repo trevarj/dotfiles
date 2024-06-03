@@ -5,7 +5,13 @@
 ;; See the "Replicating Guix" section in the manual.
 
 (specifications->manifest
-  (list "weechat"
+  (list "hicolor-icon-theme"
+        "fuzzel"
+        "neofetch"
+        "telegram-desktop"
+        "git:send-email"
+        "fzf-tab"
+        "weechat"
         "msmtp"
         "pinentry-tty"
         "flatpak-xdg-utils"
