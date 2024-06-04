@@ -34,8 +34,8 @@ output * bg `find $wallpapers -type f | shuf -n 1` fill
 # Example configuration:
 #
 exec swayidle -w \
-         timeout 1000 'swaylock -f' \
-         timeout 1010 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
+         timeout 800 'swaylock -f' \
+         timeout 810 'swaymsg "output * power off"' resume 'swaymsg "output * power on"' \
          before-sleep 'swaylock -f'
 
 # This will lock your screen after 1000 seconds of inactivity, then turn off
