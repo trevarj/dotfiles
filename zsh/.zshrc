@@ -129,3 +129,6 @@ bindkey '\C-x\C-e' edit-command-line
 # Ffz-tab completion
 # must come after compinit
 source $GUIX_PROFILE/share/zsh/plugins/fzf-tab/fzf-tab.zsh
+
+# Dir env
+eval "$(direnv hook zsh)"
