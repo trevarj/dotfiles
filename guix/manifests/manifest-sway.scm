@@ -5,7 +5,8 @@
 ;; See the "Replicating Guix" section in the manual.
 
 (specifications->manifest
-  (list "hicolor-icon-theme"
+  (list "git"
+        "hicolor-icon-theme"
         "fuzzel"
         "neofetch"
         "telegram-desktop"
