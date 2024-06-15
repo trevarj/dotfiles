@@ -102,6 +102,8 @@ alias tb='nc termbin.com 9999'
 # For use within a guix shell
 if [ -n "$GUIX_ENVIRONMENT" ]; then
     GUIX_PROFILE=$GUIX_ENVIRONMENT
+else
+    GUIX_PROFILE=$HOME/.guix-profile
 fi
 
 # Autosuggetions (ghost text)
