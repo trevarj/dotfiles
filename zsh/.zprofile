@@ -1,9 +1,3 @@
-# Set up Guix Home profile
-if [ -f ~/.profile ]; then . ~/.profile; fi
-
-# Honor per-interactive-shell startup file
-if [ -f ~/.zshrc ]; then . ~/.zshrc; fi
-
 # Merge search-paths from multiple profiles, the order matters.
 eval "$(guix package --search-paths \
 -p $HOME/.config/guix/current \
