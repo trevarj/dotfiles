@@ -72,10 +72,14 @@
              (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
              (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
    (simple-service 'additional-fonts-service
-                home-fontconfig-service-type
-                (list "~/Workspace/dotfiles/fonts/.local/share/fonts"
-                      '(alias
-                        (family "monospace")
-                        (prefer
-                         (family "Iosevka JBM")
-                         (family "Symbols Nerd Font Mono"))))))))
+                   home-fontconfig-service-type
+                   (list "~/Workspace/dotfiles/fonts/.local/share/fonts"
+                         (let ((prefer '(prefer
+                                         (family "Iosevka JBM")
+                                         (family "Symbols Nerd Font Mono"))))
+                            `((alias (@ (binding "strong"))
+                                     (family "monospace")
+                                     ,prefer)
+                              (alias (@ (binding "strong"))
+                                     (family "system-ui")
+                                     ,prefer))))))))
