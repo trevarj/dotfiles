@@ -158,7 +158,10 @@
                  ;; TTY1 is the graphical login screen for Sway
                  (greetd-terminal-configuration
                   (terminal-vt "1")
-                  (terminal-switch #t))
+                  (terminal-switch #t)
+                  ;; Use zsh as default shell
+                  (default-session-command
+                    (greetd-agreety-session (command (file-append zsh "/bin/zsh")))))
                  ;; Set up remaining TTYs for terminal use
                  (greetd-terminal-configuration (terminal-vt "2"))
                  (greetd-terminal-configuration (terminal-vt "3"))))))
