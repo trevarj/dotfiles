@@ -213,10 +213,13 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
 
 # Volume
 set $micmuteled /sys/class/leds/platform::micmute/brightness
-bindsym --locked XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
-bindsym --locked XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
-bindsym --locked XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
-bindsym --locked XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && \
+bindsym --locked  XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
+bindsym --release XF86AudioMute exec pkill -SIGRTMIN+2 -f -n gubar.scm
+bindsym --locked  XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
+bindsym --release XF86AudioLowerVolume exec pkill -SIGRTMIN+2 -f -n gubar.scm
+bindsym --locked  XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
+bindsym --release XF86AudioRaiseVolume exec pkill -SIGRTMIN+2 -f -n gubar.scm
+bindsym --locked  XF86AudioMicMute exec pactl set-source-mute @DEFAULT_SOURCE@ toggle && \
                                        echo $(pactl get-source-mute @DEFAULT_SOURCE@ | \
                                               grep -q no && echo 0 || echo 1) >> $micmuteled
 
@@ -268,12 +271,14 @@ client.urgent $aurora_11 $polar_night0 $aurora_13 $aurora_14 $aurora_11
 bar {
     position top
     font pango: Iosevka JBM Bold 12
-    # When the status_command prints a new line to stdout, swaybar updates.
-    # The default just shows the current date and time.
-    status_command while date +'%a %b %e %Y  %l:%M %p'; do sleep 60; done
+
+    # status_command ~/.config/sway/bar.sh
+    # status_command tee -a stdin.txt | ~/.config/sway/gubar.sh | tee -a log.txt
+    status_command ~/.config/sway/gubar.sh
 
     tray_bindsym button1 Activate
     tray_bindsym button2 ContextMenu
+    icon_theme "~/.guix-profile/share/icons/Papirus-Dark"
     
     colors {
         statusline $aurora_13
@@ -290,7 +295,7 @@ include /gnu/store/bisqn01njx1l3rr2wimrhsrcr7xxhaah-sway-1.9/etc/sway/config.d/*
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
 # Startup Applications
-exec gammastep -l 55.7558:37.6173 -t 6500:3500
+exec gammastep -l 55.7558:37.6173 -t 6500:3200
 
 workspace 1
 exec flatpak run org.mozilla.firefox
