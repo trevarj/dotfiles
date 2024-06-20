@@ -18,8 +18,11 @@
  ;; Home profile, under ~/.guix-home/profile.
  (packages
   (specifications->packages
-   (list "pipewire"
+   (list "papirus-icon-theme"
+         "xdg-desktop-portal-gtk"
+         "xdg-dbus-proxy"
          "xdg-desktop-portal"
+         "pipewire"
          "xdg-desktop-portal-wlr"
          "git"
          "fuzzel"
@@ -52,9 +55,7 @@
          "stow"
          "font-google-noto-emoji"
          "direnv"
-         "hicolor-icon-theme"
          ;; "fzf-tab"
-         "libvterm"
          "zsh-autopair"
          "zsh-syntax-highlighting"
          "zsh-autosuggestions"
