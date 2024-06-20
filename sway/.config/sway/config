@@ -79,7 +79,8 @@ input type:keyboard {
     bindsym $mod+space exec fuzzel -f "Iosevka JBM" -l 6 -b 2e3440ff \
                                    -m a3be8cff -t 8fbcbbff -s 4c566aff \
                                    -S d8dee9ff -M a3be8cff -C ebcb8bff \
-                                   -B 2 -r 0 -y 12 -P 6
+                                   -B 2 -r 0 -y 12 -P 6 \
+                                   --icon-theme="Papirus-Dark"
                  
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -208,8 +209,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 # Brightness
-bindsym --locked XF86MonBrightnessDown exec brightnessctl set 10%-
-bindsym --locked XF86MonBrightnessUp exec brightnessctl set 10%+
+bindsym --locked XF86MonBrightnessDown exec brightnessctl set 5%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl set 5%+
 
 # Volume
 set $micmuteled /sys/class/leds/platform::micmute/brightness
@@ -278,7 +279,7 @@ bar {
 
     tray_bindsym button1 Activate
     tray_bindsym button2 ContextMenu
-    icon_theme "~/.guix-profile/share/icons/Papirus-Dark"
+    icon_theme "Papirus-Dark"
     
     colors {
         statusline $aurora_13
