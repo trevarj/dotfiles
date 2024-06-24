@@ -292,6 +292,9 @@ bar {
 
 include /gnu/store/bisqn01njx1l3rr2wimrhsrcr7xxhaah-sway-1.9/etc/sway/config.d/*
 
+# Brightness set
+exec brightnessctl set 25%
+
 # Flatpak stuff
 exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 
