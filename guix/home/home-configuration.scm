@@ -54,6 +54,7 @@
          "curl"
          "stow"
          "font-google-noto-emoji"
+         "font-google-noto"
          "direnv"
          ;; "fzf-tab"
          "zsh-autopair"
@@ -85,4 +86,7 @@
                                      ,prefer)
                               (alias (@ (binding "strong"))
                                      (family "system-ui")
-                                     ,prefer))))))))
+                                     ,prefer)
+                              (alias (@ (binding "strong"))
+                                     (family "sans-serif")
+                                     (family "Noto Sans")))))))))
