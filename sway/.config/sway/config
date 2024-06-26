@@ -54,7 +54,6 @@ input "1267:12693:ELAN0676:00_04F3:3195_Touchpad" {
 
 input type:keyboard {
     xkb_layout us,ru
-    xkb_options grp:ctrls_toggle
 }
 
 # You can get the names of your inputs by running: swaymsg -t get_inputs
@@ -72,16 +71,18 @@ input type:keyboard {
     # Kill focused window
     bindsym $mod+w kill
 
-    # Exit sway
-    bindsym $mod+shift+x exit
-
     # Start your launcher
     bindsym $mod+space exec fuzzel -f "Iosevka JBM" -l 6 -b 2e3440ff \
                                    -m a3be8cff -t 8fbcbbff -s 4c566aff \
                                    -S d8dee9ff -M a3be8cff -C ebcb8bff \
                                    -B 2 -r 0 -y 12 -P 6 \
                                    --icon-theme="Papirus-Dark"
-                 
+
+    # Switch layout
+    bindsym --release $mod+Control_R exec swaymsg input type:keyboard \
+                                          xkb_switch_layout next && \
+                                          pkill -SIGRTMIN+3 -f -n gubar.scm
+
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
     # Despite the name, also works for non-floating windows.
@@ -93,7 +94,7 @@ input type:keyboard {
     bindsym $mod+Shift+c reload
 
     # Exit sway (logs you out of your Wayland session)
-    bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
+    bindsym $mod+Shift+x exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -B 'Yes, exit sway' 'swaymsg exit'
 #
 # Moving around:
 #
