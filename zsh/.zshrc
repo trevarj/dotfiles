@@ -121,3 +121,5 @@ bindkey '\C-x\C-e' edit-command-line
 # Ffz-tab completion
 # must come after compinit
 source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
+
+eval "$(direnv hook zsh)"
