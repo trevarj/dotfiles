@@ -21,29 +21,23 @@
 # bspc rule -a kitty:tmenu state=floating
 #
 
-selected=$(
-	rg --multiline \
-		--no-heading \
-		--no-line-number \
-		-m 1 \
-		'^\[Desktop Entry\](?:\s|.)*?^Name=(.*)\n(?:\s|.)*?^Exec=.*' \
-		-or '$1' \
-		-g '*.desktop' '/usr' '/opt' \
-		2>/dev/null | sort -t: -k2 -u |
-		fzf --layout=reverse \
-			--preview="" \
-			--no-multi \
-			--prompt="Run: " \
-			--header="Applications" \
-			--info="inline-right" \
-			--pointer="" \
-			--color="gutter:-1" \
-			--keep-right \
-			--delimiter ':' \
-			--with-nth=2 \
-			--bind="enter:execute(echo {1})+close"
-)
-
-if [ -n "$selected" ]; then
-	setsid gio launch "$selected" </dev/null &>/dev/null
-fi
+rg --multiline \
+  --no-heading \
+  --no-line-number \
+  -m 1 \
+  '^\[Desktop Entry\](?:\s|.)*?^Name=(.*)\n(?:\s|.)*?^Exec=.*' \
+  -or '$1' \
+  -g '*.desktop' '/usr' '/opt' \
+  2>/dev/null | sort -t: -k2 -u |
+  fzf --layout=reverse \
+    --preview="" \
+    --no-multi \
+    --prompt="Run: " \
+    --header="Applications" \
+    --info="inline-right" \
+    --pointer="" \
+    --color="gutter:-1" \
+    --keep-right \
+    --delimiter ':' \
+    --with-nth=2 \
+    --bind="enter:execute-silent(setsid gio launch {1} &)+close"
