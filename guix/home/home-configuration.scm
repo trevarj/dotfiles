@@ -70,8 +70,6 @@
    (service home-pipewire-service-type)
    (service home-zsh-service-type
             (home-zsh-configuration
-             (environment-variables
-              '(("XDG_DATA_DIRS" . "$XDG_DATA_DIRS:$HOME/.local/share/flatpak/exports/share")))
              (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
              (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
              (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
@@ -89,4 +87,4 @@
                                      ,prefer)
                               (alias (@ (binding "strong"))
                                      (family "sans-serif")
-                                     (family "Noto Sans")))))))))
+                                     (prefer (family "Noto Sans"))))))))))
