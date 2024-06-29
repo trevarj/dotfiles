@@ -25,7 +25,6 @@
     "emacs-pgtk"
     "fd"
     "flatpak"
-    "flatpak-xdg-utils"
     "font-google-noto"
     "font-google-noto-emoji"
     "font-terminus"
