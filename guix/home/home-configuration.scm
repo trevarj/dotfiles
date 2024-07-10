@@ -30,6 +30,7 @@
     "font-terminus"
     "fuzzel"
     "fzf"
+    "fzf-tab"
     "gammastep"
     "git"
     "git:send-email"
