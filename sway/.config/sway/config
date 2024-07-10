@@ -232,6 +232,7 @@ bindsym $mod+print exec grimshot --notify savecopy area
 # Borders and gaps
 default_border pixel 2
 titlebar_border_thickness 2
+titlebar_padding 6 4
 smart_borders off
 hide_edge_borders --i3 none
 gaps outer 0
@@ -260,11 +261,11 @@ set $aurora_13 #ebcb8b
 set $aurora_14 #a3be8c
 set $aurora_15 #b48ead
 
-client.focused $aurora_13 $polar_night2 $aurora_13 $aurora_14 $aurora_13
-client.focused_inactive $polar_night2 $polar_night0 $aurora_13 $aurora_14
-client.focused_tab_title $aurora_13 $polar_night3 $aurora_13 $aurora_14
-client.unfocused $aurora_13 $polar_night0 $aurora_13 $aurora_14 $polar_night2
-client.urgent $aurora_11 $polar_night0 $aurora_13 $aurora_14 $aurora_11
+client.focused           $polar_night0 $polar_night0 $aurora_13    $aurora_14
+client.focused_inactive  $polar_night0 $polar_night0 $aurora_13    $aurora_14
+client.focused_tab_title $polar_night0 $polar_night0 $aurora_13    $aurora_14
+client.unfocused         $polar_night0 $polar_night0 $polar_night4 $aurora_14
+client.urgent            $aurora_11    $polar_night0 $aurora_13    $aurora_14
 
 #
 # Status Bar:
