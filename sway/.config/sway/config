@@ -311,5 +311,6 @@ exec emacs
 
 workspace 3
 exec kitty --hold weechat &
+
 workspace 4
-exec flatpak run org.telegram.desktop
+exec telegram-desktop
