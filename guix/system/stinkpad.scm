@@ -115,6 +115,8 @@
                    zsh
                    %base-packages))
 
+  (setuid-programs %setuid-programs)
+
   ;; Configure only the services necessary to run the system
   (services
    (append

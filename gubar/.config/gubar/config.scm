@@ -7,9 +7,10 @@
              (gubar blocks xkb-layout)
              (gubar swaybar-protocol))
 
-(list (date-time #:interval 60 #:format "%a %b %d %Y %-I:%M %p")
-      (network-manager-wifi)
-      (volume-pipewire)
-      (xkb-layout #:alias-pairs '((0 . "en") (1 . "ru")))
-      (battery #:nerd-icons #t)
-      (label "trev"))
+(list
+ (date-time #:interval 60 #:format "%a %b %d %Y %-I:%M %p")
+ (network-manager-wifi)
+ (volume-pipewire)
+ (xkb-layout #:alias-pairs '((0 . "en") (1 . "ru")))
+ (battery #:nerd-icons #t)
+ (label "trev"))
