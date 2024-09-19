@@ -1,7 +1,6 @@
 #! /bin/sh
 
 pgrep -x sxhkd >/dev/null || sxhkd &
-# pgrep -x picom > /dev/null || picom &
 pgrep -x feh >/dev/null || feh --bg-fill --randomize ~/Pictures/Wallpapers &
 pgrep -x redshift >/dev/null || redshift &
 pgrep -x firefox >/dev/null || firefox &
@@ -9,7 +8,8 @@ pgrep -x telegram-desktop >/dev/null || telegram-desktop &
 pgrep -x panel >/dev/null || panel &
 pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
-pgrep -x kitty >/dev/null || kitty --hold weechat &
+pgrep -x emacs >/dev/null || emacs &
+# pgrep -x kitty >/dev/null || kitty --hold weechat &
 # pgrep -x st >/dev/null || st -e tmux &
 
 xsetroot -cursor_name left_ptr &
@@ -39,6 +39,6 @@ bspc rule -a TelegramDesktop:* desktop='^4'
 bspc rule -a *:discord desktop='^4'
 bspc rule -a kitty desktop='^3' follow=off --one-shot
 bspc rule -a *:st desktop='^3' follow=off --one-shot # st
-bspc rule -a Emacs state=tiled
+bspc rule -a Emacs desktop='^3' follow=off --one-shot state=tiled
 bspc rule -a kitty:tmenu state=floating locked=on center=true rectangle=1280x480+0+0
 bspc rule -a kitty:cal state=floating locked=on rectangle=390x424+1238+38
