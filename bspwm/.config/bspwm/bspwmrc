@@ -6,6 +6,7 @@ pgrep -x redshift >/dev/null || redshift &
 pgrep -x firefox >/dev/null || firefox &
 pgrep -x telegram-desktop >/dev/null || telegram-desktop &
 pgrep -x panel >/dev/null || panel &
+pgrep -x dunst >/dev/null || dunst &
 pgrep -x polybar >/dev/null || polybar mybar &
 pgrep -x discord >/dev/null || discord &
 pgrep -x emacs >/dev/null || emacs &
