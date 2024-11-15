@@ -12,7 +12,7 @@ super + b
 
 # program launcher
 super + @space
-  kitty --name tmenu -e ~/.config/sxhkd/bin/tmenu
+  kitty --name tmenu ~/.config/sxhkd/bin/tmenu
   # rofi -show drun
 
 # make sxhkd reload its configuration files:
