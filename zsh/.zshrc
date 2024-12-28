@@ -90,11 +90,6 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 alias sudo='sudo '
 alias open='xdg-open'
 alias tb='nc termbin.com 9999'
-# Gentoo
-alias emerge-upgrade='emerge -avDuN @world'
-alias emerge-update='emerge -avDuN'
-alias emerge-depclean='emerge --ask --depclean'
-alias emerge-sync='emaint --auto sync'
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
@@ -121,5 +116,8 @@ bindkey '\C-x\C-e' edit-command-line
 # Ffz-tab completion
 # must come after compinit
 source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
+
+[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
+  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
 
 eval "$(direnv hook zsh)"
