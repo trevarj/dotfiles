@@ -90,6 +90,7 @@ bindkey ' ' magic-space                               # [Space] - don't do histo
 alias sudo='sudo '
 alias open='xdg-open'
 alias tb='nc termbin.com 9999'
+alias et='emacs -nw'
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
