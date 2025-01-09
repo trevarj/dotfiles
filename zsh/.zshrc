@@ -1,3 +1,5 @@
+[[ $TERM == "dumb" ]] && unsetopt zle && PS1='$ ' && return
+
 # History
 HISTSIZE=10000
 HISTFILE="$HOME/.zsh_history"
@@ -117,8 +119,5 @@ bindkey '\C-x\C-e' edit-command-line
 # Ffz-tab completion
 # must come after compinit
 source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
-
-[ -n "$EAT_SHELL_INTEGRATION_DIR" ] && \
-  source "$EAT_SHELL_INTEGRATION_DIR/zsh"
 
 eval "$(direnv hook zsh)"
