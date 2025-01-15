@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+echo "Enabling Flathub"
+flatpak remote-delete flathub --force
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+
+if command -v dnf >/dev/null || command -v rpm-ostree >/dev/null; then
+  echo "Clearing previously installed flatpaks..."
+  flatpak remote-delete fedora --force
+  flatpak remote-delete fedora-testing --force
+  flatpak remove --system --noninteractive --all
+fi
+
+declare -a flatpaks
+flatpaks=(
+  com.github.tchx84.Flatseal
+  com.mattjakeman.ExtensionManager
+  org.freedesktop.Platform
+  org.freedesktop.Platform.GL.default
+  org.freedesktop.Platform.ffmpeg-full
+  org.freedesktop.Platform.openh264
+  org.gnome.Boxes
+  org.gnome.Boxes.Extension.OsinfoDb
+  org.gnome.Calculator
+  org.gnome.Calendar
+  org.gnome.Characters
+  org.gnome.Contacts
+  org.gnome.Loupe
+  org.gnome.Loupe.HEIC
+  org.gnome.Maps
+  org.gnome.NautilusPreviewer
+  org.gnome.Papers
+  org.gnome.Platform
+  org.gnome.Showtime
+  org.gnome.Snapshot
+  org.gnome.TextEditor
+  org.gnome.Weather
+  org.gnome.clocks
+  org.gnome.font-viewer
+  org.gtk.Gtk3theme.adw-gtk3
+  org.gtk.Gtk3theme.adw-gtk3-dark
+  io.mpv.Mpv
+  org.mozilla.firefox
+)
+
+echo "Installing flatpaks..."
+for flatpak in "${flatpaks[@]}"; do
+  flatpak install --noninteractive flathub "$flatpak"
+done
