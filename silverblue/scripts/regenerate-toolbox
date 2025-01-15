@@ -1,0 +1,8 @@
+#!/bin/sh
+
+FEDORA_VERSION=$(rpm -E %fedora)
+
+podman container rm fedora-toolbox-"$FEDORA_VERSION" --force
+podman image rm localhost/nate-toolbox:latest
+podman build -f ~/Workspace/dotfiles/silverblue/containers/Containerfile_fedora --build-arg FEDORA_VERSION="$FEDORA_VERSION" -t nate-toolbox
+toolbox create -i localhost/nate-toolbox:latest fedora-toolbox-"$FEDORA_VERSION"
