@@ -2,3 +2,7 @@
 
 # dconf dump / > dconf-settings.ini
 dconf load / <"../dconf-settings.ini"
+
+# link adw-gtk3 to flatpak
+ln -s /var/lib/flatpak/runtime/org.gtk.Gtk3theme.adw-gtk3/x86_64/3.22/active/files/ ~/.local/share/themes/adw-gtk3
+ln -s /var/lib/flatpak/runtime/org.gtk.Gtk3theme.adw-gtk3-dark/x86_64/3.22/active/files/ ~/.local/share/themes/adw-gtk3-dark
