@@ -95,7 +95,7 @@ alias tb='nc termbin.com 9999'
 alias et='emacs -nw'
 
 ## eza instead of ls
-source $HOME/.zsh_eza.zsh
+source ~/.zsh_eza.zsh
 
 # Autosuggetions (ghost text)
 source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -118,7 +118,7 @@ bindkey '\C-x\C-e' edit-command-line
 
 # Ffz-tab completion
 # must come after compinit
-rc_path=$(realpath "${HOME}/.zshrc")
+rc_path=$(realpath ~/.zshrc)
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
 source "$(dirname $rc_path)/../fzf-tab/fzf-tab.plugin.zsh"
 
