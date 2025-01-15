@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "Enabling automatic updates..."
+sudo sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf
+sudo systemctl enable rpm-ostreed-automatic.timer
+rpm-ostree cleanup -m
+
+### Setup tools
+echo "Installing tools..."
+rpm-ostree override remove firefox firefox-langpacks
+rpm-ostree install direnv eza fd-find fzf gnome-tweaks kitty mg ripgrep stow zsh zsh-autosuggestions zsh-syntax-highlighting
