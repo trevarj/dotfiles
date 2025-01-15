@@ -45,6 +45,7 @@ RUN mkdir ~/.local/share/fonts && ln -s /usr/share/fonts/* ~/.local/share/fonts/
 
 # Export GUI programs
 RUN cp /usr/share/applications/emacs.desktop ~/.local/share/applications && \
+    sed 's/^\(Exec=\)\(.*\)$/\1toolbox run \2/' && \
     rsync -a /usr/share/icons ~/.local/share/icons
     
 # Minor cleanup
