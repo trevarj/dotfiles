@@ -41,6 +41,7 @@ flatpaks=(
   org.gtk.Gtk3theme.adw-gtk3-dark
   io.mpv.Mpv
   org.mozilla.firefox
+  io.github.realmazharhussain.GdmSettings
 )
 
 echo "Installing flatpaks..."
