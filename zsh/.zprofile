@@ -28,8 +28,10 @@ export GOPATH="$HOME/Workspace"
 # eval $(opam env)
 
 # Guix
-GUIX_PROFILE="$HOME/.config/guix/current"
-. "$GUIX_PROFILE/etc/profile"
+if command -v "guix" > /dev/null; then
+  GUIX_PROFILE="$HOME/.config/guix/current"
+  . "$GUIX_PROFILE/etc/profile"
+fi
 
 # Start up tmux session
 if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then

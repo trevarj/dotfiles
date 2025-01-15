@@ -98,10 +98,10 @@ alias et='emacs -nw'
 source $HOME/.zsh_eza.zsh
 
 # Autosuggetions (ghost text)
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Syntax highlighting on command line
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share{,/zsh/plugins}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
@@ -118,6 +118,8 @@ bindkey '\C-x\C-e' edit-command-line
 
 # Ffz-tab completion
 # must come after compinit
-source /usr/share/zsh/plugins/fzf-tab-git/fzf-tab.zsh
+rc_path=$(realpath "${HOME}/.zshrc")
+zstyle ':fzf-tab:*' use-fzf-default-opts yes
+source "$(dirname $rc_path)/../fzf-tab/fzf-tab.plugin.zsh"
 
 eval "$(direnv hook zsh)"
