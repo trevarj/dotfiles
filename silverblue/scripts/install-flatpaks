@@ -42,6 +42,7 @@ flatpaks=(
   io.mpv.Mpv
   org.mozilla.firefox
   io.github.realmazharhussain.GdmSettings
+  org.telegram.desktop
 )
 
 echo "Installing flatpaks..."
