@@ -1,0 +1,3 @@
+#!/bin/sh
+
+flatpak-spawn --host flatpak run org.mozilla.firefox "$1"
