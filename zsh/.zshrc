@@ -98,10 +98,10 @@ alias et='emacs -nw'
 source ~/.zsh_eza.zsh
 
 # Autosuggetions (ghost text)
-source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)
 
 # Syntax highlighting on command line
-source /usr/share{,/zsh/plugins}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share{,/zsh/plugins}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N)
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
