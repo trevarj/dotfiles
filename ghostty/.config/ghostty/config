@@ -1,0 +1,20 @@
+font-family = "Iosevka JBM"
+font-size = 16
+
+theme = nord
+
+cursor-style = block
+shell-integration-features = no-cursor
+
+mouse-hide-while-typing = true
+
+scrollback-limit = 100000
+
+window-padding-x = 10
+window-padding-y = 10
+window-padding-balance = true
+window-decoration = false
+
+clipboard-paste-protection = true
+clipboard-read = ask
+clipboard-write = allow
