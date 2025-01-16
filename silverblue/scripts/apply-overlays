@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+FEDORA_VERSION=$(rpm -E %fedora)
+
+# COPRs
+echo "Adding COPRs..."
+sudo wget https://copr.fedorainfracloud.org/coprs/pgdev/ghostty/repo/fedora-"$FEDORA_VERSION"/pgdev-ghostty-fedora-"$FEDORA_VERSION".repo -O /etc/yum.repos.d/_copr:pgdev:ghostty.repo
+
 echo "Enabling automatic updates..."
 sudo sed -i 's/#AutomaticUpdatePolicy.*/AutomaticUpdatePolicy=stage/' /etc/rpm-ostreed.conf
 sudo systemctl enable rpm-ostreed-automatic.timer
@@ -8,4 +14,4 @@ rpm-ostree cleanup -m
 ### Setup tools
 echo "Installing tools..."
 rpm-ostree override remove firefox firefox-langpacks
-rpm-ostree install direnv eza fd-find fzf gnome-tweaks kitty mg ripgrep stow zsh zsh-autosuggestions zsh-syntax-highlighting
+rpm-ostree install direnv eza fd-find fzf gnome-tweaks ghostty kitty mg ripgrep stow zsh zsh-autosuggestions zsh-syntax-highlighting
