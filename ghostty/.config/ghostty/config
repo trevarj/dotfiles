@@ -1,4 +1,5 @@
 font-family = "Iosevka JBM"
+font-style = "Medium"
 font-size = 16
 
 theme = nord
@@ -18,3 +19,9 @@ window-decoration = false
 clipboard-paste-protection = true
 clipboard-read = ask
 clipboard-write = allow
+
+confirm-close-surface = false
+
+keybind = ctrl+shift+f2=reload_config
+keybind = ctrl+shift+s=new_split:auto
+keybind = ctrl+shift+w=close_surface
