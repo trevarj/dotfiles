@@ -24,4 +24,10 @@ confirm-close-surface = false
 
 keybind = ctrl+shift+f2=reload_config
 keybind = ctrl+shift+s=new_split:auto
+keybind = ctrl+shift+o=goto_split:next
 keybind = ctrl+shift+w=close_surface
+keybind = ctrl+shift+t=new_tab
+keybind = ctrl+shift+n=next_tab
+keybind = ctrl+shift+p=previous_tab
+keybind = ctrl+shift+left_bracket=jump_to_prompt:-1
+keybind = ctrl+shift+right_bracket=jump_to_prompt:1
