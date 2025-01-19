@@ -14,4 +14,5 @@ rpm-ostree cleanup -m
 ### Setup tools
 echo "Installing tools..."
 rpm-ostree override remove firefox firefox-langpacks
-rpm-ostree install direnv eza fd-find fzf gnome-tweaks ghostty-git kitty mg ripgrep stow zsh zsh-autosuggestions zsh-syntax-highlighting
+rpm-ostree install direnv eza fd-find fzf gnome-tweaks ghostty-git kitty mg ripgrep \
+  stow zsh zsh-autosuggestions zsh-syntax-highlighting wireguard-tools
