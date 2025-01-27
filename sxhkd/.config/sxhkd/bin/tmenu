@@ -40,4 +40,4 @@ rg --multiline \
     --keep-right \
     --delimiter ':' \
     --with-nth=2 \
-    --bind="enter:execute-silent(setsid gio launch {1} &)+close"
+    --bind="enter:execute-silent(setsid gio launch {1})+close"
