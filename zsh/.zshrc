@@ -95,7 +95,14 @@ alias tb='nc termbin.com 9999'
 alias et='emacs -nw'
 
 ## eza instead of ls
-source ~/.zsh_eza.zsh
+source $HOME/.zsh_eza.zsh
+
+# For use within a guix shell
+if [ -n "$GUIX_ENVIRONMENT" ]; then
+    GUIX_PROFILE=$GUIX_ENVIRONMENT
+else
+    GUIX_PROFILE=$HOME/.guix-profile
+fi
 
 # Autosuggetions (ghost text)
 source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)

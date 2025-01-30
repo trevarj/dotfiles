@@ -2,6 +2,8 @@
         (name 'nonguix)
         (url "https://gitlab.com/nonguix/nonguix")
         (branch "master")
+        ;; (commit
+        ;;   "34935b49ae20d236b0fc89943f0b1d0d5dea3a33")
         (introduction
           (make-channel-introduction
             "897c1a470da759236cc11798f4e0a5f7d4d59fbc"

@@ -17,7 +17,7 @@
   ssh
   sysctl
   xorg)
- 
+
 (use-package-modules
   audio
   bash
@@ -36,7 +36,7 @@
   version-control
   video
   wm)
- 
+
 (operating-system
   (host-name "stinkpad")
   (timezone "Europe/Moscow")
@@ -58,7 +58,7 @@
                (bootloader grub-efi-bootloader)
                (targets '("/boot/efi"))
                (keyboard-layout keyboard-layout)))
-  
+
   ;; Specify a mapped device for the encrypted root partition.
   ;; The UUID is that returned by 'cryptsetup luksUUID'.
   (mapped-devices
@@ -78,7 +78,7 @@
                     (mount-point "/boot/efi")
                     (type "vfat"))
                   %base-file-systems))
-  
+
   ;; Find swap UUID with `swaplabel /dev/[device name]`
   (swap-devices (list
                  (swap-space
@@ -110,8 +110,12 @@
                    git
                    sway
                    swaylock
+                   swaybg
+                   swayidle
                    zsh
                    %base-packages))
+
+  (setuid-programs %setuid-programs)
 
   ;; Configure only the services necessary to run the system
   (services
@@ -119,7 +123,22 @@
     (modify-services %base-services
      (delete login-service-type)
      (delete mingetty-service-type)
-     (delete console-font-service-type))
+     (delete console-font-service-type)
+     ;; Configure the Guix service and ensure we use Nonguix substitutes
+     (guix-service-type
+      config => (guix-configuration
+                 (inherit config)
+                 (substitute-urls
+                  (list
+                   "https://ci.guix.trop.in"
+                   "https://bordeaux.guix.gnu.org"
+                   "https://substitutes.nonguix.org"))
+                 (authorized-keys
+                  (append
+                   (list (plain-file
+                          "nonguix.pub"
+                          "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                   %default-authorized-guix-keys)))))
     (list
      ;; Seat management (can't use seatd because Wireplumber depends on elogind)
      (service elogind-service-type)
@@ -130,7 +149,7 @@
               ;; Use a larger font for HIDPI screens
               (cons tty (file-append
                          font-terminus
-                         "/share/consolefonts/ter-128n")))
+                         "/share/consolefonts/ter-122n")))
             '("tty1" "tty2" "tty3")))
 
      (service greetd-service-type
@@ -141,7 +160,10 @@
                  ;; TTY1 is the graphical login screen for Sway
                  (greetd-terminal-configuration
                   (terminal-vt "1")
-                  (terminal-switch #t))
+                  (terminal-switch #t)
+                  ;; Use zsh as default shell
+                  (default-session-command
+                    (greetd-agreety-session (command (file-append zsh "/bin/zsh")))))
                  ;; Set up remaining TTYs for terminal use
                  (greetd-terminal-configuration (terminal-vt "2"))
                  (greetd-terminal-configuration (terminal-vt "3"))))))
@@ -153,20 +175,6 @@
                (program (file-append swaylock "/bin/swaylock"))
                (using-pam? #t)
                (using-setuid? #f)))
-
-     ;; Configure the Guix service and ensure we use Nonguix substitutes
-     (simple-service 'add-nonguix-substitutes
-                     guix-service-type
-                     (guix-extension
-                      (substitute-urls
-                       (list 
-                        "https://ci.guix.trop.in"
-                        "https://bordeaux.guix.gnu.org"
-                        "https://substitutes.nonguix.org"))
-                      (authorized-keys
-                       (append (list (plain-file "nonguix.pub"
-                                                 "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                               %default-authorized-guix-keys))))
 
      ;; Set up Polkit to allow `wheel' users to run admin tasks
      polkit-wheel-service
