@@ -70,4 +70,9 @@ git_info="\$vcs_info_msg_0_"
 #   separator
 # }
 
-PROMPT="${relativeHome} ${git_info} ${carriageReturn}${cmdPrompt}"
+# Guix shell
+if [ -n "$GUIX_ENVIRONMENT" ]; then
+    guix_env="%F{yellow}%F{reset_color}  ${GUIX_ENVIRONMENT}"
+fi
+
+PROMPT="${relativeHome} ${git_info} ${guix_env} ${carriageReturn}${cmdPrompt}"
