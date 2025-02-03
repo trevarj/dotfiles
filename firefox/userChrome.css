@@ -74,3 +74,7 @@ menupopup{background: var(--gradient) !important; border-radius: 6px !important;
     color: #eceff4 !important;
     background-color: #bf616a !important;
 }
+
+.browser-titlebar {
+    border-radius: 30px;
+}
