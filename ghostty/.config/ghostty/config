@@ -3,6 +3,8 @@ font-style = "Medium"
 font-size = 16
 
 theme = nord
+background-opacity = .9
+background-blur = true
 
 cursor-style = block
 shell-integration-features = no-cursor
@@ -14,7 +16,9 @@ scrollback-limit = 100000
 window-padding-x = 10
 window-padding-y = 10
 window-padding-balance = true
-window-decoration = false
+window-decoration = auto
+
+gtk-titlebar = true
 
 clipboard-paste-protection = true
 clipboard-read = ask
