@@ -40,9 +40,9 @@ flatpaks=(
   org.gtk.Gtk3theme.adw-gtk3
   org.gtk.Gtk3theme.adw-gtk3-dark
   io.mpv.Mpv
-  org.mozilla.firefox
   io.github.realmazharhussain.GdmSettings
   org.telegram.desktop
+  com.brave.Browser
 )
 
 echo "Installing flatpaks..."
