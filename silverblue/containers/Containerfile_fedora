@@ -1,5 +1,6 @@
 ARG FEDORA_VERSION
 FROM registry.fedoraproject.org/fedora-toolbox:${FEDORA_VERSION}
+ARG USER_HOME
 
 LABEL com.github.containers.toolbox="true" \
       usage="This image is meant to be used with the toolbox command" \
@@ -9,6 +10,7 @@ RUN echo 'max_parallel_downloads=20' | sudo tee -a /etc/dnf/dnf.conf
 
 # Enable necessary COPR repos
 RUN dnf -y copr enable alternateved/nightly-emacs
+RUN dnf -y copr enable alternateved/eza
 
 # Update packages
 RUN dnf -y upgrade --refresh
@@ -16,16 +18,17 @@ RUN dnf -y upgrade --refresh
 # Install environment
 RUN dnf -y install zsh zsh-autosuggestions zsh-syntax-highlighting fzf eza \
                    ripgrep fd-find jq unzip shfmt stow google-noto-fonts-all google-noto-color-emoji-fonts \
-                   mg wl-clipboard pinentry-gnome3 kitty-terminfo gnome-themes-extra
+                   mg wl-clipboard pinentry-gnome3 kitty-terminfo
+                   gnome-themes-extra adw-gtk3-theme
 
 # Install Emacs and dependencies
-RUN dnf -y install emacs libtool cmake aspell aspell-en aspell-ru
+RUN dnf -y install emacs libtool cmake aspell aspell-en aspell-ru direnv
 
 # Install languages
 RUN dnf -y install gcc-c++ sbcl guile30 rlwrap golang rust cargo
 
 # Install language servers
-RUN dnf -y install bash-language-server
+RUN dnf -y install bash-language-server clangd
 
 # Install packaging tooling
 RUN dnf -y install fedora-packager fedora-review
@@ -35,18 +38,18 @@ RUN dnf -y install fedora-packager fedora-review
 RUN dnf -y install flatpak-xdg-utils && ln -fs /usr/bin/flatpak-xdg-open /usr/bin/xdg-open
 
 # Setup aliases for flatpak-spawn commands
-RUN echo -e '#!/bin/sh\nexec /usr/bin/flatpak-spawn --host flatpak "$@"' | sudo tee /usr/local/bin/flatpak 1>/dev/null && \
-    sudo chmod +x /usr/local/bin/flatpak && \
-    echo -e '#!/bin/sh\nexec /usr/bin/flatpak-spawn --host podman "$@"' | sudo tee /usr/local/bin/podman 1>/dev/null && \
-    sudo chmod +x /usr/local/bin/podman
+RUN echo -e '#!/bin/sh\nexec /usr/bin/flatpak-spawn --host flatpak "$@"' | tee /usr/local/bin/flatpak 1>/dev/null && \
+    chmod +x /usr/local/bin/flatpak && \
+    echo -e '#!/bin/sh\nexec /usr/bin/flatpak-spawn --host podman "$@"' | tee /usr/local/bin/podman 1>/dev/null && \
+    chmod +x /usr/local/bin/podman
 
 # Symlink fonts
-RUN mkdir ~/.local/share/fonts && ln -s /usr/share/fonts/* ~/.local/share/fonts/
+RUN mkdir -p $USER_HOME/.local/share/fonts && ln -s /usr/share/fonts/* $USER_HOME/.local/share/fonts/
 
 # Export GUI programs
-RUN cp /usr/share/applications/emacs.desktop ~/.local/share/applications && \
+RUN cp /usr/share/applications/emacs.desktop $USER_HOME/.local/share/applications && \
     sed 's/^\(Exec=\)\(.*\)$/\1toolbox run \2/' && \
-    rsync -a /usr/share/icons ~/.local/share/icons
+    rsync -a /usr/share/icons $USER_HOME/.local/share/icons
     
 # Minor cleanup
 RUN dnf clean all
