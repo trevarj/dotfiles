@@ -25,7 +25,7 @@ RUN dnf -y install zsh zsh-autosuggestions zsh-syntax-highlighting fzf eza \
 RUN dnf -y install emacs libtool cmake aspell aspell-en aspell-ru direnv
 
 # Install languages
-RUN dnf -y install gcc-c++ sbcl guile30 rlwrap golang rust cargo
+RUN dnf -y install gcc-c++ sbcl guile30 rlwrap golang rust cargo ninja-build
 
 # Install language servers
 RUN dnf -y install bash-language-server clangd
