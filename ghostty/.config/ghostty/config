@@ -35,3 +35,4 @@ keybind = ctrl+shift+n=next_tab
 keybind = ctrl+shift+p=previous_tab
 keybind = ctrl+shift+left_bracket=jump_to_prompt:-1
 keybind = ctrl+shift+right_bracket=jump_to_prompt:1
+keybind = ctrl+enter=unbind
