@@ -1,2 +1,2 @@
 [Context]
-filesystems=xdg-data/themes:ro;xdg-data/icons:ro;xdg-data/fonts:ro;xdg-config/gtk-4.0:ro;xdg-config/gtk-3.0:ro
+filesystems=xdg-data/themes:ro;xdg-data/icons:ro;xdg-data/fonts:ro;xdg-config/gtk-4.0:ro;xdg-config/gtk-3.0:ro;xdg-config/fontconfig:ro
