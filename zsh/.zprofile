@@ -28,7 +28,7 @@ export GOPATH="$HOME/Workspace"
 # Guix
 if command -v "guix" >/dev/null; then
   # Flatpak apps in launcher
-  . $HOME/.guix-profile/etc/profile.d/flatpak.sh
+  [ -f "$HOME/.guix-profile/etc/profile.d/flatpak.sh" ] && . "$HOME/.guix-profile/etc/profile.d/flatpak.sh"
 
   GUIX_PROFILE="$HOME/.config/guix/current"
   . "$GUIX_PROFILE/etc/profile"
