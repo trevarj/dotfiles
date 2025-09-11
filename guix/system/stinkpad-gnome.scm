@@ -97,11 +97,12 @@
 
   ;; Base packages, others will be installed in using a manifest
   (packages (cons* brightnessctl
-                   emacs-pgtk
                    exfat-utils
                    fuse-exfat
                    git
+                   mg
                    zsh
+                   vim
                    %base-packages))
 
   ;; Configure only the services necessary to run the system
