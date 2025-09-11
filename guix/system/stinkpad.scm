@@ -95,6 +95,7 @@
                                         "kvm"
                                         "tty"
                                         "input"
+                                        "dailout"
                                         "lp"       ;; control bluetooth devices
                                         "audio"    ;; control audio devices
                                         "video"))) ;; control video devices
