@@ -9,9 +9,10 @@ Description=Build daemon for GNU Guix
 #Before=gnu-store.mount
 
 [Service]
-ExecStart=/usr/bin/toolbox run sudo /var/guix/profiles/per-user/root/current-guix/bin/guix-daemon \
+ExecStart=/usr/bin/toolbox run sudo /var/guix/profiles/per-user/%u/current-guix/bin/guix-daemon \
     --build-users-group=guixbuild \
     --discover=no \
+    --isolate-host-loopback \
     --substitute-urls='https://ci.guix.trop.in https://bordeaux.guix.gnu.org https://substitutes.nonguix.org'
 ExecStop=/usr/bin/toolbox run sudo pkill guix-daemon
 Environment='GUIX_STATE_DIRECTORY=/var/guix' 'GUIX_LOCPATH=/var/guix/profiles/per-user/root/guix-profile/lib/locale' LC_ALL=en_US.utf8
