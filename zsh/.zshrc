@@ -100,8 +100,10 @@ source $HOME/.zsh_eza.zsh
 # For use within a guix shell
 if [ -n "$GUIX_ENVIRONMENT" ]; then
     GUIX_PROFILE=$GUIX_ENVIRONMENT
+    . "$GUIX_PROFILE/etc/profile"
 else
     GUIX_PROFILE=$HOME/.guix-profile
+    [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
 fi
 
 # Autosuggetions (ghost text)
