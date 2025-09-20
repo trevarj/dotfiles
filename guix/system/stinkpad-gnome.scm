@@ -96,8 +96,7 @@
   (groups %base-groups)
 
   ;; Base packages, others will be installed in using a manifest
-  (packages (cons* brightnessctl
-                   exfat-utils
+  (packages (cons* exfat-utils
                    fuse-exfat
                    git
                    mg
@@ -133,7 +132,7 @@
                      (guix-extension
                       (substitute-urls
                        (list 
-                        "https://ci.guix.trop.in"
+                        "https://ci.guix.trevs.site"
                         "https://bordeaux.guix.gnu.org"
                         "https://substitutes.nonguix.org"))
                       (authorized-keys
