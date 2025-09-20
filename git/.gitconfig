@@ -26,3 +26,5 @@
   colorMoved = default
 [include]
   path = "~/.gitconfig-sendmail"
+[github]
+	user = trevarj
