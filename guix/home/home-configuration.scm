@@ -32,6 +32,7 @@
     "fuzzel"
     "fzf"
     "fzf-tab"
+    "fwupd"
     "gammastep"
     "git"
     "git:send-email"
