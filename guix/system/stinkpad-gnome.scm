@@ -156,6 +156,4 @@
                       epson-inkjet-printer-escpr))))
 
      ;; Add udev rules for a few packages
-     (udev-rules-service 'pipewire-add-udev-rules pipewire)
-     (udev-rules-service 'brightnessctl-udev-rules brightnessctl)))))
-
+     (udev-rules-service 'pipewire-add-udev-rules pipewire)))))
