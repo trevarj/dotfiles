@@ -4,11 +4,16 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
+;; TODO
+;; Figure out how to work this in:
+;; guix shell glib:bin
+;; gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 (use-modules (gnu home)
              (gnu home services desktop)
              (gnu home services fontutils)
              (gnu home services sound)
              (gnu packages)
+             (gnu packages glib)
              (gnu services)
              (guix gexp)
              (gnu home services shells))
@@ -19,8 +24,8 @@
  (packages
   (specifications->packages
    (list
+    "adw-gtk3-theme"
     "curl"
-    "dbus"
     "direnv"
     "emacs-pgtk"
     "eza"
@@ -29,35 +34,23 @@
     "font-google-noto"
     "font-google-noto-emoji"
     "font-terminus"
-    "fuzzel"
     "fzf"
     "fzf-tab"
-    "fwupd"
-    "gammastep"
+    "fwupd-nonfree"
     "git"
     "git:send-email"
+    "gnome-tweaks"
     "gnupg"
-    "grimshot"
     "jq"
     "kitty"
-    "libtool"
     "mpv"
     "msmtp"
-    "ncurses"
     "neofetch"
     "papirus-icon-theme"
-    "pavucontrol"
     "pinentry-tty"
-    "pipewire"
     "ripgrep"
     "stow"
   ; "telegram-desktop"
-    "wireplumber"
-    "xdg-dbus-proxy"
-    "xdg-desktop-portal"
-    "xdg-desktop-portal-gtk"
-    "xdg-desktop-portal-wlr"
-    "xdg-utils"
     "zsh"
     "zsh-autopair"
     "zsh-autosuggestions"
