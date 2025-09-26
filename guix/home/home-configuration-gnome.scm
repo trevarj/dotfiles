@@ -14,70 +14,71 @@
              (gnu home services fontutils)
              (gnu home services sound)
              (gnu packages)
-             (gnu packages glib)
              (gnu services)
+             (gnu home services shells)
              (guix gexp)
-             (gnu home services shells))
+             (byedpi))
 
 (home-environment
- ;; Below is the list of packages that will show up in your
- ;; Home profile, under ~/.guix-home/profile.
- (packages
-  (specifications->packages
-   (list
-    "aspell"
-    "aspell-dict-en"
-    "aspell-dict-ru"
-    "adw-gtk3-theme"
-    "curl"
-    "direnv"
-    "emacs-pgtk"
-    "eza"
-    "fd"
-    "flatpak"
-    "font-google-noto"
-    "font-google-noto-emoji"
-    "font-terminus"
-    "fzf"
-    "fzf-tab"
-    "fwupd-nonfree"
-    "git"
-    "git:send-email"
-    "gnome-tweaks"
-    "gnupg"
-    "jq"
-    "kitty"
-    "mpv"
-    "msmtp"
-    "neofetch"
-    "papirus-icon-theme"
-    "pinentry-tty"
-    "ripgrep"
-    "stow"
-    "xdg-utils"
-    "zsh"
-    "zsh-autopair"
-    "zsh-autosuggestions"
-    "zsh-completions"
-    "zsh-syntax-highlighting")))
+  ;; Below is the list of packages that will show up in your
+  ;; Home profile, under ~/.guix-home/profile.
+  (packages
+   (specifications->packages
+    (list
+     "aspell"
+     "aspell-dict-en"
+     "aspell-dict-ru"
+     "adw-gtk3-theme"
+     "byedpi"
+     "curl"
+     "direnv"
+     "emacs-next-pgtk"
+     "eza"
+     "fd"
+     "flatpak"
+     "font-google-noto"
+     "font-google-noto-emoji"
+     "font-terminus"
+     "fzf"
+     "fzf-tab"
+     "fwupd-nonfree"
+     "git"
+     "git:send-email"
+     "gnome-tweaks"
+     "gnupg"
+     "jq"
+     "kitty"
+     "mpv"
+     "msmtp"
+     "neofetch"
+     "papirus-icon-theme"
+     "pinentry-tty"
+     "ripgrep"
+     "stow"
+     "xdg-utils"
+     "zsh"
+     "zsh-autopair"
+     "zsh-autosuggestions"
+     "zsh-completions"
+     "zsh-syntax-highlighting")))
 
- ;; Below is the list of Home services.  To search for available
- ;; services, run 'guix home search KEYWORD' in a terminal.
- (services
-  (list
-   (service home-dbus-service-type)
-   (service home-pipewire-service-type)
-   (service home-zsh-service-type
-            (home-zsh-configuration
-             (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
-             (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
-             (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
-   (simple-service 'additional-fonts-service
-                   home-fontconfig-service-type
-                   (list "~/Workspace/dotfiles/fonts/.local/share/fonts"
-                         (let ((prefer '(prefer
-                                         (family "Iosevka JBM")
-                                         (family "Symbols Nerd Font Mono"))))
+  ;; Below is the list of Home services.  To search for available
+  ;; services, run 'guix home search KEYWORD' in a terminal.
+  (services
+   (list
+    (service home-dbus-service-type)
+    (service home-pipewire-service-type)
+    (service home-zsh-service-type
+             (home-zsh-configuration
+               (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
+               (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
+               (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
+    (simple-service 'additional-fonts-service
+                    home-fontconfig-service-type
+                    (list "~/Workspace/dotfiles/fonts/.local/share/fonts"
+                          (let ((prefer '(prefer
+                                          (family "Iosevka JBM")
+                                          (family "Symbols Nerd Font Mono"))))
                             `((alias (@ (binding "strong"))
                                      (family "monospace")
                                      ,prefer)
@@ -87,14 +88,15 @@
                               (alias (@ (binding "strong"))
                                      (family "sans-serif")
                                      (prefer (family "Noto Sans")))))))
-   (simple-service 'env-vars-service
-          	   home-environment-variables-service-type
-          	   `(("ASPELL_DICT_DIR" .
-                      ,(string-append (getenv "HOME")
-                                      "/.guix-home/profile/lib/aspell"))))
-   (simple-service 'flatpak-service home-shell-profile-service-type
-		   (list
-		    (local-file
-		     (string-append (getenv "HOME")
-				    "/.guix-home/profile/etc/profile.d/flatpak.sh")
-		     "flatpak.sh"))))))
+    (simple-service 'env-vars-service
+          	    home-environment-variables-service-type
+          	    `(("ASPELL_DICT_DIR" .
+                       ,(string-append (getenv "HOME")
+                                       "/.guix-home/profile/lib/aspell"))))
+    (simple-service 'flatpak-service home-shell-profile-service-type
+		    (list
+		     (local-file
+		      (string-append (getenv "HOME")
+				     "/.guix-home/profile/etc/profile.d/flatpak.sh")
+		      "flatpak.sh")))
+    (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s")))))
