@@ -33,9 +33,10 @@ if command -v "guix" >/dev/null; then
   GUIX_PROFILE="$HOME/.config/guix/current"
   . "$GUIX_PROFILE/etc/profile"
 
-  export SSL_CERT_DIR="$HOME/.guix-profile/etc/ssl/certs"
-  export SSL_CERT_FILE="$HOME/.guix-profile/etc/ssl/certs/ca-certificates.crt"
-  export GIT_SSL_CAINFO="$SSL_CERT_FILE"
+  # Foreign distro only?
+  # export SSL_CERT_DIR="$HOME/.guix-profile/etc/ssl/certs"
+  # export SSL_CERT_FILE="$HOME/.guix-profile/etc/ssl/certs/ca-certificates.crt"
+  # export GIT_SSL_CAINFO="$SSL_CERT_FILE"
 fi
 
 # Start up tmux session
