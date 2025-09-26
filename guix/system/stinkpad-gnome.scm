@@ -54,18 +54,18 @@
   ;; The UUID is that returned by 'cryptsetup luksUUID'.
   (mapped-devices
    (list (mapped-device
-          (source (uuid "39b03665-89b2-476d-871a-372f23923ec5"))
+          (source (uuid "4b3be666-93bc-49e1-b275-cfccbc9c2729"))
           (target "root")
           (type luks-device-mapping))))
 
   (file-systems (cons*
                   (file-system
-                    (device (file-system-label "root"))
+                    (device "/dev/mapper/root")
                     (mount-point "/")
                     (type "ext4")
                     (dependencies mapped-devices))
                   (file-system
-                    (device (uuid "7391-6E13" 'fat))
+                    (device (uuid "4B66-8689" 'fat32))
                     (mount-point "/boot/efi")
                     (type "vfat"))
                   %base-file-systems))
@@ -73,7 +73,7 @@
   ;; Find swap UUID with `swaplabel /dev/[device name]`
   (swap-devices (list
                  (swap-space
-                   (target (uuid "17eb240b-531b-4b81-830e-22938b6f3305")))))
+                   (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
 
   (users (cons (user-account
                 (name "trev")
@@ -99,9 +99,7 @@
   (packages (cons* exfat-utils
                    fuse-exfat
                    git
-                   mg
                    zsh
-                   vim
                    %base-packages))
 
   ;; Configure only the services necessary to run the system
@@ -131,10 +129,11 @@
                      guix-service-type
                      (guix-extension
                       (substitute-urls
-                       (list 
-                        "https://ci.guix.trevs.site"
+                       (list
+                        "https://ci.guix.trop.in"
                         "https://bordeaux.guix.gnu.org"
-                        "https://substitutes.nonguix.org"))
+                        "https://substitutes.nonguix.org"
+                        "https://ci.guix.trevs.site"))
                       (authorized-keys
                        (append (list (plain-file "nonguix.pub"
                                                  "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))

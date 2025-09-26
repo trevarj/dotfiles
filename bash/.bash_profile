@@ -1,7 +1,15 @@
-# /etc/skel/.bash_profile
+# Set up Guix Home profile
+if [ -f ~/.profile ]; then . ~/.profile; fi
 
-# This file is sourced by bash for login shells.  The following line
-# runs your .bashrc and is recommended by the bash info pages.
-if [[ -f ~/.bashrc ]] ; then
-	. ~/.bashrc
-fi
+# Honor per-interactive-shell startup file
+if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+
+# Merge search-paths from multiple profiles, the order matters.
+eval "$(guix package --search-paths \
+-p $HOME/.config/guix/current \
+-p $HOME/.guix-home/profile \
+-p $HOME/.guix-profile \
+-p /run/current-system/profile)"
+
+# Prepend setuid programs.
+export PATH=/run/setuid-programs:$PATH
