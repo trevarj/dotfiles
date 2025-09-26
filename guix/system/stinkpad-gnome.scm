@@ -106,21 +106,27 @@
   (services
    (append
     (modify-services %desktop-services
-                     ;; Use Wayland
-                     (gdm-service-type
-                      config =>
-                      (gdm-configuration
-                       (inherit config)
-                       (wayland? #t)))
-                     ;; Configure TTYs
-                     (console-font-service-type
-                      config =>
-                      (map (lambda (tty)
-                             ;; Use a larger font for HIDPI screens
-                             (cons tty (file-append
-                                        font-terminus
-                                        "/share/consolefonts/ter-128n")))
-                           '("tty1" "tty2" "tty3"))))
+      ;; Use Wayland
+      (gdm-service-type
+       config =>
+       (gdm-configuration
+         (inherit config)
+         (wayland? #t)))
+      ;; Configure TTYs
+      (console-font-service-type
+       config =>
+       (map (lambda (tty)
+              ;; Use a larger font for HIDPI screens
+              (cons tty (file-append
+                         font-terminus
+                         "/share/consolefonts/ter-128n")))
+            '("tty1" "tty2" "tty3")))
+      ;; Prevent sleep when switching on KVM+Dock
+      (elogind-service-type
+       config =>
+       (elogind-configuration
+         (inherit config)
+         (handle-lid-switch-external-power 'ignore))))
     (list
      (service gnome-desktop-service-type)
     
