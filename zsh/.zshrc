@@ -106,11 +106,15 @@ else
     [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
 fi
 
+guix_home_plugins="$HOME/.guix-home/profile/share/zsh/plugins"
 # Autosuggetions (ghost text)
-source /usr/share{,/zsh/plugins}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)
+source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)
 
 # Syntax highlighting on command line
-source /usr/share{,/zsh/plugins}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N)
+source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N)
+
+# Autopairs
+source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-autopair/zsh-autopair.zsh(N)
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
@@ -129,6 +133,12 @@ bindkey '\C-x\C-e' edit-command-line
 # must come after compinit
 rc_path=$(realpath ~/.zshrc)
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
-source "$(dirname $rc_path)/../fzf-tab/fzf-tab.plugin.zsh"
+
+fzf_tab_plugin="fzf-tab/fzf-tab.plugin.zsh"
+if [ -d "$guix_home_plugins" ]; then
+    source "$guix_home_plugins/$fzf_tab_plugin"
+else
+    source "$(dirname $rc_path)/../fzf-tab/fzf-tab.plugin.zsh"
+fi
 
 eval "$(direnv hook zsh)"
