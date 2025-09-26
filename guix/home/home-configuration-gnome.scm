@@ -9,6 +9,7 @@
 ;; guix shell glib:bin
 ;; gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
 (use-modules (gnu home)
+             (gnu home services)
              (gnu home services desktop)
              (gnu home services fontutils)
              (gnu home services sound)
@@ -24,6 +25,9 @@
  (packages
   (specifications->packages
    (list
+    "aspell"
+    "aspell-dict-en"
+    "aspell-dict-ru"
     "adw-gtk3-theme"
     "curl"
     "direnv"
@@ -50,7 +54,7 @@
     "pinentry-tty"
     "ripgrep"
     "stow"
-  ; "telegram-desktop"
+    "xdg-utils"
     "zsh"
     "zsh-autopair"
     "zsh-autosuggestions"
@@ -83,6 +87,11 @@
                               (alias (@ (binding "strong"))
                                      (family "sans-serif")
                                      (prefer (family "Noto Sans")))))))
+   (simple-service 'env-vars-service
+          	   home-environment-variables-service-type
+          	   `(("ASPELL_DICT_DIR" .
+                      ,(string-append (getenv "HOME")
+                                      "/.guix-home/profile/lib/aspell"))))
    (simple-service 'flatpak-service home-shell-profile-service-type
 		   (list
 		    (local-file
