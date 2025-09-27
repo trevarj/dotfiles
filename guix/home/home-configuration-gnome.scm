@@ -17,7 +17,8 @@
              (gnu services)
              (gnu home services shells)
              (guix gexp)
-             (byedpi))
+             (byedpi)
+             (gnome-xyz-local))
 
 (home-environment
   ;; Below is the list of packages that will show up in your
@@ -38,6 +39,7 @@
      "flatpak"
      "font-google-noto"
      "font-google-noto-emoji"
+     "font-google-noto-sans-cjk"
      "font-terminus"
      "fzf"
      "fzf-tab"
@@ -45,6 +47,9 @@
      "git"
      "git:send-email"
      "gnome-tweaks"
+     "gnome-shell-extension-appindicator"
+     "gnome-shell-extension-executor"
+     "gnome-shell-extension-weather-oclock"
      "gnupg"
      "jq"
      "kitty"
