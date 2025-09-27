@@ -93,6 +93,7 @@ alias sudo='sudo '
 alias open='xdg-open'
 alias tb='nc termbin.com 9999'
 alias et='emacs -nw'
+alias clear='printf "\033c"'
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
