@@ -27,7 +27,6 @@
   version-control
   video)
 
- 
 (operating-system
   (host-name "stinkpad")
   (timezone "Europe/Moscow")
@@ -75,25 +74,19 @@
                  (swap-space
                    (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
 
+  (groups (cons*
+           (user-group (name "i2c"))
+           %base-groups))
   (users (cons (user-account
-                (name "trev")
-                (comment "Trevor Arjeski")
-                (group "users")
-                (shell (file-append zsh "/bin/zsh"))
-                (home-directory "/home/trev")
-                (supplementary-groups '("wheel"  ;; sudo
-                                        "netdev" ;; network devices
-                                        "kvm"
-                                        "tty"
-                                        "input"
-                                        "dialout"
-                                        "lp"       ;; control bluetooth devices
-                                        "audio"    ;; control audio devices
-                                        "video"))) ;; control video devices
-
+                 (name "trev")
+                 (comment "Trevor Arjeski")
+                 (group "users")
+                 (shell (file-append zsh "/bin/zsh"))
+                 (home-directory "/home/trev")
+                 (supplementary-groups
+                  '("wheel" "netdev" "kvm" "tty" "input"
+                    "dialout" "i2c" "lp" "audio" "video"))) ;; control video devices
                %base-user-accounts))
-
-  (groups %base-groups)
 
   ;; Base packages, others will be installed in using a manifest
   (packages (cons* exfat-utils
@@ -167,4 +160,8 @@
                           (string-append
                            "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\","
                            "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
-                           "TAG+=\"uaccess\"")))))))
+                           "TAG+=\"uaccess\"")))
+     (udev-rules-service 'ddcutil-i2c-udev-rules
+                         (udev-rule
+                          "60-ddcutil-i2c.rules"
+                          "KERNEL==\"i2c-[0-9]*\", GROUP=\"i2c\", MODE=\"0660\""))))))
