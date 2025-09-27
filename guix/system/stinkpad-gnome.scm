@@ -160,5 +160,11 @@
                 (list cups-filters
                       epson-inkjet-printer-escpr))))
 
-     ;; Add udev rules for a few packages
-     (udev-rules-service 'pipewire-add-udev-rules pipewire)))))
+     (udev-rules-service 'pipewire-add-udev-rules pipewire)
+     (udev-rules-service 'arctis-7-nova-udev-rules
+                         (udev-rule
+                          "50-arctis-headset.rules"
+                          (string-append
+                           "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\","
+                           "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
+                           "TAG+=\"uaccess\"")))))))
