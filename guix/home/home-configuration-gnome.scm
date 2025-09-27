@@ -18,7 +18,8 @@
              (gnu home services shells)
              (guix gexp)
              (byedpi)
-             (gnome-xyz-local))
+             (gnome-xyz-local)
+             (headsetcontrol))
 
 (home-environment
   ;; Below is the list of packages that will show up in your
@@ -33,6 +34,7 @@
      "byedpi"
      "curl"
      "direnv"
+     "ddcutil"
      "emacs-next-pgtk"
      "eza"
      "fd"
@@ -51,7 +53,7 @@
      "gnome-shell-extension-executor"
      "gnome-shell-extension-weather-oclock"
      "gnupg"
-     "headsetcontrol"
+     "headsetcontrol-3.1.0"
      "jq"
      "kitty"
      "mpv"
