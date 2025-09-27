@@ -51,6 +51,7 @@
      "gnome-shell-extension-executor"
      "gnome-shell-extension-weather-oclock"
      "gnupg"
+     "headsetcontrol"
      "jq"
      "kitty"
      "mpv"
