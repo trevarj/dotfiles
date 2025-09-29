@@ -8,6 +8,7 @@
   desktop
   guix
   linux
+  networking
   ssh
   xorg)
  
@@ -19,11 +20,13 @@
   file-systems
   fonts
   gnome
+  golang-web
   libusb
   linux
   package-management
   shells
   ssh
+  tor
   version-control
   video)
 
@@ -36,7 +39,7 @@
   (kernel linux)
   (kernel-arguments (cons* "modprobe.blacklist=pcspkr,snd_pcsp"
                            %default-kernel-arguments))
-  (firmware (list linux-firmware))
+  (firmware (list linux-firmware radeon-firmware))
   (initrd microcode-initrd)
 
   ;; Keyboard layout
@@ -92,6 +95,8 @@
   (packages (cons* exfat-utils
                    fuse-exfat
                    git
+                   lyrebird
+                   tor
                    zsh
                    %base-packages))
 
@@ -127,31 +132,40 @@
      (simple-service 'add-nonguix-substitutes
                      guix-service-type
                      (guix-extension
-                      (substitute-urls
-                       (list
-                        "https://ci.guix.trop.in"
-                        "https://bordeaux.guix.gnu.org"
-                        "https://substitutes.nonguix.org"
-                        "https://ci.guix.trevs.site"))
-                      (authorized-keys
-                       (append (list (plain-file "nonguix.pub"
-                                                 "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                               %default-authorized-guix-keys))))
+                       (substitute-urls
+                        (list
+                         "https://ci.guix.trop.in"
+                         "https://bordeaux.guix.gnu.org"
+                         "https://substitutes.nonguix.org"
+                         "https://ci.guix.trevs.site"))
+                       (authorized-keys
+                        (append (list (plain-file "nonguix.pub"
+                                                  "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+                                %default-authorized-guix-keys))))
 
      ;; Enable SSH access
      (service openssh-service-type
               (openssh-configuration
-               (openssh openssh-sans-x)
-               (port-number 22)))
+                (openssh openssh-sans-x)
+                (port-number 22)))
+
+     (service tor-service-type
+              (tor-configuration
+                (transport-plugins
+                 (list (tor-transport-plugin
+                         (protocol "webtunnel")
+                         (program (file-append lyrebird "/bin/lyrebird")))))
+                (config-file
+                 (local-file (string-append (getenv "HOME") "/.config/tor/torrc")))))
 
      ;; Enable printing and scanning
      (service sane-service-type)
      (service cups-service-type
               (cups-configuration
-               (web-interface? #t)
-               (extensions
-                (list cups-filters
-                      epson-inkjet-printer-escpr))))
+                (web-interface? #t)
+                (extensions
+                 (list cups-filters
+                       epson-inkjet-printer-escpr))))
 
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
      (udev-rules-service 'arctis-7-nova-udev-rules
