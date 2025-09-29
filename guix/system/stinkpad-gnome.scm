@@ -156,7 +156,7 @@
                          (protocol "webtunnel")
                          (program (file-append lyrebird "/bin/lyrebird")))))
                 (config-file
-                 (local-file (string-append (getenv "HOME") "/.config/tor/torrc")))))
+                 (local-file "/home/trev/.config/tor/torrc"))))
 
      ;; Enable printing and scanning
      (service sane-service-type)
