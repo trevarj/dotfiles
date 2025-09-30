@@ -5,8 +5,10 @@
 (specifications->manifest
  (list
   ;; Build tools
-  "make" "automake" "autoconf" "cmake"
+  "make" "automake" "autoconf" "cmake" "libtool"
   ;; Toolchains
   "gcc-toolchain"
   "clang"
+  ;; Extras
+  "perl"
   ))
