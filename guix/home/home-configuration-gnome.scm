@@ -104,6 +104,8 @@
 		      (string-append (getenv "HOME")
 				     "/.guix-home/profile/etc/profile.d/flatpak.sh")
 		      "flatpak.sh")))
+    ;; workaround to get dbus to load flatpak services because flatpak.sh gets
+    ;; run too late
     (simple-service 'xdg-for-dbus home-environment-variables-service-type
                     `(("XDG_DATA_DIRS" .
                        ,(string-append (getenv "XDG_DATA_HOME")
