@@ -74,29 +74,32 @@
      "zsh-completions"
      "zsh-syntax-highlighting")))
 
-  ;; Below is the list of Home services.  To search for available
-  ;; services, run 'guix home search KEYWORD' in a terminal.
   (services
    (list
     (service home-dbus-service-type)
     (service home-pipewire-service-type)
     (service home-zsh-service-type
              (home-zsh-configuration
+               (xdg-flavor? #f)
                (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
                (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
-               (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
-    (simple-service 'additional-fonts-service
-                    home-fontconfig-service-type
+               (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))
+               (environment-variables
+                `(("ASPELL_DICT_DIR" .
+                   ,(string-append (getenv "HOME")
+                                   "/.guix-home/profile/lib/aspell"))))))
+    ;; TODO: add home-dotfiles-service-type for the symlinks to other dotfiles
+    (simple-service 'additional-fonts-service home-fontconfig-service-type
                     (list "~/Workspace/dotfiles/fonts/.local/share/fonts"))
-    (simple-service 'env-vars-service
-          	    home-environment-variables-service-type
-          	    `(("ASPELL_DICT_DIR" .
-                       ,(string-append (getenv "HOME")
-                                       "/.guix-home/profile/lib/aspell"))))
     (simple-service 'flatpak-service home-shell-profile-service-type
 		    (list
 		     (local-file
 		      (string-append (getenv "HOME")
 				     "/.guix-home/profile/etc/profile.d/flatpak.sh")
 		      "flatpak.sh")))
+    (simple-service 'xdg-for-dbus home-environment-variables-service-type
+                    `(("XDG_DATA_DIRS" .
+                       ,(string-append (getenv "XDG_DATA_HOME")
+                                       "share/flatpak/exports/share:"
+                                       (getenv "XDG_DATA_DIRS")))))
     (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s")))))
