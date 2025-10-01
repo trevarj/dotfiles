@@ -78,6 +78,7 @@
                    (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
 
   (groups (cons*
+           (user-group (name "trev"))
            (user-group (name "i2c"))
            %base-groups))
   (users (cons (user-account
@@ -87,8 +88,8 @@
                  (shell (file-append zsh "/bin/zsh"))
                  (home-directory "/home/trev")
                  (supplementary-groups
-                  '("wheel" "netdev" "kvm" "tty" "input"
-                    "dialout" "i2c" "lp" "audio" "video"))) ;; control video devices
+                  '("trev" "wheel" "netdev" "kvm" "tty" "input"
+                    "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm")))
                %base-user-accounts))
 
   ;; Base packages, others will be installed in using a manifest
