@@ -11,6 +11,7 @@
 (use-modules (gnu home)
              (gnu home services)
              (gnu home services desktop)
+             (gnu home services dotfiles)
              (gnu home services fontutils)
              (gnu home services sound)
              (gnu packages)
@@ -89,6 +90,12 @@
                    ,(string-append (getenv "HOME")
                                    "/.guix-home/profile/lib/aspell"))))))
     ;; TODO: add home-dotfiles-service-type for the symlinks to other dotfiles
+    (service home-dotfiles-service-type
+             (home-dotfiles-configuration
+               (directories '("../../"))
+               (layout 'stow)
+               (packages '("zsh" "dconf"))
+               (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
     (simple-service 'additional-fonts-service home-fontconfig-service-type
                     (list "~/Workspace/dotfiles/fonts/.local/share/fonts"))
     (simple-service 'flatpak-service home-shell-profile-service-type
