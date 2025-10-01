@@ -114,6 +114,7 @@ source $HOME/.zsh_eza.zsh
 guix_home_plugins="$HOME/.guix-home/profile/share/zsh/plugins"
 # Autosuggetions (ghost text)
 source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
 # Syntax highlighting on command line
 source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N)
