@@ -8,19 +8,21 @@
 ;; Figure out how to work this in:
 ;; guix shell glib:bin
 ;; gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-(use-modules (gnu home)
-             (gnu home services)
-             (gnu home services desktop)
-             (gnu home services dotfiles)
-             (gnu home services fontutils)
-             (gnu home services sound)
-             (gnu packages)
-             (gnu services)
-             (gnu home services shells)
-             (guix gexp)
-             (byedpi)
-             (gnome-xyz-local)
-             (headsetcontrol))
+(define-module (trev-guix home home-configuration-gnome)
+  #:use-module (gnu home)
+  #:use-module (gnu home services)
+  #:use-module (gnu home services desktop)
+  #:use-module (gnu home services dotfiles)
+  #:use-module (gnu home services fontutils)
+  #:use-module (gnu home services shells)
+  #:use-module (gnu home services sound)
+  #:use-module (gnu packages)
+  #:use-module (gnu services)
+  #:use-module (guix gexp)
+  #:use-module (trev-guix packages byedpi)
+  #:use-module (trev-guix packages gnome-xyz-local)
+  #:use-module (trev-guix packages headsetcontrol)
+  #:use-module (trev-guix services flatpak))
 
 (home-environment
   ;; Below is the list of packages that will show up in your
@@ -96,19 +98,8 @@
                (layout 'stow)
                (packages '("zsh" "dconf"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
+
+    (service home-flatpak-service-type)
+    (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
     (simple-service 'additional-fonts-service home-fontconfig-service-type
-                    (list "~/Workspace/dotfiles/fonts/.local/share/fonts"))
-    (simple-service 'flatpak-service home-shell-profile-service-type
-		    (list
-		     (local-file
-		      (string-append (getenv "HOME")
-				     "/.guix-home/profile/etc/profile.d/flatpak.sh")
-		      "flatpak.sh")))
-    ;; workaround to get dbus to load flatpak services because flatpak.sh gets
-    ;; run too late
-    (simple-service 'xdg-for-dbus home-environment-variables-service-type
-                    `(("XDG_DATA_DIRS" .
-                       ,(string-append (getenv "XDG_DATA_HOME")
-                                       "share/flatpak/exports/share:"
-                                       (getenv "XDG_DATA_DIRS")))))
-    (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s")))))
+                    (list "~/Workspace/dotfiles/fonts/.local/share/fonts")))))

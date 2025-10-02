@@ -1,4 +1,4 @@
-(define-module (byedpi)
+(define-module (trev-guix packages byedpi)
   #:use-module (guix packages)
   #:use-module (guix git-download)
   #:use-module (guix gexp)

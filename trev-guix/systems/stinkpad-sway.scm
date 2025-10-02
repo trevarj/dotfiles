@@ -1,7 +1,8 @@
-(use-modules (gnu)
-             (guix utils)
-             (nongnu packages linux)
-             (nongnu system linux-initrd))
+(define-module (trev-guix systems stinkpad-sway)
+  #:use-module (gnu)
+  #:use-module (guix utils)
+  #:use-module (nongnu packages linux)
+  #:use-module (nongnu system linux-initrd))
 
 (use-service-modules
   admin

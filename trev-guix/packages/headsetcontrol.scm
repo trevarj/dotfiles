@@ -1,4 +1,4 @@
-(define-module (headsetcontrol)
+(define-module (trev-guix packages headsetcontrol)
   #:use-module (guix packages)
   #:use-module (guix git-download)
   #:use-module (gnu packages hardware))
