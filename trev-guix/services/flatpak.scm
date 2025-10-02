@@ -12,7 +12,7 @@
      "/.guix-home/profile/etc/profile.d/flatpak.sh")
     "flatpak.sh")))
 
-;; workaround ;TODO: o get dbus to load flatpak services because flatpak.sh gets
+;; workaround to get dbus to load flatpak services because flatpak.sh gets
 ;; run too late
 (define (home-flatpak-environment-variables _)
   `(("XDG_DATA_DIRS" .
