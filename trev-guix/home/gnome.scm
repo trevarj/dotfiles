@@ -91,12 +91,11 @@
                 `(("ASPELL_DICT_DIR" .
                    ,(string-append (getenv "HOME")
                                    "/.guix-home/profile/lib/aspell"))))))
-    ;; TODO: add home-dotfiles-service-type for the symlinks to other dotfiles
     (service home-dotfiles-service-type
              (home-dotfiles-configuration
                (directories '("../../"))
                (layout 'stow)
-               (packages '("zsh" "dconf"))
+               (packages '("zsh" "dconf" "guix"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
 
     (service home-flatpak-service-type)
