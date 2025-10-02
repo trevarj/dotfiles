@@ -8,7 +8,7 @@
 ;; Figure out how to work this in:
 ;; guix shell glib:bin
 ;; gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"
-(define-module (trev-guix home home-configuration-gnome)
+(define-module (trev-guix home gnome)
   #:use-module (gnu home)
   #:use-module (gnu home services)
   #:use-module (gnu home services desktop)

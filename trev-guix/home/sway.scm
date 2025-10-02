@@ -4,7 +4,7 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
-(define-module (trev-guix home home-configuration-sway)
+(define-module (trev-guix home sway)
   #:use-module (gnu home)
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services fontutils)
