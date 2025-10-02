@@ -95,9 +95,9 @@ alias tb='nc termbin.com 9999'
 alias et='emacs -nw'
 alias clear='printf "\033c"'
 
-GUIX_CONFIG_ROOT="$HOME/Workspace/dotfiles/guix"
-alias guix-system-reconfig="sudo guix system reconfigure $GUIX_CONFIG_ROOT/system/stinkpad-gnome.scm"
-alias guix-home-reconfig="guix home -L $GUIX_CONFIG_ROOT/packages reconfigure $GUIX_CONFIG_ROOT/home/home-configuration-gnome.scm"
+GUIX_CONFIG_ROOT="$HOME/Workspace/dotfiles/trev-guix"
+alias guix-system-reconfig="sudo guix system reconfigure $GUIX_CONFIG_ROOT/systems/stinkpad-gnome.scm"
+alias guix-home-reconfig="guix home -L $GUIX_CONFIG_ROOT reconfigure $GUIX_CONFIG_ROOT/home/home-configuration-gnome.scm"
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh

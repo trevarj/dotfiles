@@ -4,14 +4,15 @@
 ;; need to capture the channels being used, as returned by "guix describe".
 ;; See the "Replicating Guix" section in the manual.
 
-(use-modules (gnu home)
-             (gnu home services desktop)
-             (gnu home services fontutils)
-             (gnu home services sound)
-             (gnu packages)
-             (gnu services)
-             (guix gexp)
-             (gnu home services shells))
+(define-module (trev-guix home home-configuration-sway)
+  #:use-module (gnu home)
+  #:use-module (gnu home services desktop)
+  #:use-module (gnu home services fontutils)
+  #:use-module (gnu home services sound)
+  #:use-module (gnu packages)
+  #:use-module (gnu services)
+  #:use-module (guix gexp)
+  #:use-module (gnu home services shells))
 
 (home-environment
  ;; Below is the list of packages that will show up in your

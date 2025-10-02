@@ -1,4 +1,4 @@
-(define-module (gnome-xyz-local)
+(define-module (trev-guix packages gnome-xyz-local)
   #:use-module (guix packages)
   #:use-module (guix gexp)
   #:use-module (guix download)
