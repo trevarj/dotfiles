@@ -57,6 +57,7 @@
      "gnome-shell-extension-executor"
      "gnome-shell-extension-weather-oclock"
      "gnupg"
+     "guile-next"
      "headsetcontrol-3.1.0"
      "jq"
      "kitty"
@@ -97,7 +98,6 @@
                (layout 'stow)
                (packages '("zsh" "dconf" "guix"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
-
     (service home-flatpak-service-type)
     (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
     (simple-service 'additional-fonts-service home-fontconfig-service-type

@@ -96,8 +96,13 @@ alias et='emacs -nw'
 alias clear='printf "\033c"'
 
 GUIX_CONFIG_ROOT="$HOME/Workspace/dotfiles/trev-guix"
-alias guix-system-reconfig="sudo guix system reconfigure $GUIX_CONFIG_ROOT/systems/stinkpad-gnome.scm"
-alias guix-home-reconfig="guix home -L $GUIX_CONFIG_ROOT reconfigure $GUIX_CONFIG_ROOT/home/gnome.scm"
+function guix-system-reconfig () {
+    guix system reconfigure -L "$GUIX_CONFIG_ROOT/../" "$GUIX_CONFIG_ROOT/systems/stinkpad-gnome.scm" "$@"
+}
+
+function guix-home-reconfig () {
+    guix home reconfigure -L "$GUIX_CONFIG_ROOT/../" "$GUIX_CONFIG_ROOT/home/gnome.scm" "$@"
+}
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
