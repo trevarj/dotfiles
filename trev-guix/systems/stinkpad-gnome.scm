@@ -2,7 +2,8 @@
   #:use-module (gnu)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
-  #:use-module (nongnu system linux-initrd))
+  #:use-module (nongnu system linux-initrd)
+  #:use-module (trev-guix services fwupd))
 
 (use-service-modules
   cups
@@ -129,7 +130,8 @@
          (handle-lid-switch-external-power 'ignore))))
     (list
      (service gnome-desktop-service-type)
-    
+
+     (service fwupd-service-type)
      ;; Configure the Guix service and ensure we use Nonguix substitutes
      (simple-service 'add-nonguix-substitutes
                      guix-service-type
