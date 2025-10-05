@@ -26,6 +26,7 @@
   libusb
   linux
   package-management
+  scanner
   shells
   ssh
   tor
@@ -127,7 +128,11 @@
        config =>
        (elogind-configuration
          (inherit config)
-         (handle-lid-switch-external-power 'ignore))))
+         (handle-lid-switch-external-power 'ignore)))
+      (sane-service-type
+       _ =>
+       (sane-configuration
+        (backends (list sane-backends sane-airscan)))))
     (list
      (service gnome-desktop-service-type)
 
@@ -162,8 +167,6 @@
                 (config-file
                  (local-file "/home/trev/.config/tor/torrc"))))
 
-     ;; Enable printing and scanning
-     (service sane-service-type)
      (service cups-service-type
               (cups-configuration
                 (web-interface? #t)
