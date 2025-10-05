@@ -33,6 +33,13 @@
   version-control
   video)
 
+(define nonguix-pubkey-file
+  (plain-file
+   "nonguix.pub"
+   "(public-key
+     (ecc (curve Ed25519)
+          (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
+
 (operating-system
   (host-name "stinkpad")
   (timezone "Europe/Moscow")
@@ -64,36 +71,37 @@
           (type luks-device-mapping))))
 
   (file-systems (cons*
-                  (file-system
-                    (device "/dev/mapper/root")
-                    (mount-point "/")
-                    (type "ext4")
-                    (dependencies mapped-devices))
-                  (file-system
-                    (device (uuid "4B66-8689" 'fat32))
-                    (mount-point "/boot/efi")
-                    (type "vfat"))
-                  %base-file-systems))
+                 (file-system
+                   (device "/dev/mapper/root")
+                   (mount-point "/")
+                   (type "ext4")
+                   (dependencies mapped-devices))
+                 (file-system
+                   (device (uuid "4B66-8689" 'fat32))
+                   (mount-point "/boot/efi")
+                   (type "vfat"))
+                 %base-file-systems))
   
   ;; Find swap UUID with `swaplabel /dev/[device name]`
   (swap-devices (list
                  (swap-space
-                   (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
+                  (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
 
   (groups (cons*
            (user-group (name "trev"))
            (user-group (name "i2c"))
            %base-groups))
-  (users (cons (user-account
-                 (name "trev")
-                 (comment "Trevor Arjeski")
-                 (group "users")
-                 (shell (file-append zsh "/bin/zsh"))
-                 (home-directory "/home/trev")
-                 (supplementary-groups
-                  '("trev" "wheel" "netdev" "kvm" "tty" "input"
-                    "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm")))
-               %base-user-accounts))
+  (users
+   (cons (user-account
+          (name "trev")
+          (comment "Trevor Arjeski")
+          (group "users")
+          (shell (file-append zsh "/bin/zsh"))
+          (home-directory "/home/trev")
+          (supplementary-groups
+           '("trev" "wheel" "netdev" "kvm" "tty" "input"
+             "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm")))
+         %base-user-accounts))
 
   ;; Base packages, others will be installed in using a manifest
   (packages (cons* exfat-utils
@@ -112,8 +120,8 @@
       (gdm-service-type
        config =>
        (gdm-configuration
-         (inherit config)
-         (wayland? #t)))
+        (inherit config)
+        (wayland? #t)))
       ;; Configure TTYs
       (console-font-service-type
        config =>
@@ -127,8 +135,8 @@
       (elogind-service-type
        config =>
        (elogind-configuration
-         (inherit config)
-         (handle-lid-switch-external-power 'ignore)))
+        (inherit config)
+        (handle-lid-switch-external-power 'ignore)))
       (sane-service-type
        _ =>
        (sane-configuration
@@ -138,51 +146,53 @@
 
      (service fwupd-service-type)
      ;; Configure the Guix service and ensure we use Nonguix substitutes
-     (simple-service 'add-nonguix-substitutes
-                     guix-service-type
-                     (guix-extension
-                       (substitute-urls
-                        (list
-                         "https://ci.guix.trop.in"
-                         "https://bordeaux.guix.gnu.org"
-                         "https://substitutes.nonguix.org"
-                         "https://ci.guix.trevs.site"))
-                       (authorized-keys
-                        (append (list (plain-file "nonguix.pub"
-                                                  "(public-key (ecc (curve Ed25519) (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
-                                %default-authorized-guix-keys))))
+     (simple-service
+      'add-nonguix-substitutes
+      guix-service-type
+      (guix-extension
+       (substitute-urls
+        (list
+         "https://ci.guix.trop.in"
+         "https://bordeaux.guix.gnu.org"
+         "https://substitutes.nonguix.org"
+         "https://ci.guix.trevs.site"))
+       (authorized-keys
+        (cons* nonguix-pubkey-file
+               %default-authorized-guix-keys))))
 
      ;; Enable SSH access
      (service openssh-service-type
               (openssh-configuration
-                (openssh openssh-sans-x)
-                (port-number 22)))
+               (openssh openssh-sans-x)
+               (port-number 22)))
 
      (service tor-service-type
               (tor-configuration
-                (transport-plugins
-                 (list (tor-transport-plugin
-                         (protocol "webtunnel")
-                         (program (file-append lyrebird "/bin/lyrebird")))))
-                (config-file
-                 (local-file "/home/trev/.config/tor/torrc"))))
+               (transport-plugins
+                (list (tor-transport-plugin
+                       (protocol "webtunnel")
+                       (program (file-append lyrebird "/bin/lyrebird")))))
+               (config-file
+                (local-file "/home/trev/.config/tor/torrc"))))
 
      (service cups-service-type
               (cups-configuration
-                (web-interface? #t)
-                (extensions
-                 (list cups-filters
-                       epson-inkjet-printer-escpr))))
+               (web-interface? #t)
+               (extensions
+                (list cups-filters
+                      epson-inkjet-printer-escpr))))
 
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
-     (udev-rules-service 'arctis-7-nova-udev-rules
-                         (udev-rule
-                          "50-arctis-headset.rules"
-                          (string-append
-                           "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\","
-                           "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
-                           "TAG+=\"uaccess\"")))
-     (udev-rules-service 'ddcutil-i2c-udev-rules
-                         (udev-rule
-                          "60-ddcutil-i2c.rules"
-                          "KERNEL==\"i2c-[0-9]*\", GROUP=\"i2c\", MODE=\"0660\""))))))
+     (udev-rules-service
+      'arctis-7-nova-udev-rules
+      (udev-rule
+       "50-arctis-headset.rules"
+       (string-append
+        "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\","
+        "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
+        "TAG+=\"uaccess\"")))
+     (udev-rules-service
+      'ddcutil-i2c-udev-rules
+      (udev-rule
+       "60-ddcutil-i2c.rules"
+       "KERNEL==\"i2c-[0-9]*\", GROUP=\"i2c\", MODE=\"0660\""))))))
