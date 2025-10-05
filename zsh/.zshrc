@@ -97,7 +97,7 @@ alias clear='printf "\033c"'
 
 GUIX_CONFIG_ROOT="$HOME/Workspace/dotfiles/trev-guix"
 function guix-system-reconfig () {
-    guix system reconfigure -L "$GUIX_CONFIG_ROOT/../" "$GUIX_CONFIG_ROOT/systems/stinkpad-gnome.scm" "$@"
+    zsh -i -c "sudo guix system reconfigure -L $GUIX_CONFIG_ROOT/../ $GUIX_CONFIG_ROOT/systems/stinkpad-gnome.scm $@"
 }
 
 function guix-home-reconfig () {
