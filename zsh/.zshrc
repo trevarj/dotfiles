@@ -107,14 +107,9 @@ function guix-home-reconfig () {
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
 
-# For use within a guix shell
-# if [ -n "$GUIX_ENVIRONMENT" ]; then
-#     GUIX_PROFILE=$GUIX_ENVIRONMENT
-#     . "$GUIX_PROFILE/etc/profile"
-# else
-#     GUIX_PROFILE=$HOME/.guix-profile
-#     [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
-# fi
+# Guix foreign distro
+# GUIX_PROFILE=$HOME/.guix-profile
+# [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
 
 guix_home_plugins="$HOME/.guix-home/profile/share/zsh/plugins"
 # Autosuggetions (ghost text)
