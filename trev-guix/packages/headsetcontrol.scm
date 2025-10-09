@@ -17,5 +17,3 @@
        (file-name (git-file-name name version))
        (sha256
         (base32 "1i251r2kpac2qac8a3c6iqbzkhlh6mzi4hl62mjknc8cbmhjmdgl"))))))
-
-headsetcontrol-3.1.0
