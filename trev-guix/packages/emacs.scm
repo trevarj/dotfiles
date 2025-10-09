@@ -51,6 +51,7 @@
       (name "emacs-next-next-pgtk")
       (version version)
       (source (origin
+                (inherit (package-source emacs-next-minimal))
                 (method git-fetch)
                 (uri (git-reference
                        (url "https://github.com/emacs-mirror/emacs.git")
