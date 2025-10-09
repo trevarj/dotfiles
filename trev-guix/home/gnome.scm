@@ -20,6 +20,7 @@
   #:use-module (gnu services)
   #:use-module (guix gexp)
   #:use-module (trev-guix packages byedpi)
+  #:use-module (trev-guix packages emacs)
   #:use-module (trev-guix packages gnome-xyz-local)
   #:use-module (trev-guix packages headsetcontrol)
   #:use-module (trev-guix services flatpak))
@@ -38,7 +39,7 @@
      "curl"
      "direnv"
      "ddcutil"
-     "emacs-next-pgtk"
+     "emacs-next-next-pgtk"
      "eza"
      "fd"
      "flatpak"
