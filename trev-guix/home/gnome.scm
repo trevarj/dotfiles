@@ -13,7 +13,6 @@
   #:use-module (gnu home services)
   #:use-module (gnu home services desktop)
   #:use-module (gnu home services dotfiles)
-  #:use-module (gnu home services fontutils)
   #:use-module (gnu home services shells)
   #:use-module (gnu home services sound)
   #:use-module (gnu packages)
@@ -23,7 +22,8 @@
   #:use-module (trev-guix packages emacs)
   #:use-module (trev-guix packages gnome-xyz-local)
   #:use-module (trev-guix packages headsetcontrol)
-  #:use-module (trev-guix services flatpak))
+  #:use-module (trev-guix services flatpak)
+  #:use-module (trev-guix services fontconfig))
 
 (home-environment
   ;; Below is the list of packages that will show up in your
@@ -101,5 +101,4 @@
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
     (service home-flatpak-service-type)
     (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
-    (simple-service 'additional-fonts-service home-fontconfig-service-type
-                    (list "~/Workspace/dotfiles/fonts/.local/share/fonts")))))
+    %home-fontconfig-service-extension)))
