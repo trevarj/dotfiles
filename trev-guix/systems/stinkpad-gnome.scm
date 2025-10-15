@@ -12,6 +12,7 @@
   linux
   networking
   ssh
+  virtualization
   xorg)
  
 (use-package-modules
@@ -32,6 +33,10 @@
   tor
   version-control
   video)
+
+(define root-uuid "4b3be666-93bc-49e1-b275-cfccbc9c2729")
+(define efi-uuid "4B66-8689")
+(define swap-uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")
 
 (define nonguix-pubkey-file
   (plain-file
@@ -66,7 +71,7 @@
   ;; The UUID is that returned by 'cryptsetup luksUUID'.
   (mapped-devices
    (list (mapped-device
-          (source (uuid "4b3be666-93bc-49e1-b275-cfccbc9c2729"))
+          (source (uuid root-uuid))
           (target "root")
           (type luks-device-mapping))))
 
@@ -77,7 +82,7 @@
                    (type "ext4")
                    (dependencies mapped-devices))
                  (file-system
-                   (device (uuid "4B66-8689" 'fat32))
+                   (device (uuid efi-uuid 'fat32))
                    (mount-point "/boot/efi")
                    (type "vfat"))
                  %base-file-systems))
@@ -85,7 +90,7 @@
   ;; Find swap UUID with `swaplabel /dev/[device name]`
   (swap-devices (list
                  (swap-space
-                  (target (uuid "f95483f8-7921-4f0f-b509-2752e67b7a2f")))))
+                  (target (uuid swap-uuid)))))
 
   (groups (cons*
            (user-group (name "trev"))
@@ -99,7 +104,7 @@
           (shell (file-append zsh "/bin/zsh"))
           (home-directory "/home/trev")
           (supplementary-groups
-           '("trev" "wheel" "netdev" "kvm" "tty" "input"
+           '("trev" "wheel" "netdev" "kvm" "tty" "input" "libvirt"
              "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm")))
          %base-user-accounts))
 
@@ -181,6 +186,8 @@
                (extensions
                 (list cups-filters
                       epson-inkjet-printer-escpr))))
+
+     (service libvirt-service-type)
 
      (udev-rules-service 'pipewire-add-udev-rules pipewire)
      (udev-rules-service
