@@ -10,6 +10,7 @@
   #:use-module (nongnu packages firmware)
   #:use-module (trev-guix packages byedpi)
   #:use-module (trev-guix packages emacs)
+  #:use-module (trev-guix packages fonts)
   #:use-module (trev-guix packages headsetcontrol)
   #:use-module (trev-guix services flatpak)
   #:use-module (trev-guix services fontconfig))
@@ -37,9 +38,12 @@
       eza
       fd
       flatpak
+      font-cryptofont
       font-google-noto
       font-google-noto-emoji
       font-google-noto-sans-cjk
+      font-iosevka-jbm
+      font-nerd-fonts-symbols
       font-terminus
       fzf
       fzf-tab
