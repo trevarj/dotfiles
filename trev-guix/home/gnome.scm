@@ -21,12 +21,12 @@
 (use-package-modules gnome gnome-xyz)
 
 (home-environment
-  (inherit home-base-environment)
+  (inherit %home-base-environment)
   ;; Below is the list of packages that will show up in your
   ;; Home profile, under ~/.guix-home/profile.
   (packages
    (append
-    (home-environment-packages home-base-environment)
+    (home-environment-packages %home-base-environment)
     (list
      adw-gtk3-theme
      gnome-tweaks
@@ -41,4 +41,4 @@
                (layout 'stow)
                (packages '("zsh" "dconf" "guix"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
-    (home-environment-user-services home-base-environment))))
+    (home-environment-user-services %home-base-environment))))

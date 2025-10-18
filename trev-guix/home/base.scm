@@ -20,7 +20,7 @@
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
 
-(define-public home-base-environment
+(define-public %home-base-environment
   (home-environment
     ;; Below is the list of packages that will show up in your
     ;; Home profile, under ~/.guix-home/profile.
