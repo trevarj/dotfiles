@@ -5,95 +5,41 @@
 ;; See the "Replicating Guix" section in the manual.
 
 (define-module (trev-guix home sway)
+  #:use-module (gnu)
   #:use-module (gnu home)
-  #:use-module (gnu home services desktop)
-  #:use-module (gnu home services fontutils)
-  #:use-module (gnu home services sound)
+  #:use-module (gnu home services dotfiles)
   #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (guix gexp)
-  #:use-module (gnu home services shells))
+  #:use-module (trev-guix home base))
 
-(home-environment
- ;; Below is the list of packages that will show up in your
- ;; Home profile, under ~/.guix-home/profile.
- (packages
-  (specifications->packages
-   (list
-    "curl"
-    "dbus"
-    "direnv"
-    "emacs-pgtk"
-    "eza"
-    "fd"
-    "flatpak"
-    "font-google-noto"
-    "font-google-noto-emoji"
-    "font-terminus"
-    "fuzzel"
-    "fzf"
-    "fzf-tab"
-    "fwupd"
-    "gammastep"
-    "git"
-    "git:send-email"
-    "gnupg"
-    "grimshot"
-    "jq"
-    "kitty"
-    "libtool"
-    "mpv"
-    "msmtp"
-    "ncurses"
-    "neofetch"
-    "papirus-icon-theme"
-    "pavucontrol"
-    "pinentry-tty"
-    "pipewire"
-    "ripgrep"
-    "stow"
-  ; "telegram-desktop"
-    "wireplumber"
-    "xdg-dbus-proxy"
-    "xdg-desktop-portal"
-    "xdg-desktop-portal-gtk"
-    "xdg-desktop-portal-wlr"
-    "xdg-utils"
-    "zsh"
-    "zsh-autopair"
-    "zsh-autosuggestions"
-    "zsh-completions"
-    "zsh-syntax-highlighting")))
+(use-package-modules freedesktop glib linux pulseaudio wm xdisorg)
 
- ;; Below is the list of Home services.  To search for available
- ;; services, run 'guix home search KEYWORD' in a terminal.
- (services
-  (list
-   (service home-dbus-service-type)
-   (service home-pipewire-service-type)
-   (service home-zsh-service-type
-            (home-zsh-configuration
-             (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
-             (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
-             (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))))
-   (simple-service 'additional-fonts-service
-                   home-fontconfig-service-type
-                   (list "~/Workspace/dotfiles/fonts/.local/share/fonts"
-                         (let ((prefer '(prefer
-                                         (family "Iosevka JBM")
-                                         (family "Symbols Nerd Font Mono"))))
-                            `((alias (@ (binding "strong"))
-                                     (family "monospace")
-                                     ,prefer)
-                              (alias (@ (binding "strong"))
-                                     (family "system-ui")
-                                     ,prefer)
-                              (alias (@ (binding "strong"))
-                                     (family "sans-serif")
-                                     (prefer (family "Noto Sans")))))))
-   (simple-service 'flatpak-service home-shell-profile-service-type
-		   (list
-		    (local-file
-		     (string-append (getenv "HOME")
-				    "/.guix-home/profile/etc/profile.d/flatpak.sh")
-		     "flatpak.sh"))))))
+(define foo
+  (home-environment
+    (inherit home-base-environment)
+    ;; Below is the list of packages that will show up in your
+    ;; Home profile, under ~/.guix-home/profile.
+    (packages
+     (append
+      (home-environment-packages home-base-environment)
+      (list
+       fuzzel
+       gammastep
+       grimshot
+       pavucontrol
+       pipewire
+       wireplumber
+       xdg-dbus-proxy
+       xdg-desktop-portal
+       xdg-desktop-portal-gtk
+       xdg-desktop-portal-wlr)))
+    (services
+     (cons*
+      (service home-dotfiles-service-type
+               (home-dotfiles-configuration
+                 (directories '("../../"))
+                 (layout 'stow)
+                 (packages '("zsh" "dconf" "guix" "sway" "swaylock"))
+                 (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
+      (home-environment-user-services home-base-environment)))))
