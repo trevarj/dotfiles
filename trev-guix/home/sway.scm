@@ -16,12 +16,12 @@
 (use-package-modules freedesktop glib linux pulseaudio wm xdisorg)
 
 (home-environment
-  (inherit home-base-environment)
+  (inherit %home-base-environment)
   ;; Below is the list of packages that will show up in your
   ;; Home profile, under ~/.guix-home/profile.
   (packages
    (append
-    (home-environment-packages home-base-environment)
+    (home-environment-packages %home-base-environment)
     (list
      fuzzel
      gammastep
@@ -41,4 +41,4 @@
                (layout 'stow)
                (packages '("zsh" "dconf" "guix" "sway" "swaylock"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
-    (home-environment-user-services home-base-environment))))
+    (home-environment-user-services %home-base-environment))))
