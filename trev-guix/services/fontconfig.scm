@@ -7,7 +7,6 @@
   (simple-service
    'home-fontconfig-extension home-fontconfig-service-type
    (list
-    "~/Workspace/dotfiles/fonts/.local/share/fonts"
     (let ((prefer '(prefer (family "Iosevka JBM")
                            (family "Symbols Nerd Font Mono"))))
       `((alias (@ (binding "strong"))
