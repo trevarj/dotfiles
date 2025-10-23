@@ -10,19 +10,33 @@
  xorg)
 
 (use-package-modules
+ freedesktop
+ glib
  linux
+ pulseaudio
  shells
- wm)
+ wm
+ xdisorg)
 
 (operating-system
   (inherit %stinkpad)
   (packages
    (cons*
+    gammastep
+    grimshot
+    pavucontrol
+    pipewire
+    wireplumber
+    xdg-dbus-proxy
+    xdg-desktop-portal
+    xdg-desktop-portal-gtk
+    xdg-desktop-portal-wlr
     brightnessctl
+    fuzzel
     sway
-    swaylock
     swaybg
     swayidle
+    swaylock
     (operating-system-packages %stinkpad)))
 
   (setuid-programs %setuid-programs)
@@ -55,7 +69,7 @@
               (using-pam? #t)
               (using-setuid? #f)))
     (modify-services (operating-system-user-services %stinkpad)
-               ;; greetd-service-type provides "greetd" PAM service
-               (delete login-service-type)
-               ;; and can be used in place of mingetty-service-type
-               (delete mingetty-service-type)))))
+      ;; greetd-service-type provides "greetd" PAM service
+      (delete login-service-type)
+      ;; and can be used in place of mingetty-service-type
+      (delete mingetty-service-type)))))
