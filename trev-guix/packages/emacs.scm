@@ -44,7 +44,7 @@
 (module-set! (resolve-module '(gnu packages emacs)) '%selector %selector)
 
 (define-public emacs-next-next-pgtk
-  (let* ((commit "b469506030a7a0d4027922a72d8ed3355fac5163")
+  (let* ((commit "ac78b945d5af14fa6cb311ebbae1248baa33a541")
          (version (git-version "31.0.50" "1" commit)))
     (package
       (inherit emacs-next-pgtk)
@@ -58,7 +58,7 @@
                        (commit commit)))
                 (file-name (git-file-name "emacs-next-next-pgtk" commit))
                 (sha256
-                 (base32 "02r5a5asj8v30fywm41l8q9wkv9yvklmxfm2g6kd09zkkwlbr92i"))
+                 (base32 "0cs46g5n46yk285hg7qn91lz4m0cbz3y6v4x8fv8drj0gbd960i3"))
                 (patches
                  (search-patches "emacs-next-disable-jit-compilation.patch"
                                  "emacs-next-exec-path.patch"
