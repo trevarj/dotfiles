@@ -43,6 +43,7 @@
       font-google-noto-emoji
       font-google-noto-sans-cjk
       font-iosevka-jbm
+      font-iotrevka
       font-nerd-fonts-symbols
       font-terminus
       fzf
