@@ -1,13 +1,19 @@
 [buildPlans.Iotrevka]
 family = "Iotrevka"
-spacing = "normal"
+spacing = "term"
 serifs = "sans"
-noCvSs = true
-exportGlyphNames = false
+noCvSs = false
+exportGlyphNames = true
 
 [buildPlans.Iotrevka.variants.design]
+two = "curly-neck-serifless"
 four = "closed-serifless"
+six = "closed-contour"
+seven = "straight-serifless-crossbar"
+nine = "closed-contour"
 zero = "dotted"
+capital-a = "round-top-serifless"
+capital-d = "more-rounded-serifless"
 capital-g = "toothless-rounded-serifless-hooked"
 capital-i = "short-serifed"
 capital-j = "serifless"
@@ -21,8 +27,8 @@ f = "flat-hook-serifless"
 g = "single-storey-earless-corner"
 i = "serifed-semi-tailed"
 j = "serifless"
-l = "semi-tailed"
-m = "earless-rounded-double-arch-short-leg-serifless"
+l = "serifed-semi-tailed"
+m = "serifless"
 n = "earless-corner-straight-serifless"
 p = "earless-corner-serifless"
 q = "earless-rounded-straight-serifless"
@@ -30,23 +36,28 @@ r = "earless-corner-serifless"
 t = "flat-hook"
 u = "toothless-rounded-serifless"
 v = "straight-serifless"
-w = "straight-serifless"
+w = "curly-flat-top-serifless"
+x = "straight-serifless"
 y = "cursive-flat-hook-serifless"
 z = "straight-serifless"
 capital-eszet = "rounded-serifless"
+lower-theta = "oval"
 lower-iota = "tailless"
 lower-kappa = "symmetric-connected-serifless"
 cyrl-zhe = "symmetric-connected"
 cyrl-ze = "serifless"
 cyrl-er = "earless-rounded-serifless"
 cyrl-u = "cursive-serifless"
+cyrl-ef = "split-serifless"
 cyrl-yeri = "corner"
 cyrl-yery = "corner"
+cyrl-ya = "straight-serifless"
 tittle = "round"
 braille-dot = "square"
 asterisk = "hex-high"
 ascii-grave = "straight"
 ascii-single-quote = "straight"
+brace = "straight"
 guillemet = "straight"
 at = "fourfold"
 dollar = "open"
@@ -55,6 +66,9 @@ percent = "rings-continuous-slash"
 bar = "force-upright"
 lig-equal-chain = "without-notch"
 lig-hyphen-chain = "without-notch"
+
+[buildPlans.Iotrevka.ligations]
+inherits = "purescript"
 
 [buildPlans.Iotrevka.weights.Regular]
 shape = 400
@@ -85,16 +99,6 @@ css = 800
 shape = 900
 menu = 900
 css = 900
-
-[buildPlans.Iotrevka.widths.Normal]
-shape = 500
-menu = 5
-css = "normal"
-
-[buildPlans.Iotrevka.widths.Extended]
-shape = 600
-menu = 7
-css = "expanded"
 
 [buildPlans.Iotrevka.slopes.Upright]
 angle = 0

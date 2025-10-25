@@ -34,7 +34,18 @@
     (build-system font-build-system)
     (description "My custom Iosevka font inspired by JetBrains Mono.")
     (home-page "https://www.nerdfonts.com/")
-    (synopsis "Nerd Font including only the symbols")
+    (synopsis "Jetbrains Mono Iosevka variant")
+    (license license:expat)))
+
+(define-public font-iotrevka
+  (package
+    (name "font-iotrevka")
+    (version "1.0.0")
+    (source (local-file "../../fonts/.local/share/fonts/Iotrevka" #:recursive? #t))
+    (build-system font-build-system)
+    (description "My custom Iosevka font where I pick what I like.")
+    (home-page "https://www.nerdfonts.com/")
+    (synopsis "Trev's Iosevka variant")
     (license license:expat)))
 
 (define-public font-cryptofont
