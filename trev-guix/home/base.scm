@@ -8,12 +8,13 @@
   #:use-module (gnu services)
   #:use-module (guix gexp)
   #:use-module (nongnu packages firmware)
-  #:use-module (trev-guix packages byedpi)
   #:use-module (trev-guix packages emacs)
   #:use-module (trev-guix packages fonts)
   #:use-module (trev-guix packages headsetcontrol)
+  #:use-module (trev-guix packages networking)
   #:use-module (trev-guix services flatpak)
-  #:use-module (trev-guix services fontconfig))
+  #:use-module (trev-guix services fontconfig)
+  #:use-module (trev-guix services networking))
 
 (use-package-modules
  admin aspell compression curl file-systems fonts freedesktop
@@ -66,6 +67,7 @@
       stow
       torsocks
       wireguard-tools
+      wstunnel
       xdg-utils
       zsh
       zsh-autopair
@@ -89,4 +91,5 @@
                                      "/.guix-home/profile/lib/aspell"))))))
       (service home-flatpak-service-type)
       (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
+      (service wstunnel-service-type)
       %home-fontconfig-service-extension))))
