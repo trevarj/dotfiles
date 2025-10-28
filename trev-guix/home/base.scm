@@ -86,9 +86,7 @@
                  (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
                  (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))
                  (environment-variables
-                  `(("ASPELL_DICT_DIR" .
-                     ,(string-append (getenv "HOME")
-                                     "/.guix-home/profile/lib/aspell"))))))
+                  '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
       (service home-flatpak-service-type)
       (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
       (service wstunnel-service-type)
