@@ -15,10 +15,8 @@
 ;; workaround to get dbus to load flatpak services because flatpak.sh gets
 ;; run too late
 (define (home-flatpak-environment-variables _)
-  `(("XDG_DATA_DIRS" .
-     ,(string-append (getenv "XDG_DATA_HOME")
-                     "share/flatpak/exports/share:"
-                     (getenv "XDG_DATA_DIRS")))))
+  '(("XDG_DATA_DIRS" .
+     "${XDG_DATA_HOME}share/flatpak/exports/share:${XDG_DATA_DIRS}")))
 
 (define-public home-flatpak-service-type
   (service-type
