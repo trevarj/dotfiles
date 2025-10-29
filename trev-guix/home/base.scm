@@ -17,7 +17,7 @@
   #:use-module (trev-guix services networking))
 
 (use-package-modules
- admin aspell compression curl file-systems fonts freedesktop
+ admin aspell compression containers curl file-systems fonts freedesktop
  gnome gnome-xyz gnupg guile hardware image-viewers linux mail
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
@@ -34,6 +34,7 @@
       byedpi
       curl
       direnv
+      distrobox
       ddcutil
       emacs-next-next-pgtk
       eza
