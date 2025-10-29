@@ -1,11 +1,13 @@
 (define-module (trev-guix systems stinkpad)
   #:use-module (gnu)
+  #:use-module (gnu system accounts)
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:use-module (trev-guix services fwupd))
 
 (use-service-modules
+ containers
  cups
  desktop
  guix
@@ -105,7 +107,7 @@
              (home-directory "/home/trev")
              (supplementary-groups
               '("trev" "wheel" "netdev" "kvm" "tty" "input" "libvirt"
-                "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm")))
+                "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm" "cgroup")))
            %base-user-accounts))
 
     ;; Base packages, others will be installed in using a manifest
@@ -185,6 +187,12 @@
                          epson-inkjet-printer-escpr))))
 
        (service libvirt-service-type)
+
+       (service iptables-service-type)
+       (service rootless-podman-service-type
+                (rootless-podman-configuration
+                 (subgids (list (subid-range (name "trev"))))
+                 (subuids (list (subid-range (name "trev"))))))
 
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service
