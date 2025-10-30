@@ -89,6 +89,6 @@
                  (environment-variables
                   '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
       (service home-flatpak-service-type)
-      (service byedpi-service-type '("-o1" "-o25+s" "-T3" "-At" "1+s"))
+      (service byedpi-service-type)
       (service wstunnel-service-type)
       %home-fontconfig-service-extension))))
