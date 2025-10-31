@@ -37,6 +37,7 @@
       distrobox
       ddcutil
       emacs-next-next-pgtk
+      (list emacs-next-next-pgtk "doc")
       eza
       fd
       flatpak
@@ -53,6 +54,7 @@
       fwupd-nonfree
       git
       (specification->package+output "git:send-email")
+      (list glib "bin")
       gnupg
       guile-next
       headsetcontrol-3.1.0
