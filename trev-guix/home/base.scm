@@ -65,6 +65,7 @@
    ripgrep
    stow
    torsocks
+   unzip
    wireguard-tools
    wstunnel
    xdg-utils
