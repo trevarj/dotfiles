@@ -22,7 +22,7 @@
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
 
-(define-public (trev-home-base-packages)
+(define-public (home-base-packages)
   (list
    aspell
    aspell-dict-en
@@ -74,7 +74,7 @@
    zsh-completions
    zsh-syntax-highlighting))
 
-(define-public (trev-home-base-services)
+(define-public (home-base-services)
   (list
    (service home-dbus-service-type)
    (service home-pipewire-service-type)
