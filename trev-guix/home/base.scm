@@ -18,16 +18,12 @@
 
 (use-package-modules
  admin aspell compression containers curl file-systems fonts freedesktop
- gnome gnome-xyz gnupg guile hardware image-viewers linux mail
+ glib gnome gnome-xyz gnupg guile hardware image-viewers linux mail
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
 
-(define-public %home-base-environment
-  (home-environment
-    ;; Below is the list of packages that will show up in your
-    ;; Home profile, under ~/.guix-home/profile.
-    (packages
-     (list
+(define-public %trev-home-base-packages
+  (list
       aspell
       aspell-dict-en
       aspell-dict-ru
@@ -78,8 +74,8 @@
       zsh-completions
       zsh-syntax-highlighting))
 
-    (services
-     (list
+(define-public %trev-home-base-services
+  (list
       (service home-dbus-service-type)
       (service home-pipewire-service-type)
       (service home-zsh-service-type
@@ -93,4 +89,4 @@
       (service home-flatpak-service-type)
       (service byedpi-service-type)
       (service wstunnel-service-type)
-      %home-fontconfig-service-extension))))
+      %home-fontconfig-service-extension))

@@ -101,7 +101,8 @@ function guix-system-reconfig () {
 }
 
 function guix-home-reconfig () {
-    guix home reconfigure -L "$GUIX_CONFIG_ROOT/../" "$GUIX_CONFIG_ROOT/home/gnome.scm" "$@"
+    guix home reconfigure -L "$GUIX_CONFIG_ROOT/../" \
+         -e "(@ (trev-guix home gnome) %home-gnome-environment)" "$@"
 }
 
 ## eza instead of ls
