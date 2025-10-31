@@ -21,7 +21,7 @@
       gnome-shell-extension-appindicator
       gnome-shell-extension-executor
       gnome-shell-extension-weather-oclock
-      %trev-home-base-packages))
+      (trev-home-base-packages)))
     (services
      (cons*
       (service home-dotfiles-service-type
@@ -30,4 +30,4 @@
                  (layout 'stow)
                  (packages '("zsh" "dconf" "guix"))
                  (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
-      %trev-home-base-services))))
+      (trev-home-base-services)))))
