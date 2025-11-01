@@ -37,5 +37,5 @@
 (define-public byedpi-service-type
   (simple-daemon-service-type 'byedpi "ciadpi"))
 
-(define-public wstunnel-service-type
-  (simple-daemon-service-type 'wstunnel "wstunnel"))
+(define-public gost-service-type
+  (simple-daemon-service-type 'gost "gost"))

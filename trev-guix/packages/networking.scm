@@ -5,6 +5,7 @@
   #:use-module (guix git-download)
   #:use-module (guix build-system copy)
   #:use-module (guix build-system gnu)
+  #:use-module (guix build-system go)
   #:use-module (guix licenses))
 
 (define-public byedpi
@@ -35,30 +36,23 @@ deep-packet inspection made by an ISP.")
     (home-page "https://github.com/hufrea/byedpi")
     (license expat)))
 
-(define-public wstunnel
+(define-public gost
   (package
-    (name "wstunnel")
-    (version "10.5.0")
+    (name "gost")
+    (version "3.2.5")
     (source (origin
               (method url-fetch)
               (uri (string-append
-                    "https://github.com/erebe/wstunnel/releases/download/v" version
-                    "/wstunnel_" version
-                    "_linux_amd64.tar.gz"))
+                    "https://github.com/go-gost/gost/releases/download/v"
+                    version
+                    "/gost_" version
+                    "_linux_amd64v3.tar.gz"))
               (sha256
                (base32
-                "12vshcaqqd8fz85acrwbb8nirc0wkf8drrvm3spnkqza8kyqc4mf"))))
+                "1qiih2hj4psns2sx7905q4d17jm8hk54jqb808kl9p0887fijzwx"))))
     (build-system copy-build-system)
-    (arguments
-     `(#:install-plan '(("wstunnel" "bin/"))
-       #:phases
-       (modify-phases %standard-phases
-         (add-after 'install 'make-executable
-           (lambda* (#:key outputs #:allow-other-keys)
-             (let* ((out (assoc-ref outputs "out"))
-                    (wstunnel (string-append out "/bin/wstunnel")))
-               (chmod wstunnel #o555)))))))
-    (home-page "https://github.com/erebe/wstunnel")
-    (synopsis "Tunnel all your traffic over Websocket or HTTP2.")
-    (description "")
+    (arguments '(#:install-plan '(("gost" "bin/"))))
+    (home-page "https://github.com/go-gost")
+    (synopsis "GO Simple Tunnel - a simple tunnel written in golang")
+    (description "GO Simple Tunnel - a simple tunnel written in golang")
     (license expat)))
