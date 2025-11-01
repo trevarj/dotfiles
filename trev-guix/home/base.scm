@@ -52,6 +52,7 @@
    (specification->package+output "git:send-email")
    (list glib "bin")
    gnupg
+   gost
    guile-next
    headsetcontrol-3.1.0
    jq
@@ -67,7 +68,6 @@
    torsocks
    unzip
    wireguard-tools
-   wstunnel
    xdg-utils
    zsh
    zsh-autopair
@@ -89,5 +89,5 @@
                '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
    (service home-flatpak-service-type)
    (service byedpi-service-type)
-   (service wstunnel-service-type)
+   (service gost-service-type)
    %home-fontconfig-service-extension))
