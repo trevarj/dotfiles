@@ -4,6 +4,7 @@
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+  #:use-module (trev-guix files udev-rules)
   #:use-module (trev-guix services fwupd))
 
 (use-service-modules
@@ -195,16 +196,6 @@
                  (subuids (list (subid-range (name "trev"))))))
 
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
-       (udev-rules-service
-        'arctis-7-nova-udev-rules
-        (udev-rule
-         "50-arctis-headset.rules"
-         (string-append
-          "KERNEL==\"hidraw*\", SUBSYSTEM==\"hidraw\","
-          "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
-          "TAG+=\"uaccess\"")))
-       (udev-rules-service
-        'ddcutil-i2c-udev-rules
-        (udev-rule
-         "60-ddcutil-i2c.rules"
-         "KERNEL==\"i2c-[0-9]*\", GROUP=\"i2c\", MODE=\"0660\"")))))))
+       (udev-rules-service 'arctis-7-nova-udev-rules %arctis-7-nova-udev-rule)
+       (udev-rules-service 'ledger-udev-rules %ledger-udev-rule)
+       (udev-rules-service 'ddcutil-i2c-udev-rules %ddcutil-udev-rule))))))
