@@ -1,5 +1,6 @@
 (define-module (trev-guix packages emacs)
   #:use-module (guix packages)
+  #:use-module (guix gexp)
   #:use-module (guix git-download)
   #:use-module (gnu packages)
   #:use-module (gnu packages emacs))
@@ -44,7 +45,7 @@
 (module-set! (resolve-module '(gnu packages emacs)) '%selector %selector)
 
 (define-public emacs-next-next-pgtk
-  (let* ((commit "ac78b945d5af14fa6cb311ebbae1248baa33a541")
+  (let* ((commit "4bb1b938dfe2a9daffcd9b046e8de292de13b71b")
          (version (git-version "31.0.50" "1" commit)))
     (package
       (inherit emacs-next-pgtk)
@@ -54,11 +55,11 @@
                 (inherit (package-source emacs-next-minimal))
                 (method git-fetch)
                 (uri (git-reference
-                       (url "https://github.com/emacs-mirror/emacs.git")
-                       (commit commit)))
+                      (url "https://github.com/emacs-mirror/emacs.git")
+                      (commit commit)))
                 (file-name (git-file-name "emacs-next-next-pgtk" commit))
                 (sha256
-                 (base32 "0cs46g5n46yk285hg7qn91lz4m0cbz3y6v4x8fv8drj0gbd960i3"))
+                 (base32 "1vywxki734r44w4drlblmqvhn62g31xp8hvqf8qkp14rvwqdxlgp"))
                 (patches
                  (search-patches "emacs-next-disable-jit-compilation.patch"
                                  "emacs-next-exec-path.patch"
