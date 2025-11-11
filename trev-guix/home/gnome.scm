@@ -28,6 +28,6 @@
                (home-dotfiles-configuration
                  (directories '("../../"))
                  (layout 'stow)
-                 (packages '("zsh" "dconf" "guix"))
+                 (packages '("zsh" "guix"))
                  (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
       (home-base-services)))))
