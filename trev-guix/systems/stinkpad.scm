@@ -59,6 +59,7 @@
                              %default-kernel-arguments))
     (firmware (list linux-firmware radeon-firmware))
     (initrd microcode-initrd)
+    (name-service-switch %mdns-host-lookup-nss)
 
     ;; Keyboard layout
     (keyboard-layout (keyboard-layout "us" #:model "thinkpad"))
@@ -66,17 +67,17 @@
     ;; Use the UEFI variant of GRUB with the EFI System
     ;; Partition mounted on /boot/efi.
     (bootloader (bootloader-configuration
-                  (bootloader grub-efi-bootloader)
-                  (targets '("/boot/efi"))
-                  (keyboard-layout keyboard-layout)))
+                 (bootloader grub-efi-bootloader)
+                 (targets '("/boot/efi"))
+                 (keyboard-layout keyboard-layout)))
 
     ;; Specify a mapped device for the encrypted root partition.
     ;; The UUID is that returned by 'cryptsetup luksUUID'.
     (mapped-devices
      (list (mapped-device
-             (source (uuid root-uuid))
-             (target "root")
-             (type luks-device-mapping))))
+            (source (uuid root-uuid))
+            (target "root")
+            (type luks-device-mapping))))
 
     (file-systems (cons*
                    (file-system
@@ -93,7 +94,7 @@
     ;; Find swap UUID with `swaplabel /dev/[device name]`
     (swap-devices (list
                    (swap-space
-                     (target (uuid swap-uuid)))))
+                    (target (uuid swap-uuid)))))
 
     (groups (cons*
              (user-group (name "trev"))
@@ -101,24 +102,26 @@
              %base-groups))
     (users
      (cons (user-account
-             (name "trev")
-             (comment "Trevor Arjeski")
-             (group "users")
-             (shell (file-append zsh "/bin/zsh"))
-             (home-directory "/home/trev")
-             (supplementary-groups
-              '("trev" "wheel" "netdev" "kvm" "tty" "input" "libvirt"
-                "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm" "cgroup")))
+            (name "trev")
+            (comment "Trevor Arjeski")
+            (group "users")
+            (shell (file-append zsh "/bin/zsh"))
+            (home-directory "/home/trev")
+            (supplementary-groups
+             '("trev" "wheel" "netdev" "kvm" "tty" "input" "libvirt"
+               "dialout" "i2c" "lp" "audio" "video" "kmem" "kvm" "cgroup")))
            %base-user-accounts))
 
     ;; Base packages, others will be installed in using a manifest
-    (packages (cons* exfat-utils
-                     fuse-exfat
-                     git
-                     lyrebird
-                     tor
-                     zsh
-                     %base-packages))
+    (packages (cons*
+               cups
+               exfat-utils
+               fuse-exfat
+               git
+               lyrebird
+               tor
+               zsh
+               %base-packages))
 
     (services
      (append
@@ -127,8 +130,8 @@
         (gdm-service-type
          config =>
          (gdm-configuration
-           (inherit config)
-           (wayland? #t)))
+          (inherit config)
+          (wayland? #t)))
         ;; Configure TTYs
         (console-font-service-type
          config =>
@@ -142,8 +145,8 @@
         (elogind-service-type
          config =>
          (elogind-configuration
-           (inherit config)
-           (handle-lid-switch-external-power 'ignore)))
+          (inherit config)
+          (handle-lid-switch-external-power 'ignore)))
         (sane-service-type
          _ =>
          (sane-configuration
@@ -155,37 +158,37 @@
         'add-nonguix-substitutes
         guix-service-type
         (guix-extension
-          (substitute-urls
-           (list
-            "https://ci.guix.trop.in"
-            "https://bordeaux.guix.gnu.org"
-            "https://substitutes.nonguix.org"
-            "https://ci.guix.trevs.site"))
-          (authorized-keys
-           (cons* nonguix-pubkey-file
-                  %default-authorized-guix-keys))))
+         (substitute-urls
+          (list
+           "https://ci.guix.trop.in"
+           "https://bordeaux.guix.gnu.org"
+           "https://substitutes.nonguix.org"
+           "https://ci.guix.trevs.site"))
+         (authorized-keys
+          (cons* nonguix-pubkey-file
+                 %default-authorized-guix-keys))))
 
        ;; Enable SSH access
        (service openssh-service-type
                 (openssh-configuration
-                  (openssh openssh-sans-x)
-                  (port-number 22)))
+                 (openssh openssh-sans-x)
+                 (port-number 22)))
 
        (service tor-service-type
                 (tor-configuration
-                  (transport-plugins
-                   (list (tor-transport-plugin
-                           (protocol "webtunnel")
-                           (program (file-append lyrebird "/bin/lyrebird")))))
-                  (config-file
-                   (local-file "/home/trev/.config/tor/torrc"))))
+                 (transport-plugins
+                  (list (tor-transport-plugin
+                         (protocol "webtunnel")
+                         (program (file-append lyrebird "/bin/lyrebird")))))
+                 (config-file
+                  (local-file "/home/trev/.config/tor/torrc"))))
 
        (service cups-service-type
                 (cups-configuration
-                  (web-interface? #t)
-                  (extensions
-                   (list cups-filters
-                         epson-inkjet-printer-escpr))))
+                 (web-interface? #t)
+                 (extensions
+                  (list cups-filters
+                        epson-inkjet-printer-escpr))))
 
        (service libvirt-service-type)
 
