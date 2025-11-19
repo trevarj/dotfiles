@@ -11,6 +11,7 @@
   #:use-module (trev-guix packages emacs)
   #:use-module (trev-guix packages fonts)
   #:use-module (trev-guix packages headsetcontrol)
+  #:use-module (trev-guix packages misc)
   #:use-module (trev-guix packages networking)
   #:use-module (trev-guix services flatpak)
   #:use-module (trev-guix services fontconfig)
@@ -55,6 +56,7 @@
    gnupg
    gost
    guile-next
+   guix-reconfigure
    headsetcontrol-3.1.0
    jq
    kitty
