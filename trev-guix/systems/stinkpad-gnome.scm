@@ -4,9 +4,10 @@
   #:use-module (guix utils)
   #:use-module (trev-guix systems stinkpad))
 
-(operating-system
-  (inherit %stinkpad)
-  (services
-   (cons*
-    (service gnome-desktop-service-type)
-    (operating-system-user-services %stinkpad))))
+(define-public %stinkpad-gnome
+  (operating-system
+    (inherit %stinkpad)
+    (services
+     (cons*
+      (service gnome-desktop-service-type)
+      (operating-system-user-services %stinkpad)))))
