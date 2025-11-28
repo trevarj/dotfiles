@@ -21,7 +21,7 @@
       gnome-shell-extension-appindicator
       gnome-shell-extension-executor
       gnome-shell-extension-weather-oclock
-      (home-base-packages)))
+      %home-base-packages))
     (services
      (cons*
       (service home-dotfiles-service-type
@@ -30,4 +30,4 @@
                  (layout 'stow)
                  (packages '("zsh" "guix"))
                  (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
-      (home-base-services)))))
+      %home-base-services))))
