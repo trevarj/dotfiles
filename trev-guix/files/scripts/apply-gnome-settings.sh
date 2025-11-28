@@ -53,7 +53,8 @@ apply_setting org.gnome.desktop.peripherals.mouse speed "0.0"
 apply_setting org.gnome.desktop.peripherals.touchpad accel-profile "'flat'"
 apply_setting org.gnome.desktop.peripherals.touchpad two-finger-scrolling-enabled "true"
 
-apply_setting org.gnome.desktop.session idle-delay "900"
+apply_setting org.gnome.desktop.session idle-delay "600"
+apply_setting org.gnome.desktop.screensaver lock-delay "1000"
 
 apply_setting org.gnome.desktop.wm.keybindings close "['<Super>w']"
 apply_setting org.gnome.desktop.wm.keybindings move-to-workspace-1 "['<Shift><Super>1']"
