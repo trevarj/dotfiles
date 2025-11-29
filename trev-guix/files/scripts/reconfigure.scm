@@ -12,11 +12,13 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
 
 (define parse-home
   (match-lambda
+    (("niri") '(@ (trev-guix home niri) %home-niri-environment))
     (("sway") (error "Should return sway home env\n"))
     (_ '(@ (trev-guix home gnome) %home-gnome-environment))))
 
 (define parse-system
   (match-lambda
+    (("niri") '(@ (trev-guix systems stinkpad-niri) %stinkpad-niri))
     (("sway") (error "Should return sway system\n"))
     (_ '(@ (trev-guix systems stinkpad-gnome) %stinkpad-gnome))))
 
