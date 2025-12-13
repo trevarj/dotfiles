@@ -1,5 +1,5 @@
-(use-modules (gnu packages))
-
+(define-module (trev-guix manifests manifest-bitcoin)
+  #:use-module (gnu packages))
 
 (specifications->manifest
  (list
