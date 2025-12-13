@@ -40,7 +40,8 @@
      "man-tests-find-header-file"
      "tab-bar-tests-quit-restore-window"
      "tramp-test50-remote-load-path"
-     "python-shell--convert-file-name-to-send-1")))
+     "python-shell--convert-file-name-to-send-1"
+     "package-vc-tests")))
 
 (module-set! (resolve-module '(gnu packages emacs)) '%selector %selector)
 
