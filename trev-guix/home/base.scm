@@ -73,6 +73,7 @@
      unzip
      wireguard-tools
      xdg-utils
+     yt-dlp
      zsh
      zsh-autopair
      zsh-autosuggestions
