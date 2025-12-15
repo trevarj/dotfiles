@@ -18,8 +18,9 @@
   #:use-module (trev-guix services networking))
 
 (use-package-modules
- admin aspell audio compression containers curl file-systems fonts freedesktop
- glib gnome gnome-xyz gnupg guile hardware image-viewers linux mail
+ admin aspell audio compression containers curl
+ emacs-xyz file-systems fonts freedesktop glib gnome gnome-xyz gnupg guile
+ hardware image-viewers linux mail
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
 
@@ -37,6 +38,7 @@
      easyeffects
      emacs-next-next-pgtk
      (list emacs-next-next-pgtk "doc")
+     emacs-vterm
      eza
      fd
      flatpak
