@@ -31,24 +31,23 @@
     (inherit %stinkpad)
     (packages
      (cons*
+      adw-gtk3-theme
+      bluez
+      bluez-alsa
       brightnessctl
       cava
       cliphist
+      dunst
       fuzzel
-      matugen
-      ;; niri
-      (package ;; https://codeberg.org/guix/guix/pulls/4363
-        (inherit niri)
-        (arguments
-         (ensure-keyword-arguments (package-arguments niri)
-                                   '(#:cargo-install-paths '(".")))))
-      papirus-icon-theme
+      hypridle
+      hyprlock
+      hyprpaper
+      niri
       pavucontrol
       pipewire
-      qtwayland
-      quickshell
-      swayidle
-      swaylock
+      rygel
+      udiskie
+      waybar
       wireplumber
       wlsunset
       xdg-desktop-portal
@@ -63,28 +62,29 @@
      (cons*
       (service greetd-service-type
                (greetd-configuration
-                 (greeter-supplementary-groups (list "video" "input"))
-                 (terminals
-                  (list
-                   (greetd-terminal-configuration
-                     (terminal-vt "1")
-                     (terminal-switch #t)
-                     ;; Use zsh as default shell
-                     (default-session-command
-                       (greetd-agreety-session
-                         (command
-                          (greetd-user-session
-                            (command (file-append zsh "/bin/zsh"))
-                            (command-args '("-l")))))))
-                   ;; Set up remaining TTYs for terminal use
-                   (greetd-terminal-configuration (terminal-vt "2"))
-                   (greetd-terminal-configuration (terminal-vt "3"))))))
+                (greeter-supplementary-groups (list "video" "input"))
+                (terminals
+                 (list
+                  (greetd-terminal-configuration
+                   (terminal-vt "1")
+                   (terminal-switch #t)
+                   ;; Use zsh as default shell
+                   (default-session-command
+                     (greetd-agreety-session
+                      (command
+                       (greetd-user-session
+                        (command (file-append zsh "/bin/zsh"))
+                        (command-args '("-l")))))))
+                  ;; Set up remaining TTYs for terminal use
+                  (greetd-terminal-configuration (terminal-vt "2"))
+                  (greetd-terminal-configuration (terminal-vt "3"))))))
       (service screen-locker-service-type
                (screen-locker-configuration
-                 (name "swaylock")
-                 (program (file-append swaylock "/bin/swaylock"))
-                 (using-pam? #t)
-                 (using-setuid? #f)))
+                (name "hyprlock")
+                (program (file-append hyprlock "/bin/hyprlock"))
+                (using-pam? #t)
+                (using-setuid? #f)))
+      (service bluetooth-service-type (bluetooth-configuration (auto-enable? #t)))
       (modify-services (operating-system-user-services %stinkpad)
         (delete gdm-service-type)
         ;; greetd-service-type provides "greetd" PAM service
