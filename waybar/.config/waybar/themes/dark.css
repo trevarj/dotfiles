@@ -1,0 +1,14 @@
+@define-color bg_color #000000;
+@define-color bg_color_alt #2e3436;
+@define-color fg_color #d3d7cf;
+@define-color primary_color #555753;
+@define-color secondary_color #888a85;
+@define-color highlight_color #4e9a06;
+@define-color accent_color #75507b;
+@define-color red_color #cc0000;
+@define-color green_color #4e9a06;
+@define-color yellow_color #c4a000;
+@define-color blue_color #3465a4;
+@define-color magenta_color #75507b;
+@define-color cyan_color #06989a;
+@define-color gray_color #888a85;

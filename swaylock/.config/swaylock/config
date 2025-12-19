@@ -6,7 +6,7 @@
 # config=<config_file>
 
 # Turn the screen into the given color instead of white
-color=2e3440ff
+# color=2e3440ff
 
 # Enable debugging output
 # debug
@@ -22,7 +22,7 @@ show-failed-attempts
 # daemonize
 
 # Display the given image
-# image [[<output>]:]<path>
+image "~/Pictures/Wallpapers/032.jpg"
 
 # Display the current xkb layout while typing
 show-keyboard-layout
@@ -35,7 +35,7 @@ show-keyboard-layout
 # disable-caps-lock-text
 
 # Show the current Caps Lock state also on the indicator
-# indicator-caps-lock
+indicator-caps-lock
 
 # Image scaling mode: 'stretch', 'fill', 'fit', 'center', 'tile' & 'solid\color'
 # scaling

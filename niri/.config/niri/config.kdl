@@ -19,7 +19,11 @@ input {
             // If this section is empty, niri will fetch xkb settings
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
+
+            // track-layout "global"
         }
+        repeat-delay 250
+        repeat-rate 35
 
         // Enable numlock on startup, omitting this setting disables it.
         numlock
@@ -69,6 +73,11 @@ input {
      focus-follows-mouse max-scroll-amount="0%"
 }
 
+cursor {
+    xcursor-theme "Adwaita"
+    xcursor-size 28
+}
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -109,7 +118,7 @@ input {
 
 output "eDP-1" {
         mode "1920x1200@60.002"
-        scale 1.5
+        scale 1.25
 }
 
 output "DP-5" {
@@ -124,6 +133,8 @@ layout {
     // Set gaps around windows in logical pixels.
     gaps 28
 
+    background-color "transparent"
+    always-center-single-column
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -178,7 +189,7 @@ layout {
         // - CSS-like notation: "rgb(255, 127, 0)", rgba(), hsl() and a few others.
 
         // Color of the ring on the active monitor.
-        active-color "#7fc8ff"
+        active-color "#d08770"
 
         // Color of the ring on inactive monitors.
         //
@@ -279,16 +290,21 @@ layout {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-// spawn-at-startup "waybar"
-spawn-at-startup "QT_SCALE_FACTOR=1.5" "qs" "-c" "noctalia-shell"
-spawn-at-startup "swayidle" "-w" "timeout" "601" "niri msg action power-off-monitors" "timeout" "600" "swaylock -f" "before-sleep" "swaylock -f"
+spawn-at-startup "waybar"
+spawn-at-startup "hypridle"
+spawn-at-startup "dunst"
+spawn-at-startup "hyprpaper"
+
+spawn-at-startup "emacs"
+spawn-sh-at-startup "flatpak --user run org.telegram.desktop"
+spawn-sh-at-startup "flatpak --user run com.brave.Browser"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
-    // skip-at-startup
+    skip-at-startup
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -301,7 +317,7 @@ prefer-no-csd
 // You can change the path where screenshots are saved.
 // A ~ at the front will be expanded to the home directory.
 // The path is formatted with strftime(3) to give you the screenshot date and time.
-screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+screenshot-path "~/Pictures/Screenshots/Screenshot_from_%Y-%m-%d_%H-%M-%S.png"
 
 // You can also set this to null to disable saving screenshots to disk.
 // screenshot-path null
@@ -314,8 +330,40 @@ animations {
     // off
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
-    // slowdown 3.0
+        // slowdown 3.0
+
+   screenshot-ui-open {
+      duration-ms 200
+      curve "ease-out-quad"
+   }
 }
+
+layer-rule {
+    match namespace="^hyprpaper"
+    place-within-backdrop true
+    geometry-corner-radius 12
+    shadow {
+        on
+        softness 40
+        spread 5
+        offset x=0 y=5
+        draw-behind-window true
+        color "#00000064"
+    }
+}
+
+layer-rule {
+    // fuzzel
+    match namespace="^launcher$"
+    shadow {
+        on
+    }
+    geometry-corner-radius 12
+}
+
+workspace "browser"
+workspace "emacs"
+workspace "chat"
 
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
@@ -323,13 +371,13 @@ animations {
 
 // Work around WezTerm's initial configure bug
 // by setting an empty default-column-width.
-window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    default-column-width {}
-}
+// window-rule {
+//     // This regular expression is intentionally made as specific as possible,
+//     // since this is the default config, and we want no false positives.
+//     // You can get away with just app-id="wezterm" if you want.
+//     match app-id=r#"^org\.wezfurlong\.wezterm$"#
+//     default-column-width {}
+// }
 
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
@@ -339,6 +387,25 @@ window-rule {
     match app-id=r#"firefox$"# title="^Picture-in-Picture$"
     open-floating true
 }
+
+window-rule {
+        match app-id="com.brave.Browser"
+        open-on-workspace "browser"
+        open-maximized true
+}
+
+window-rule {
+        match app-id="emacs"
+        open-on-workspace "emacs"
+        open-maximized true
+}
+
+window-rule {
+        match app-id="org.telegram.desktop"
+        open-on-workspace "chat"
+        open-maximized true
+}
+
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
@@ -354,7 +421,7 @@ window-rule {
 
 // Example: enable rounded corners for all windows.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
 }
@@ -377,8 +444,11 @@ binds {
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; }
     Mod+E hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    Mod+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
-    Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn "flatpak --user run com.brave.Browser"; }
+    Mod+Alt+L hotkey-overlay-title="Lock the Screen: hyprlock" { spawn "hyprlock"; }
+    Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn-sh "flatpak --user run com.brave.Browser"; }
+
+    Mod+Alt+Return hotkey-overlay-title="Switch to DP-1" { spawn-sh "ddcutil -b 18 setvcp 60 0x0f"; }
+    Mod+Ctrl+W hotkey-overlay-title="Restart Waybar" { spawn-sh "killall -SIGUSR2 waybar"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -605,9 +675,9 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
-    Alt+Print { screenshot-window; }
+    Print hotkey-overlay-title="Take a screenshot" { screenshot; }
+    Ctrl+Print hotkey-overlay-title="Take a screenshot (Screen)" { screenshot-screen; }
+    Alt+Print hotkey-overlay-title="Take a screenshot (Window)" { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
@@ -626,4 +696,11 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
+}
+
+// Disable the hot corners.
+gestures {
+    hot-corners {
+        off
+    }
 }

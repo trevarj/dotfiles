@@ -1,0 +1,66 @@
+@import "themes/dark.css";
+
+* {
+    border: none;
+    font-family: NotoSans, IosevkaJBM;
+    min-height: 0;
+}
+
+tooltip {
+    border-radius: 16px;
+    background: @bg_color_alt;
+    color: @fg_color;
+}
+
+tooltip label {
+    font-size: 16px;
+    color: @fg_color;
+}
+
+menu {
+    border-radius: 16px;
+    background: @bg_color_alt;
+    color: @fg_color;
+}
+
+.module {
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 30px;
+}
+
+.module:hover {
+    background-color: @bg_color_alt;
+}
+
+#waybar {
+    font-size: 16px;
+    font-weight: bold;
+    background: @bg_color;
+    color: @fg_color;
+}
+
+#mode {
+    background: @bg_color_alt;
+    color: @fg_color;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+#workspaces button {
+    font-weight: bold;
+    font-size: 6px;
+    padding: 2px;
+    color: @fg_color;
+    min-width: 30px;
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+#workspaces button.active {
+   animation: gradient_f 20s ease-in infinite;
+   transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+}
+
+#workspaces:hover {
+    background-color: @bg_color;
+}
