@@ -1,0 +1,59 @@
+@import "themes/dark.css";
+
+* {
+    border: none;
+    font-family: NotoSans, IosevkaJBM;
+    min-height: 0;
+}
+
+tooltip {
+    background: @bg_color_alt;
+    color: @fg_color;
+}
+
+tooltip label {
+    font-size: 16px;
+    color: @fg_color;
+}
+
+menu {
+    border-radius: 16px;
+    background: @bg_color_alt;
+    color: @fg_color;
+}
+
+.module {
+    padding-left: 6px;
+    padding-right: 6px;
+    border-radius: 30px;
+}
+
+.module:hover {
+    background-color: @bg_color_alt;
+}
+
+#waybar {
+    font-size: 16px;
+    font-weight: bold;
+    background: @bg_color;
+    color: @fg_color;
+}
+
+#mode {
+    background: @alt_color;
+    color: @fg_color;
+    padding-left: 14px;
+    padding-right: 14px;
+}
+
+#workspaces button {
+    font-weight: normal;
+    padding: 2px;
+    min-width: 20px;
+    color: @fg_color;
+    border: 1px solid @bg_color;
+}
+
+#workspaces button.active {
+    background: @bg_color_alt;
+}
