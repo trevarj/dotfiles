@@ -63,6 +63,7 @@
      guix-reconfigure
      headsetcontrol-3.1.0
      hicolor-icon-theme
+     imv
      jq
      kitty
      mpv
