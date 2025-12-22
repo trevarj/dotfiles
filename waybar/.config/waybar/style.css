@@ -51,16 +51,13 @@ menu {
     font-weight: bold;
     font-size: 6px;
     padding: 2px;
-    color: @fg_color;
-    min-width: 30px;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    color: @gray_color;
+    min-width: 16px;
+    /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }
 
 #workspaces button.active {
-   animation: gradient_f 20s ease-in infinite;
-   transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
-}
-
-#workspaces:hover {
-    background-color: @bg_color;
+    color: @fg_color;
+   /* animation: gradient_f 20s ease-in infinite; */
+   /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }

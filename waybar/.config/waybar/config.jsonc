@@ -14,9 +14,9 @@
     "tray",
     "custom/notifications",
     "niri/language",
-    "network",
     "custom/headset",
     "pulseaudio",
+    "network",
     "battery",
     "custom/power"
   ],
@@ -26,7 +26,7 @@
       // "browser": "",
       // "emacs": "",
       // "chat": "",
-      "active": "█████",
+      "active": "███████",
       "default": ""
     },
     "disable-click": false,
@@ -69,7 +69,7 @@
     "spacing": 10
   },
   "clock": {
-    "format": "{:%A, %b %d %Y  %H:%M}",
+    "format": "{:%A, %b %d  %H:%M}",
     "tooltip-format": "{tz_list}<tt>{calendar}</tt>",
     "format-alt": "{:%Y-%m-%d}",
     "timezones": [
@@ -134,11 +134,11 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{capacity}% {icon}",
-    "format-full": "{capacity}% {icon}",
-    "format-charging": "{capacity}% 󰂄",
-    "format-plugged": "{capacity}% 󱟢",
-    "format-alt": "{time} {icon}",
+    "format": "{icon}  {capacity}%",
+    "format-full": "{icon}  {capacity}%",
+    "format-charging": "󰂄 {capacity}%",
+    "format-plugged": "󱟢 {capacity}%",
+    "format-alt": "{icon}  {time}",
     "format-icons": [
       "󰁺",
       "󰁻",
@@ -188,8 +188,8 @@
     "on-click-right": "nm-connection-editor"
   },
   "pulseaudio": {
-    "format": "{volume} {icon} ",
-    "format-bluetooth": "{volume} {icon} {format_source}",
+    "format": "{icon} ",
+    "format-bluetooth": "{icon} {format_source}",
     "format-bluetooth-muted": " {icon} {format_source}",
     "format-muted": "󰖁 {format_source}",
     "format-source": "{volume}% ",
