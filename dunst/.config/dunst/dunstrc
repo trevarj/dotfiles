@@ -22,7 +22,7 @@
     gap_size = 10
 
 [urgency_normal]
-    background = "#000000aa"
+    background = "#2e3436aa"
     foreground = "#f2f2f4"
     highlight = "#c0deff"
     timeout = 10
