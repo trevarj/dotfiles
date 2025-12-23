@@ -389,9 +389,10 @@ window-rule {
 }
 
 window-rule {
-        match app-id="com.brave.Browser"
+        match app-id=r#"brave"#
         open-on-workspace "browser"
         open-maximized true
+        open-focused true
 }
 
 window-rule {
