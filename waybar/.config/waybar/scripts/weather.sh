@@ -13,25 +13,21 @@ if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [ "
     fi
     condition=$(echo "$res" | jq -r '.current_weather.weathercode' 2>/dev/null)
     case "$condition" in
-        "0") cond="󰖙" ;;  # Clear sky
-        "1") cond="󰖕" ;;  # Partly cloudy
-        "2") cond="󰖐" ;;  # Cloudy
-        "3") cond="󰖗" ;;  # Light rain
-        "4") cond="󰖗" ;;  # Moderate rain
-        "5") cond="󰖖" ;;  # Heavy rain
-        "6") cond="󰼶" ;;  # Snow
-        "7") cond="󰖘" ;;  # Light snow
-        "8") cond="󰙾" ;;  # Thunderstorm
-        "9") cond="󰖑" ;;  # Fog
-        "10") cond="󰖗" ;;  # Drizzle
-        "11") cond="󰙿" ;;  # Freezing rain
-        "12") cond="󰖒" ;;  # Hail
-        "13") cond="󰼸" ;;  # Dust
-        "14") cond="󰼸" ;;  # Smoke
-        "15") cond="󰼸" ;;  # Ash
-        *) cond="" ;;  # Default to no icon
+        0) cond="󰖙" ;;
+        1|2) cond="󰖕" ;;
+        3) cond="󰖐" ;;
+        45|48) cond="󰖑" ;;
+        51|53|55) cond="󰖗" ;;
+        56|57) cond="󰖒" ;;
+        61|63|65) cond="󰖗" ;;
+        66|67) cond="󰖒" ;;
+        71|73|75|77) cond="󰼶" ;;
+        80|81|82) cond="󰖖" ;;
+        85|86) cond="󰼶" ;;
+        95|96|99) cond="󰙾" ;;
+        *) cond="󰨹" ;;
     esac
     printf "%s   %s°C" "$cond" "$temp_rounded"
 else
-    printf "N/A"
+    printf "󰨹"
 fi
