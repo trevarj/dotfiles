@@ -1,8 +1,10 @@
 [global]
+    notification_limit = 1
+    indicate_hidden = false
     width = 400
     height = (0, 380)
     offset = (5, 5)
-    origin = top-right
+    origin = top-center
     follow = mouse
     padding = 10
     horizontal_padding = 10
@@ -19,13 +21,14 @@
     frame_width = 2
     frame_color = "#d08770"
     corner_radius = 16
+    icon_corner_radius = 16
     gap_size = 10
 
 [urgency_normal]
     background = "#2e3436aa"
     foreground = "#f2f2f4"
     highlight = "#c0deff"
-    timeout = 10
+    timeout = 0
 
 [urgency_critical]
     frame_color = "#702020"
