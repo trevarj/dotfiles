@@ -7,18 +7,18 @@
     "custom/crypto",
   ],
   "modules-center": [
+    "custom/weather",
     "clock",
-    "custom/weather"
+    "custom/notifications"
   ],
   "modules-right": [
     "tray",
-    "custom/notifications",
     "niri/language",
     "custom/headset",
     "pulseaudio",
     "network",
     "battery",
-    "custom/power"
+    "custom/menu"
   ],
   "niri/workspaces": {
     "format": "{icon}",
@@ -275,16 +275,19 @@
   },
   "custom/notifications": {
     "exec": "$HOME/.config/waybar/scripts/notifications.sh status",
-    "on-click": "$HOME/.config/waybar/scripts/notifications.sh toggle",
+    "on-click": "dunstctl action && dunstctl close",
+    "on-click-right": "$HOME/.config/waybar/scripts/notifications.sh toggle",
+    "on-click-middle": "dunstctl close-all",
     "return-type": "json",
     "restart-interval": 1
   },
-  "custom/power": {
-    "format" : "󰐥 ",
+  "custom/menu": {
+    "format" : " ",
     "tooltip": false,
     "menu": "on-click",
     "menu-file": "$HOME/.config/waybar/power_menu.xml",
     "menu-actions": {
+      "notifications": "$HOME/.config/waybar/scripts/notifications.sh toggle",
       "shutdown": "loginctl poweroff",
       "reboot": "loginctl reboot",
       "suspend": "loginctl suspend",
