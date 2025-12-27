@@ -118,7 +118,7 @@ cursor {
 
 output "eDP-1" {
         mode "1920x1200@60.002"
-        scale 1.25
+        scale 1.0
 }
 
 output "DP-5" {

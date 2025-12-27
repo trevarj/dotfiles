@@ -188,11 +188,11 @@
     "on-click-right": "nm-connection-editor"
   },
   "pulseaudio": {
-    "format": "{icon} ",
+    "format": "{icon} {format_source}",
     "format-bluetooth": "{icon} {format_source}",
     "format-bluetooth-muted": " {icon} {format_source}",
-    "format-muted": "󰖁 {format_source}",
-    "format-source": "{volume}% ",
+    "format-muted": "󰖁",
+    "format-source": "",
     "format-source-muted": "",
     "format-icons": {
       "headphone": "",
@@ -207,6 +207,7 @@
         "󰕾"
       ]
     },
+    "tooltip-format": "{volume}% {desc}",
     "on-click": "pavucontrol"
   },
   "bluetooth": {
