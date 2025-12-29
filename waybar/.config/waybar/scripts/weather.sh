@@ -6,7 +6,7 @@ LONG="37.6173"
 res=$(curl -s -X GET \
            "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=celsius")
 
-if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [ "$temp" -z ]; then
+if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [[ -n "$temp" ]]; then
     temp_rounded=$(printf "%.0f" "$temp")
     if [ "$temp_rounded" -eq 0 ]; then
         temp_rounded=0
