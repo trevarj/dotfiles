@@ -10,8 +10,8 @@ _status() {
             icon=""
             if [ "$paused" == 'true' ]; then
                 icon="󰪑"
-            # else
-            #     icon="󰂜"
+            elif [ "$1" == 'full' ]; then
+                icon="󰂜"
             fi
             if [ "$count" != '0' ]; then
                 icon="󰅸"
@@ -26,6 +26,6 @@ _toggle() {
 }
 
 case "$1" in
-    status) _status ;;
+    status) _status "${2:-none}" ;;
     toggle) _toggle ;;
 esac

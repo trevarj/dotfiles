@@ -13,12 +13,13 @@
   ],
   "modules-right": [
     "tray",
+    "privacy",
     "niri/language",
     "custom/headset",
     "pulseaudio",
     "network",
     "battery",
-    "custom/menu"
+    "group/settings"
   ],
   "niri/workspaces": {
     "format": "{icon}",
@@ -184,7 +185,7 @@
     "tooltip-format-wifi": "{ifname} {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "$HOME/.config/waybar/scripts/network.py",
+    "on-click": "nmtui",
     "on-click-right": "nm-connection-editor"
   },
   "pulseaudio": {
@@ -232,17 +233,11 @@
         "tooltip-icon-size": 24
       },
       {
-        "type": "audio-out",
-        "tooltip": true,
-        "tooltip-icon-size": 24
-      },
-      {
         "type": "audio-in",
         "tooltip": true,
         "tooltip-icon-size": 24
       }
     ],
-    "ignore-monitor": true,
     "ignore": [
       {
         "type": "audio-in",
@@ -282,8 +277,14 @@
     "return-type": "json",
     "restart-interval": 1
   },
+  "custom/notifications-toggle": {
+    "exec": "$HOME/.config/waybar/scripts/notifications.sh status full",
+    "on-click": "$HOME/.config/waybar/scripts/notifications.sh toggle",
+    "return-type": "json",
+    "restart-interval": 1
+  },
   "custom/menu": {
-    "format" : " ",
+    "format" : " ",
     "tooltip": false,
     "menu": "on-click",
     "menu-file": "$HOME/.config/waybar/power_menu.xml",
@@ -294,4 +295,53 @@
       "suspend": "loginctl suspend",
     },
   },
+  "group/settings": {
+    "orientation": "inherit",
+    "modules": [
+      "custom/settings",
+      "custom/power",
+      "custom/suspend",
+      "custom/reboot",
+      "custom/lock",
+      "idle_inhibitor",
+      "custom/notifications-toggle"
+    ],
+    "drawer": {
+      "children-class": "not-settings",
+      "transition-duration": 500,
+      "transition-left-to-right": false,
+      "click-to-reveal": true
+    }
+  },
+  "custom/settings": {
+    "format": " ",
+    "tooltip": false
+  },
+  "custom/power": {
+    "format": "󰐥",
+    "tooltip": false,
+    "on-click": "loginctl poweroff"
+  },
+  "custom/suspend": {
+    "format": "󰤄",
+    "tooltip": false,
+    "on-click": "loginctl suspend"
+  },
+  "custom/reboot": {
+    "format": "󰜉",
+    "tooltip": false,
+    "on-click": "loginctl reboot"
+  },
+  "custom/lock": {
+    "format": "󰍁",
+    "tooltip": false,
+    "on-click": "hyprlock"
+  },
+  "idle_inhibitor": {
+    "format": "{icon}",
+    "format-icons": {
+      "activated": "󰒳",
+      "deactivated": "󰒲"
+    }
+  }
 }

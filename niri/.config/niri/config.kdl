@@ -706,3 +706,8 @@ gestures {
         off
     }
 }
+
+debug {
+    // brave not inhibiting idle when fullscreen
+    dbus-interfaces-in-non-session-instances
+}
