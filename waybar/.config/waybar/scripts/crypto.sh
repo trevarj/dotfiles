@@ -1,5 +1,9 @@
 #!/bin/sh
 
+while ! nm-online -q; do
+    sleep 1
+done
+
 query=$(curl -s -X GET "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd,btc" -H "accept: application/json")
 
 if [ "$1" = "-d" ]; then
