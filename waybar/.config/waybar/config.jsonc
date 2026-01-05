@@ -185,7 +185,7 @@
     "tooltip-format-wifi": "{ifname} {essid} ({signalStrength}%)",
     "tooltip-format-ethernet": "{ifname}",
     "tooltip-format-disconnected": "Disconnected",
-    "on-click": "nmtui",
+    "on-click": "kitty -e nmtui",
     "on-click-right": "nm-connection-editor"
   },
   "pulseaudio": {
