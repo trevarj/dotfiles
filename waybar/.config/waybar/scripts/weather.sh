@@ -3,6 +3,10 @@
 LAT="0.0"
 LONG="0.0"
 
+while ! nm-online -q; do
+    sleep 1
+done
+
 res=$(curl -s -X GET \
            "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=celsius")
 
