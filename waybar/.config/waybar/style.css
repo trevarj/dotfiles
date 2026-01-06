@@ -69,3 +69,7 @@ menu {
     color: @gray_color;
     background: @bg_color_alt;
 }
+
+#privacy-item {
+    color: @red_color;
+}
