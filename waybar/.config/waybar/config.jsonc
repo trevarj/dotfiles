@@ -298,7 +298,7 @@
       "children-class": "not-settings",
       "transition-duration": 500,
       "transition-left-to-right": false,
-      "click-to-reveal": true
+      "click-to-reveal": false
     }
   },
   "custom/settings": {
