@@ -26,7 +26,7 @@ menu {
 .module {
     padding-left: 6px;
     padding-right: 6px;
-    border-radius: 30px;
+    border-radius: 16px;
 }
 
 .module:hover {
@@ -53,21 +53,37 @@ menu {
     padding: 2px;
     color: @gray_color;
     min-width: 16px;
-    /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
 #workspaces button.active {
     color: @fg_color;
-   /* animation: gradient_f 20s ease-in infinite; */
-   /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
+    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
 }
 
-#settings {
+#settings:hover {
+    border-radius: 16px;
+    background: @bg_color_alt;
+}
+
+#custom-settings {
+    color: @yellow_color;
+}
+
+#custom-power {
+    color: @red_color;
+}
+
+#custom-reboot {
+    color: @yellow_color;
+}
+
+#custom-suspend {
+    color: @cyan_color;
 }
 
 .not-settings {
-    color: @gray_color;
-    background: @bg_color_alt;
+    /* color: @gray_color; */
 }
 
 #privacy-item {
