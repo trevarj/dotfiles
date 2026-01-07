@@ -53,12 +53,12 @@ menu {
     padding: 2px;
     color: @gray_color;
     min-width: 16px;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }
 
 #workspaces button.active {
     color: @fg_color;
-    transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682);
+    /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }
 
 #settings:hover {
