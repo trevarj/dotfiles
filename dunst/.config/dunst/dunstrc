@@ -12,20 +12,20 @@
     max_icon_size = 64
     markup = full
     show_indicators = false
-    dmenu = fuzzel -dmenu -p dunst:
+    dmenu = fuzzel --show dmenu -p dunst:
     mouse_left_click = do_action, close_current
     mouse_middle_click = close_all
     mouse_right_click = close_current, context_all
     idle_threshold = 120
     font = Noto Sans 14.0
     frame_width = 2
-    frame_color = "#d08770"
+    frame_color = "#2e3436ee"
     corner_radius = 16
     icon_corner_radius = 16
     gap_size = 10
 
 [urgency_normal]
-    background = "#2e3436aa"
+    background = "#2e3436ee"
     foreground = "#f2f2f4"
     highlight = "#c0deff"
     timeout = 0
