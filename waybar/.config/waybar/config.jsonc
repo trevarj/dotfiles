@@ -288,8 +288,8 @@
     "modules": [
       "custom/settings",
       "custom/power",
-      "custom/suspend",
       "custom/reboot",
+      "custom/suspend",
       "custom/lock",
       "idle_inhibitor",
       "custom/notifications-toggle"
