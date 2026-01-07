@@ -283,18 +283,6 @@
     "return-type": "json",
     "restart-interval": 1
   },
-  "custom/menu": {
-    "format" : " ",
-    "tooltip": false,
-    "menu": "on-click",
-    "menu-file": "$HOME/.config/waybar/power_menu.xml",
-    "menu-actions": {
-      "notifications": "$HOME/.config/waybar/scripts/notifications.sh toggle",
-      "shutdown": "loginctl poweroff",
-      "reboot": "loginctl reboot",
-      "suspend": "loginctl suspend",
-    },
-  },
   "group/settings": {
     "orientation": "inherit",
     "modules": [
