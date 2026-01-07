@@ -35,7 +35,7 @@ apply_setting org.gnome.desktop.input-sources sources "[('xkb', 'us'), ('xkb', '
 apply_setting org.gnome.desktop.interface clock-show-weekday "true"
 apply_setting org.gnome.desktop.interface color-scheme "'prefer-dark'"
 apply_setting org.gnome.desktop.interface cursor-size "24"
-apply_setting org.gnome.desktop.interface enable-animations "false"
+apply_setting org.gnome.desktop.interface enable-animations "true"
 apply_setting org.gnome.desktop.interface enable-hot-corners "false"
 apply_setting org.gnome.desktop.interface font-antialiasing "'rgba'"
 apply_setting org.gnome.desktop.interface font-hinting "'medium'"
