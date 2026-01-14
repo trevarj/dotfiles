@@ -140,7 +140,7 @@
                 ;; Use a larger font for HIDPI screens
                 (cons tty (file-append
                            font-terminus
-                           "/share/consolefonts/ter-v20b")))
+                           "/share/consolefonts/ter-v28b")))
               '("tty1" "tty2" "tty3")))
         ;; Prevent sleep when switching on KVM+Dock
         (elogind-service-type
