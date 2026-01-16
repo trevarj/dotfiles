@@ -94,7 +94,7 @@ alias open='xdg-open'
 alias tb='nc termbin.com 9999'
 alias et='emacs -nw'
 alias clear='printf "\033c"'
-alias niri-session='dbus-run-session niri --session'
+alias niri-session="exec dbus-run-session niri --session"
 
 ## eza instead of ls
 source $HOME/.zsh_eza.zsh
