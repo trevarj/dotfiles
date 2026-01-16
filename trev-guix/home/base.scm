@@ -39,6 +39,7 @@
      easyeffects
      emacs-next-next-pgtk
      (list emacs-next-next-pgtk "doc")
+     emacs-guix
      emacs-vterm
      eza
      fd
