@@ -41,12 +41,16 @@
      "tab-bar-tests-quit-restore-window"
      "tramp-test50-remote-load-path"
      "python-shell--convert-file-name-to-send-1"
-     "package-vc-tests")))
+     "package-vc-tests"
+     "xref-elisp-test-find-defs-defgeneric-implicit-generic"
+     "pcase-tests-quote-optimization"
+     "test-map"
+     "process-test-stderr-buffer")))
 
 (module-set! (resolve-module '(gnu packages emacs)) '%selector %selector)
 
 (define-public emacs-next-next-pgtk
-  (let* ((commit "c1b8a00da923c0c88821675537f173d630ddb8b3")
+  (let* ((commit "588d95e91dfa1b374481636608e94d70f8a12758")
          (version (git-version "31.0.50" "1" commit)))
     (package
       (inherit emacs-next-pgtk)
@@ -60,7 +64,7 @@
                       (commit commit)))
                 (file-name (git-file-name "emacs-next-next-pgtk" commit))
                 (sha256
-                 (base32 "1z7q2d36zkh1cijm6hzwdprxybniqa790yzrg9vialrd35vbms3r"))
+                 (base32 "101zg4n7n3yfl7ml0psbsgynxj6pzvfha4r4s82n3nkvp6b4chyz"))
                 (patches
                  (search-patches "emacs-next-disable-jit-compilation.patch"
                                  "emacs-next-exec-path.patch"
