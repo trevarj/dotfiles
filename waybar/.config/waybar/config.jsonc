@@ -5,6 +5,7 @@
   "modules-left": [
     "niri/workspaces",
     "custom/crypto",
+    "memory",
   ],
   "modules-center": [
     "custom/weather",
@@ -106,7 +107,8 @@
     "tooltip": false
   },
   "memory": {
-    "format": "{}% "
+    "format": "󰍛",
+    "tooltip-format": "{used:0.1f}GiB/{total:0.1f}GiB"
   },
   "temperature": {
     "thermal-zone": 0,
