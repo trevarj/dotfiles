@@ -18,6 +18,7 @@
     "custom/headset",
     "pulseaudio",
     "network",
+    "temperature",
     "battery",
     "group/settings"
   ],
@@ -108,12 +109,18 @@
     "format": "{}% "
   },
   "temperature": {
+    "thermal-zone": 0,
+    "warning-threshold": 60,
     "critical-threshold": 80,
-    "format": "{temperatureC}°C {icon}",
+    "format": "",
+    "format-warning": "{icon}",
+    "format-critical": "{icon} {temperatureC}°C",
     "format-icons": [
-      "",
+      "",
+      "",
       "",
-      ""
+      "",
+      ""
     ]
   },
   "backlight": {

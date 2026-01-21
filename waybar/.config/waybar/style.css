@@ -61,6 +61,14 @@ menu {
     /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }
 
+#temperature.warning {
+    color: @yellow_color;
+}
+
+#temperature.critical {
+    color: @red_color;
+}
+
 #settings:hover {
     border-radius: 16px;
     background: @bg_color_alt;
