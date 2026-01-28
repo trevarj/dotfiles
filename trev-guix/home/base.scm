@@ -76,6 +76,7 @@
      pinentry-tty
      ripgrep
      stow
+     tlp
      torsocks
      unzip
      wireguard-tools
