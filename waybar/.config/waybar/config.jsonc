@@ -5,7 +5,6 @@
   "modules-left": [
     "niri/workspaces",
     "custom/crypto",
-    "memory",
   ],
   "modules-center": [
     "custom/weather",
@@ -20,6 +19,7 @@
     "pulseaudio",
     "network",
     "temperature",
+    "memory",
     "battery",
     "group/settings"
   ],
@@ -107,7 +107,13 @@
     "tooltip": false
   },
   "memory": {
-    "format": "󰍛",
+    "format": "",
+    "states": {
+        "warning": 80,
+        "critical": 95
+    },
+    "format-warning": "󰍛",
+    "format-critical": "󰍛",
     "tooltip-format": "{used:0.1f}GiB/{total:0.1f}GiB"
   },
   "temperature": {

@@ -61,11 +61,13 @@ menu {
     /* transition: all 0.3s cubic-bezier(.55,-0.68,.48,1.682); */
 }
 
-#temperature.warning {
+#temperature.warning,
+#memory.warning {
     color: @yellow_color;
 }
 
-#temperature.critical {
+#temperature.critical,
+#memory.critical {
     color: @red_color;
 }
 
