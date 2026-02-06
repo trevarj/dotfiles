@@ -13,9 +13,9 @@
     markup = full
     show_indicators = false
     dmenu = fuzzel --show dmenu -p dunst:
-    mouse_left_click = do_action, close_current
+    mouse_left_click = do_action,close_current
     mouse_middle_click = close_all
-    mouse_right_click = close_current, context_all
+    mouse_right_click = close_current
     idle_threshold = 120
     font = Noto Sans 14.0
     frame_width = 2
