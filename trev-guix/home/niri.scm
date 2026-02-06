@@ -25,7 +25,7 @@
                (directories '("../../"))
                (layout 'stow)
                (packages
-                '("zsh" "guix" "niri" "waybar" "icons" "dunst" "fuzzel" "hypr"))
+                '("zsh" "guix" "niri" "waybar" "icons" "dunst" "fuzzel" "hypr" "X"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
      (service udiskie-service-type)
      %home-base-services))))

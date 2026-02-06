@@ -1,6 +1,6 @@
 
 ! HiDPI
-Xft.dpi: 138
+Xft.dpi: 144
 xterm*faceName: Iosevka JBM
 xterm*faceSize: 16
 
@@ -11,7 +11,7 @@ xterm*faceSize: 16
 !Xft.anitalias: 1
 !Xft.rgba: rgb
 
-Xcursor.theme: Bibata-Modern-Classic
+! Xcursor.theme: Bibata-Modern-Classic
 
 #define nord0 #2E3440
 #define nord1 #3B4252
