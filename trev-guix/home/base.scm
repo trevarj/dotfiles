@@ -31,6 +31,7 @@
      aspell
      aspell-dict-en
      aspell-dict-ru
+     btop
      byedpi
      curl
      direnv
