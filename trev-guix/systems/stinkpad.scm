@@ -127,6 +127,19 @@
     (services
      (append
       (modify-services %desktop-services
+        (guix-service-type
+         config =>
+         (guix-configuration
+          (inherit config)
+          (substitute-urls
+           (list
+            "https://ci.guix.trop.in"
+            "https://bordeaux.guix.gnu.org"
+            "https://substitutes.nonguix.org"
+            "https://ci.guix.trevs.site"))
+          (authorized-keys
+           (cons* nonguix-pubkey-file
+                  %default-authorized-guix-keys))))
         ;; Use Wayland
         (gdm-service-type
          config =>
@@ -154,21 +167,6 @@
           (backends (list sane-backends sane-airscan)))))
       (list
        (service fwupd-service-type)
-       ;; Configure the Guix service and ensure we use Nonguix substitutes
-       (simple-service
-        'add-nonguix-substitutes
-        guix-service-type
-        (guix-extension
-         (substitute-urls
-          (list
-           "https://ci.guix.trop.in"
-           "https://bordeaux.guix.gnu.org"
-           "https://substitutes.nonguix.org"
-           "https://ci.guix.trevs.site"))
-         (authorized-keys
-          (cons* nonguix-pubkey-file
-                 %default-authorized-guix-keys))))
-
        ;; Enable SSH access
        (service openssh-service-type
                 (openssh-configuration
