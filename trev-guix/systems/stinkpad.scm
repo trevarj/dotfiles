@@ -134,9 +134,14 @@
           (substitute-urls
            (list
             "https://ci.guix.trop.in"
-            "https://bordeaux.guix.gnu.org"
-            "https://substitutes.nonguix.org"
-            "https://ci.guix.trevs.site"))
+            ;; "https://cache-cdn.guix.moe"
+            ;; "https://cache-fi.guix.moe"
+            "https://mirror.yandex.ru/mirrors/guix"
+            ;; "https://bordeaux.guix.gnu.org"
+            "https://nonguix-proxy.ditigal.xyz"
+            ;; "https://substitutes.nonguix.org"
+            ;; "https://ci.guix.trevs.site"
+            ))
           (authorized-keys
            (cons* nonguix-pubkey-file
                   %default-authorized-guix-keys))))
@@ -166,7 +171,7 @@
          (sane-configuration
           (backends (list sane-backends sane-airscan)))))
       (list
-       (service fwupd-service-type)
+       ;; (service fwupd-service-type) ; pulling in a bunch of unrelated stuff
        ;; Enable SSH access
        (service openssh-service-type
                 (openssh-configuration
