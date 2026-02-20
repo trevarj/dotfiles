@@ -280,9 +280,9 @@
   "custom/headset": {
     "exec": "$HOME/.config/waybar/scripts/headsetcontrol.sh",
     "interval": 5,
-    "format": "{}",
-    "tooltip": "Click to configure headset",
-    "hide-empty-text": true
+    "format": "{text}",
+    "tooltip-format": "{percentage}%",
+    "return-type": "json",
   },
   "custom/notifications": {
     "exec": "$HOME/.config/waybar/scripts/notifications.sh status",
