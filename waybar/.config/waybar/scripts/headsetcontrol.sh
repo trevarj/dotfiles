@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
-# icons=("󰁻" "󰁼" "󰁽" "󰁾" "󰁿" "󰂀" "󰂁" "󰂂" "󰁹")
 icons=("" "" "" "" "")
 len=${#icons[@]}
 perc=$((100 / (len - 1)))
-if bat=$(headsetcontrol -o json | jq '.devices[].battery.level'); then
-  if [ "$bat" -ne -1 ]; then
-    idx=$((((bat + perc - 1) / perc) % len))
-    printf "󰋎 %s \n" "${icons[idx]}"
+text=""
+percentage=""
+
+if percentage=$(headsetcontrol -o json | jq '.devices[].battery.level'); then
+  if [ "$percentage" -ne -1 ]; then
+      idx=$((((percentage + perc - 1) / perc) % len))
+      text="󰋎 ${icons[idx]}"
   fi
 fi
+
+jq -nc \
+   --arg text "$text" \
+   --argjson percentage "$percentage" \
+   '{text: $text, percentage: $percentage}'
