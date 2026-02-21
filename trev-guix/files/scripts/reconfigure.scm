@@ -12,26 +12,28 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
 
 (define parse-home
   (match-lambda
-    (("niri") '(@ (trev-guix home niri) %home-niri-environment))
-    (("sway") (error "Should return sway home env\n"))
-    (_ '(@ (trev-guix home gnome) %home-gnome-environment))))
+    ("niri" '(@ (trev-guix home niri) %home-niri-environment))
+    ("sway" (error "Should return sway home env\n"))
+    ("gnome" '(@ (trev-guix home gnome) %home-gnome-environment))
+    (_ (error "Unexpected home environment\n"))))
 
 (define parse-system
   (match-lambda
-    (("niri") '(@ (trev-guix systems stinkpad-niri) %stinkpad-niri))
-    (("sway") (error "Should return sway system\n"))
-    (_ '(@ (trev-guix systems stinkpad-gnome) %stinkpad-gnome))))
+    ("niri" '(@ (trev-guix systems stinkpad-niri) %stinkpad-niri))
+    ("sway" (error "Should return sway system\n"))
+    ("gnome" '(@ (trev-guix systems stinkpad-gnome) %stinkpad-gnome))
+    (_ (error "Unexpected system\n"))))
 
 (define parse-command
   (match-lambda
     ((_ "home" . rest) (list guix-home parse-home rest))
     ((_ "system" . rest) (list guix-system parse-system rest))
-    (_ (display "Expected \"system\" or \"home\"\n"))))
+    (_ (error "Expected \"system\" or \"home\"\n"))))
 
 (define-public (reconfigure args)
   (match (parse-command args)
     ((fn parser rest)
-     (fn "reconfigure" (format #f "-e ~a" (parser rest))))
+     (fn "reconfigure" (format #f "-e ~a" (parser (car rest)))))
     (_ #f)))
 
 (reconfigure (command-line))
