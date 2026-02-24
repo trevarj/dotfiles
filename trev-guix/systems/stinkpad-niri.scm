@@ -46,6 +46,7 @@
       pavucontrol
       pipewire
       rygel
+      swaybg
       udiskie
       waybar
       wireplumber

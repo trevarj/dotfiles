@@ -294,14 +294,12 @@ layout {
 spawn-at-startup "waybar"
 spawn-at-startup "hypridle"
 spawn-at-startup "dunst"
-spawn-at-startup "hyprpaper"
+// spawn-at-startup "hyprpaper"
 
 spawn-at-startup "emacs"
 spawn-sh-at-startup "flatpak --user run org.telegram.desktop"
 spawn-sh-at-startup "flatpak --user run com.brave.Browser"
-
-// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/wallhaven-95kx6d.jpg -m fill"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -340,7 +338,7 @@ animations {
 }
 
 layer-rule {
-    match namespace="^hyprpaper"
+    match namespace="^wallpaper$"
     place-within-backdrop true
     geometry-corner-radius 12
     shadow {
