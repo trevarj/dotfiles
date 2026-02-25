@@ -54,10 +54,10 @@
     (locale "en_US.utf8")
 
     ;; Non-free Linux and firmware
-    (kernel linux)
+    (kernel linux-6.19)
     (kernel-arguments (cons* "modprobe.blacklist=pcspkr,snd_pcsp"
                              %default-kernel-arguments))
-    (firmware (list linux-firmware radeon-firmware))
+    (firmware (list linux-firmware amdgpu-firmware))
     (initrd microcode-initrd)
     (name-service-switch %mdns-host-lookup-nss)
 
