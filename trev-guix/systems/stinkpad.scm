@@ -209,4 +209,5 @@
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'arctis-7-nova-udev-rules %arctis-7-nova-udev-rule)
        (udev-rules-service 'ledger-udev-rules %ledger-udev-rule)
+       (udev-rules-service 'jade-udev-rules %jade-udev-rule)
        (udev-rules-service 'ddcutil-i2c-udev-rules %ddcutil-udev-rule))))))

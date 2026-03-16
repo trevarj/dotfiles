@@ -16,6 +16,13 @@
     "KERNEL==\"hidraw*\", ATTRS{idVendor}==\"2c97\", MODE=\"0666\"\n"
     "SUBSYSTEMS==\"usb\", ATTRS{idVendor}==\"2c97\", TAG+=\"uaccess\", TAG+=\"udev-acl\"")))
 
+(define-public %jade-udev-rule
+  (udev-rule
+   "21-jade-hw.rules"
+   (string-append
+    "KERNEL==\"ttyACM*\", ATTRS{idVendor}==\"303a\", MODE=\"0666\"\n"
+    "SUBSYSTEMS==\"usb\", ATTRS{idProduct}==\"4001\", GROUP=\"dialout\", TAG+=\"uaccess\", TAG+=\"udev-acl\"")))
+
 (define-public %ddcutil-udev-rule
   (udev-rule
    "60-ddcutil-i2c.rules"
