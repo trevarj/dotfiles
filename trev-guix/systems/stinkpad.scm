@@ -14,6 +14,7 @@
  guix
  linux
  networking
+ nix
  ssh
  virtualization
  xorg)
@@ -120,6 +121,7 @@
                fuse-exfat
                git
                lyrebird
+               nix
                tor
                zsh
                %base-packages))
@@ -201,6 +203,8 @@
                 (rootless-podman-configuration
                  (subgids (list (subid-range (name "trev"))))
                  (subuids (list (subid-range (name "trev"))))))
+
+       (service nix-service-type)
 
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'arctis-7-nova-udev-rules %arctis-7-nova-udev-rule)
