@@ -204,7 +204,10 @@
                  (subgids (list (subid-range (name "trev"))))
                  (subuids (list (subid-range (name "trev"))))))
 
-       (service nix-service-type)
+       (service nix-service-type
+                (nix-configuration
+                  (extra-config (list "experimental-features = nix-command flakes\n"
+                                      "trusted-users = root @wheel\n"))))
 
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'arctis-7-nova-udev-rules %arctis-7-nova-udev-rule)
