@@ -138,11 +138,12 @@
             "https://ci.guix.trop.in"
             ;; "https://cache-cdn.guix.moe"
             ;; "https://cache-fi.guix.moe"
-            "https://mirror.yandex.ru/mirrors/guix"
-            ;; "https://bordeaux.guix.gnu.org"
+            "https://cache-sg.guix.moe"
+            ;; "https://mirror.yandex.ru/mirrors/guix"
+            "https://bordeaux.guix.gnu.org"
             "https://nonguix-proxy.ditigal.xyz"
             ;; "https://substitutes.nonguix.org"
-            ;; "https://ci.guix.trevs.site"
+            "https://ci.guix.trevs.site"
             ))
           (authorized-keys
            (cons* nonguix-pubkey-file
