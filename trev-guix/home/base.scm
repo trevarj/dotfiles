@@ -34,6 +34,7 @@
      byedpi
      curl
      direnv
+     distrobox
      ddcutil
      easyeffects
      emacs-next-next-pgtk

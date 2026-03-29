@@ -9,7 +9,7 @@
   "modules-center": [
     "custom/weather",
     "clock",
-    "custom/notifications"
+    "custom/swaync"
   ],
   "modules-right": [
     "tray",
@@ -292,6 +292,26 @@
     "return-type": "json",
     "restart-interval": 1
   },
+  "custom/swaync": {
+    "tooltip": true,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑"
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
+  },
   "custom/notifications-toggle": {
     "exec": "$HOME/.config/waybar/scripts/notifications.sh status full",
     "on-click": "$HOME/.config/waybar/scripts/notifications.sh toggle",
@@ -307,7 +327,6 @@
       "custom/suspend",
       "custom/lock",
       "idle_inhibitor",
-      "custom/notifications-toggle"
     ],
     "drawer": {
       "children-class": "not-settings",

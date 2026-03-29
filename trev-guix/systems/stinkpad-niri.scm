@@ -37,7 +37,6 @@
       brightnessctl
       cava
       cliphist
-      dunst
       fuzzel
       hypridle
       hyprlock
@@ -47,6 +46,7 @@
       pipewire
       rygel
       swaybg
+      swaynotificationcenter
       udiskie
       waybar
       wireplumber

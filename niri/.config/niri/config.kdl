@@ -293,7 +293,7 @@ layout {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 spawn-at-startup "waybar"
 spawn-at-startup "hypridle"
-spawn-at-startup "dunst"
+spawn-at-startup "swaync"
 // spawn-at-startup "hyprpaper"
 
 spawn-at-startup "emacs"
