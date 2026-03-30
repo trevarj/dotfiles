@@ -1,6 +1,6 @@
 @define-color cc-bg rgba(0, 0, 0, 0.9);
 @define-color noti-border-color rgba(255, 255, 255, 0.15);
-@define-color noti-bg rgba(48, 48, 48, 0.8);
+@define-color noti-bg rgba(48, 48, 48, 0.9);
 @define-color noti-bg-opaque rgb(48, 48, 48);
 @define-color noti-bg-darker rgb(38, 38, 38);
 @define-color noti-bg-hover rgb(56, 56, 56);
@@ -11,6 +11,9 @@
 @define-color text-color rgb(255, 255, 255);
 @define-color text-color-disabled rgb(150, 150, 150);
 @define-color bg-selected rgb(52, 101, 164);
+@define-color button-bg rgba(255, 255, 255, 0.08);
+@define-color button-bg-hover rgba(255, 255, 255, 0.14);
+
 .notification-row {
   outline: none;
 }
@@ -134,7 +137,7 @@
 
 .notification-row .notification-background .notification .notification-default-action .notification-content .text-box .body {
   /* Notification body */
-  font-size: 15px;
+  font-size: 16px;
   font-weight: normal;
   background: transparent;
   color: @text-color;
@@ -263,6 +266,7 @@
   background: @cc-bg;
   color: @text-color;
   border-radius: 12px;
+  padding: 8px 16px;
 }
 
 .control-center .control-center-list-placeholder {
@@ -354,7 +358,7 @@
 }
 
 .widget-label > label {
-  font-size: 1.1rem;
+  font-size: 24px;
 }
 
 /* Mpris widget */
@@ -417,13 +421,19 @@
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button {
-  background: @noti-bg;
+  background: @button-bg;
   border-radius: 12px;
+  border: 1px solid @noti-border-color;
+  color: @text-color;
+}
+
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  background: @button-bg-hover;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
-    /* style given to the active toggle button */
-    background: @bg-selected;
+  background: @bg-selected;
+  color: white;
 }
 
 /* Menubar widget */
@@ -456,9 +466,18 @@
 /* Volume widget */
 .widget-volume {
   background-color: @noti-bg;
-  padding: 8px;
+  padding: 16px;
   margin: 8px;
   border-radius: 12px;
+}
+
+.widget-volume highlight {
+  background: @bg-selected;
+  border-radius: 999px;
+}
+
+.widget-volume trough {
+  min-height: 12px;
 }
 
 .widget-volume > box > button {
