@@ -17,6 +17,7 @@
     "niri/language",
     "custom/headset",
     "pulseaudio",
+    "bluetooth",
     "network",
     "temperature",
     "memory",
