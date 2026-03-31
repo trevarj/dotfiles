@@ -75,6 +75,7 @@
   "clock": {
     "format": "{:%A, %b %d  %H:%M}",
     "tooltip-format": "{tz_list}<tt>{calendar}</tt>",
+    "on-click": "swaync-client -t",
     "timezones": [
       "Etc/UTC",
       "America/New_York",
