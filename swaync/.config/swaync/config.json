@@ -59,6 +59,7 @@
     "inhibitors",
     "volume",
     "backlight",
+    "mpris",
     "title",
     "notifications",
     "dnd"
@@ -94,7 +95,9 @@
       "blacklist": [],
       "autohide": false,
       "show-album-art": "always",
-      "loop-carousel": false
+      "image-size": 96,
+      "image-radius": 4,
+      "loop-carousel": true
     },
     "buttons-grid": {
       "buttons-per-row": 3,
