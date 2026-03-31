@@ -75,7 +75,6 @@
   "clock": {
     "format": "{:%A, %b %d  %H:%M}",
     "tooltip-format": "{tz_list}<tt>{calendar}</tt>",
-    "format-alt": "{:%Y-%m-%d}",
     "timezones": [
       "Etc/UTC",
       "America/New_York",
