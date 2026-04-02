@@ -370,6 +370,10 @@
   /* The parent to all players */
 }
 
+.mpris-background {
+    filter: blur(5px);
+}
+
 .widget-mpris .widget-mpris-player {
   padding: 8px;
   padding: 16px;
@@ -479,7 +483,7 @@
 }
 
 .widget-volume trough {
-  min-height: 12px;
+  min-height: 6px;
 }
 
 .widget-volume > box > button {
@@ -520,4 +524,78 @@
 
 .widget-inhibitors > button:hover {
   background: @noti-bg-hover;
+}
+
+/* Calendar Widget */
+.widget-calendar {
+  padding: 12px;
+  margin: 8px;
+}
+
+.widget-calendar .day-label {
+  font-size: 16px;
+  color: @text-color;
+  margin-bottom: 2px;
+}
+
+.widget-calendar .date-label {
+  font-size: 22px;
+  font-weight: bold;
+  color: @text-color;
+  opacity: 0.8;
+  margin-bottom: 8px;
+}
+
+.widget-calendar calendar {
+  background: @noti-bg;
+  border: 1px solid @noti-border-color;
+  border-radius: 12px;
+  padding: 8px;
+  color: @text-color;
+  font-size: 14px;
+}
+
+.widget-calendar calendar.header {
+  font-weight: bold;
+  font-size: 15px;
+  color: @text-color;
+}
+
+.widget-calendar calendar.button {
+  color: @text-color;
+  opacity: 0.7;
+  font-weight: bold;
+  padding: 4px;
+}
+
+.widget-calendar calendar.button:hover {
+  background: @noti-bg-hover;
+}
+
+.widget-calendar calendar.button:disabled {
+  color: @text-color-disabled;
+}
+
+.widget-calendar calendar.day {
+  padding: 6px;
+  border-radius: 6px;
+}
+
+.widget-calendar calendar.day:hover {
+  background: @noti-bg-hover;
+}
+
+.widget-calendar calendar.day:selected {
+  background: @bg-selected;
+  color: @text-color;
+  font-weight: bold;
+}
+
+.widget-calendar calendar.day:indeterminate {
+  color: @text-color-disabled;
+}
+
+.widget-calendar calendar.day.other-month {
+  color: @text-color-disabled;
+  opacity: 0.5;
 }

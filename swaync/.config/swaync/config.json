@@ -15,7 +15,7 @@
   "control-center-positionY": "top",
   "notification-2fa-action": true,
   "notification-inline-replies": false,
-  "notification-body-image-height": 100,
+  "notification-body-image-height": 200,
   "notification-body-image-width": 200,
   "timeout": 10,
   "timeout-low": 5,
@@ -23,7 +23,7 @@
   "fit-to-screen": false,
   "relative-timestamps": true,
   "control-center-width": 500,
-  "control-center-height": 600,
+  "control-center-height": -1,
   "notification-window-width": 500,
   "keyboard-shortcuts": true,
   "notification-grouping": true,
@@ -60,11 +60,16 @@
     "volume",
     "backlight",
     "mpris",
+    "calendar",
     "title",
     "notifications",
     "dnd"
   ],
   "widget-config": {
+    "calendar": {
+      "show-day-label": false,
+      "show-date-label": false
+    },
     "volume": {
       "label": "󰕾"
     },
