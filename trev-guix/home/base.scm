@@ -50,7 +50,7 @@
      font-google-noto-sans-cjk
      font-iosevka-jbm
      font-iotrevka
-     font-nerd-fonts-symbols
+     font-nerd-symbols
      font-terminus
      fzf
      fzf-tab
