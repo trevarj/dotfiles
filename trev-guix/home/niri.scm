@@ -3,6 +3,7 @@
   #:use-module (gnu home)
   #:use-module (gnu home services)
   #:use-module (gnu home services dotfiles)
+  #:use-module (gnu home services niri)
   #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (guix gexp)
@@ -14,12 +15,7 @@
    (packages %home-base-packages)
    (services
     (cons*
-     (simple-service 'niri-environment-variables-service
-          	     home-environment-variables-service-type
-          	     '(("DESKTOP_SESSION" . "niri")
-                       ("XDG_CURRENT_DESKTOP" . "niri")
-                       ("XDG_SESSION_DESKTOP" . "niri")
-                       ("XDG_SESSION_TYPE" . "wayland")))
+     (service home-niri-service-type)
      (service home-dotfiles-service-type
               (home-dotfiles-configuration
                (directories '("../../"))
