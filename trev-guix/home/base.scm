@@ -18,7 +18,7 @@
 
 (use-package-modules
  admin aspell audio compression containers curl
- emacs-xyz file-systems fonts freedesktop glib gnome gnome-xyz gnupg guile
+ emacs-xyz file-systems fonts freedesktop glib gnome gnome-xyz gnupg gnu-doc guile
  hardware image-viewers linux mail
  package-management pretty-print rust-apps shells shellutils ssh
  terminals tls tor version-control video vim vpn web xdisorg)
@@ -59,6 +59,7 @@
      (specification->package+output "git:send-email")
      (list glib "bin")
      gnupg
+     gnu-standards
      gost
      guile-next
      guix-reconfigure
@@ -94,12 +95,12 @@
      (service home-pipewire-service-type)
      (service home-zsh-service-type
               (home-zsh-configuration
-               (xdg-flavor? #f)
-               (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
-               (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
-               (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))
-               (environment-variables
-                '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
+                (xdg-flavor? #f)
+                (zshenv (list (local-file "../../zsh/.zshenv" "zshenv")))
+                (zshrc (list (local-file "../../zsh/.zshrc" "zshrc")))
+                (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))
+                (environment-variables
+                 '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
      (service home-flatpak-service-type)
      (service byedpi-service-type)
      (service gost-service-type)
