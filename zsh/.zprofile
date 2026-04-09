@@ -26,25 +26,14 @@ export GOPATH="$HOME/Workspace"
 # eval $(opam env)
 
 # Guix
-if command -v "guix" >/dev/null; then
-  GUIX_PROFILE="$HOME/.config/guix/current"
-  . "$GUIX_PROFILE/etc/profile"
+# if command -v "guix" >/dev/null; then
+#   GUIX_PROFILE="$HOME/.config/guix/current"
+#   . "$GUIX_PROFILE/etc/profile"
 
-  # Foreign distro only, with nss-certs installed
-  if [[ -d "$HOME/.guix-profile/etc/ssl" ]]; then
-      export SSL_CERT_DIR="$HOME/.guix-profile/etc/ssl/certs"
-      export SSL_CERT_FILE="$HOME/.guix-profile/etc/ssl/certs/ca-certificates.crt"
-      export GIT_SSL_CAINFO="$SSL_CERT_FILE"
-  fi
-fi
-
-# Start up tmux session
-if [ -x "$(command -v tmux)" ] && [ -n "${DISPLAY}" ] && [ -z "${TMUX}" ]; then
-  exec tmux a -d >/dev/null 2>&1
-fi
-
-if command -v sway && [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
-  exec sway
-elif command -v startx && [ -z "${DISPLAY}" ] && [ "${XDG_VTNR}" -eq 1 ]; then
-  exec startx
-fi
+#   # Foreign distro only, with nss-certs installed
+#   if [[ -d "$HOME/.guix-profile/etc/ssl" ]]; then
+#       export SSL_CERT_DIR="$HOME/.guix-profile/etc/ssl/certs"
+#       export SSL_CERT_FILE="$HOME/.guix-profile/etc/ssl/certs/ca-certificates.crt"
+#       export GIT_SSL_CAINFO="$SSL_CERT_FILE"
+#   fi
+# fi
