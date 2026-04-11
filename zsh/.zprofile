@@ -37,3 +37,16 @@ export GOPATH="$HOME/Workspace"
 #       export GIT_SSL_CAINFO="$SSL_CERT_FILE"
 #   fi
 # fi
+
+niri-session() {
+    export XDG_CURRENT_DESKTOP="niri"
+    export XDG_SESSION_TYPE="wayland"
+    export XDG_SESSION_DESKTOP="niri"
+    export GDK_BACKEND="wayland"
+    export QT_QPA_PLATFORM="wayland"
+    export SDL_VIDEODRIVER="wayland"
+    export CLUTTER_BACKEND="wayland"
+    export MOZ_ENABLE_WAYLAND=1
+
+    exec niri --session
+}

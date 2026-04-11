@@ -3,7 +3,6 @@
   #:use-module (gnu home)
   #:use-module (gnu home services)
   #:use-module (gnu home services dotfiles)
-  #:use-module (gnu home services niri)
   #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (guix gexp)
@@ -15,7 +14,6 @@
    (packages %home-base-packages)
    (services
     (cons*
-     (service home-niri-service-type)
      (service home-dotfiles-service-type
               (home-dotfiles-configuration
                (directories '("../../"))
