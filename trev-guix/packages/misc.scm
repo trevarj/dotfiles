@@ -7,6 +7,8 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gcc)
+  #:use-module (gnu packages rust-apps)
+  #:use-module (gnu packages terminals)
   #:use-module (guix build-system copy)
   #:use-module (guix git-download)
   #:use-module ((guix licenses) #:prefix license:)
@@ -62,7 +64,7 @@
                       (assoc-ref inputs "source")))))))
     (native-inputs
      (list zstd))
-    (inputs
+    (propagated-inputs
      (list glibc
            `(,gcc "lib")))
     (supported-systems '("x86_64-linux"))
@@ -77,7 +79,7 @@ as well as a library of pre-built models that can be easily used.")
 (define-public opencode
   (package
     (name "opencode")
-    (version "1.4.6")
+    (version "1.4.7")
     (source
      (origin
        (method url-fetch)
@@ -94,34 +96,27 @@ as well as a library of pre-built models that can be easily used.")
       #:patchelf-plan
       #~'(("opencode" ()))
       #:install-plan
-      #~'(("opencode" "bin/opencode-unwrapped"))
+      #~'(("opencode" "bin/opencode"))
       #:phases
       #~(modify-phases %standard-phases
           (replace 'unpack
             (lambda* (#:key inputs #:allow-other-keys)
-              ;; Extract tarball - binary is at root level per AUR PKGBUILD [[29]]
               (invoke "tar" "xzf" (assoc-ref inputs "source"))
               (chmod "opencode" #o755)))
-          (add-after 'install 'create-wrapper
-            (lambda* (#:key inputs outputs #:allow-other-keys)
-              (let* ((out (assoc-ref outputs "out"))
-                     (bin (string-append out "/bin"))
-                     (unwrapped (string-append bin "/opencode-unwrapped"))
-                     (wrapper (string-append bin "/opencode")))
-                (call-with-output-file wrapper
-                  (lambda (port)
-                    (format port "#!~a
-export DISABLE_AUTOUPDATER=1
-export DISABLE_INSTALLATION_CHECKS=1
-exec ~a \"$@\"
-"
-                            (search-input-file inputs "bin/bash")
-                            unwrapped)))
-                (chmod wrapper #o755)))))))
+          (add-after 'install 'wrap-binary
+            (lambda* (#:key inputs #:allow-other-keys)
+              (let* ((fzf (assoc-ref inputs "fzf"))
+                     (ripgrep (assoc-ref inputs "ripgrep"))
+                     (path (string-append
+                            fzf "/bin:"
+                            ripgrep "/bin")))
+                (wrap-program (string-append #$output "/bin/opencode")
+                  `("PATH" ":" prefix (,path))
+                  `("OPENCODE_DISABLE_UPDATE" ":" = ("1")))))))))
     (inputs
-     (list bash-minimal))
+     (list bash-minimal fzf ripgrep))
     (native-inputs
-     (list gzip)) ; for .tar.gz extraction during build
+     (list gzip))
     (supported-systems '("x86_64-linux"))
     (home-page "https://github.com/anomalyco/opencode")
     (synopsis "Open source AI coding agent for the terminal")
@@ -130,5 +125,5 @@ exec ~a \"$@\"
 It can understand your codebase, edit files, run terminal commands, and
 handle entire workflows.  It supports multiple AI providers including
 Claude, OpenAI, Google, and local models.  This package disables
-auto-updates for reproducibility.")
+auto-updates for reproducibility and bundles fzf and ripgrep in PATH.")
     (license license:expat)))
