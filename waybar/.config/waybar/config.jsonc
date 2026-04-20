@@ -119,8 +119,8 @@
   },
   "temperature": {
     "thermal-zone": 0,
-    "warning-threshold": 60,
-    "critical-threshold": 80,
+    "warning-threshold": 75,
+    "critical-threshold": 85,
     "format": "",
     "format-warning": "{icon}",
     "format-critical": "{icon} {temperatureC}°C",
