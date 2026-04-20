@@ -57,6 +57,7 @@
     ;; Non-free Linux and firmware
     (kernel linux-6.19)
     (kernel-arguments (cons* "modprobe.blacklist=pcspkr,snd_pcsp"
+                             "thinkpad_acpi.fan_control=1,"
                              %default-kernel-arguments))
     (firmware (list linux-firmware amdgpu-firmware))
     (initrd microcode-initrd)
