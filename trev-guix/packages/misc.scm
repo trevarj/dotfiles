@@ -79,7 +79,7 @@ as well as a library of pre-built models that can be easily used.")
 (define-public opencode
   (package
     (name "opencode")
-    (version "1.4.7")
+    (version "1.14.19")
     (source
      (origin
        (method url-fetch)
@@ -87,7 +87,7 @@ as well as a library of pre-built models that can be easily used.")
              "https://github.com/anomalyco/opencode/releases/download/v"
              version "/opencode-linux-x64.tar.gz"))
        (sha256
-        (base32 "09pwda4q9mv37scgkqzbx1kap6a1azjf8gbx4l424r5ya73xrflf"))))
+        (base32 "0h0ljmkz26ab02is0yq8balw9x6229mkb8prdwmjxj0frqiigccc"))))
     (build-system binary-build-system)
     (arguments
      (list
