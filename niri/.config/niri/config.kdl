@@ -75,7 +75,7 @@ input {
 
 cursor {
     xcursor-theme "Adwaita"
-    xcursor-size 28
+    xcursor-size 24
 }
 
 // You can configure outputs by their name, which you can find
@@ -337,6 +337,13 @@ animations {
    }
 }
 
+blur {
+    passes 2
+    offset 3.0
+    noise 0.02
+    saturation 1.5
+}
+
 layer-rule {
     match namespace="^wallpaper$"
     place-within-backdrop true
@@ -352,12 +359,45 @@ layer-rule {
 }
 
 layer-rule {
+    match layer="top"
+    match layer="overlay"
+
+    background-effect {
+        xray false
+    }
+}
+
+layer-rule {
     // fuzzel
     match namespace="^launcher$"
     shadow {
         on
     }
     geometry-corner-radius 12
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
+layer-rule {
+    // swaync control center
+    match namespace="swaync-control-center"
+    geometry-corner-radius 18
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
+layer-rule {
+    // swaync notification popups
+    match namespace="swaync-notification-window"
+    geometry-corner-radius 14
+    background-effect {
+        xray false
+        blur true
+    }
 }
 
 workspace "browser"
@@ -392,6 +432,19 @@ window-rule {
         open-on-workspace "browser"
         open-maximized true
         open-focused true
+        popups {
+                // Matches the default libadwaita pop-up corner radius.
+                geometry-corner-radius 15
+
+                // Note: it'll look better to set background opacity
+                // through your GTK theme CSS and not here.
+                // This is just an example that makes it look obvious.
+                opacity 0.8
+
+                background-effect {
+                        blur true
+                }
+        }
 }
 
 window-rule {
@@ -424,6 +477,19 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+
+    background-effect {
+        blur true
+    }
+}
+
+window-rule {
+    match is-floating=true
+
+    background-effect {
+        xray false
+        blur true
+    }
 }
 
 binds {
@@ -458,16 +524,16 @@ binds {
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
     // Using spawn-sh allows to pass multiple arguments together with the command.
-    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"; }
-    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"; }
-    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+ && ${HOME}/.config/niri/scripts/notify-volume"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1- && ${HOME}/.config/niri/scripts/notify-volume"; }
+    XF86AudioMute        allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && ${HOME}/.config/niri/scripts/notify-volume"; }
     XF86AudioMicMute     allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
 
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
     // but you need to manually put each argument in separate "" quotes.
-    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
-    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn-sh "brightnessctl --class=backlight set +10% && ${HOME}/.config/niri/scripts/notify-brightness"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn-sh "brightnessctl --class=backlight set 10%- && ${HOME}/.config/niri/scripts/notify-brightness"; }
 
     // Open/close the Overview: a zoomed-out view of workspaces and windows.
     // You can also move the mouse into the top-left hot corner,

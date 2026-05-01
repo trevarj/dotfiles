@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+OUTPUT=$(wpctl get-volume @DEFAULT_AUDIO_SINK@)
+VOL=$(echo "$OUTPUT" | awk '{printf "%.0f", $2 * 100}')
+MUTED=$(echo "$OUTPUT" | grep -q MUTED && echo true || echo false)
+
+if $MUTED; then
+    ICON="audio-volume-muted-symbolic"
+    BODY="Muted"
+    VAL=0
+else
+    if [ "$VOL" -lt 34 ]; then
+        ICON="audio-volume-low-symbolic"
+    elif [ "$VOL" -lt 67 ]; then
+        ICON="audio-volume-medium-symbolic"
+    else
+        ICON="audio-volume-high-symbolic"
+    fi
+    BODY="${VOL}%"
+    VAL="$VOL"
+fi
+
+gdbus call --session \
+    --dest org.freedesktop.Notifications \
+    --object-path /org/freedesktop/Notifications \
+    --method org.freedesktop.Notifications.Notify \
+    "swaync" \
+    "uint32 0" \
+    "$ICON" \
+    "" \
+    "$BODY" \
+    '[]' \
+    "{\"value\": <int32 $VAL>}" \
+    "int32 1500" &>/dev/null
