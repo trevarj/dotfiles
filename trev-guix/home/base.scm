@@ -36,7 +36,7 @@
      direnv
      distrobox
      ddcutil
-     easyeffects
+     ;; easyeffects
      emacs-next-next-pgtk
      (list emacs-next-next-pgtk "doc")
      emacs-guix
@@ -63,6 +63,7 @@
      gost
      guile-next
      guix-reconfigure
+     guix-outdated
      headsetcontrol
      hicolor-icon-theme
      imv
@@ -73,6 +74,8 @@
      nautilus
      neofetch
      netcat
+     ollama
+     opencode
      papirus-icon-theme
      pinentry-tty
      ripgrep

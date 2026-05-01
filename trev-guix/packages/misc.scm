@@ -35,10 +35,31 @@
     (description synopsis)
     (license license:gpl3)))
 
+(define-public guix-outdated
+  (package
+    (name "guix-outdated")
+    (version "1.0.0")
+    (source (local-file "../files/scripts/guix-outdated.scm" "guix-outdated"))
+    (build-system copy-build-system)
+    (arguments
+     (list
+      #:install-plan
+      #~'(("guix-outdated" "/bin/guix-outdated"))
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'install 'make-executable
+            (lambda _
+              (chmod (string-append #$output "/bin/guix-outdated")
+                     #o755))))))
+    (home-page "")
+    (synopsis "Show installed packages with newer versions in Guix upstream.")
+    (description synopsis)
+    (license license:gpl3)))
+
 (define-public ollama
   (package
     (name "ollama")
-    (version "0.20.7")
+    (version "0.22.1")
     (source
      (origin
        (method url-fetch)
