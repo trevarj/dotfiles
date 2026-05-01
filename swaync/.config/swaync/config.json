@@ -24,7 +24,7 @@
   "relative-timestamps": true,
   "control-center-width": 500,
   "control-center-height": -1,
-  "notification-window-width": 500,
+  "notification-window-width": 340,
   "keyboard-shortcuts": true,
   "notification-grouping": true,
   "image-visibility": "when-available",
