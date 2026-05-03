@@ -359,15 +359,6 @@ layer-rule {
 }
 
 layer-rule {
-    match layer="top"
-    match layer="overlay"
-
-    background-effect {
-        xray false
-    }
-}
-
-layer-rule {
     // fuzzel
     match namespace="^launcher$"
     shadow {
@@ -380,23 +371,14 @@ layer-rule {
     }
 }
 
+// Make top and overlay layers use the regular blur (if enabled),
+// while bottom and background layers keep using the efficient xray blur.
 layer-rule {
-    // swaync control center
-    match namespace="swaync-control-center"
-    geometry-corner-radius 18
-    background-effect {
-        xray false
-        blur true
-    }
-}
+    match layer="top"
+    match layer="overlay"
 
-layer-rule {
-    // swaync notification popups
-    match namespace="swaync-notification-window"
-    geometry-corner-radius 14
     background-effect {
         xray false
-        blur true
     }
 }
 
