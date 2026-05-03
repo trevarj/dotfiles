@@ -12,7 +12,21 @@
   #:use-module (guix build-system copy)
   #:use-module (guix git-download)
   #:use-module ((guix licenses) #:prefix license:)
-  #:use-module (nonguix build-system binary))
+  #:use-module (nonguix build-system binary)
+
+  ;; swaync + granite
+  #:use-module (guix build-system meson)
+  #:use-module (gnu packages freedesktop)
+  #:use-module (gnu packages gettext)
+  #:use-module (gnu packages glib)
+  #:use-module (gnu packages gnome)
+  #:use-module (gnu packages gtk)
+  #:use-module (gnu packages man)
+  #:use-module (gnu packages pantheon)
+  #:use-module (gnu packages pkg-config)
+  #:use-module (gnu packages pulseaudio)
+  #:use-module (gnu packages python)
+  #:use-module (gnu packages web))
 
 (define-public guix-reconfigure
   (package
@@ -147,4 +161,89 @@ It can understand your codebase, edit files, run terminal commands, and
 handle entire workflows.  It supports multiple AI providers including
 Claude, OpenAI, Google, and local models.  This package disables
 auto-updates for reproducibility and bundles fzf and ripgrep in PATH.")
+    (license license:expat)))
+
+(define-public granite-7.6
+  (package
+    (inherit granite)
+    (version "7.6.0")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/elementary/granite")
+                    (commit "7.6.0")))
+              (file-name (git-file-name "granite" "7.6.0"))
+              (sha256
+               (base32
+                "0fv33pcvlws2pibzii21682y70ip0lq2zp3715jhziksmlxapzbf"))))
+    (arguments
+     (list
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'skip-gtk-update-icon-cache
+            (lambda _
+              (substitute* "meson.build"
+                (("gtk_update_icon_cache: true")
+                 "gtk_update_icon_cache: false")
+                (("update_desktop_database: true")
+                 "update_desktop_database: false")))))))
+    (propagated-inputs
+     (modify-inputs (package-propagated-inputs granite)
+       (append libshumate)))))
+
+(define-public trevarj/swaynotificationcenter
+  (package
+    (name "swaynotificationcenter")
+    (version "0.12.6")
+    (source (origin
+              (method git-fetch)
+              (uri (git-reference
+                    (url "https://github.com/trevarj/SwayNotificationCenter")
+                    (commit "037f0e896acefdf43d4b7522cb46c050d3176be3")))
+              (file-name (git-file-name "SwayNotificationCenter" "0.12.6"))
+              (sha256
+               (base32
+                "1m49sdc1jg26maj686p7ixzpi7y5s91mw6ljyl84f5wrd8ixi9b7"))))
+    (build-system meson-build-system)
+    (arguments
+     (list
+      #:configure-flags
+      #~(list "-Dsystemd-service=false")
+      #:phases
+      #~(modify-phases %standard-phases
+          (add-after 'unpack 'fix-sassc-path
+            (lambda _
+              (let ((sassc-bin (which "sassc")))
+                (substitute* "data/style/meson.build"
+                  (("find_program\\('sassc'\\)")
+                   (string-append "find_program('" sassc-bin "')")))))))))
+    (native-inputs
+     (list gettext-minimal
+           `(,glib "bin")
+           gobject-introspection
+           pkg-config
+           python
+           scdoc
+           vala
+           sassc))
+    (inputs
+     (list blueprint-compiler
+           json-glib
+           glib
+           granite-7.6
+           gtk
+           gtk4-layer-shell
+           libadwaita
+           libhandy
+           libgee
+           libshumate
+           pulseaudio
+           wayland-protocols))
+    (synopsis "Notification daemon with a graphical interface")
+    (description
+     "This package provides a notification daemon for the Sway Wayland
+compositor, supporting keyboard shortcuts, notification body markup,
+a panel for previous notifications, do not disturb, and customization
+through CSS and JSON config files.")
+    (home-page "https://github.com/ErikReider/SwayNotificationCenter")
     (license license:expat)))

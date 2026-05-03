@@ -1,5 +1,6 @@
 {
   "ignore-gtk-theme": true,
+  "background-blur": true,
   "positionX": "center",
   "positionY": "top",
   "layer": "overlay",
@@ -60,14 +61,20 @@
     "volume",
     "backlight",
     "mpris",
+    "calendar",
     "title",
     "notifications",
     "dnd"
   ],
   "widget-config": {
     "calendar": {
-      "show-day-label": false,
-      "show-date-label": false
+      "show-day-label": true,
+      "show-date-label": true,
+      "show-heading": true,
+      "show-day-names": true,
+      "show-week-numbers": false,
+      "day-format": "%A",
+      "date-format": "%B %-d, %Y"
     },
     "volume": {
       "label": "󰕾"
