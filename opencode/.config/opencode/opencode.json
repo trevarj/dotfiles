@@ -1,0 +1,72 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "ollama/deepseek-v4-pro:cloud",
+  "permission": {
+    "external_directory": {
+      "/tmp/**": "allow"
+    }
+  },
+  "watcher": {
+    "ignore": ["node_modules/**", "dist/**", "build/**", ".git/**", "__pycache__/**", "*.pyc", ".venv/**", "target/**", "result/**", "result-*/**"]
+  },
+  "command": {
+    "lint": {
+      "template": "Run the linter for this project. Determine the correct lint command by checking project config (package.json scripts, Makefile, pyproject.toml, etc.). Report all warnings and errors.",
+      "description": "Run project linter"
+    },
+    "test": {
+      "template": "Run the test suite for this project. Determine the correct test command by checking project config (package.json scripts, Makefile, pyproject.toml, etc.). Report all failures.",
+      "description": "Run project tests"
+    },
+    "build": {
+      "template": "Build the project. Check the project config for the correct build command. Create a manifest.scm if needed, then run the build. Report any errors.",
+      "description": "Build the project"
+    },
+    "typecheck": {
+      "template": "Run the type checker for this project. Determine the correct command by checking project config (package.json scripts, tsconfig.json, pyproject.toml, etc.). Report all type errors.",
+      "description": "Run type checker"
+    }
+  },
+  "plugin": [
+    "cc-safety-net"
+  ],
+  "provider": {
+    "ollama": {
+      "models": {
+        "deepseek-v4-pro:cloud": {
+          "_launch": true,
+          "name": "deepseek-v4-pro:cloud"
+        },
+        "gemma4:31b-cloud": {
+          "_launch": true,
+          "limit": {
+            "context": 262144,
+            "output": 131072
+          },
+          "name": "gemma4:31b-cloud"
+        },
+        "glm-5.1:cloud": {
+          "_launch": true,
+          "limit": {
+            "context": 202752,
+            "output": 131072
+          },
+          "name": "glm-5.1:cloud"
+        },
+        "kimi-k2.5:cloud": {
+          "_launch": true,
+          "limit": {
+            "context": 262144,
+            "output": 262144
+          },
+          "name": "kimi-k2.5:cloud"
+        }
+      },
+      "name": "Ollama",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://127.0.0.1:11434/v1"
+      }
+    }
+  }
+}
