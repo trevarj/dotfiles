@@ -275,8 +275,10 @@
   "custom/weather": {
     "exec": "$HOME/.config/waybar/scripts/weather.sh",
     "interval": 1800,
+    "signal": 1,
     "format": "{}",
-    "tooltip": ""
+    "tooltip": "",
+    "on-click-right": "sh -c 'if grep -q F /tmp/waybar-weather-unit 2>/dev/null; then echo C > /tmp/waybar-weather-unit; else echo F > /tmp/waybar-weather-unit; fi; pkill -SIGRTMIN+1 waybar'"
   },
   "custom/headset": {
     "exec": "$HOME/.config/waybar/scripts/headsetcontrol.sh",

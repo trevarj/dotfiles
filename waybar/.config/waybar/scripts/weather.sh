@@ -3,12 +3,23 @@
 LAT="0.0"
 LONG="0.0"
 
+UNIT_FILE="/tmp/waybar-weather-unit"
+[ -f "$UNIT_FILE" ] && UNIT=$(cat "$UNIT_FILE") || UNIT="C"
+
+if [ "$UNIT" = "F" ]; then
+    UNIT_PARAM="fahrenheit"
+    UNIT_SYMBOL="°F"
+else
+    UNIT_PARAM="celsius"
+    UNIT_SYMBOL="°C"
+fi
+
 while ! nm-online -q; do
     sleep 1
 done
 
 res=$(curl -s -X GET \
-           "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=celsius")
+           "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=$UNIT_PARAM")
 
 if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [[ -n "$temp" ]]; then
     temp_rounded=$(printf "%.0f" "$temp")
@@ -31,7 +42,7 @@ if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [[ 
         95|96|99) cond="󰙾" ;;
         *) cond="󰨹" ;;
     esac
-    printf "%s   %s°C" "$cond" "$temp_rounded"
+    printf "%s   %s%s" "$cond" "$temp_rounded" "$UNIT_SYMBOL"
 else
     printf "󰨹 "
 fi
