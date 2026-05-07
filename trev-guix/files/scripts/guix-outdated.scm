@@ -11,26 +11,44 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
   #:use-module (gnu packages)
   #:use-module (ice-9 format)
   #:use-module (ice-9 match)
-  #:use-module (srfi srfi-1))
+  #:use-module (srfi srfi-1)
+  #:use-module (srfi srfi-13))
 
 (define %system-profile "/var/guix/profiles/system")
-(define %home-profile
+
+(define (current-user-name)
+  (or (getenv "USER")
+      (getenv "LOGNAME")
+      (passwd:name (getpwuid (getuid)))))
+
+(define (home-profile)
   (string-append "/var/guix/profiles/per-user/"
-                 (getenv "USER") "/guix-home"))
+                 (current-user-name)
+                 "/guix-home"))
 
 (define (resolve-link path)
   (catch #t (lambda () (readlink path)) (lambda _ #f)))
 
-(define (entries-from-profile profile-path)
+(define (profile-generation-path profile-path)
   (let ((target (resolve-link profile-path)))
-    (if target
-        (let ((full-path (if (string-prefix? "/" target) target
-                             (string-append (dirname profile-path) "/" target))))
-          (catch #t
-            (lambda () (manifest-entries
-                        (profile-manifest (string-append full-path "/profile"))))
-            (lambda _ '())))
-        '())))
+    (and target
+         (if (string-prefix? "/" target)
+             target
+             (string-append (dirname profile-path) "/" target)))))
+
+(define (entries-from-profile profile-path)
+  (match (profile-generation-path profile-path)
+    (#f '())
+    (generation
+     (catch #t
+       (lambda ()
+         (manifest-entries
+          (profile-manifest (string-append generation "/profile"))))
+       (lambda args
+         (format (current-error-port)
+                 "warning: could not read profile ~a: ~a~%"
+                 profile-path args)
+         '())))))
 
 (define (dedupe entries)
   (let loop ((entries entries) (seen '()) (result '()))
@@ -47,6 +65,13 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
   (if (>= (string-length s) len) s
       (string-append s (make-string (- len (string-length s)) #\space))))
 
+(define (column-width rows index label)
+  (max (string-length label)
+       (fold (lambda (row width)
+               (max width (string-length (list-ref row index))))
+             0
+             rows)))
+
 (define (open-current-inferior)
   (let ((profile (resolve-link (string-append (getenv "HOME") "/.config/guix/current"))))
     (if profile
@@ -62,49 +87,53 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
                            (current-channels))))
            (latest-channel-instances store chans)))))
 
+(define (available-version packages name)
+  (or (assoc-ref packages name) "-"))
+
+(define (upstream-updated? current latest)
+  (and (not (string=? current "-"))
+       (not (string=? latest "-"))
+       (not (string=? current latest))))
+
 (define (build-package-table avail-current avail-latest entries)
-  (let ((rows '()))
-    (for-each
-     (lambda (entry)
-       (let* ((name (manifest-entry-name entry))
-              (installed (manifest-entry-version entry))
-              (current (assoc-ref avail-current name))
-              (latest (assoc-ref avail-latest name)))
-         (set! rows
-               (cons (list name (or installed "-") (or current "-") (or latest "-"))
-                     rows))))
-     entries)
-    rows))
+  (filter-map
+   (lambda (entry)
+     (let* ((name (manifest-entry-name entry))
+            (installed (or (manifest-entry-version entry) "-"))
+            (current (available-version avail-current name))
+            (latest (available-version avail-latest name)))
+       (and (upstream-updated? current latest)
+            (list name installed current latest))))
+   entries))
 
 (define (display-table rows)
-  (define w-pkg 30)
-  (define w-ver 14)
+  (define w-pkg (column-width rows 0 "Package"))
+  (define w-installed (column-width rows 1 "Installed"))
+  (define w-current (column-width rows 2 "Current Guix"))
+  (define w-latest (column-width rows 3 "Latest Guix"))
   (define sep "  ")
   (format #t "~a~a~a~a~a~a~a~%"
           (pad "Package" w-pkg) sep
-          (pad "Installed" w-ver) sep
-          (pad "Current Guix" w-ver) sep
-          (pad "Latest Guix" w-ver))
-  (format #t "~a~%" (make-string (+ w-pkg w-ver w-ver w-ver 8) #\-))
-  (let ((count 0))
-    (for-each
-     (match-lambda
-       ((name installed current latest)
-        (when (and (not (string=? current "-")) (not (string=? latest "-"))
-                   (not (string=? current latest)))
-          (set! count (+ count 1))
-          (format #t "~a~a~a~a~a~a~a~%"
-                  (pad name w-pkg) sep
-                  (pad installed w-ver) sep
-                  (pad current w-ver) sep
-                  (pad latest w-ver)))))
-     rows)
-    (format #t "~%~a packages updated upstream~%" count)))
+          (pad "Installed" w-installed) sep
+          (pad "Current Guix" w-current) sep
+          (pad "Latest Guix" w-latest))
+  (format #t "~a~%"
+          (make-string (+ w-pkg w-installed w-current w-latest 6) #\-))
+  (for-each
+   (match-lambda
+     ((name installed current latest)
+      (format #t "~a~a~a~a~a~a~a~%"
+              (pad name w-pkg) sep
+              (pad installed w-installed) sep
+              (pad current w-current) sep
+              (pad latest w-latest))))
+   rows)
+  (format #t "~%~a packages updated upstream~%" (length rows)))
 
 (define (main)
   (format (current-error-port) "Reading profiles...~%")
   (let* ((sys-entries  (entries-from-profile %system-profile))
-         (home-entries (entries-from-profile %home-profile))
+         (home-entries (entries-from-profile (home-profile)))
          (all-entries  (dedupe (append sys-entries home-entries))))
     (format (current-error-port) "  ~a system, ~a home, ~a unique~%"
             (length sys-entries) (length home-entries) (length all-entries))
@@ -125,10 +154,17 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
           (format (current-error-port) "  ~a packages~%" (length avail-latest))
           (let ((rows (build-package-table avail-current avail-latest
                                             all-entries)))
-            (display-table (reverse rows))))))))
+            (display-table rows))
+          (close-inferior inf-latest)))
+      (close-inferior inf-current))))
+
+(define (same-file? a b)
+  (catch #t
+    (lambda () (string=? (canonicalize-path a) (canonicalize-path b)))
+    (lambda _ #f)))
 
 (define (invoked-as-script?)
-  (equal? (car (command-line)) (current-filename)))
+  (same-file? (car (command-line)) (current-filename)))
 
 (when (invoked-as-script?)
   (main))
