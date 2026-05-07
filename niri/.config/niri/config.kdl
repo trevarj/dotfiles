@@ -297,8 +297,8 @@ spawn-at-startup "swaync"
 // spawn-at-startup "hyprpaper"
 
 spawn-at-startup "emacs"
-spawn-sh-at-startup "flatpak --user run org.telegram.desktop"
-spawn-sh-at-startup "flatpak --user run com.brave.Browser"
+spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx org.telegram.desktop || flatpak --user run org.telegram.desktop"
+spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx com.brave.Browser || flatpak --user run com.brave.Browser"
 spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/wallhaven-95kx6d.jpg -m fill"
 
 hotkey-overlay {
@@ -410,7 +410,7 @@ window-rule {
 }
 
 window-rule {
-        match app-id=r#"brave"#
+        match app-id=r#"^brave-browser$"#
         open-on-workspace "browser"
         open-maximized true
         open-focused true
@@ -459,10 +459,6 @@ window-rule {
 window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
-
-    background-effect {
-        blur true
-    }
 }
 
 window-rule {
@@ -496,7 +492,7 @@ binds {
     Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn-sh "flatpak --user run com.brave.Browser"; }
 
     Mod+Alt+Return hotkey-overlay-title="Switch to DP-1" { spawn-sh "ddcutil -b 18 setvcp 60 0x0f"; }
-    Mod+Ctrl+W hotkey-overlay-title="Restart Waybar" { spawn-sh "killall -SIGUSR2 waybar"; }
+    Mod+Ctrl+W hotkey-overlay-title="Restart Waybar" { spawn-sh "killall -q waybar; sleep 0.2; exec waybar"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -751,9 +747,4 @@ gestures {
     hot-corners {
         off
     }
-}
-
-debug {
-    // brave not inhibiting idle when fullscreen
-    dbus-interfaces-in-non-session-instances
 }
