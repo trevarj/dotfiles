@@ -1,78 +1,191 @@
 #!/bin/zsh
-# Load Version Control Information, even if it already loaded, z specified Z shell script
-autoload -Uz vcs_info
 
-# Load colors function, provided by zsh -- remove
-autoload -U colors && colors
+autoload -Uz colors vcs_info
+colors
+zmodload zsh/datetime 2>/dev/null
 
-# Enable style options for git via the vcs_info plugin
-zstyle ':vcs_info:*' enable git
-
-# Z shell function to display information about the current vcs info
-# Whenever the function is run it will automatically run the vcs_info and display the information
-precmd_vcs_info() { vcs_info }
-
-# The precmd_functions variable is typically used to display information or perform other tasks just before the command prompt is displayed.
-# separate  multiple functions with commas
-precmd_functions+=( precmd_vcs_info )
-
-# The prompt_subst option enables prompt substitution,
-# which allows you to include the output of commands in the prompt string.
-# When prompt substitution is enabled, you can use the $(...) syntax to include the output of a command in the PROMPT variable.
+# Allow prompt variables such as $vcs_info_msg_0_ to refresh before each draw.
 setopt prompt_subst
 
-# Enable displaying untracked files with git-untracked hook
+# Git status via zsh's vcs_info.
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+zstyle ':vcs_info:git:*' stagedstr ' %F{green}●%f'
+zstyle ':vcs_info:git:*' unstagedstr ' %F{yellow}●%f'
+zstyle ':vcs_info:git:*' formats ' %F{8}on%f %F{10} %b%f%c%u%m'
+zstyle ':vcs_info:git:*' actionformats ' %F{8}on%f %F{10} %b%f%c%u%m'
 
-# +vi-git-untracked is a hook that is used in the Z shell (zsh) to display the status of untracked files in a Git repository
-# Display a bang if there are untracked files in a git repo
-+vi-git-untracked(){
-if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-  git status --porcelain | grep '??' &> /dev/null ; then
-  hook_com[staged]+='%F{blue} ' # signify new files with a bang
-fi
+typeset -g prompt_command_started_at=''
+typeset -g prompt_elapsed_info=''
+typeset -g prompt_exit_info=''
+typeset -g prompt_git_state_info=''
+typeset -g prompt_guix_info=''
+typeset -g prompt_guix_cached_env=''
+typeset -g prompt_guix_cached_info=''
+typeset -g prompt_first_line=''
+typeset -g prompt_right_info=''
+typeset -g prompt_symbol='%F{10}➜%f'
+
++vi-git-untracked() {
+  local -a git_status
+
+  git_status=("${(@f)$(command git status --porcelain --untracked-files=normal 2>/dev/null)}")
+  if (( ${git_status[(I)\?\?*]} )); then
+    hook_com[misc]+=' %F{12}●%f'
+  fi
 }
 
-# Use hook to check for changes in git
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:git:*' stagedstr '%F{green} '
-zstyle ':vcs_info:git:*' unstagedstr '%F{yellow} '
-zstyle ':vcs_info:*' get-revision true
+dotfiles_prompt_preexec() {
+  prompt_command_started_at=${EPOCHREALTIME:-$SECONDS}
+}
 
-on=""
-# Apply color to vsc_info in prompt
-# %m - name of current branch
-# %u - status of current branch
-# %c - number of commits ahead/behind the upstream branch
-zstyle ':vcs_info:git:*' formats "%F{15}$on%{$reset_color%} %F{2}%b%F{4}%F{4}%F{6} %m%u%c%F{3}%{$reset_color%}"
+dotfiles_prompt_elapsed_info() {
+  prompt_elapsed_info=''
 
-# To access colors by number in the Z shell (zsh) prompt,
-# you can use the %F{number} and %K{number} escape sequences to set the foreground (text) and background colors, respectively.
-relativeHome="%F{4}%~%{$reset_color%}"
-carriageReturn=""$'\n'""
-emptyLineBottom="%r"
-chevronRight="➜"
-cmdPrompt="%(?:%F{2}${chevronRight} :%F{1}${chevronRight} )"
-git_info="\$vcs_info_msg_0_"
+  if [[ -z ${prompt_command_started_at} ]]; then
+    return
+  fi
 
-# function separator() {
-#   # tput setaf to set to terminal color 0
-#   # printf command is used to format and print text to the terminal
-#   # The %*s format specifier is used to print a string, where the * indicates that the width of the string should be specified as an argument
-#   # The ${COLUMNS:-$(tput cols)} expression is used to determine the width of the terminal window.
-#   # The COLUMNS variable is set by the shell to the number of columns in the terminal window, and the tput cols command retrieves the number of columns in the terminal window. The :- operator is used to set a default value for the COLUMNS variable if it is not set. In this case, the default value is the output of the tput cols command, which retrieves the number of columns in the terminal window.
-#   # the tr command is used to replace all spaces in the input string with -
-#   separation_line=$(tput setaf 0; printf '%*s\n' "${COLUMNS:-$(tput cols)}" '' | tr ' ' -)
-#   echo "${separation_line}"
-# }
+  local now=${EPOCHREALTIME:-$SECONDS}
+  local elapsed=$(( now - prompt_command_started_at ))
+  prompt_command_started_at=''
 
-# function precmd() {
-#   separator
-# }
+  if (( elapsed < 2 )); then
+    return
+  fi
 
-# Guix shell
-if [ -n "$GUIX_ENVIRONMENT" ]; then
-    guix_env="%F{yellow}%F{reset_color}  ${GUIX_ENVIRONMENT}"
+  local elapsed_display
+  if (( elapsed >= 60 )); then
+    local -i minutes=$(( elapsed / 60 ))
+    local -i seconds=$(( elapsed - (minutes * 60) ))
+    printf -v elapsed_display '%dm%02ds' ${minutes} ${seconds}
+  else
+    printf -v elapsed_display '%.1fs' ${elapsed}
+  fi
+
+  prompt_elapsed_info=" %F{13}took ${elapsed_display}%f"
+}
+
+dotfiles_prompt_exit_info() {
+  local last_status=$1
+
+  prompt_exit_info=''
+  if (( last_status != 0 )); then
+    prompt_exit_info=" %F{9}exit ${last_status}%f"
+    prompt_symbol='%F{9}➜%f'
+  else
+    prompt_symbol='%F{10}➜%f'
+  fi
+}
+
+dotfiles_prompt_git_state_info() {
+  prompt_git_state_info=''
+
+  local git_dir
+  git_dir=$(command git rev-parse --git-dir 2>/dev/null) || return
+
+  if [[ -f ${git_dir}/MERGE_HEAD ]]; then
+    prompt_git_state_info=' %F{9}merge%f'
+  elif [[ -d ${git_dir}/rebase-merge || -d ${git_dir}/rebase-apply ]]; then
+    prompt_git_state_info=' %F{9}rebase%f'
+  elif [[ -f ${git_dir}/CHERRY_PICK_HEAD ]]; then
+    prompt_git_state_info=' %F{9}cherry-pick%f'
+  elif [[ -f ${git_dir}/REVERT_HEAD ]]; then
+    prompt_git_state_info=' %F{9}revert%f'
+  elif [[ -f ${git_dir}/BISECT_LOG ]]; then
+    prompt_git_state_info=' %F{13}bisect%f'
+  fi
+}
+
+dotfiles_prompt_guix_info() {
+  prompt_guix_info=''
+
+  if [[ -z ${GUIX_ENVIRONMENT:-} ]]; then
+    prompt_guix_cached_env=''
+    prompt_guix_cached_info=''
+    return
+  fi
+
+  if [[ ${prompt_guix_cached_env} == ${GUIX_ENVIRONMENT} ]]; then
+    prompt_guix_info=${prompt_guix_cached_info}
+    return
+  fi
+
+  local guix_env_name=${GUIX_ENVIRONMENT:t}
+  local guix_packages=''
+
+  if [[ -r ${GUIX_ENVIRONMENT}/manifest ]]; then
+    local manifest_text
+    local -a manifest_entries
+
+    manifest_text="$(<${GUIX_ENVIRONMENT}/manifest)"
+    manifest_entries=("${(@s:(manifest-entry:)manifest_text}")
+    local guix_package_count=$(( ${#manifest_entries} - 1 ))
+    guix_packages=" %F{8}${guix_package_count}p%f"
+  fi
+
+  prompt_guix_cached_env=${GUIX_ENVIRONMENT}
+  prompt_guix_cached_info=" %F{11} %f%F{8}${guix_env_name}%f${guix_packages}"
+  prompt_guix_info=${prompt_guix_cached_info}
+}
+
+dotfiles_prompt_visible_length() {
+  emulate -L zsh
+  setopt extended_glob
+
+  local expanded=${(%)1}
+  expanded=${expanded//$'\e'\[[0-9\;]##m/}
+  print -r -- ${#expanded}
+}
+
+dotfiles_prompt_first_line() {
+  local left="${prompt_path}${vcs_info_msg_0_}"
+  local right=${prompt_guix_info# }
+
+  if [[ -z ${right} ]]; then
+    prompt_first_line=${left}
+    return
+  fi
+
+  local left_width=$(dotfiles_prompt_visible_length ${left})
+  local right_width=$(dotfiles_prompt_visible_length ${right})
+  local gap=$(( COLUMNS - left_width - right_width ))
+
+  if (( gap < 1 )); then
+    prompt_first_line="${left} ${right}"
+    return
+  fi
+
+  local padding="${(l:${gap}:: :)}"
+  prompt_first_line="${left}${padding}${right}"
+}
+
+dotfiles_prompt_precmd() {
+  local last_status=$?
+
+  dotfiles_prompt_elapsed_info
+  dotfiles_prompt_exit_info ${last_status}
+  vcs_info
+  dotfiles_prompt_git_state_info
+  dotfiles_prompt_guix_info
+
+  dotfiles_prompt_first_line
+  prompt_right_info="${prompt_exit_info}${prompt_elapsed_info}${prompt_git_state_info}"
+}
+
+# Avoid stacking duplicate hooks when this file is sourced repeatedly.
+if [[ -z ${preexec_functions[(r)dotfiles_prompt_preexec]} ]]; then
+  preexec_functions+=(dotfiles_prompt_preexec)
 fi
 
-PROMPT="${relativeHome} ${git_info} ${guix_env} ${carriageReturn}${cmdPrompt}"
+if [[ -z ${precmd_functions[(r)dotfiles_prompt_precmd]} ]]; then
+  precmd_functions+=(dotfiles_prompt_precmd)
+fi
+
+prompt_path='%B%F{12}%~%f%b'
+
+PROMPT='${prompt_first_line}
+${prompt_symbol} '
+RPROMPT='${prompt_right_info}'
