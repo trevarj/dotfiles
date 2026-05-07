@@ -7,18 +7,19 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gcc)
+  #:use-module (gnu packages glib)
   #:use-module (gnu packages rust-apps)
   #:use-module (gnu packages terminals)
   #:use-module (guix build-system copy)
   #:use-module (guix git-download)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (nonguix build-system binary)
+  #:use-module (ice-9 match)
 
   ;; swaync + granite
   #:use-module (guix build-system meson)
   #:use-module (gnu packages freedesktop)
   #:use-module (gnu packages gettext)
-  #:use-module (gnu packages glib)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages gtk)
   #:use-module (gnu packages man)
@@ -162,6 +163,44 @@ handle entire workflows.  It supports multiple AI providers including
 Claude, OpenAI, Google, and local models.  This package disables
 auto-updates for reproducibility and bundles fzf and ripgrep in PATH.")
     (license license:expat)))
+
+(define-public codex
+  (package
+    (name "codex")
+    (version "0.128.0")
+    (source
+     (origin
+       (method url-fetch)
+       (uri (string-append
+             "https://github.com/openai/codex/releases/download/rust-v"
+             version "/codex-"
+             (match (or (%current-system) (%current-target-system))
+               ("x86_64-linux" "x86_64-unknown-linux-musl")
+               ("aarch64-linux" "aarch64-unknown-linux-musl")) ".tar.gz"))
+       (sha256
+        (base32
+         (match (or (%current-system) (%current-target-system))
+           ("x86_64-linux" "0fp243xswx5fsgh00g8h7fji2dljprzh1jip8hil62wc27k8asw8")
+           ("aarch64-linux" "1l6blqxsl00ashvfzqx73gil1vm7z4dv9z5hzfzggsjg63av8q9i"))))))
+    (build-system binary-build-system)
+    (arguments
+     (list
+      #:validate-runpath? #f
+      #:install-plan
+      #~`((,(string-append "codex-"
+                           #$(match (or (%current-system) (%current-target-system))
+                               ("x86_64-linux" "x86_64-unknown-linux-musl")
+                               ("aarch64-linux" "aarch64-unknown-linux-musl")))
+           "bin/codex"))))
+    (supported-systems '("x86_64-linux" "aarch64-linux"))
+    (home-page "https://github.com/openai/codex")
+    (synopsis "AI coding agent from OpenAI")
+    (description
+     "Codex CLI is an AI-powered coding agent from OpenAI that runs locally
+on your computer.  It assists with software development tasks directly within
+a terminal environment, providing code suggestions, explanations, and
+automated coding assistance.")
+    (license license:asl2.0)))
 
 (define-public granite-7.6
   (package

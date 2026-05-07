@@ -32,6 +32,7 @@
      aspell-dict-ru
      btop
      byedpi
+     codex
      curl
      direnv
      distrobox
