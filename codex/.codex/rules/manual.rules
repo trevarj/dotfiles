@@ -1,0 +1,186 @@
+# Manually maintained command policy.
+#
+# Keep this list focused on commands that often need to leave the sandbox.
+# Codex-generated persistent approvals are stored in default.rules.
+
+prefix_rule(
+    pattern = ["guix", "build"],
+    decision = "allow",
+    justification = "Guix build checks need the daemon/store outside the sandbox.",
+    match = [
+        "guix build -f manifest.scm",
+        "guix build --dry-run -L /tmp -L /home/trev/Workspace/dotfiles -e expr",
+    ],
+)
+
+prefix_rule(
+    pattern = ["guix", "home", "build"],
+    decision = "allow",
+    justification = "Guix Home dry-runs are the standard verification path.",
+    match = [
+        "guix home build -L /home/trev/Workspace/dotfiles config.scm",
+        "guix home build --dry-run -L /home/trev/Workspace/dotfiles config.scm",
+    ],
+)
+
+prefix_rule(
+    pattern = ["guix", "shell", "-m"],
+    decision = "allow",
+    justification = "Project manifests are the approved way to enter dev environments.",
+    match = [
+        "guix shell -m manifest.scm -- make test",
+        "guix shell -m ../sigil-bitcoin/manifest.scm -- sigil build",
+    ],
+    not_match = [
+        "guix shell gcc-toolchain -- make",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "add"],
+    decision = "allow",
+    justification = "Staging requested edits is routine and reversible before commit.",
+    match = [
+        "git add src/main.rs",
+        "git add .",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "allow",
+    justification = "Commits are requested explicitly and follow the global commit policy.",
+    match = [
+        "git commit -m 'fix: update tests'",
+    ],
+)
+
+prefix_rule(
+    pattern = ["/home/trev/.codex/bin/codex-gpg-unlock"],
+    decision = "allow",
+    justification = "GPG passphrases must be entered by the user in a local terminal, never in chat.",
+    match = [
+        "/home/trev/.codex/bin/codex-gpg-unlock",
+        "/home/trev/.codex/bin/codex-gpg-unlock A6C20D0C2AD838F949070EA3A52D68794EBED758",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", "worktree", "add"],
+    decision = "allow",
+    justification = "Worktrees keep larger changes isolated without touching existing work.",
+    match = [
+        "git worktree add -b feature .worktrees/feature",
+    ],
+)
+
+prefix_rule(
+    pattern = ["sigil", "deps", "install"],
+    decision = "allow",
+    justification = "Sigil dependency installation is project-scoped and recurring.",
+    match = [
+        "sigil deps install",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cargo", "test"],
+    decision = "allow",
+    justification = "Rust test runs are expected verification commands.",
+    match = [
+        "cargo test",
+        "cargo test -p guix-p2p",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cargo", "check"],
+    decision = "allow",
+    justification = "Rust check runs are expected verification commands.",
+    match = [
+        "cargo check",
+        "cargo check --all-targets",
+    ],
+)
+
+prefix_rule(
+    pattern = ["cargo", "run", "-p", "guix-p2p-e2e"],
+    decision = "allow",
+    justification = "The guix-p2p E2E harness needs Guix daemon access outside the sandbox.",
+    match = [
+        "cargo run -p guix-p2p-e2e -- container-smoke --package hello --transport tcp",
+    ],
+)
+
+prefix_rule(
+    pattern = ["git", ["push", "reset", "clean", "rebase"]],
+    decision = "prompt",
+    justification = "Repository publication, cleanup, and history changes need review.",
+    match = [
+        "git push",
+        "git reset --hard",
+        "git clean -fd",
+        "git rebase main",
+    ],
+)
+
+prefix_rule(
+    pattern = [["sudo", "doas", "su"]],
+    decision = "forbidden",
+    justification = "Ask the user to run privileged system commands directly.",
+    match = [
+        "sudo make install",
+        "doas guix system reconfigure config.scm",
+        "su -c whoami",
+    ],
+)
+
+prefix_rule(
+    pattern = ["guix", "install"],
+    decision = "forbidden",
+    justification = "Use temporary guix shell invocations or manifests instead of guix install.",
+    match = [
+        "guix install ripgrep",
+    ],
+)
+
+prefix_rule(
+    pattern = [["apt", "apt-get", "dnf", "pacman", "brew"]],
+    decision = "forbidden",
+    justification = "This machine uses GNU Guix; use guix shell or a manifest instead.",
+    match = [
+        "apt install ripgrep",
+        "apt-get install ripgrep",
+        "dnf install ripgrep",
+        "pacman -S ripgrep",
+        "brew install ripgrep",
+    ],
+)
+
+prefix_rule(
+    pattern = ["npm", "install", "-g"],
+    decision = "forbidden",
+    justification = "Do not install global Node packages; use a project manifest or guix shell.",
+    match = [
+        "npm install -g typescript",
+    ],
+)
+
+prefix_rule(
+    pattern = ["pip", "install"],
+    decision = "forbidden",
+    justification = "Do not install Python packages globally; use guix shell with Python packages.",
+    match = [
+        "pip install requests",
+    ],
+)
+
+prefix_rule(
+    pattern = ["rm", "-rf"],
+    decision = "forbidden",
+    justification = "Use targeted file edits or ask the user before recursive force deletion.",
+    match = [
+        "rm -rf build",
+        "rm -rf /tmp/example",
+    ],
+)

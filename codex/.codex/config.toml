@@ -1,0 +1,45 @@
+model = "gpt-5.5"
+model_reasoning_effort = "high"
+plan_mode_reasoning_effort = "high"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[agents]
+max_threads = 6
+max_depth = 1
+
+[projects."/home/trev/.config"]
+trust_level = "trusted"
+
+[projects."/home/trev"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/dotfiles"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/emacs.d"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/trevarj.github.io"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/guix-p2p"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/sigil/sigil"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/sigil"]
+trust_level = "trusted"
+
+[projects."/home/trev/.codex"]
+trust_level = "trusted"
+
+[projects."/home/trev/Workspace/rust-projects/rosterbot"]
+trust_level = "trusted"
+
+[tui]
+theme = "nord"
+
+[tui.model_availability_nux]
+"gpt-5.5" = 4

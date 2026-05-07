@@ -1,0 +1,46 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+if (( $# > 1 )); then
+  print -ru2 -- "usage: codex-gpg-unlock [key-id]"
+  exit 64
+fi
+
+terminal="${CODEX_GPG_TERMINAL:-kitty}"
+key_id="${1:-${CODEX_GPG_KEY_ID:-}}"
+
+for command_name in "$terminal" zsh gpg gpg-connect-agent; do
+  if ! command -v "$command_name" >/dev/null 2>&1; then
+    print -ru2 -- "codex-gpg-unlock: missing required command: $command_name"
+    exit 127
+  fi
+done
+
+export CODEX_GPG_KEY_ID="$key_id"
+
+exec "$terminal" --title "Codex GPG unlock" zsh -lc '
+set -euo pipefail
+
+export GPG_TTY="$(tty)"
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+tmp="${TMPDIR:-/tmp}/codex-gpg-unlock.$$"
+trap "rm -f \"$tmp\" \"$tmp.asc\"" EXIT
+
+print -r -- "Unlocking GPG for Codex agents."
+print -r -- "Enter your key passphrase in this terminal if GPG asks for it."
+print -r -- ""
+
+if [[ -n "${CODEX_GPG_KEY_ID:-}" ]]; then
+  printf "%s\n" "codex gpg unlock" |
+    gpg --yes --local-user "$CODEX_GPG_KEY_ID" --clearsign > "$tmp.asc"
+else
+  printf "%s\n" "codex gpg unlock" |
+    gpg --yes --clearsign > "$tmp.asc"
+fi
+
+print -r -- ""
+print -r -- "GPG is unlocked for Codex agents."
+print -rn -- "Press Enter to close this window."
+read -r _
+'
