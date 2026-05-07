@@ -57,7 +57,7 @@
      fzf-tab
      ;; fwupd-nonfree ; bringing in a lot of weird packages
      git
-     (specification->package+output "git:send-email")
+     (list git "send-email")
      (list glib "bin")
      gnupg
      gnu-standards
