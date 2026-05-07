@@ -118,6 +118,7 @@ source $HOME/.zsh_prompt.zsh-theme
 
 # Load and initialise completion system
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+fpath=("$HOME/.guix-home/profile/share/zsh/site-functions" $fpath)
 autoload -Uz compinit
 compinit
 

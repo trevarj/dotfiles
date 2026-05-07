@@ -7,11 +7,13 @@
   #:use-module (gnu packages bash)
   #:use-module (gnu packages compression)
   #:use-module (gnu packages gcc)
+  #:use-module (gnu packages guile)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages rust-apps)
   #:use-module (gnu packages terminals)
   #:use-module (guix build-system copy)
   #:use-module (guix git-download)
+  #:use-module (guix search-paths)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (nonguix build-system binary)
   #:use-module (ice-9 match)
@@ -29,47 +31,55 @@
   #:use-module (gnu packages python)
   #:use-module (gnu packages web))
 
-(define-public guix-reconfigure
+(define-public guixboy
   (package
-    (name "guix-reconfigure")
-    (version "1.0.0")
-    (source (local-file "../files/scripts/reconfigure.scm" "guix-reconfigure"))
+    (name "guixboy")
+    (version "0.1.0")
+    (source (local-file "../../../guixboy" "guixboy-checkout"
+                        #:recursive? #t
+                        #:select?
+                        (lambda (file stat)
+                          ;; Keep the package source small and deterministic.
+                          (not (string-contains file "/.git")))))
     (build-system copy-build-system)
     (arguments
      (list
       #:install-plan
-      #~'(("guix-reconfigure" "/bin/guix-reconfigure"))
+      #~'(("bin/guixboy" "bin/guixboy")
+          ("modules/" "share/guile/site/3.0/")
+          ("extensions/guix/extensions/boy.scm"
+           "share/guix/extensions/boy.scm")
+          ("completions/zsh/_guixboy"
+           "share/zsh/site-functions/_guixboy")
+          ("README.md" "share/doc/guixboy/README.md")
+          ("assets/" "share/doc/guixboy/assets/")
+          ("doc/guixboy.texi" "share/doc/guixboy/guixboy.texi"))
       #:phases
       #~(modify-phases %standard-phases
-          (add-after 'install 'make-executable
+          (add-after 'install 'wrap-guixboy
             (lambda _
-              (chmod (string-append #$output "/bin/guix-reconfigure")
-                     #o755))))))
-    (home-page "")
-    (synopsis "Helper script to reconfigure system and home.")
-    (description synopsis)
-    (license license:gpl3)))
-
-(define-public guix-outdated
-  (package
-    (name "guix-outdated")
-    (version "1.0.0")
-    (source (local-file "../files/scripts/guix-outdated.scm" "guix-outdated"))
-    (build-system copy-build-system)
-    (arguments
-     (list
-      #:install-plan
-      #~'(("guix-outdated" "/bin/guix-outdated"))
-      #:phases
-      #~(modify-phases %standard-phases
-          (add-after 'install 'make-executable
-            (lambda _
-              (chmod (string-append #$output "/bin/guix-outdated")
-                     #o755))))))
-    (home-page "")
-    (synopsis "Show installed packages with newer versions in Guix upstream.")
-    (description synopsis)
-    (license license:gpl3)))
+              ;; Keep modules discoverable when running the standalone binary.
+              (let ((guile-path (string-append #$output
+                                               "/share/guile/site/3.0")))
+                (chmod (string-append #$output "/bin/guixboy") #o755)
+                (wrap-program (string-append #$output "/bin/guixboy")
+                  `("GUILE_LOAD_PATH" ":" prefix (,guile-path)))))))))
+    (inputs (list guile-3.0 guile-json-4))
+    (native-search-paths
+     (list (search-path-specification
+            (variable "GUILE_LOAD_PATH")
+            (files '("share/guile/site/3.0")))
+           (search-path-specification
+            (variable "GUIX_EXTENSIONS_PATH")
+            (files '("share/guix/extensions")))))
+    (home-page "https://example.invalid/guixboy")
+    (synopsis "Guix System helper megatool")
+    (description
+     "Guixboy provides a Guile command-line interface for common Guix System
+maintenance workflows, including configured reconfiguration targets, update
+checks, substitute URL aliases, garbage-collection recipes, profile discovery,
+and beginner-oriented explanations.")
+    (license license:gpl3+)))
 
 (define-public ollama
   (package

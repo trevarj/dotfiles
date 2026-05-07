@@ -63,8 +63,7 @@
      gnu-standards
      gost
      guile-next
-     guix-reconfigure
-     guix-outdated
+     guixboy
      headsetcontrol
      hicolor-icon-theme
      imv
