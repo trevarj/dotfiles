@@ -5,7 +5,8 @@
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
   #:use-module (trev-guix files udev-rules)
-  #:use-module (trev-guix services fwupd))
+  #:use-module (trev-guix services fwupd)
+  #:use-module (trev-guix services networking))
 
 (use-service-modules
  containers
@@ -210,6 +211,8 @@
                 (nix-configuration
                   (extra-config (list "experimental-features = nix-command flakes\n"
                                       "trusted-users = root @wheel\n"))))
+
+       (service nym-vpn-service-type)
 
        (udev-rules-service 'pipewire-add-udev-rules pipewire)
        (udev-rules-service 'arctis-7-nova-udev-rules %arctis-7-nova-udev-rule)

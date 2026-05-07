@@ -6,7 +6,62 @@
   #:use-module (guix build-system copy)
   #:use-module (guix build-system gnu)
   #:use-module (guix build-system go)
+  #:use-module (gnu packages base)
+  #:use-module (gnu packages gcc)
+  #:use-module (gnu packages glib)
+  #:use-module (gnu packages linux)
+  #:use-module (nonguix build-system binary)
   #:use-module (guix licenses))
+
+(define-public nym-vpn
+  (package
+    (name "nym-vpn")
+    (version "1.29.2")
+    (source
+     (origin
+       (method url-fetch)
+       (uri
+        (string-append
+         "https://github.com/nymtech/nym-vpn-client/releases/download/"
+         "nym-vpn-core-v" version
+         "/nym-vpn-core-v" version "_linux_x86_64.tar.gz"))
+       (sha256 (base32 "0d8v4390kd4aj7776vyv22sj97y5a63fk02m87j7pv64ihfqrr7r"))))
+    (build-system binary-build-system)
+    (arguments
+     (list
+      #:strip-binaries? #f
+      #:validate-runpath? #t
+      #:patchelf-plan
+      #~(let ((common-libs '("glibc"
+                             "gcc"
+                             "libmnl"
+                             "libnftnl"
+                             "dbus")))
+          `(("nym-vpnd" ,common-libs)
+            ("nym-vpnc" ,common-libs)
+            ("nym-diagnostic" ,common-libs)))
+      #:install-plan
+      #~'(("nym-vpnd" "bin/")
+          ("nym-vpnc" "bin/")
+          ("nym-diagnostic" "bin/"))
+      #:phases
+      #~(modify-phases %standard-phases
+          (replace 'unpack
+            (lambda* (#:key inputs #:allow-other-keys)
+              (invoke "tar" "xzf" (assoc-ref inputs "source") "--strip-components=1")
+              (chmod "nym-vpnc" #o755)
+              (chmod "nym-vpnd" #o755)
+              (chmod "nym-diagnostic" #o755)
+              #t)))))
+    (propagated-inputs
+     (list `(,gcc "lib") glibc libmnl libnftnl dbus))
+    (home-page "https://github.com/nymtech/nym-vpn-client")
+    (synopsis "Nym VPN core client binaries")
+    (description
+     "Nym VPN core binaries providing nym-vpnd, the daemon, and nym-vpnc,
+the command-line client, for connecting to the Nym mixnet VPN service.
+These are pre-built binaries patched for Guix compatibility.")
+    (license gpl3)))
 
 (define-public byedpi
   (package
