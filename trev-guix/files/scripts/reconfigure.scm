@@ -44,4 +44,8 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
        (fn "reconfigure" (format #f "-e ~a" env)))
       (_ #f))))
 
-(reconfigure)
+(define (invoked-as-script?)
+  (equal? (car (command-line)) (current-filename)))
+
+(when (invoked-as-script?)
+  (reconfigure))

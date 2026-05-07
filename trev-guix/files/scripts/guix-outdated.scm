@@ -127,4 +127,8 @@ exec guix repl -L "/home/trev/Workspace/dotfiles" -- "$0" "$@"
                                             all-entries)))
             (display-table (reverse rows))))))))
 
-(main)
+(define (invoked-as-script?)
+  (equal? (car (command-line)) (current-filename)))
+
+(when (invoked-as-script?)
+  (main))
