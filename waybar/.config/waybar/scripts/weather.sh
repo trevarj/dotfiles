@@ -2,9 +2,13 @@
 
 LAT="0.0"
 LONG="0.0"
+FALLBACK_ICON="󰨹"
 
 UNIT_FILE="/tmp/waybar-weather-unit"
-[ -f "$UNIT_FILE" ] && UNIT=$(cat "$UNIT_FILE") || UNIT="C"
+UNIT="C"
+if [ -r "$UNIT_FILE" ]; then
+    UNIT=$(cat "$UNIT_FILE" 2>/dev/null || printf "C")
+fi
 
 if [ "$UNIT" = "F" ]; then
     UNIT_PARAM="fahrenheit"
@@ -14,35 +18,44 @@ else
     UNIT_SYMBOL="°C"
 fi
 
-while ! nm-online -q; do
-    sleep 1
-done
+fallback() {
+    printf "%s\n" "$FALLBACK_ICON"
+    exit 0
+}
 
-res=$(curl -s -X GET \
-           "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=$UNIT_PARAM")
-
-if temp=$(echo "$res" | jq -r '.current_weather.temperature' 2>/dev/null) && [[ -n "$temp" ]]; then
-    temp_rounded=$(printf "%.0f" "$temp")
-    if [ "$temp_rounded" -eq 0 ]; then
-        temp_rounded=0
-    fi
-    condition=$(echo "$res" | jq -r '.current_weather.weathercode' 2>/dev/null)
-    case "$condition" in
-        0) cond="󰖙" ;;
-        1|2) cond="󰖕" ;;
-        3) cond="󰖐" ;;
-        45|48) cond="󰖑" ;;
-        51|53|55) cond="󰖗" ;;
-        56|57) cond="󰖒" ;;
-        61|63|65) cond="󰖗" ;;
-        66|67) cond="󰖒" ;;
-        71|73|75|77) cond="󰼶" ;;
-        80|81|82) cond="󰖖" ;;
-        85|86) cond="󰼶" ;;
-        95|96|99) cond="󰙾" ;;
-        *) cond="󰨹" ;;
-    esac
-    printf "%s   %s%s" "$cond" "$temp_rounded" "$UNIT_SYMBOL"
-else
-    printf "󰨹 "
+if ! command -v curl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    fallback
 fi
+
+if command -v nm-online >/dev/null 2>&1 && ! nm-online -q -t 2 >/dev/null 2>&1; then
+    fallback
+fi
+
+res=$(curl -fsS --max-time 8 -X GET \
+          "https://api.open-meteo.com/v1/forecast?latitude=$LAT&longitude=$LONG&current_weather=true&temperature_unit=$UNIT_PARAM" \
+          2>/dev/null) || fallback
+
+temp_rounded=$(printf "%s" "$res" |
+    jq -r 'try (.current_weather.temperature | tonumber | round | tostring) catch empty' 2>/dev/null) || fallback
+[ -n "$temp_rounded" ] || fallback
+
+condition=$(printf "%s" "$res" |
+    jq -r 'try (.current_weather.weathercode | tostring) catch empty' 2>/dev/null)
+
+case "$condition" in
+    0) cond="󰖙" ;;
+    1|2) cond="󰖕" ;;
+    3) cond="󰖐" ;;
+    45|48) cond="󰖑" ;;
+    51|53|55) cond="󰖗" ;;
+    56|57) cond="󰖒" ;;
+    61|63|65) cond="󰖗" ;;
+    66|67) cond="󰖒" ;;
+    71|73|75|77) cond="󰼶" ;;
+    80|81|82) cond="󰖖" ;;
+    85|86) cond="󰼶" ;;
+    95|96|99) cond="󰙾" ;;
+    *) cond="$FALLBACK_ICON" ;;
+esac
+
+printf "%s   %s%s\n" "$cond" "$temp_rounded" "$UNIT_SYMBOL"

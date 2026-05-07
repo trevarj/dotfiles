@@ -39,35 +39,9 @@
     "on-scroll-up": "niri msg action focus-workspace-up",
     "on-scroll-down": "niri msg action focus-workspace-down"
   },
-  "niri/window": {
-    "format": "{}",
-    "rewrite": {
-      "(.*) - Brave": "🌎 $1",
-      "(.*) - zsh": " [$1]",
-      "(.*) - Emacs": " [$1]",
-    },
-    "icon": true,
-    "icon-size": 24
-  },
   "niri/language": {
     "format-en": "en",
     "format-ru": "ru"
-  },
-  "keyboard-state": {
-    "numlock": false,
-    "capslock": true,
-    "format": "{icon}",
-    "format-icons": {
-      "locked": "",
-      "unlocked": ""
-    }
-  },
-  "idle_inhibitor": {
-    "format": "{icon}",
-    "format-icons": {
-      "activated": "",
-      "deactivated": ""
-    }
   },
   "tray": {
     "spacing": 10
@@ -75,37 +49,34 @@
   "clock": {
     "format": "{:%A, %b %d  %H:%M}",
     "tooltip-format": "{tz_list}<tt>{calendar}</tt>",
+    "timezone-tooltip-format": "{:%A, %b %d  %H:%M %Z}",
     "on-click": "swaync-client -t",
     "timezones": [
-      "Etc/UTC",
+      // Empty string means the system local timezone.
+      "",
       "America/New_York",
       "Etc/UTC",
-      "Asia/Hong_Kong"
     ],
     "calendar": {
-      "mode"          : "month",
+      "mode": "month",
       "mode-mon-col": 3,
-      "weeks-pos"     : "right",
-      "on-scroll"     : 1,
+      "weeks-pos": "right",
+      "on-scroll": 1,
       "format": {
-        "months":     "<span color='#ffead3'><b>{}</b></span>",
-        "days":       "<span color='#ecc6d9'><b>{}</b></span>",
-        "weeks":      "<span color='#99ffdd'><b>W{}</b></span>",
-        "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
-        "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+        "months": "<span color='#ffead3'><b>{}</b></span>",
+        "days": "<span color='#ecc6d9'><b>{}</b></span>",
+        "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
       }
     },
-    "actions":  {
+    "actions": {
       "on-click-right": "mode",
-      "on-scroll-up": "tz_up",
-      "on-scroll-down": "tz_down",
+      "on-click-forward": "tz_up",
+      "on-click-backward": "tz_down",
       "on-scroll-up": "shift_up",
       "on-scroll-down": "shift_down"
     }
-  },
-  "cpu": {
-    "format": "{usage}% ",
-    "tooltip": false
   },
   "memory": {
     "format": "",
@@ -132,20 +103,6 @@
       ""
     ]
   },
-  "backlight": {
-    "format": "{percent}% {icon}",
-    "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
-    ]
-  },
   "battery": {
     "states": {
       "warning": 30,
@@ -168,17 +125,6 @@
       "󰂂",
       "󰁹",
     ]
-  },
-  "power-profiles-daemon": {
-    "format": "{icon}",
-    "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
-    "tooltip": true,
-    "format-icons": {
-      "default": "",
-      "performance": "",
-      "balanced": "",
-      "power-saver": ""
-    }
   },
   "network": {
     "format": "{icon}",
@@ -286,14 +232,7 @@
     "format": "{text}",
     "tooltip-format": "{percentage}%",
     "return-type": "json",
-  },
-  "custom/notifications": {
-    "exec": "$HOME/.config/waybar/scripts/notifications.sh status",
-    "on-click": "dunstctl action && dunstctl close",
-    "on-click-right": "$HOME/.config/waybar/scripts/notifications.sh toggle",
-    "on-click-middle": "dunstctl close-all",
-    "return-type": "json",
-    "restart-interval": 1
+    "hide-empty-text": true,
   },
   "custom/swaync": {
     "tooltip": true,
@@ -309,17 +248,11 @@
       "dnd-inhibited-none": "󰪑"
     },
     "return-type": "json",
-    "exec-if": "which swaync-client",
+    "exec-if": "command -v swaync-client",
     "exec": "swaync-client -swb",
     "on-click": "swaync-client -t -sw",
     "on-click-right": "swaync-client -d -sw",
     "escape": true
-  },
-  "custom/notifications-toggle": {
-    "exec": "$HOME/.config/waybar/scripts/notifications.sh status full",
-    "on-click": "$HOME/.config/waybar/scripts/notifications.sh toggle",
-    "return-type": "json",
-    "restart-interval": 1
   },
   "group/settings": {
     "orientation": "inherit",
