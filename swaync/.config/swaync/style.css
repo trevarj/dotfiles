@@ -11,12 +11,12 @@
   --noti-bg-focus: rgba(58, 58, 64, 0.7);
   --noti-close-bg: rgba(255, 255, 255, 0.06);
   --noti-close-bg-hover: rgba(244, 63, 94, 0.9);
-  --text-color: rgba(255, 255, 255, 0.93);
-  --text-color-secondary: rgba(255, 255, 255, 0.5);
+  --text-color: rgba(244, 244, 245, 0.95);
+  --text-color-secondary: rgba(244, 244, 245, 0.58);
   --text-color-disabled: rgba(255, 255, 255, 0.3);
-  --accent-color: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --bg-selected: rgba(167, 139, 250, 0.25);
+  --accent-color: #f59e0b;
+  --accent-hover: #fbbf24;
+  --bg-selected: rgba(245, 158, 11, 0.24);
   --button-bg: rgba(255, 255, 255, 0.06);
   --button-bg-hover: rgba(255, 255, 255, 0.12);
   --progress-bg: rgba(255, 255, 255, 0.08);
@@ -28,7 +28,7 @@
 }
 
 * {
-  font-family: "Inter", "SF Pro Display", "Cantarell", sans-serif;
+  font-family: "Noto Sans", "Cantarell", sans-serif;
 }
 
 .notification-row {
@@ -437,9 +437,9 @@
 
 .widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
   background: var(--bg-selected);
-  border-color: rgba(167, 139, 250, 0.35);
+  border-color: rgba(245, 158, 11, 0.38);
   color: white;
-  box-shadow: 0 0 10px rgba(167, 139, 250, 0.15);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.14);
 }
 
 .widget-menubar > box > .menu-button-bar > button {
