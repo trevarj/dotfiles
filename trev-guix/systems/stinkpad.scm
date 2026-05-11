@@ -4,6 +4,7 @@
   #:use-module (guix utils)
   #:use-module (nongnu packages linux)
   #:use-module (nongnu system linux-initrd)
+  #:use-module (srfi srfi-1)
   #:use-module (trev-guix files udev-rules)
   #:use-module (trev-guix services fwupd)
   #:use-module (trev-guix services networking))
@@ -37,6 +38,26 @@
  tor
  version-control
  video)
+
+(define %stinkpad-substitute-urls
+  '(("https://ci.guix.gnu.org" . #f)
+    ("https://bordeaux.guix.gnu.org" . #f)
+    ("https://ci.guix.trop.in" . #t)
+    ("https://cache-sg.guix.moe" . #t)
+    ("https://cache-cdn.guix.moe" . #t)
+    ("https://cache-fi.guix.moe" . #t)
+    ("https://bordeaux-singapore-mirror.cbaines.net" . #t)
+    ("https://guix.bordeaux.inria.fr" . #t)
+    ("https://mirror.yandex.ru/mirrors/guix" . #t)
+    ("https://nonguix-proxy.ditigal.xyz" . #t)
+    ("https://substitutes.nonguix.org" . #t)
+    ("https://ci.guix.trevs.site" . #t)))
+
+(define (stinkpad-substitute-urls)
+  (filter-map (lambda (entry)
+                (and (cdr entry)
+                     (car entry)))
+              %stinkpad-substitute-urls))
 
 (define root-uuid "4b3be666-93bc-49e1-b275-cfccbc9c2729")
 (define efi-uuid "4B66-8689")
@@ -134,22 +155,11 @@
         (guix-service-type
          config =>
          (guix-configuration
-          (inherit config)
-          (substitute-urls
-           (list
-            "https://ci.guix.trop.in"
-            ;; "https://cache-cdn.guix.moe"
-            ;; "https://cache-fi.guix.moe"
-            "https://cache-sg.guix.moe"
-            ;; "https://mirror.yandex.ru/mirrors/guix"
-            "https://bordeaux.guix.gnu.org"
-            "https://nonguix-proxy.ditigal.xyz"
-            ;; "https://substitutes.nonguix.org"
-            "https://ci.guix.trevs.site"
-            ))
-          (authorized-keys
-           (cons* nonguix-pubkey-file
-                  %default-authorized-guix-keys))))
+           (inherit config)
+           (substitute-urls (stinkpad-substitute-urls))
+           (authorized-keys
+            (cons* nonguix-pubkey-file
+                   %default-authorized-guix-keys))))
         ;; Use Wayland
         (gdm-service-type
          config =>
