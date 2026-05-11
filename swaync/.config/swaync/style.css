@@ -255,6 +255,19 @@
   background-color: var(--noti-bg-hover-opaque);
 }
 
+.control-center .notification-row {
+  margin: 4px 8px;
+}
+
+.control-center .notification-row .notification-background .notification {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02);
+}
+
+.control-center .notification-row + .notification-row .notification-background .notification {
+  border-top-color: rgba(255, 255, 255, 0.18);
+}
+
 .control-center {
   background: var(--cc-bg);
   color: var(--text-color);
@@ -377,6 +390,7 @@
   box-shadow: none;
   border: none;
   outline: none;
+  background: var(--noti-bg-opaque);
 }
 
 .widget-mpris .widget-mpris-player .mpris-background {
@@ -386,7 +400,7 @@
 
 .widget-mpris .widget-mpris-player .mpris-overlay {
   padding: 14px;
-  background-color: transparent;
+  background-color: var(--noti-bg-opaque);
 }
 
 .widget-mpris .widget-mpris-player button:hover {
@@ -412,8 +426,8 @@
 
 
 .widget-buttons-grid {
-  padding: 4px;
-  margin: 8px;
+  padding: 2px;
+  margin: 4px;
   border-radius: var(--border-radius);
   background-color: transparent;
 }
@@ -423,11 +437,12 @@
   border-radius: 12px;
   border: 1px solid var(--noti-border-color);
   color: var(--text-color);
-  padding: 12px;
-  margin: 4px;
-  font-size: 18px;
+  padding: 7px 9px;
+  margin: 2px;
+  font-size: 14px;
   transition: all 0.2s ease-in-out;
-  min-height: 48px;
+  min-height: 34px;
+  min-width: 34px;
 }
 
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
