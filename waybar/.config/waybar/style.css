@@ -77,7 +77,7 @@ menu {
 }
 
 #custom-settings {
-    color: @fg_color;
+    color: @yellow_color;
 }
 
 #custom-power {
