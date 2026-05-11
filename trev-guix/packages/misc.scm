@@ -166,32 +166,19 @@ auto-updates for reproducibility and bundles fzf and ripgrep in PATH.")
 (define-public codex
   (package
     (name "codex")
-    (version "0.128.0")
+    (version "0.130.0")
     (source
      (origin
        (method url-fetch)
        (uri (string-append
              "https://github.com/openai/codex/releases/download/rust-v"
-             version "/codex-"
-             (match (or (%current-system) (%current-target-system))
-               ("x86_64-linux" "x86_64-unknown-linux-musl")
-               ("aarch64-linux" "aarch64-unknown-linux-musl")) ".tar.gz"))
-       (sha256
-        (base32
-         (match (or (%current-system) (%current-target-system))
-           ("x86_64-linux" "0fp243xswx5fsgh00g8h7fji2dljprzh1jip8hil62wc27k8asw8")
-           ("aarch64-linux" "1l6blqxsl00ashvfzqx73gil1vm7z4dv9z5hzfzggsjg63av8q9i"))))))
+             version "/codex-x86_64-unknown-linux-musl.tar.gz"))
+       (sha256 (base32 "140ihs7rnj09kc5dfvll4gn3dhzfhkhd9mrni9v8ll2pg1xrwxqn"))))
     (build-system binary-build-system)
     (arguments
      (list
       #:validate-runpath? #f
-      #:install-plan
-      #~`((,(string-append "codex-"
-                           #$(match (or (%current-system) (%current-target-system))
-                               ("x86_64-linux" "x86_64-unknown-linux-musl")
-                               ("aarch64-linux" "aarch64-unknown-linux-musl")))
-           "bin/codex"))))
-    (supported-systems '("x86_64-linux" "aarch64-linux"))
+      #:install-plan #~'(("codex-x86_64-unknown-linux-musl" "bin/codex"))))
     (home-page "https://github.com/openai/codex")
     (synopsis "AI coding agent from OpenAI")
     (description
