@@ -11,7 +11,7 @@ setopt prompt_subst
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' get-revision true
-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-unpushed
 zstyle ':vcs_info:git:*' stagedstr ' %F{green}●%f'
 zstyle ':vcs_info:git:*' unstagedstr ' %F{yellow}●%f'
 zstyle ':vcs_info:git:*' formats ' %F{8}on%f %F{10} %b%f%c%u%m'
@@ -34,6 +34,38 @@ typeset -g prompt_symbol='%F{10}➜%f'
   git_status=("${(@f)$(command git status --porcelain --untracked-files=normal 2>/dev/null)}")
   if (( ${git_status[(I)\?\?*]} )); then
     hook_com[misc]+=' %F{12}●%f'
+  fi
+}
+
++vi-git-unpushed() {
+  local -a branch_status
+  local branch_head branch_ab line
+  local has_upstream=0
+
+  branch_status=("${(@f)$(command git status --porcelain=v2 --branch --untracked-files=no 2>/dev/null)}")
+
+  for line in ${branch_status[@]}; do
+    if [[ ${line} == '# branch.head '* ]]; then
+      branch_head=${line#'# branch.head '}
+    elif [[ ${line} == '# branch.upstream '* ]]; then
+      has_upstream=1
+    elif [[ ${line} == '# branch.ab '* ]]; then
+      branch_ab=${line}
+    fi
+  done
+
+  if [[ -z ${branch_head} || ${branch_head} == '(detached)' ]]; then
+    return
+  fi
+
+  # A branch without an upstream has nowhere to push to yet.
+  if (( ! has_upstream )); then
+    hook_com[misc]+=' %F{13}⇡?%f'
+    return
+  fi
+
+  if [[ ${branch_ab} =~ '^# branch\.ab \+([0-9]+) -[0-9]+$' && ${match[1]} -gt 0 ]]; then
+    hook_com[misc]+=" %F{13}⇡${match[1]}%f"
   fi
 }
 
