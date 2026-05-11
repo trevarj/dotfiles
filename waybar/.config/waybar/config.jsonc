@@ -237,7 +237,7 @@
     "escape": true
   },
   "custom/vpn": {
-    "exec": "tun0=$(cat /sys/class/net/tun0/carrier 2>/dev/null || echo 0); tun1=$(cat /sys/class/net/tun1/carrier 2>/dev/null || echo 0); if [ $tun0 -eq 1 ] || [ $tun1 -eq 1 ]; then echo '󰒃'; else echo ''; fi",
+    "exec": "tun0=$(cat /sys/class/net/tun0/carrier 2>/dev/null || echo 0); tun1=$(cat /sys/class/net/tun1/carrier 2>/dev/null || echo 0); if [ $tun0 -eq 1 ] || [ $tun1 -eq 1 ]; then echo '󰦝'; else echo ''; fi",
     "interval": 5,
     "format": "{}",
     "hide-empty-text": true
