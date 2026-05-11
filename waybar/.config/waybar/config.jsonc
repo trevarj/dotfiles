@@ -257,30 +257,37 @@
       "transition-duration": 500,
       "transition-left-to-right": false,
       "click-to-reveal": false
-    }
+    },
+    "tooltip": true,
+    "tooltip-format": "System controls"
   },
   "custom/settings": {
     "format": " ",
-    "tooltip": false
+    "tooltip": true,
+    "tooltip-format": "Settings"
   },
   "custom/power": {
     "format": "󰐥",
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "Power off",
     "on-click": "loginctl poweroff"
   },
   "custom/suspend": {
     "format": "󰤄",
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "Suspend",
     "on-click": "loginctl suspend"
   },
   "custom/reboot": {
     "format": "󰜉",
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "Reboot",
     "on-click": "loginctl reboot"
   },
   "custom/lock": {
     "format": "󰍁",
-    "tooltip": false,
+    "tooltip": true,
+    "tooltip-format": "Lock",
     "on-click": "hyprlock"
   },
   "idle_inhibitor": {
@@ -288,6 +295,9 @@
     "format-icons": {
       "activated": "󰒳",
       "deactivated": "󰒲"
+    },
+    "tooltip": true,
+    "tooltip-format": "Idle inhibit {state}"
     }
   }
 }
