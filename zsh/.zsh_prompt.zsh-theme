@@ -14,8 +14,8 @@ zstyle ':vcs_info:*' get-revision true
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-unpushed
 zstyle ':vcs_info:git:*' stagedstr ' %F{green}●%f'
 zstyle ':vcs_info:git:*' unstagedstr ' %F{yellow}●%f'
-zstyle ':vcs_info:git:*' formats ' %F{8}on%f %F{10} %b%f%c%u%m'
-zstyle ':vcs_info:git:*' actionformats ' %F{8}on%f %F{10} %b%f%c%u%m'
+zstyle ':vcs_info:git:*' formats ' %F{8}on%f %F{10} %b%f%c%u%m'
+zstyle ':vcs_info:git:*' actionformats ' %F{8}on%f %F{10} %b%f%c%u%m'
 
 typeset -g prompt_command_started_at=''
 typeset -g prompt_elapsed_info=''
@@ -159,7 +159,7 @@ dotfiles_prompt_guix_info() {
   fi
 
   prompt_guix_cached_env=${GUIX_ENVIRONMENT}
-  prompt_guix_cached_info=" %F{11} %f%F{8}${guix_env_name}%f${guix_packages}"
+  prompt_guix_cached_info=" %F{11}  %f%F{8}${guix_env_name}%f${guix_packages}"
   prompt_guix_info=${prompt_guix_cached_info}
 }
 
