@@ -11,6 +11,7 @@
   #:use-module (gnu packages glib)
   #:use-module (gnu packages rust-apps)
   #:use-module (gnu packages terminals)
+  #:use-module (gnu packages virtualization)
   #:use-module (gnu packages wm)
   #:use-module (guix build-system copy)
   #:use-module (guix git-download)
@@ -175,6 +176,7 @@ auto-updates for reproducibility and bundles fzf and ripgrep in PATH.")
              version "/codex-x86_64-unknown-linux-musl.tar.gz"))
        (sha256 (base32 "140ihs7rnj09kc5dfvll4gn3dhzfhkhd9mrni9v8ll2pg1xrwxqn"))))
     (build-system binary-build-system)
+    (propagated-inputs (list bubblewrap))
     (arguments
      (list
       #:validate-runpath? #f
