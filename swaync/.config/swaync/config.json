@@ -111,7 +111,7 @@
       "loop-carousel": true
     },
     "buttons-grid": {
-      "buttons-per-row": 3,
+      "buttons-per-row": 2,
       "actions": [
         {
           "label": "",

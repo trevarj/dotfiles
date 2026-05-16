@@ -425,32 +425,52 @@
 
 
 
+.widget-buttons,
 .widget-buttons-grid {
   padding: 2px;
-  margin: 4px;
+  margin: 4px 8px 8px 8px;
   border-radius: var(--border-radius);
   background-color: transparent;
 }
 
+.widget-buttons > flowbox,
+.widget-buttons-grid > flowbox {
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.widget-buttons > flowbox > flowboxchild,
+.widget-buttons-grid > flowbox > flowboxchild {
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.widget-buttons > flowbox > flowboxchild > button,
 .widget-buttons-grid > flowbox > flowboxchild > button {
   background: var(--button-bg);
   border-radius: 12px;
   border: 1px solid var(--noti-border-color);
   color: var(--text-color);
-  padding: 7px 9px;
-  margin: 2px;
-  font-size: 14px;
+  padding: 8px;
+  margin: 3px;
+  font-size: 16px;
   transition: all 0.2s ease-in-out;
-  min-height: 34px;
-  min-width: 34px;
+  min-height: 38px;
+  min-width: 48px;
 }
 
+.widget-buttons > flowbox > flowboxchild > button:hover,
 .widget-buttons-grid > flowbox > flowboxchild > button:hover {
   background: var(--button-bg-hover);
   border-color: rgba(255, 255, 255, 0.14);
 }
 
-.widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked {
+.widget-buttons > flowbox > flowboxchild > button.toggle:checked,
+.widget-buttons > flowbox > flowboxchild > button.active,
+.widget-buttons-grid > flowbox > flowboxchild > button.toggle:checked,
+.widget-buttons-grid > flowbox > flowboxchild > button.active {
   background: var(--bg-selected);
   border-color: rgba(245, 158, 11, 0.38);
   color: white;
