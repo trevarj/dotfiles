@@ -63,7 +63,7 @@ on_click_right = "/run/current-system/profile/bin/loginctl lock-session"
 
 [theme]
 mode = "dark"
-accent = "#f59e0b"
+accent = "#d08770"
 animations = true
 ripple = true
 blur = true
