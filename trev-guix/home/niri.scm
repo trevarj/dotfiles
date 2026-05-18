@@ -19,8 +19,8 @@
                (directories '("../../"))
                (layout 'stow)
                (packages
-                '("zsh" "guix" "guixboy" "niri" "waybar" "icons" "swaync"
-                  "fuzzel" "hypr" "X"))
+                '("zsh" "guix" "guixboy" "niri" "gnome-topbar"
+                  "icons" "fuzzel" "hypr" "X"))
                (excluded '("\\.zshenv" "\\.zshrc" "\\.zprofile"))))
      (service udiskie-service-type)
      %home-base-services))))

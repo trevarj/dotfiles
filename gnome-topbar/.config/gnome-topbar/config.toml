@@ -1,0 +1,95 @@
+[bar]
+position = "top"
+size = 36
+spacing = 2
+screen_margin = 0
+inset = 4
+padding = 0
+border_radius = 0
+background_color = "#000000"
+background_opacity = 1.0
+
+[widgets]
+left = ["workspaces", "custom-crypto"]
+center = ["weather", "clock"]
+right = [
+  "tray",
+  "headset",
+  "keyboard_layout",
+  "quick_settings",
+  "custom-guix",
+]
+border_radius = 50
+background_opacity = 0.0
+popover_background_opacity = 0.58
+
+[widgets.workspaces]
+label_type = "none"
+animate = true
+filter_by_output = true
+show_unoccupied = false
+
+[widgets.clock]
+format = "%A, %b %d  %H:%M"
+control_panel = true
+
+[widgets.custom-crypto]
+label = ""
+exec = "/home/trev/Workspace/dotfiles/gnome-topbar/.config/gnome-topbar/scripts/crypto.sh -r"
+interval = 1800
+tooltip = "Crypto prices"
+max_chars = 40
+
+[widgets.weather]
+latitude = 0.0
+longitude = 0.0
+unit = "celsius"
+interval = 1800
+tooltip = "Weather"
+max_chars = 24
+
+[widgets.headset]
+interval = 5
+tooltip = "Headset battery"
+max_chars = 12
+
+[widgets.custom-guix]
+label = ""
+tooltip = "System controls"
+max_chars = 4
+
+[widgets.quick_settings]
+on_click_right = "/run/current-system/profile/bin/loginctl lock-session"
+
+[theme]
+mode = "dark"
+accent = "#f59e0b"
+animations = true
+ripple = true
+blur = true
+outline = false
+
+[theme.icons]
+theme = "Adwaita"
+weight = 400
+
+[theme.states]
+success = "#22c55e"
+warning = "#f59e0b"
+urgent = "#ef4444"
+
+[theme.typography]
+font_family = "NotoSans, IosevkaJBM, Symbols Nerd Font Mono, Symbols Nerd Font"
+
+[osd]
+enabled = true
+position = "bottom"
+timeout_ms = 1500
+show_value = false
+
+[audio]
+allow_overdrive = false
+
+[advanced]
+compositor = "niri"
+pango_font_rendering = true

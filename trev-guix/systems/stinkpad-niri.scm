@@ -39,6 +39,7 @@
       cava
       cliphist
       fuzzel
+      gnome-topbar
       hypridle
       hyprlock
       hyprpaper
@@ -47,9 +48,7 @@
       pipewire
       rygel
       swaybg
-      trevarj/swaynotificationcenter
       udiskie
-      waybar
       wireplumber
       wlsunset
       xdg-desktop-portal

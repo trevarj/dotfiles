@@ -1,7 +1,11 @@
 (define-module (trev-guix packages misc)
+  #:use-module (guix build-system cargo)
+  #:use-module (guix build-system copy)
   #:use-module (guix packages)
   #:use-module (guix download)
   #:use-module (guix gexp)
+  #:use-module (guix git-download)
+  #:use-module (guix import crate)
   #:use-module (gnu packages)
   #:use-module (gnu packages base)
   #:use-module (gnu packages bash)
@@ -9,12 +13,11 @@
   #:use-module (gnu packages gcc)
   #:use-module (gnu packages guile)
   #:use-module (gnu packages glib)
+  #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages rust-apps)
   #:use-module (gnu packages terminals)
   #:use-module (gnu packages virtualization)
   #:use-module (gnu packages wm)
-  #:use-module (guix build-system copy)
-  #:use-module (guix git-download)
   #:use-module (guix search-paths)
   #:use-module ((guix licenses) #:prefix license:)
   #:use-module (nonguix build-system binary)
@@ -70,6 +73,52 @@ maintenance workflows, including configured reconfiguration targets, update
 checks, substitute URL aliases, garbage-collection recipes, profile discovery,
 and beginner-oriented explanations.")
     (license license:gpl3+)))
+
+(define %gnome-topbar-checkout
+  (string-append (dirname (current-filename)) "/../../../gnome-topbar"))
+
+(define-public gnome-topbar
+  (package
+    (name "gnome-topbar")
+    (version "0.14.1")
+    (source
+     (local-file %gnome-topbar-checkout "gnome-topbar-checkout"
+                 #:recursive? #t
+                 #:select?
+                 (lambda (file stat)
+                   (and (not (string-contains file "/.git"))
+                        (not (string-contains file "/target"))))))
+    (build-system cargo-build-system)
+    (arguments
+     (list
+      #:install-source? #f
+      #:cargo-install-paths ''("crates/gnome-topbar")))
+    (native-inputs
+     (list pkg-config))
+    (inputs
+     (append (cargo-inputs-from-lockfile
+              (string-append %gnome-topbar-checkout "/Cargo.lock"))
+             (map specification->package
+                  '("gtk"
+                    "gtk4-layer-shell"
+                    "glib"
+                    "dbus"
+                    "eudev"
+                    "pango"
+                    "gdk-pixbuf"
+                    "cairo"
+                    "graphene"
+                    "pulseaudio"
+                    "upower"
+                    "network-manager"
+                    "bluez"))))
+    (home-page "https://github.com/trevarj/gnome-topbar")
+    (synopsis "GNOME Shell-inspired GTK top bar for Wayland")
+    (description
+     "GNOME Topbar is a Wayland-only GTK top bar inspired by GNOME Shell.  It
+provides a continuous system panel with notifications, quick settings, media
+controls, workspaces, and custom script modules.")
+    (license license:expat)))
 
 (define-public ollama
   (package
