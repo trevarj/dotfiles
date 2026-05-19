@@ -494,7 +494,7 @@ binds {
     Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn-sh "flatpak --user run com.brave.Browser"; }
 
     Mod+Alt+Return hotkey-overlay-title="Switch to DP-1" { spawn-sh "ddcutil -b 18 setvcp 60 0x0f"; }
-    Mod+Ctrl+W hotkey-overlay-title="Restart GNOME Topbar" { spawn-sh "pkill -x gnome-topbar; sleep 0.2; cd ~/Workspace/gnome-topbar 2>/dev/null || cd ~/Workspace/gnome-panel; exec guix shell -m manifest.scm -- sh -c 'export LD_LIBRARY_PATH=$LIBRARY_PATH; exec ./target/release/gnome-topbar --config ~/.config/gnome-topbar/config.toml -v'"; }
+    Mod+Ctrl+W hotkey-overlay-title="Restart GNOME Topbar" { spawn-sh "pkill -x gnome-topbar; sleep 0.2; gnome-topbar"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
