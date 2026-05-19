@@ -77,7 +77,7 @@
     (locale "en_US.utf8")
 
     ;; Non-free Linux and firmware
-    (kernel linux-6.19)
+    (kernel linux-7.0)
     (kernel-arguments (cons* "modprobe.blacklist=pcspkr,snd_pcsp"
                              "thinkpad_acpi.fan_control=1,"
                              %default-kernel-arguments))
