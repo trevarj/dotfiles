@@ -76,9 +76,12 @@ The helper will:
 - copy the `trev-nix` flake to `/mnt/home/trev/Workspace/dotfiles/trev-nix`
 - generate hardware config
 - run `nixos-install`
+- ask you to set the `trev` login password
 
 The LUKS passphrase is entered interactively.  It is never stored in the repo
-or ISO.
+or ISO.  `nixos-install` asks for the root password; the installer helper then
+uses `nixos-enter --root /mnt -c 'passwd trev'` to set the normal user password
+before reboot.
 
 ## Disk Layout
 

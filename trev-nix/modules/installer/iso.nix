@@ -93,6 +93,9 @@
     NIX_CONFIG="experimental-features = nix-command flakes" \
       nixos-install --flake "$flake_ref"
 
+    echo "Set the login password for trev." >&2
+    nixos-enter --root /mnt -c 'passwd trev'
+
     # Keep the copied checkout editable by trev after first boot.  The NixOS
     # default normal-user uid/gid pair is 1000:100, and the host module pins the
     # uid to keep this installer script deterministic.
@@ -118,6 +121,7 @@ in {
     parted
     gptfdisk
     cryptsetup
+    nixos-enter
     vim
     installStinkpad
   ];

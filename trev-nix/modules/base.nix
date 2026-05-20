@@ -7,6 +7,17 @@
   networking.firewall.enable = true;
   networking.firewall.allowedTCPPorts = [22];
 
+  fonts = {
+    fontconfig.enable = true;
+    packages = with pkgs; [
+      font-awesome
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-color-emoji
+      terminus_font
+    ];
+  };
+
   services.openssh = {
     enable = true;
     ports = [22];

@@ -15,11 +15,13 @@
     [
       ''spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx org.telegram.desktop || flatpak --user run org.telegram.desktop"''
       ''spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx com.brave.Browser || flatpak --user run com.brave.Browser"''
+      ''spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/a_rocky_shore_with_waves_crashing.jpg -m fill"''
       ''Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn-sh "flatpak --user run com.brave.Browser"; }''
     ]
     [
       ''spawn-at-startup "telegram-desktop"''
       ''spawn-at-startup "brave"''
+      ''spawn-sh-at-startup "${pkgs.swaybg}/bin/swaybg -o '*' -i /home/trev/Pictures/Wallpapers/a_rocky_shore_with_waves_crashing.jpg -m fill"''
       ''Mod+B hotkey-overlay-title="Launch a Browser: Brave" { spawn "brave"; }''
     ]
     (builtins.readFile (dotfilesRoot + "/niri/.config/niri/config.kdl"));
@@ -51,6 +53,7 @@ in {
     ddcutil
     direnv
     distrobox
+    emacs-pgtk
     eza
     fd
     fzf
@@ -97,11 +100,25 @@ in {
     ".zsh_prompt.zsh-theme".source = dotfilesRoot + "/zsh/.zsh_prompt.zsh-theme";
     ".zsh_eza.zsh".source = dotfilesRoot + "/zsh/.zsh_eza.zsh";
     ".Xresources".source = dotfilesRoot + "/X/.Xresources";
+    ".ssh/config".source = dotfilesRoot + "/ssh/.ssh/config";
+
+    # Only the small custom font subset used by Kitty/topbar is vendored here;
+    # Noto, emoji, Terminus, and other broad fonts come from Nixpkgs.
+    ".local/share/fonts/IosevkaJbm/IosevkaJbm/TTF".source = dotfilesRoot + "/fonts/.local/share/fonts/IosevkaJbm/IosevkaJbm/TTF";
+    ".local/share/fonts/NerdFonts".source = dotfilesRoot + "/fonts/.local/share/fonts/NerdFonts";
+    ".local/share/fonts/cryptofont.ttf".source = dotfilesRoot + "/fonts/.local/share/fonts/cryptofont.ttf";
+
+    "Pictures/Wallpapers/a_rocky_shore_with_waves_crashing.jpg".source = dotfilesRoot + "/wallpapers/Pictures/Wallpapers/a_rocky_shore_with_waves_crashing.jpg";
+    "Pictures/Wallpapers/wallhaven-95kx6d.jpg".source = dotfilesRoot + "/wallpapers/Pictures/Wallpapers/wallhaven-95kx6d.jpg";
   };
 
   xdg.configFile = {
+    "fontconfig/fonts.conf".source = dotfilesRoot + "/fonts/.config/fontconfig/fonts.conf";
+    "fontconfig/conf.d/01-Emoji.conf".source = dotfilesRoot + "/fonts/.config/fontconfig/conf.d/01-Emoji.conf";
+    "fontconfig/conf.d/02-NerdFonts.conf".source = dotfilesRoot + "/fonts/.config/fontconfig/conf.d/02-NerdFonts.conf";
     "niri/config.kdl".text = niriConfig;
     "fuzzel/fuzzel.ini".source = dotfilesRoot + "/fuzzel/.config/fuzzel/fuzzel.ini";
+    "kitty/kitty.conf".source = dotfilesRoot + "/kitty/.config/kitty/kitty.conf";
     "hypr/hypridle.conf".source = dotfilesRoot + "/hypr/.config/hypr/hypridle.conf";
     "hypr/hyprlock.conf".source = dotfilesRoot + "/hypr/.config/hypr/hyprlock.conf";
     "hypr/hyprpaper.conf".source = dotfilesRoot + "/hypr/.config/hypr/hyprpaper.conf";
@@ -128,6 +145,27 @@ in {
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  programs.gpg = {
+    enable = true;
+    settings = {
+      # Loopback lets terminal/editor tools ask for the passphrase themselves
+      # when needed, matching the old Guix gpg.conf.
+      pinentry-mode = "loopback";
+      keyserver = "hkps://keys.openpgp.org";
+      default-key = "A6C20D0C2AD838F949070EA3A52D68794EBED758";
+    };
+  };
+
+  services.gpg-agent = {
+    enable = true;
+    defaultCacheTtl = 43200;
+    maxCacheTtl = 43200;
+    pinentry.package = pkgs.pinentry-tty;
+    extraConfig = ''
+      allow-loopback-pinentry
+    '';
   };
 
   programs.zsh = {
