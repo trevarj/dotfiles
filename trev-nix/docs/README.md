@@ -3,7 +3,7 @@
 The main NixOS system target is:
 
 ```sh
-trev-nix#stinkpad
+~/Workspace/dotfiles#stinkpad
 ```
 
 Home Manager is loaded by the NixOS config, so there is no separate

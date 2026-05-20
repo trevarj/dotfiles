@@ -52,7 +52,7 @@
       inherit specialArgs;
 
       modules = [
-        ./hosts/stinkpad
+        ./trev-nix/hosts/stinkpad
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
@@ -60,7 +60,7 @@
           home-manager.extraSpecialArgs = {
             inherit self;
           };
-          home-manager.users.trev = import ./home/trev.nix;
+          home-manager.users.trev = import ./trev-nix/home/trev.nix;
         }
       ];
     };
@@ -68,7 +68,7 @@
     nixosConfigurations.trev-installer = nixpkgs.lib.nixosSystem {
       inherit system specialArgs;
       modules = [
-        ./modules/installer/iso.nix
+        ./trev-nix/modules/installer/iso.nix
       ];
     };
 
@@ -77,20 +77,20 @@
     diskoConfigurations.stinkpad = {
       diskDevice ? throw "Pass --argstr diskDevice /dev/...",
       ...
-    }: import ./modules/disk/stinkpad.nix {inherit diskDevice;};
+    }: import ./trev-nix/modules/disk/stinkpad.nix {inherit diskDevice;};
 
     packages.${system} = let
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-    in import ./pkgs {inherit pkgs gnome-topbar-src;};
+    in import ./trev-nix/pkgs {inherit pkgs gnome-topbar-src;};
 
     devShells.${system} = let
       pkgs = import nixpkgs {
         inherit system;
         config.allowUnfree = true;
       };
-    in import ./shells {inherit pkgs;};
+    in import ./trev-nix/shells {inherit pkgs;};
   };
 }

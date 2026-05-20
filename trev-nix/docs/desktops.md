@@ -51,7 +51,7 @@ Remove one of those imports only if you want that desktop removed from the
 system entirely.  After editing, rebuild:
 
 ```sh
-sudo nixos-rebuild switch --flake ~/Workspace/dotfiles/trev-nix#stinkpad
+sudo nixos-rebuild switch --flake ~/Workspace/dotfiles#stinkpad
 ```
 
 ## Niri Config
@@ -69,8 +69,7 @@ package commands.
 After editing Niri config, rebuild:
 
 ```sh
-sudo nixos-rebuild switch --flake ~/Workspace/dotfiles/trev-nix#stinkpad
+sudo nixos-rebuild switch --flake ~/Workspace/dotfiles#stinkpad
 ```
 
 Then log out and back into Niri.
-

@@ -6,13 +6,13 @@ The custom installer ISO bundles the dotfiles tree and includes an
 The installed system target is:
 
 ```sh
-trev-nix#stinkpad
+~/Workspace/dotfiles#stinkpad
 ```
 
 Build it from a Nix system:
 
 ```sh
-nix build ~/Workspace/dotfiles/trev-nix#nixosConfigurations.trev-installer.config.system.build.isoImage
+nix build ~/Workspace/dotfiles#nixosConfigurations.trev-installer.config.system.build.isoImage
 ```
 
 The ISO is written to:
@@ -73,7 +73,7 @@ The helper will:
 - create a LUKS-encrypted ext4 root filesystem
 - enable SSD discard/TRIM through LUKS
 - mount the installed system at `/mnt`
-- copy the `trev-nix` flake to `/mnt/home/trev/Workspace/dotfiles/trev-nix`
+- copy the dotfiles flake to `/mnt/home/trev/Workspace/dotfiles`
 - generate hardware config
 - run `nixos-install`
 - ask you to set the `trev` login password

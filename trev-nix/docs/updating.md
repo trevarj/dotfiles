@@ -3,7 +3,7 @@
 The main system target is:
 
 ```sh
-~/Workspace/dotfiles/trev-nix#stinkpad
+~/Workspace/dotfiles#stinkpad
 ```
 
 Home Manager is integrated into the NixOS system config, so normal changes use
@@ -14,31 +14,31 @@ Home Manager is integrated into the NixOS system config, so normal changes use
 Apply config changes immediately:
 
 ```sh
-sudo nixos-rebuild switch --flake ~/Workspace/dotfiles/trev-nix#stinkpad
+sudo nixos-rebuild switch --flake ~/Workspace/dotfiles#stinkpad
 ```
 
 Build without activating:
 
 ```sh
-nix build ~/Workspace/dotfiles/trev-nix#nixosConfigurations.stinkpad.config.system.build.toplevel
+nix build ~/Workspace/dotfiles#nixosConfigurations.stinkpad.config.system.build.toplevel
 ```
 
 ## Update Packages And Inputs
 
-Flake inputs are pinned in `trev-nix/flake.lock`.  Updating the lock file is
+Flake inputs are pinned in `flake.lock`.  Updating the lock file is
 similar to updating pinned Guix channels.
 
 Update everything:
 
 ```sh
-cd ~/Workspace/dotfiles/trev-nix
+cd ~/Workspace/dotfiles
 nix flake update
 ```
 
 Update one input:
 
 ```sh
-cd ~/Workspace/dotfiles/trev-nix
+cd ~/Workspace/dotfiles
 nix flake update gnome-topbar-src
 ```
 
@@ -49,7 +49,7 @@ current `master`.
 Then rebuild:
 
 ```sh
-sudo nixos-rebuild switch --flake ~/Workspace/dotfiles/trev-nix#stinkpad
+sudo nixos-rebuild switch --flake ~/Workspace/dotfiles#stinkpad
 ```
 
 ## Check Before Switching
@@ -57,19 +57,19 @@ sudo nixos-rebuild switch --flake ~/Workspace/dotfiles/trev-nix#stinkpad
 Run the flake checks:
 
 ```sh
-nix flake check ~/Workspace/dotfiles/trev-nix
+nix flake check ~/Workspace/dotfiles
 ```
 
 Dry-run the installed system build:
 
 ```sh
-nix build --dry-run ~/Workspace/dotfiles/trev-nix#nixosConfigurations.stinkpad.config.system.build.toplevel
+nix build --dry-run ~/Workspace/dotfiles#nixosConfigurations.stinkpad.config.system.build.toplevel
 ```
 
 Dry-run the custom installer ISO:
 
 ```sh
-nix build --dry-run ~/Workspace/dotfiles/trev-nix#nixosConfigurations.trev-installer.config.system.build.isoImage
+nix build --dry-run ~/Workspace/dotfiles#nixosConfigurations.trev-installer.config.system.build.isoImage
 ```
 
 ## Roll Back

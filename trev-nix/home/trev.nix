@@ -5,7 +5,7 @@
   ...
 }: let
   localPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
-  dotfilesRoot = ../assets/dotfiles;
+  dotfilesRoot = ../..;
 
   # Home Manager can either point directly at files or generate new files.  For
   # configs that mention Guix or Flatpak paths, generate a NixOS-specific view
