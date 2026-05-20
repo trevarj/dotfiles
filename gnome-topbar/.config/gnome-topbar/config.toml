@@ -32,6 +32,9 @@ show_unoccupied = false
 [widgets.clock]
 format = "%A, %b %d  %H:%M"
 control_panel = true
+world_clocks = [
+  { label = "New York", timezone = "America/New_York" },
+]
 
 [widgets.custom-crypto]
 label = ""
