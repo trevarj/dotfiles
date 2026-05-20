@@ -16,6 +16,17 @@
     "ACTION==\"remove\", GOTO=\"battery_end\"\n\n"
     "SUBSYSTEM==\"power_supply\", ATTR{charge_control_start_threshold}!=\"\", "
     "IMPORT{builtin}=\"hwdb 'battery:$kernel:$attr{model_name}:$attr{[dmi/id]modalias}'\", "
+    "GOTO=\"battery_permissions\"\n\n"
+    "LABEL=\"battery_permissions\"\n"
+    "SUBSYSTEM==\"power_supply\", KERNEL==\"BAT0\", "
+    "TEST==\"charge_control_start_threshold\", "
+    "TEST==\"charge_control_end_threshold\", "
+    "RUN+=\"/run/current-system/profile/bin/chgrp trev "
+    "/sys$devpath/charge_control_start_threshold "
+    "/sys$devpath/charge_control_end_threshold\", "
+    "RUN+=\"/run/current-system/profile/bin/chmod g+w "
+    "/sys$devpath/charge_control_start_threshold "
+    "/sys$devpath/charge_control_end_threshold\", "
     "GOTO=\"battery_end\"\n\n"
     "LABEL=\"battery_end\"\n")))
 
