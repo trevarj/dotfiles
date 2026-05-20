@@ -24,10 +24,10 @@
     };
 
     gnome-topbar-src = {
-      # This is a normal flake input, pinned in flake.lock like a Guix channel.
-      # It intentionally does not depend on a local checkout, so fresh installs
-      # can build the full system from this repository plus the lock file.
-      url = "github:trevarj/gnome-topbar";
+      # Track upstream master, but keep the exact commit pinned in flake.lock.
+      # Run `nix flake update gnome-topbar-src` to advance to current master.
+      # This avoids relying on a local checkout while keeping builds repeatable.
+      url = "github:trevarj/gnome-topbar/master";
       flake = false;
     };
   };

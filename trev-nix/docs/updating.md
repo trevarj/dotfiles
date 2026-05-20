@@ -42,6 +42,10 @@ cd ~/Workspace/dotfiles/trev-nix
 nix flake update gnome-topbar-src
 ```
 
+`gnome-topbar-src` tracks the upstream `master` branch.  The lock file still
+pins the exact commit used by the system; updating that input advances it to the
+current `master`.
+
 Then rebuild:
 
 ```sh
@@ -100,4 +104,3 @@ sudo nix store optimise
 ```
 
 The system config already enables store auto-optimization for future builds.
-
