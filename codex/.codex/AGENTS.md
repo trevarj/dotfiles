@@ -46,6 +46,8 @@ Common manifest commands:
 - Keep messages brief and direct: single line when possible, no walls of text.
 - Use bullet points for body if more detail is needed.
 - Do not include ticket references unless the user asks.
+- Never create an unsigned commit. Every commit must be signed with the user's GPG key.
+- If GPG signing fails because the key is locked, run `/home/trev/.codex/bin/codex-gpg-unlock`, retry the signed commit, and repeat this unlock-and-retry cycle up to 3 times. If signing still fails after 3 attempts, pause and wait for explicit user guidance instead of committing unsigned.
 
 Examples:
 
@@ -78,7 +80,7 @@ Examples:
 - Never expose or log secrets, API keys, tokens, or credentials.
 - Warn the user before committing `.env`, `credentials.json`, or similar sensitive files.
 - If a commit containing secrets is requested, warn and refuse.
-- If GPG needs a key passphrase, never ask the user to type it into chat. Run `/home/trev/.codex/bin/codex-gpg-unlock` so the user can enter the passphrase in a local terminal, then retry the GPG or signed Git command.
+- If GPG needs a key passphrase, never ask the user to type it into chat. Run `/home/trev/.codex/bin/codex-gpg-unlock` so the user can enter the passphrase in a local terminal, then retry the GPG or signed Git command. If the unlock helper fails or hangs, try the unlock-and-retry cycle up to 3 total times; after that, pause and wait for explicit user guidance.
 
 ## Verification
 
