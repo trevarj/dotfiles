@@ -9,6 +9,23 @@
     "ATTRS{idVendor}==\"1038\", ATTRS{idProduct}==\"2202\","
     "TAG+=\"uaccess\"")))
 
+(define-public %upower-battery-threshold-udev-rule
+  (udev-rule
+   "60-upower-battery.rules"
+   (string-append
+    "ACTION==\"remove\", GOTO=\"battery_end\"\n\n"
+    "SUBSYSTEM==\"power_supply\", ATTR{charge_control_start_threshold}!=\"\", "
+    "IMPORT{builtin}=\"hwdb 'battery:$kernel:$attr{model_name}:$attr{[dmi/id]modalias}'\", "
+    "GOTO=\"battery_end\"\n\n"
+    "LABEL=\"battery_end\"\n")))
+
+(define-public %stinkpad-battery-charge-limit-hwdb
+  (udev-hardware
+   "61-battery-local.hwdb"
+   (string-append
+    "battery:BAT0:5B10W51863:dmi:*svnLENOVO:*pn21K3CTO1WW:*\n"
+    " CHARGE_LIMIT=75,80\n")))
+
 (define-public %ledger-udev-rule
   (udev-rule
    "20-ledger-hw.rules"
