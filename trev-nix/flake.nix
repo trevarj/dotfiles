@@ -42,7 +42,6 @@
     system = "x86_64-linux";
     specialArgs = {
       inherit self disko;
-      dotfilesRoot = ../.;
     };
   in {
     nixosConfigurations.stinkpad = nixpkgs.lib.nixosSystem {
@@ -60,7 +59,6 @@
           home-manager.useUserPackages = true;
           home-manager.extraSpecialArgs = {
             inherit self;
-            dotfilesRoot = ../.;
           };
           home-manager.users.trev = import ./home/trev.nix;
         }

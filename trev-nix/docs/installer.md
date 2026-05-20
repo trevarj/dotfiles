@@ -73,7 +73,7 @@ The helper will:
 - create a LUKS-encrypted ext4 root filesystem
 - enable SSD discard/TRIM through LUKS
 - mount the installed system at `/mnt`
-- copy dotfiles to `/mnt/home/trev/Workspace/dotfiles`
+- copy the `trev-nix` flake to `/mnt/home/trev/Workspace/dotfiles/trev-nix`
 - generate hardware config
 - run `nixos-install`
 

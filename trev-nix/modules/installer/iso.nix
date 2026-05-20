@@ -1,9 +1,9 @@
 {
   disko,
-  dotfilesRoot,
   lib,
   modulesPath,
   pkgs,
+  self,
   ...
 }: let
   diskoPackage = disko.packages.${pkgs.stdenv.hostPlatform.system}.disko;
@@ -11,9 +11,9 @@
     set -euo pipefail
 
     source_dir="/etc/trev-dotfiles"
-    target_dir="/mnt/home/trev/Workspace/dotfiles"
-    flake_ref="$target_dir/trev-nix#stinkpad"
-    disko_flake_ref="$source_dir/trev-nix#stinkpad"
+    target_dir="/mnt/home/trev/Workspace/dotfiles/trev-nix"
+    flake_ref="$target_dir#stinkpad"
+    disko_flake_ref="$source_dir#stinkpad"
 
     if ! nm-online --timeout=10 >/dev/null 2>&1; then
       echo "NetworkManager is not online yet." >&2
@@ -75,7 +75,7 @@
       exit 1
     fi
 
-    mkdir -p /mnt/home/trev/Workspace
+    mkdir -p /mnt/home/trev/Workspace/dotfiles
 
     if [ -e "$target_dir" ]; then
       echo "$target_dir already exists; leaving it in place." >&2
@@ -87,7 +87,7 @@
 
     echo "Generating hardware configuration for the mounted system." >&2
     nixos-generate-config --root /mnt --show-hardware-config \
-      > "$target_dir/trev-nix/hosts/stinkpad/hardware-configuration.nix"
+      > "$target_dir/hosts/stinkpad/hardware-configuration.nix"
 
     echo "Installing $flake_ref." >&2
     NIX_CONFIG="experimental-features = nix-command flakes" \
@@ -124,7 +124,7 @@ in {
 
   # Bundle the dotfiles tree into the ISO so installation does not depend on a
   # network clone or a local checkout existing on the target machine.
-  environment.etc."trev-dotfiles".source = dotfilesRoot;
+  environment.etc."trev-dotfiles".source = self;
 
   services.openssh.enable = true;
 }

@@ -2,10 +2,10 @@
   self,
   pkgs,
   lib,
-  dotfilesRoot,
   ...
 }: let
   localPkgs = self.packages.${pkgs.stdenv.hostPlatform.system};
+  dotfilesRoot = ../assets/dotfiles;
 
   # Home Manager can either point directly at files or generate new files.  For
   # configs that mention Guix or Flatpak paths, generate a NixOS-specific view
@@ -26,8 +26,14 @@
 
   topbarConfig =
     builtins.replaceStrings
-    ["/run/current-system/profile/bin/loginctl"]
-    ["${pkgs.systemd}/bin/loginctl"]
+    [
+      "/run/current-system/profile/bin/loginctl"
+      "/home/trev/Workspace/dotfiles/gnome-topbar/.config/gnome-topbar/scripts/crypto.sh"
+    ]
+    [
+      "${pkgs.systemd}/bin/loginctl"
+      "/home/trev/.config/gnome-topbar/scripts/crypto.sh"
+    ]
     (builtins.readFile (dotfilesRoot + "/gnome-topbar/.config/gnome-topbar/config.toml"));
 in {
   home.username = "trev";
@@ -91,7 +97,6 @@ in {
     ".zsh_prompt.zsh-theme".source = dotfilesRoot + "/zsh/.zsh_prompt.zsh-theme";
     ".zsh_eza.zsh".source = dotfilesRoot + "/zsh/.zsh_eza.zsh";
     ".Xresources".source = dotfilesRoot + "/X/.Xresources";
-    ".icons".source = dotfilesRoot + "/icons/.icons";
   };
 
   xdg.configFile = {
