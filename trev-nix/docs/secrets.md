@@ -9,6 +9,7 @@ encrypted secrets file exists.
 - The machine identity is `/etc/ssh/ssh_host_ed25519_key`.
 - User SSH keys are written to `/home/trev/.ssh`.
 - Emacs secrets are written to `/home/trev/Workspace/emacs.d/secrets.el.gpg`.
+- Authinfo is written to `/home/trev/.authinfo.gpg`.
 - Plaintext secrets never belong in this repository.
 
 ## First Setup
@@ -63,6 +64,8 @@ ssh:
 emacs:
   secrets.el.gpg: |
     ...
+authinfo.gpg: |
+  ...
 ```
 
 Then enable it in `trev-nix/hosts/stinkpad/default.nix`:
@@ -74,8 +77,8 @@ trev.secrets = {
 };
 ```
 
-Run the normal rebuild. The next activation writes the SSH key files and Emacs
-secret file with user ownership.
+Run the normal rebuild. The next activation writes the SSH key files, Emacs
+secret file, and authinfo file with user ownership.
 
 ## Emacs
 
@@ -90,6 +93,9 @@ If the checkout is missing, the `trev-emacs-checkout` user service clones:
 ```sh
 https://github.com/trevarj/emacs.d.git
 ```
+
+The service can run after `sops-nix` has already written `secrets.el.gpg`; it
+preserves that file while copying the checkout into place.
 
 This keeps Emacs mutable for package installs while making a fresh NixOS system
 recover the config automatically.

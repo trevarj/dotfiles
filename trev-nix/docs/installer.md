@@ -109,6 +109,7 @@ that contains secrets.
 Secrets are not included in the ISO.  After the installed system has booted and
 generated `/etc/ssh/ssh_host_ed25519_key`, add that host recipient to the sops
 file described in [Secrets](./secrets.md), enable `trev.secrets`, and rebuild.
+The ordered post-install checklist is in [First Boot](./first-boot.md).
 
 The installer destroys the selected target disk.  Read the disk list carefully
 before confirming the `WIPE /dev/...` prompt.

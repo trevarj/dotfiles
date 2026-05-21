@@ -48,6 +48,13 @@ in {
           group = "users";
           mode = "0600";
         };
+
+        "authinfo.gpg" = {
+          path = "/home/trev/.authinfo.gpg";
+          owner = "trev";
+          group = "users";
+          mode = "0600";
+        };
       };
     };
 
