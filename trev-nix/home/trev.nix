@@ -38,6 +38,10 @@
     ]
     (builtins.readFile (dotfilesRoot + "/gnome-topbar/.config/gnome-topbar/config.toml"));
 in {
+  imports = [
+    ./emacs.nix
+  ];
+
   home.username = "trev";
   home.homeDirectory = "/home/trev";
 
@@ -74,6 +78,8 @@ in {
     papirus-icon-theme
     pinentry-tty
     ripgrep
+    sops
+    ssh-to-age
     stow
     telegram-desktop
     tor

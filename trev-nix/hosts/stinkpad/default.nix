@@ -10,6 +10,7 @@
     ../../modules/desktop/gnome.nix
     ../../modules/desktop/niri.nix
     ../../modules/services/networking.nix
+    ../../modules/secrets.nix
     ../../modules/udev.nix
   ];
 
@@ -109,6 +110,12 @@
 
   programs.zsh.enable = true;
   programs.dconf.enable = true;
+
+  # Enable after creating an encrypted file such as:
+  # trev.secrets = {
+  #   enable = true;
+  #   sopsFile = ../../secrets/stinkpad.yaml;
+  # };
 
   # Pick the current release when this config is first activated, then leave it
   # alone.  It gates compatibility defaults and is not a package version pin.

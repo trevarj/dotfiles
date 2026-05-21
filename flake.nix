@@ -23,6 +23,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # sops-nix keeps private material encrypted in the repo and materializes it
+    # only during activation on machines that have an allowed age identity.
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     gnome-topbar-src = {
       # Track upstream master, but keep the exact commit pinned in flake.lock.
       # Run `nix flake update gnome-topbar-src` to advance to current master.
@@ -37,11 +44,12 @@
     nixpkgs,
     home-manager,
     disko,
+    sops-nix,
     gnome-topbar-src,
   }: let
     system = "x86_64-linux";
     specialArgs = {
-      inherit self disko;
+      inherit self disko sops-nix;
     };
   in {
     nixosConfigurations.stinkpad = nixpkgs.lib.nixosSystem {
@@ -53,10 +61,14 @@
 
       modules = [
         ./trev-nix/hosts/stinkpad
+        sops-nix.nixosModules.sops
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.sharedModules = [
+            sops-nix.homeManagerModules.sops
+          ];
           home-manager.extraSpecialArgs = {
             inherit self;
           };

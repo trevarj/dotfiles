@@ -11,6 +11,7 @@ Home Manager is loaded by the NixOS config, so there is no separate
 
 - [Installer ISO](./installer.md)
 - [Desktop Sessions](./desktops.md)
+- [Secrets](./secrets.md)
 - [Updating And Rebuilding](./updating.md)
 
 Current assumptions:

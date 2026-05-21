@@ -74,6 +74,7 @@ The helper will:
 - enable SSD discard/TRIM through LUKS
 - mount the installed system at `/mnt`
 - copy the dotfiles flake to `/mnt/home/trev/Workspace/dotfiles`
+- install a user service that clones `~/Workspace/emacs.d` when missing
 - generate hardware config
 - run `nixos-install`
 - ask you to set the `trev` login password
@@ -104,6 +105,10 @@ Hibernation is not configured.
 
 The ISO contains the dotfiles checkout.  Do not build or share it from a tree
 that contains secrets.
+
+Secrets are not included in the ISO.  After the installed system has booted and
+generated `/etc/ssh/ssh_host_ed25519_key`, add that host recipient to the sops
+file described in [Secrets](./secrets.md), enable `trev.secrets`, and rebuild.
 
 The installer destroys the selected target disk.  Read the disk list carefully
 before confirming the `WIPE /dev/...` prompt.
