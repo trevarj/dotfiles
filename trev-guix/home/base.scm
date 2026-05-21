@@ -105,7 +105,16 @@
                 (zprofile (list (local-file "../../zsh/.zprofile" "zprofile")))
                 (environment-variables
                  '(("ASPELL_DICT_DIR" . "${HOME}/.guix-home/profile/lib/aspell")))))
-     (service home-flatpak-service-type)
+     (service home-flatpak-service-type
+              (home-flatpak-configuration
+                (applications
+                 '("com.bambulab.BambuStudio"
+                   "com.brave.Browser"
+                   "com.github.tchx84.Flatseal"
+                   "com.transmissionbt.Transmission"
+                   "org.freecad.FreeCAD"
+                   "org.gimp.GIMP"
+                   "org.telegram.desktop"))))
      (service byedpi-service-type)
      (service gost-service-type)
      %home-fontconfig-service-extension)))

@@ -1,0 +1,103 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/../.." && pwd)"
+iso="${1:-$repo_root/stinkpad-installer.iso}"
+disk="${2:-}"
+
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+require_root() {
+  if [ "$(id -u)" -ne 0 ]; then
+    require_command sudo
+    exec sudo "$0" "$@"
+  fi
+}
+
+unmount_children() {
+  local target_disk="$1"
+  local child
+  local mountpoint
+
+  while read -r child mountpoint; do
+    [ -n "${mountpoint:-}" ] || continue
+    printf 'Unmounting %s from %s.\n' "$child" "$mountpoint" >&2
+    umount "$mountpoint"
+  done < <(lsblk --noheadings --raw --paths --output NAME,MOUNTPOINT "$target_disk")
+}
+
+choose_disk() {
+  local -a disks
+  local selection
+  local index
+  local candidate
+
+  mapfile -t disks < <(
+    lsblk --noheadings --nodeps --paths --exclude 7,11 \
+      --output PATH,TRAN,RM,TYPE |
+      awk '$4 == "disk" && ($2 == "usb" || $3 == "1") {print $1}'
+  )
+
+  [ "${#disks[@]}" -gt 0 ] || die "no removable or USB disks found"
+
+  printf 'Candidate USB/removable disks:\n' >&2
+  for index in "${!disks[@]}"; do
+    candidate="${disks[$index]}"
+    printf '  %d) %s\n' "$((index + 1))" \
+      "$(lsblk --nodeps --noheadings --output PATH,SIZE,MODEL,TRAN "$candidate")" >&2
+  done
+
+  printf '\nSelect USB disk number to overwrite: ' >&2
+  read -r selection
+
+  case "$selection" in
+    ''|*[!0-9]*) die "invalid disk selection" ;;
+  esac
+
+  if [ "$selection" -lt 1 ] || [ "$selection" -gt "${#disks[@]}" ]; then
+    die "invalid disk selection"
+  fi
+
+  printf '%s\n' "${disks[$((selection - 1))]}"
+}
+
+for command in awk dd id lsblk sync umount; do
+  require_command "$command"
+done
+
+[ -f "$iso" ] || die "ISO does not exist: $iso"
+
+require_root "$@"
+
+if [ -z "$disk" ]; then
+  disk="$(choose_disk)"
+fi
+
+[ -b "$disk" ] || die "not a block device: $disk"
+[ "$(lsblk --noheadings --nodeps --output TYPE "$disk" | awk '{print $1}')" = "disk" ] ||
+  die "target must be a whole disk, not a partition: $disk"
+
+printf '\nSelected USB target:\n' >&2
+lsblk "$disk" >&2
+
+printf '\nThis will overwrite %s with %s.\n' "$disk" "$iso" >&2
+printf "Type 'WRITE ISO %s' to continue: " "$disk" >&2
+read -r confirmation
+
+[ "$confirmation" = "WRITE ISO $disk" ] || die "confirmation did not match"
+
+unmount_children "$disk"
+
+printf 'Writing installer ISO to %s.\n' "$disk" >&2
+dd if="$iso" of="$disk" bs=4M status=progress conv=fsync
+sync
+
+printf 'Installer USB is ready: %s\n' "$disk" >&2

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/../.." && pwd)"
+iso="${1:-$repo_root/stinkpad-installer.iso}"
+disk="${2:-}"
+
+"$script_dir/build-stinkpad-installer-iso" "$iso"
+
+if [ -n "$disk" ]; then
+  "$script_dir/write-stinkpad-installer-usb" "$iso" "$disk"
+else
+  "$script_dir/write-stinkpad-installer-usb" "$iso"
+fi

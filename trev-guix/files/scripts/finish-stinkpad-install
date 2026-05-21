@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+die() {
+  printf 'error: %s\n' "$*" >&2
+  exit 1
+}
+
+require_command() {
+  command -v "$1" >/dev/null 2>&1 || die "missing required command: $1"
+}
+
+[ "$(id -u)" -eq 0 ] || die "run this command as root"
+
+for command in cryptsetup id reboot swapoff sync umount; do
+  require_command "$command"
+done
+
+printf 'This will sync disks, unmount /mnt, close /dev/mapper/root, and reboot.\n' >&2
+printf "Type 'REBOOT' to continue: " >&2
+read -r confirmation
+
+[ "$confirmation" = "REBOOT" ] || die "confirmation did not match"
+
+printf 'Syncing disks.\n' >&2
+sync
+
+printf 'Disabling swap.\n' >&2
+swapoff -a || true
+
+printf 'Unmounting /mnt.\n' >&2
+umount -R /mnt || true
+
+printf 'Closing LUKS root mapping.\n' >&2
+cryptsetup close root || true
+
+printf 'Rebooting.\n' >&2
+reboot
