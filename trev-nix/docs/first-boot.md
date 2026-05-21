@@ -34,6 +34,8 @@ Add that recipient to `.sops.yaml`, then create or update:
 
 ```sh
 trev-nix/secrets/stinkpad.yaml
+trev-nix/secrets/emacs-secrets.el.gpg.bin
+trev-nix/secrets/authinfo.gpg.bin
 ```
 
 Expected encrypted keys are documented in [Secrets](./secrets.md).
@@ -50,6 +52,8 @@ Use:
 trev.secrets = {
   enable = true;
   sopsFile = ../../secrets/stinkpad.yaml;
+  emacsSecretsFile = ../../secrets/emacs-secrets.el.gpg.bin;
+  authinfoFile = ../../secrets/authinfo.gpg.bin;
 };
 ```
 

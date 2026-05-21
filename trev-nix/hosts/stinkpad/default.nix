@@ -111,11 +111,12 @@
   programs.zsh.enable = true;
   programs.dconf.enable = true;
 
-  # Enable after creating an encrypted file such as:
-  # trev.secrets = {
-  #   enable = true;
-  #   sopsFile = ../../secrets/stinkpad.yaml;
-  # };
+  trev.secrets = {
+    enable = true;
+    sopsFile = ../../secrets/stinkpad.yaml;
+    emacsSecretsFile = ../../secrets/emacs-secrets.el.gpg.bin;
+    authinfoFile = ../../secrets/authinfo.gpg.bin;
+  };
 
   # Pick the current release when this config is first activated, then leave it
   # alone.  It gates compatibility defaults and is not a package version pin.

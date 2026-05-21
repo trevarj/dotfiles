@@ -10,6 +10,7 @@ encrypted secrets file exists.
 - User SSH keys are written to `/home/trev/.ssh`.
 - Emacs secrets are written to `/home/trev/Workspace/emacs.d/secrets.el.gpg`.
 - Authinfo is written to `/home/trev/.authinfo.gpg`.
+- Binary `.gpg` files are stored as separate sops binary files.
 - Plaintext secrets never belong in this repository.
 
 ## First Setup
@@ -40,14 +41,14 @@ keys:
   - &trev age1...
   - &stinkpad age1...
 creation_rules:
-  - path_regex: trev-nix/secrets/[^/]+\.yaml$
+  - path_regex: trev-nix/secrets/[^/]+\.(yaml|bin)$
     key_groups:
       - age:
           - *trev
           - *stinkpad
 ```
 
-Create the encrypted file:
+Create the encrypted text secret file:
 
 ```sh
 mkdir -p trev-nix/secrets
@@ -61,11 +62,16 @@ ssh:
   id_ed25519: |
     encrypted private key contents
   id_ed25519.pub: ssh-ed25519 ...
-emacs:
-  secrets.el.gpg: |
-    ...
-authinfo.gpg: |
-  ...
+```
+
+Create the encrypted binary files:
+
+```sh
+guix shell sops -- sops --encrypt --input-type binary --output-type binary \
+  ~/Workspace/emacs.d/secrets.el.gpg > trev-nix/secrets/emacs-secrets.el.gpg.bin
+
+guix shell sops -- sops --encrypt --input-type binary --output-type binary \
+  ~/.authinfo.gpg > trev-nix/secrets/authinfo.gpg.bin
 ```
 
 Then enable it in `trev-nix/hosts/stinkpad/default.nix`:
@@ -74,6 +80,8 @@ Then enable it in `trev-nix/hosts/stinkpad/default.nix`:
 trev.secrets = {
   enable = true;
   sopsFile = ../../secrets/stinkpad.yaml;
+  emacsSecretsFile = ../../secrets/emacs-secrets.el.gpg.bin;
+  authinfoFile = ../../secrets/authinfo.gpg.bin;
 };
 ```
 

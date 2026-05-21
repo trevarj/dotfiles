@@ -11,7 +11,19 @@ in {
     sopsFile = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
-      description = "Encrypted sops YAML file containing SSH and personal secrets.";
+      description = "Encrypted sops YAML file containing text secrets.";
+    };
+
+    emacsSecretsFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Encrypted sops binary file containing Emacs secrets.el.gpg.";
+    };
+
+    authinfoFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "Encrypted sops binary file containing authinfo.gpg.";
     };
   };
 
@@ -20,6 +32,14 @@ in {
       {
         assertion = cfg.sopsFile != null;
         message = "trev.secrets.sopsFile must point at an encrypted sops YAML file.";
+      }
+      {
+        assertion = cfg.emacsSecretsFile != null;
+        message = "trev.secrets.emacsSecretsFile must point at an encrypted sops binary file.";
+      }
+      {
+        assertion = cfg.authinfoFile != null;
+        message = "trev.secrets.authinfoFile must point at an encrypted sops binary file.";
       }
     ];
 
@@ -43,6 +63,8 @@ in {
         };
 
         "emacs/secrets.el.gpg" = {
+          format = "binary";
+          sopsFile = cfg.emacsSecretsFile;
           path = "/home/trev/Workspace/emacs.d/secrets.el.gpg";
           owner = "trev";
           group = "users";
@@ -50,6 +72,8 @@ in {
         };
 
         "authinfo.gpg" = {
+          format = "binary";
+          sopsFile = cfg.authinfoFile;
           path = "/home/trev/.authinfo.gpg";
           owner = "trev";
           group = "users";
