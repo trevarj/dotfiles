@@ -17,7 +17,7 @@ right = [
   "headset",
   "keyboard_layout",
   "quick_settings",
-  "custom-guix",
+  "os_logo",
 ]
 border_radius = 50
 background_opacity = 0.0
@@ -55,11 +55,6 @@ max_chars = 24
 interval = 5
 tooltip = "Headset battery"
 max_chars = 12
-
-[widgets.custom-guix]
-label = ""
-tooltip = "System controls"
-max_chars = 4
 
 [widgets.quick_settings]
 on_click_right = "/run/current-system/profile/bin/loginctl lock-session"
