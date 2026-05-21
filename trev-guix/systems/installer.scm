@@ -20,19 +20,27 @@
      (ecc (curve Ed25519)
           (q #C1FD53E5D4CE971933EC50C9F307AE2171A2D3B52C804642A7A35F84F3A4EA98#)))"))
 
+(define %build-host-pubkey-file
+  (local-file "/etc/guix/signing-key.pub"
+              "build-host-guix-signing-key.pub"))
+
 (define %installer-substitute-urls
   '("https://ci.guix.gnu.org"
     "https://bordeaux.guix.gnu.org"
     "https://substitutes.nonguix.org"))
 
+(define (path-component? component file)
+  (or (string-suffix? (string-append "/" component) file)
+      (string-contains file (string-append "/" component "/"))))
+
 (define (dotfiles-file? file stat)
-  (not (or (string-suffix? "/.git" file)
-           (string-contains file "/.git/"))))
+  (not (or (path-component? ".git" file)
+           (string-suffix? "/stinkpad-installer.iso" file)
+           (path-component? "stinkpad-target-system" file))))
 
 (define (source-checkout-file? file stat)
-  (not (or (string-suffix? "/.git" file)
-           (string-contains file "/.git/")
-           (string-contains file "/target/"))))
+  (not (or (path-component? ".git" file)
+           (path-component? "target" file))))
 
 (define %dotfiles-checkout
   (local-file "../.." "trev-dotfiles"
@@ -50,8 +58,13 @@
               #:select? source-checkout-file?))
 
 (define %target-closure-archive-path
-  (getenv "STINKPAD_TARGET_CLOSURE_ARCHIVE"))
+  (let ((path (getenv "STINKPAD_TARGET_CLOSURE_ARCHIVE")))
+    (and path
+         (not (string-null? path))
+         path)))
 
+;; The build script can embed a prebuilt target-system archive so the live
+;; installer imports the closure before running `guix system init`.
 (define %target-closure-archive
   (and %target-closure-archive-path
        (local-file %target-closure-archive-path
@@ -133,14 +146,15 @@
           (substitute-urls %installer-substitute-urls)
           (authorized-keys
            (cons* %nonguix-pubkey-file
+                  %build-host-pubkey-file
                   %default-authorized-guix-keys)))))
       (list
        (simple-service 'trev-dotfiles etc-service-type
                        (append
                         `(("trev-dotfiles" ,%dotfiles-checkout)
-                          ("trev-sources/gnome-topbar"
+                          ("gnome-topbar"
                            ,%gnome-topbar-checkout)
-                          ("trev-sources/guixboy"
+                          ("guixboy"
                            ,%guixboy-checkout))
                         (if %target-closure-archive
                             `(("stinkpad-target-system.nar"

@@ -3,7 +3,7 @@ set -euo pipefail
 
 source_dir="/etc/trev-dotfiles"
 target_dir="/mnt/home/trev/Workspace/dotfiles"
-source_workspace_dir="/etc/trev-sources"
+source_workspace_dir="/etc"
 target_workspace_dir="/mnt/home/trev/Workspace"
 system_expr="(@ (trev-guix systems stinkpad-niri) %stinkpad-niri)"
 system_config="$source_dir/trev-guix/systems/stinkpad.scm"

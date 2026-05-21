@@ -3,9 +3,10 @@
 The custom installer ISO bundles this dotfiles tree and provides an
 `install-stinkpad` command.
 
-The live installer uses Nonguix `linux-7.0`, `linux-firmware`,
-`amdgpu-firmware`, and `microcode-initrd`, matching the hardware support
-expected by the installed `stinkpad-niri` system.
+The live installer inherits Nonguix `installation-os-nonfree`, using the
+nonfree Linux kernel path and `base-initrd`.  It includes Intel and AMD
+firmware needed by the target laptops without using `microcode-initrd`, which
+has caused unbootable live ISOs.
 
 Build it from this repository:
 
@@ -17,6 +18,9 @@ The command creates `./stinkpad-installer.iso` as a symlink to the generated
 store item and keeps it as a GC root.  It also builds the target system closure
 and embeds a Guix archive of that closure in the ISO, reducing the amount that
 `guix system init` needs to download during install.
+
+The installer authorizes the build host's public Guix signing key so the live
+system can import the embedded archive.
 
 ## Write To USB
 
