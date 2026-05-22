@@ -14,6 +14,7 @@ left = ["workspaces", "custom-crypto"]
 center = ["weather", "clock"]
 right = [
   "tray",
+  "system_monitor",
   "headset",
   "keyboard_layout",
   "quick_settings",
@@ -55,6 +56,12 @@ max_chars = 24
 interval = 5
 tooltip = "Headset battery"
 max_chars = 12
+
+[widgets.system_monitor]
+cpu_threshold = 90
+memory_threshold = 85
+interval = 5
+tooltip = "System load"
 
 [widgets.quick_settings]
 on_click_right = "/run/current-system/profile/bin/loginctl lock-session"
