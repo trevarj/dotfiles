@@ -20,6 +20,25 @@
     (openpgp-fingerprint
      "2A39 3FFF 68F4 EF7A 3D29 12AF 6F51 20A0 22FB B2D5"))))
  (channel
+  (name 'guix-p2p)
+  (url "https://codeberg.org/trevarj/guix-p2p")
+  (branch "master")
+  (introduction
+   (make-channel-introduction
+    "7d6c023e60cffde9cc63d7c4c2232a3f9c9fca1f"
+    (openpgp-fingerprint
+     "A6C2 0D0C 2AD8 38F9 4907  0EA3 A52D 6879 4EBE D758"))))
+ (channel
+  (name 'trevarj)
+  (url "https://codeberg.org/trevarj/trev-guix.git")
+  ;; Mirror: https://github.com/trevarj/trev-guix.git
+  (branch "master")
+  (introduction
+   (make-channel-introduction
+    "309471169c05acd204e59bec9420d024ff267124"
+    (openpgp-fingerprint
+     "A6C2 0D0C 2AD8 38F9 4907  0EA3 A52D 6879 4EBE D758"))))
+ (channel
     (name 'rustup)
     (url "https://codeberg.org/declantsien/guix-rustup")
     (introduction

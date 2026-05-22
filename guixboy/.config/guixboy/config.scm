@@ -2,7 +2,7 @@
 (guixboy-config
  (version . 1)
  (defaults
-  . ((load-paths . ("/home/trev/Workspace/dotfiles"))
+  . ((load-paths . ("/home/trev/Workspace/trev-guix"))
      (flags . ())
      (substitutes . ("stinkpad"))
      (updates-mode . available)))
