@@ -51,6 +51,7 @@ unit = "celsius"
 interval = 1800
 tooltip = "Weather"
 max_chars = 24
+forecast_days = 5
 
 [widgets.headset]
 interval = 5
