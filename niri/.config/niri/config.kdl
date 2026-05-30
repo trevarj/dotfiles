@@ -297,7 +297,7 @@ spawn-sh-at-startup "gnome-topbar"
 spawn-at-startup "emacs"
 spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx org.telegram.desktop || flatpak --user run org.telegram.desktop"
 spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx com.brave.Browser || flatpak --user run com.brave.Browser"
-spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/a_rocky_shore_with_waves_crashing.jpg -m fill"
+spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/wh4.jpg -m fill"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
