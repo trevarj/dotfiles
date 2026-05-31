@@ -23,7 +23,7 @@ input {
             // track-layout "global"
         }
         repeat-delay 250
-        repeat-rate 35
+        repeat-rate 50
 
         // Enable numlock on startup, omitting this setting disables it.
         numlock
