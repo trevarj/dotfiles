@@ -1,9 +1,0 @@
-keys:
-  - &trev age1fe6uwtrv4smvsktwk9ssk3v59mfsggs3whh6m7wr9d05mhau35yquyvrep
-  - &stinkpad age1n95n522vg2zwgsscxn7w5c88xs637sggyyjwt6mspnqe56mft9vqt5puej
-creation_rules:
-  - path_regex: trev-nix/secrets/[^/]+\.(yaml|bin)$
-    key_groups:
-      - age:
-          - *trev
-          - *stinkpad
