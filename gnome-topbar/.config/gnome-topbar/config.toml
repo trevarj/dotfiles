@@ -99,3 +99,7 @@ allow_overdrive = false
 [advanced]
 compositor = "niri"
 pango_font_rendering = true
+
+[updates]
+update_count_command = "guixboy updates --quiet"
+check_interval = 3600
