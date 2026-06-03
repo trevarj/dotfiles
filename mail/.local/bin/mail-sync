@@ -1,0 +1,9 @@
+#!/bin/sh
+set -eu
+
+mkdir -p "$HOME/Mail/main" "$HOME/Mail/lists"
+/home/trev/.guix-home/profile/bin/notmuch new
+/home/trev/.local/bin/mail-stage-deleted
+/home/trev/.guix-home/profile/bin/mbsync mail
+/home/trev/.guix-home/profile/bin/notmuch new
+/home/trev/.local/bin/mail-tag-lists

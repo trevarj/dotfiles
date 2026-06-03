@@ -1,0 +1,58 @@
+#!/bin/sh
+set -eu
+
+notmuch=${NOTMUCH:-/home/trev/.guix-home/profile/bin/notmuch}
+dry_run=0
+
+case "${1:-}" in
+    --dry-run)
+        dry_run=1
+        ;;
+    "")
+        ;;
+    *)
+        echo "usage: mail-stage-deleted [--dry-run]" >&2
+        exit 2
+        ;;
+esac
+
+stage_file() {
+    file=$1
+
+    case "$file" in
+        */"[Gmail]"/Trash/*)
+            return 0
+            ;;
+    esac
+
+    case "$file" in
+        *:2,*)
+            flags=${file##*:2,}
+            ;;
+        *)
+            return 0
+            ;;
+    esac
+
+    case "$flags" in
+        *T*)
+            return 0
+            ;;
+    esac
+
+    target="${file}T"
+
+    if [ "$dry_run" -eq 1 ]; then
+        printf '%s -> %s\n' "$file" "$target"
+    else
+        mv -- "$file" "$target"
+    fi
+}
+
+"$notmuch" search --format=text --output=files \
+    'tag:deleted and not (path:main/[Gmail]/Trash/** or path:lists/[Gmail]/Trash/**)' |
+while IFS= read -r file; do
+    [ -n "$file" ] || continue
+    [ -e "$file" ] || continue
+    stage_file "$file"
+done
