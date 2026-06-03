@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+wallpaper_dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+normal_namespace="${WALLPAPER_NORMAL_NAMESPACE:-normal}"
+overview_namespace="${WALLPAPER_OVERVIEW_NAMESPACE:-overview}"
+cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper/blurred"
+blur_radius="${WALLPAPER_BLUR_RADIUS:-0x18}"
+
+die() {
+  printf 'wallpaper-random: %s\n' "$*" >&2
+  exit 1
+}
+
+command -v awww >/dev/null 2>&1 || die "awww is not on PATH"
+[[ -d "$wallpaper_dir" ]] || die "$wallpaper_dir does not exist"
+
+shopt -s nullglob globstar nocaseglob
+wallpapers=()
+for path in "$wallpaper_dir"/**/*.jpg "$wallpaper_dir"/**/*.jpeg "$wallpaper_dir"/**/*.png "$wallpaper_dir"/**/*.webp; do
+  [[ -f "$path" ]] && wallpapers+=("$path")
+done
+
+((${#wallpapers[@]} > 0)) || die "no supported wallpapers found in $wallpaper_dir"
+
+wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
+
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}"
+
+awww img -n "$normal_namespace" --resize crop "$wallpaper"
+
+# Treat a missing overview daemon as the user's one-line blur disable in niri.
+if ! awww query -n "$overview_namespace" >/dev/null 2>&1; then
+  exit 0
+fi
+
+if command -v magick >/dev/null 2>&1; then
+  convert_cmd=(magick)
+elif command -v convert >/dev/null 2>&1; then
+  convert_cmd=(convert)
+else
+  die "ImageMagick is not on PATH"
+fi
+
+mkdir -p "$cache_dir"
+
+mtime="$(stat -c %Y "$wallpaper")"
+size="$(stat -c %s "$wallpaper")"
+cache_key="$(printf '%s\0%s\0%s' "$wallpaper" "$mtime" "$size" | sha256sum | cut -d ' ' -f 1)"
+blurred="$cache_dir/$cache_key.png"
+tmp="$blurred.tmp.$$"
+trap 'rm -f "$tmp"' EXIT
+
+if [[ ! -f "$blurred" ]]; then
+  "${convert_cmd[@]}" "$wallpaper" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "$tmp"
+  mv "$tmp" "$blurred"
+fi
+
+awww img -n "$overview_namespace" --resize crop "$blurred" -t fade

@@ -297,7 +297,8 @@ spawn-sh-at-startup "gnome-topbar"
 spawn-at-startup "emacs"
 spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx org.telegram.desktop || flatpak --user run org.telegram.desktop"
 spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx com.brave.Browser || flatpak --user run com.brave.Browser"
-spawn-sh-at-startup "swaybg -o '*' -i ~/Pictures/Wallpapers/wh4.jpg -m fill"
+spawn-at-startup "awww-daemon" "-n" "normal"
+spawn-at-startup "awww-daemon" "-n" "overview"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -419,17 +420,9 @@ blur {
 }
 
 layer-rule {
-    match namespace="^wallpaper$"
+    match namespace=r#"^awww-daemon\.?overview$"#
     place-within-backdrop true
     geometry-corner-radius 12
-    shadow {
-        on
-        softness 40
-        spread 5
-        offset x=0 y=5
-        draw-behind-window true
-        color "#00000064"
-    }
 }
 
 layer-rule {
@@ -595,6 +588,8 @@ binds {
     // You can also move the mouse into the top-left hot corner,
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false hotkey-overlay-title="Toggle overview" { toggle-overview; }
+
+    Mod+P repeat=false hotkey-overlay-title="Random wallpaper" { spawn "~/.local/bin/wallpaper-random"; }
 
     Mod+W repeat=false hotkey-overlay-title="Close focused window" { close-window; }
 
