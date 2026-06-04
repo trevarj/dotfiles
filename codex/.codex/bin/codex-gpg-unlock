@@ -8,8 +8,33 @@ fi
 
 terminal="${CODEX_GPG_TERMINAL:-kitty}"
 key_id="${1:-${CODEX_GPG_KEY_ID:-}}"
+pinentry_program="${CODEX_GPG_PINENTRY_PROGRAM:-}"
 
-for command_name in "$terminal" zsh gpg gpg-connect-agent; do
+if [[ -z "$pinentry_program" ]]; then
+  agent_conf="${GNUPGHOME:-$HOME/.gnupg}/gpg-agent.conf"
+  if [[ -r "$agent_conf" ]]; then
+    while IFS= read -r line; do
+      line="${line%%#*}"
+      words=(${=line})
+      if (( ${#words} >= 2 )) && [[ "${words[1]}" == "pinentry-program" ]]; then
+        pinentry_program="${words[2]}"
+      fi
+    done < "$agent_conf"
+  fi
+fi
+
+pinentry_name="${pinentry_program:t}"
+use_terminal=1
+if [[ "$pinentry_name" == "pinentry-fuzzel" ]]; then
+  use_terminal=0
+fi
+
+required_commands=(zsh gpg gpg-connect-agent)
+if (( use_terminal )); then
+  required_commands=("$terminal" "${required_commands[@]}")
+fi
+
+for command_name in "${required_commands[@]}"; do
   if ! command -v "$command_name" >/dev/null 2>&1; then
     print -ru2 -- "codex-gpg-unlock: missing required command: $command_name"
     exit 127
@@ -18,10 +43,58 @@ done
 
 export CODEX_GPG_KEY_ID="$key_id"
 
+unlock_gpg() {
+  local tmp tty_path
+
+  if [[ "${GPG_TTY:-}" == "not a tty" ]]; then
+    unset GPG_TTY
+  fi
+
+  if tty_path="$(tty 2>/dev/null)" && [[ "$tty_path" != "not a tty" ]]; then
+    export GPG_TTY="$tty_path"
+  fi
+
+  gpg-connect-agent updatestartuptty /bye >/dev/null
+
+  tmp="${TMPDIR:-/tmp}/codex-gpg-unlock.$$"
+  trap "rm -f \"$tmp\" \"$tmp.asc\"" EXIT
+
+  print -r -- "Unlocking GPG for Codex agents."
+  if (( use_terminal )); then
+    print -r -- "Enter your key passphrase in this terminal if GPG asks for it."
+  else
+    print -r -- "Enter your key passphrase in the pinentry prompt if GPG asks for it."
+  fi
+  print -r -- ""
+
+  if [[ -n "${CODEX_GPG_KEY_ID:-}" ]]; then
+    printf "%s\n" "codex gpg unlock" |
+      gpg --yes --local-user "$CODEX_GPG_KEY_ID" --clearsign > "$tmp.asc"
+  else
+    printf "%s\n" "codex gpg unlock" |
+      gpg --yes --clearsign > "$tmp.asc"
+  fi
+
+  print -r -- ""
+  print -r -- "GPG is unlocked for Codex agents."
+}
+
+if (( ! use_terminal )); then
+  unlock_gpg
+  exit 0
+fi
+
 exec "$terminal" --title "Codex GPG unlock" zsh -lc '
 set -euo pipefail
 
-export GPG_TTY="$(tty)"
+if [[ "${GPG_TTY:-}" == "not a tty" ]]; then
+  unset GPG_TTY
+fi
+
+if tty_path="$(tty 2>/dev/null)" && [[ "$tty_path" != "not a tty" ]]; then
+  export GPG_TTY="$tty_path"
+fi
+
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 tmp="${TMPDIR:-/tmp}/codex-gpg-unlock.$$"
