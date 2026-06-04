@@ -1,4 +1,4 @@
-model = "gpt-5.5"
+model = "gpt-5.3-codex"
 model_reasoning_effort = "medium"
 plan_mode_reasoning_effort = "high"
 approval_policy = "on-request"
@@ -9,91 +9,7 @@ approvals_reviewer = "guardian_subagent"
 max_threads = 6
 max_depth = 1
 
-[projects."/home/trev/.config"]
-trust_level = "trusted"
-
-[projects."/home/trev"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/dotfiles"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/emacs.d"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/trevarj.github.io"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/guix-p2p"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/sigil/sigil"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/sigil"]
-trust_level = "trusted"
-
-[projects."/home/trev/.codex"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/rosterbot"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/sigil/sigil-bitcoin"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/guixboy"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/bhwi"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/skifree-rs"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/rust-bitcoin"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/rust-miniscript"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/SwayNotificationCenter"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/guix"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/cad-designs"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/poogo"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/vibepanel"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/gnome-panel"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/gnome-topbar"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/btc_foss"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/trev-guix"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/rust-projects/spacesniffer1000"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/emacs"]
-trust_level = "trusted"
-
-[projects."/home/trev/Workspace/standard-themes"]
+[projects."/home/trev/Workspace"]
 trust_level = "trusted"
 
 [tui]
@@ -108,11 +24,3 @@ terminal_resize_reflow = true
 
 [notice]
 hide_rate_limit_model_nudge = true
-
-[profiles.ollama-launch]
-openai_base_url = "http://127.0.0.1:11434/v1/"
-forced_login_method = "api"
-model_provider = "ollama-launch"
-[model_providers.ollama-launch]
-name = "Ollama"
-base_url = "http://127.0.0.1:11434/v1/"
