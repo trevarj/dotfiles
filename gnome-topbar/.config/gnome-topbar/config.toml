@@ -45,8 +45,6 @@ tooltip = "Crypto prices"
 max_chars = 40
 
 [widgets.weather]
-latitude = 0.0
-longitude = 0.0
 unit = "celsius"
 interval = 1800
 tooltip = "Weather"
