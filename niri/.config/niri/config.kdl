@@ -238,7 +238,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        // on
+        on
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -260,16 +260,16 @@ layout {
         // pixels and match the CSS box-shadow properties.
 
         // Softness controls the shadow blur radius.
-        softness 30
+        softness 20
 
         // Spread expands the shadow.
-        spread 5
+        spread 2
 
         // Offset moves the shadow relative to the window.
-        offset x=0 y=5
+        offset x=3 y=5
 
         // You can also change the shadow color and opacity.
-        color "#0007"
+        color "#0008"
     }
 
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
@@ -368,8 +368,8 @@ animations {
     }
 
     screenshot-ui-open {
-        duration-ms 200
-        curve "ease-out-quad"
+        duration-ms 160
+        curve "linear"
     }
 
     overview-open-close {
@@ -591,6 +591,7 @@ binds {
     Mod+O repeat=false hotkey-overlay-title="Toggle overview" { toggle-overview; }
 
     Mod+P repeat=false hotkey-overlay-title="Random wallpaper" { spawn "~/.local/bin/wallpaper-random"; }
+    Mod+Ctrl+P repeat=false hotkey-overlay-title="Refresh wallpaper on all outputs" { spawn "~/.local/bin/wallpaper-random" "--refresh"; }
 
     Mod+W repeat=false hotkey-overlay-title="Close focused window" { close-window; }
 

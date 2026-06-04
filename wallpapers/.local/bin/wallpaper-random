@@ -4,8 +4,12 @@ set -euo pipefail
 wallpaper_dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
 normal_namespace="${WALLPAPER_NORMAL_NAMESPACE:-normal}"
 overview_namespace="${WALLPAPER_OVERVIEW_NAMESPACE:-overview}"
-cache_dir="${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper/blurred"
+cache_root="${XDG_CACHE_HOME:-$HOME/.cache}/wallpaper"
+cache_dir="$cache_root/blurred"
+current_wallpaper="$cache_root/current.png"
+current_blurred="$cache_root/current-blurred.png"
 blur_radius="${WALLPAPER_BLUR_RADIUS:-0x18}"
+refresh=false
 
 die() {
   printf 'wallpaper-random: %s\n' "$*" >&2
@@ -15,17 +19,28 @@ die() {
 command -v awww >/dev/null 2>&1 || die "awww is not on PATH"
 [[ -d "$wallpaper_dir" ]] || die "$wallpaper_dir does not exist"
 
+if [[ "${1:-}" == "--refresh" ]]; then
+  refresh=true
+elif [[ $# -gt 0 ]]; then
+  die "usage: wallpaper-random [--refresh]"
+fi
+
 shopt -s nullglob globstar nocaseglob
 wallpapers=()
 for path in "$wallpaper_dir"/**/*.jpg "$wallpaper_dir"/**/*.jpeg "$wallpaper_dir"/**/*.png "$wallpaper_dir"/**/*.webp; do
   [[ -f "$path" ]] && wallpapers+=("$path")
 done
 
-((${#wallpapers[@]} > 0)) || die "no supported wallpapers found in $wallpaper_dir"
+mkdir -p "$cache_root"
 
-wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
-
-mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}"
+if $refresh; then
+  [[ -e "$current_wallpaper" ]] || die "no current wallpaper cache exists; run wallpaper-random first"
+  wallpaper="$(readlink -f "$current_wallpaper")"
+else
+  ((${#wallpapers[@]} > 0)) || die "no supported wallpapers found in $wallpaper_dir"
+  wallpaper="${wallpapers[RANDOM % ${#wallpapers[@]}]}"
+  ln -sfn "$wallpaper" "$current_wallpaper"
+fi
 
 awww img -n "$normal_namespace" --resize crop "$wallpaper"
 
@@ -56,4 +71,5 @@ if [[ ! -f "$blurred" ]]; then
   mv "$tmp" "$blurred"
 fi
 
+ln -sfn "$blurred" "$current_blurred"
 awww img -n "$overview_namespace" --resize crop "$blurred" -t fade
