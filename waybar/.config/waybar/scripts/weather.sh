@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
-LAT="0.0"
-LONG="0.0"
+LAT="${TREV_WEATHER_LATITUDE:-}"
+LONG="${TREV_WEATHER_LONGITUDE:-}"
 FALLBACK_ICON="󰨹"
 
 UNIT_FILE="/tmp/waybar-weather-unit"
@@ -24,6 +24,10 @@ fallback() {
 }
 
 if ! command -v curl >/dev/null 2>&1 || ! command -v jq >/dev/null 2>&1; then
+    fallback
+fi
+
+if [ -z "$LAT" ] || [ -z "$LONG" ]; then
     fallback
 fi
 
