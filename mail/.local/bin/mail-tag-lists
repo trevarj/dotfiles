@@ -3,13 +3,24 @@ set -eu
 
 notmuch=/home/trev/.guix-home/profile/bin/notmuch
 
+# Keep path-derived tags in sync when files move or duplicate archive
+# copies are removed.
+"$notmuch" tag -account-main -- 'tag:account-main and not path:main/**'
+"$notmuch" tag -account-lists -- 'tag:account-lists and not path:lists/**'
+"$notmuch" tag -archive -- 'tag:archive and not path:archive/**'
+
 "$notmuch" tag +account-main -- 'path:main/**'
 "$notmuch" tag +account-lists -- 'path:lists/**'
+"$notmuch" tag +archive -- 'path:archive/**'
 
 "$notmuch" tag +guix-devel +lists -- '(to:guix-devel@gnu.org or cc:guix-devel@gnu.org)'
 "$notmuch" tag +guix-help +lists -- '(to:help-guix@gnu.org or cc:help-guix@gnu.org)'
 "$notmuch" tag +emacs-devel +lists -- '(to:emacs-devel@gnu.org or cc:emacs-devel@gnu.org)'
 "$notmuch" tag +emacs-bugs +lists -- '(to:bug-gnu-emacs@gnu.org or cc:bug-gnu-emacs@gnu.org or to:debbugs.gnu.org or cc:debbugs.gnu.org)'
+"$notmuch" tag +guix-devel +lists -- 'path:archive/gnu/guix-devel/**'
+"$notmuch" tag +guix-help +lists -- 'path:archive/gnu/help-guix/**'
+"$notmuch" tag +emacs-devel +lists -- 'path:archive/gnu/emacs-devel/**'
+"$notmuch" tag +emacs-bugs +lists -- 'path:archive/gnu/bug-gnu-emacs/**'
 "$notmuch" tag +github -- '(from:notifications@github.com or from:*noreply.github.com or to:*noreply.github.com or cc:*noreply.github.com)'
 "$notmuch" tag +codeberg -- '(from:noreply@codeberg.org or from:notifications@codeberg.org)'
 

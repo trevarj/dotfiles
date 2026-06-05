@@ -1,0 +1,99 @@
+#!/bin/sh
+set -eu
+
+curl=${CURL:-/home/trev/.guix-home/profile/bin/curl}
+notmuch=${NOTMUCH:-/home/trev/.guix-home/profile/bin/notmuch}
+tagger=${MAIL_TAG_LISTS:-/home/trev/.local/bin/mail-tag-lists}
+mail_root=${MAIL_ROOT:-"$HOME/Mail"}
+cache_root=${MAIL_ARCHIVE_CACHE:-"$HOME/.cache/mail-archives/gnu"}
+
+usage() {
+    echo "usage: mail-fetch-gnu-archive LIST YYYY-MM" >&2
+    exit 2
+}
+
+[ "$#" -eq 2 ] || usage
+
+list=$1
+month=$2
+
+case "$list" in
+    emacs-devel|bug-gnu-emacs|guix-devel|help-guix)
+        ;;
+    *)
+        echo "unsupported GNU list: $list" >&2
+        exit 2
+        ;;
+esac
+
+case "$month" in
+    [0-9][0-9][0-9][0-9]-[0-9][0-9])
+        ;;
+    *)
+        echo "month must be YYYY-MM: $month" >&2
+        exit 2
+        ;;
+esac
+
+url="https://lists.gnu.org/archive/mbox/$list/$month"
+cache_dir="$cache_root/$list"
+mbox="$cache_dir/$month.mbox"
+dest="$mail_root/archive/gnu/$list"
+tmp=${TMPDIR:-/tmp}/mail-fetch-gnu-archive.$$
+
+mkdir -p "$cache_dir" "$dest/cur" "$dest/new" "$dest/tmp" "$tmp"
+trap 'rm -rf "$tmp"' EXIT HUP INT TERM
+
+"$curl" --fail --location --silent --show-error \
+    --connect-timeout 10 --max-time 60 \
+    --output "$mbox.tmp" "$url"
+mv -- "$mbox.tmp" "$mbox"
+
+awk -v out="$tmp" '
+    /^From / {
+        if (file != "")
+            close(file)
+        n++
+        file = sprintf("%s/msg.%06d", out, n)
+        next
+    }
+    file != "" {
+        print > file
+    }
+' "$mbox"
+
+imported=0
+for message in "$tmp"/msg.*; do
+    [ -e "$message" ] || continue
+    [ -s "$message" ] || continue
+
+    message_id=$(
+        awk '
+            BEGIN { in_header = 1 }
+            in_header && /^Message-[Ii][Dd]:[ \t]*/ {
+                sub(/^Message-[Ii][Dd]:[ \t]*/, "")
+                gsub(/^<|>$/, "")
+                print
+                exit
+            }
+            in_header && /^$/ { exit }
+        ' "$message"
+    )
+
+    if [ -n "$message_id" ] && [ "$("$notmuch" count "id:$message_id")" -gt 0 ]; then
+        continue
+    fi
+
+    hash=$(sha256sum "$message" | awk '{print $1}')
+    target="$dest/cur/$month.$hash:2,S"
+
+    if [ ! -e "$target" ]; then
+        cp -- "$message" "$target"
+        imported=$((imported + 1))
+    fi
+done
+
+"$notmuch" new
+"$tagger"
+
+printf '%s %s: imported %s new messages\n' "$list" "$month" "$imported"
