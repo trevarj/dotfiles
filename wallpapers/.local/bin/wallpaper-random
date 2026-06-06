@@ -72,4 +72,4 @@ if [[ ! -f "$blurred" ]]; then
 fi
 
 ln -sfn "$blurred" "$current_blurred"
-awww img -n "$overview_namespace" --resize crop "$blurred" -t fade
+awww img -n "$overview_namespace" --resize crop "$blurred" -t fade --transition-duration 1
