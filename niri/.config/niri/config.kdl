@@ -553,7 +553,7 @@ binds {
     Mod+B hotkey-overlay-title="Launch Brave" { spawn-sh "flatpak --user run com.brave.Browser"; }
 
     Mod+Alt+Return hotkey-overlay-title="Switch to DP-1" { spawn-sh "ddcutil -b 18 setvcp 60 0x0f"; }
-    Mod+Ctrl+W hotkey-overlay-title="Restart gnome-topbar" { spawn-sh "pkill -x gnome-topbar; sleep 0.2; gnome-topbar"; }
+    Mod+Ctrl+W hotkey-overlay-title="Reload gnome-topbar" { spawn "gnome-topbar" "reload"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
