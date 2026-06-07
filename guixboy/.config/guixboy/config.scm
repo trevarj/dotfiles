@@ -2,7 +2,8 @@
 (guixboy-config
  (version . 1)
  (defaults
-  . ((load-paths . ("/home/trev/Workspace/trev-guix"))
+  . ((load-paths . ("/home/trev/Workspace/trev-guix/channel"
+                 "/home/trev/Workspace/trev-guix/host"))
      (flags . ())
      (substitutes . ("stinkpad"))
      (updates-mode . available)))
