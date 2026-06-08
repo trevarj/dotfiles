@@ -6,6 +6,8 @@
 	rebase = true
 [push]
 	autoSetupRemote = true
+	default = simple
+	followTags = true
 [init]
 	defaultBranch = master
 [commit]
@@ -17,22 +19,49 @@
   cm = commit -m
   sps = !git stash && git pull && git stash pop
 
-   # `git log` with patches shown with difftastic.
-   dl = -c diff.external=difft log -p --ext-diff
+  # `git log` with patches shown with difftastic.
+  dl = -c diff.external=difft log -p --ext-diff
 
-   # Show the most recent commit with difftastic.
-   ds = -c diff.external=difft show --ext-diff
+  # Show the most recent commit with difftastic.
+  ds = -c diff.external=difft show --ext-diff
 
-   # `git diff` with difftastic.
-   dft = -c diff.external=difft diff
+  # `git diff` with difftastic.
+  dft = -c diff.external=difft diff
 [core]
+  autocrlf = input
+  whitespace = trailing-space,space-before-tab
   pager = less
+[color]
+  ui = auto
+[column]
+  ui = auto
+[branch]
+  sort = -committerdate
+[tag]
+  sort = version:refname
+[status]
+  aheadBehind = true
+  branch = true
+  showStash = true
+[fetch]
+  prune = true
+[rebase]
+  autoStash = true
+  autoSquash = true
+  updateRefs = true
+[rerere]
+  enabled = true
+  autoupdate = true
 [interactive]
   diffFilter = delta --color-only
 [merge]
-  conflictstyle = diff3
+  conflictstyle = zdiff3
 [diff]
+  algorithm = histogram
   colorMoved = default
+  mnemonicPrefix = true
+  renames = true
+  wsErrorHighlight = all
 [include]
   path = "~/.gitconfig-sendmail"
 [github]
