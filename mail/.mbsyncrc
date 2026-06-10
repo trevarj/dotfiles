@@ -1,7 +1,7 @@
 IMAPAccount main-gmail
 Host imap.gmail.com
 User tmarjeski@gmail.com
-PassCmd "/home/trev/.local/bin/mail-authinfo-password imap.gmail.com tmarjeski@gmail.com"
+PassCmd "sh -c 'if [ -n \"$MBSYNC_PASS_MAIN\" ]; then printf %s \"$MBSYNC_PASS_MAIN\"; else /home/trev/.guix-home/profile/bin/mail-authinfo-password.scm imap.gmail.com tmarjeski@gmail.com; fi'"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -17,14 +17,14 @@ Channel main
 Far :main-remote:
 Near :main-local:
 Patterns "INBOX" "[Gmail]/Sent Mail" "[Gmail]/Trash"
-Create Near
+Create Both
 Expunge Both
 SyncState *
 
 IMAPAccount lists-gmail
 Host imap.gmail.com
 User tarjeski@gmail.com
-PassCmd "/home/trev/.local/bin/mail-authinfo-password imap.gmail.com tarjeski@gmail.com"
+PassCmd "sh -c 'if [ -n \"$MBSYNC_PASS_LISTS\" ]; then printf %s \"$MBSYNC_PASS_LISTS\"; else /home/trev/.guix-home/profile/bin/mail-authinfo-password.scm imap.gmail.com tarjeski@gmail.com; fi'"
 TLSType IMAPS
 CertificateFile /etc/ssl/certs/ca-certificates.crt
 
@@ -40,7 +40,7 @@ Channel lists
 Far :lists-remote:
 Near :lists-local:
 Patterns "INBOX" "[Gmail]/Sent Mail" "[Gmail]/Trash"
-Create Near
+Create Both
 Expunge Both
 SyncState *
 
