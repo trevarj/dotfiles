@@ -1,0 +1,14 @@
+{
+  "effortLevel": "medium",
+  "theme": "dark-daltonized",
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "env": {
+    "TZ": "Etc/UTC"
+  },
+  "permissions": {
+    "defaultMode": "auto"
+  }
+}
