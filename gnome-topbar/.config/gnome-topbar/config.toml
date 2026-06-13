@@ -38,11 +38,11 @@ world_clocks = [
 ]
 
 [widgets.custom-crypto]
-label = ""
 exec = "/home/trev/Workspace/dotfiles/gnome-topbar/.config/gnome-topbar/scripts/crypto.sh -r"
 interval = 1800
 tooltip = "Crypto prices"
 max_chars = 40
+requires_network = true
 
 [widgets.weather]
 unit = "celsius"
