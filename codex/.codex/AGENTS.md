@@ -55,6 +55,12 @@ Examples:
 - `fix: correct off-by-one error in pagination`
 - `refactor: extract database helpers into shared module`
 
+## Forge Hosting
+
+- Use `gh` for GitHub operations when the user references issues, pull requests, repositories, releases, or other GitHub-hosted resources.
+- Use `fj` for Forgejo operations, including Codeberg, when the user references issues, pull requests, repositories, releases, or other Forgejo-hosted resources.
+- Run `gh` and `fj` commands outside the sandbox because they need network access and local credentials.
+
 ## Markdown Documentation
 
 - Keep it concise. No preamble, no fluff, no filler paragraphs.
