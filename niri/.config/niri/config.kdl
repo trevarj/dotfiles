@@ -292,7 +292,7 @@ layout {
 
 spawn-at-startup "hypridle"
 spawn-sh-at-startup "gnome-topbar"
-// spawn-at-startup "hyprpaper"
+spawn-at-startup "mpd" "--no-daemon" "/home/trev/.config/mpd/mpd.conf"
 
 spawn-at-startup "emacs"
 spawn-sh-at-startup "flatpak ps --columns=application 2>/dev/null | grep -qx org.telegram.desktop || flatpak --user run org.telegram.desktop"

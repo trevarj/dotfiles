@@ -1,0 +1,44 @@
+#![enable(implicit_some)]
+#![enable(unwrap_newtypes)]
+#![enable(unwrap_variant_newtypes)]
+(
+    address: "127.0.0.1:6600",
+    password: None,
+    theme: Some("trev"),
+    cache_dir: None,
+    enable_mouse: true,
+    album_art: (
+        method: Auto,
+        disabled_protocols: ["http://", "https://"],
+    ),
+    tabs: [
+        (
+            name: "Queue",
+            pane: Split(
+                direction: Vertical,
+                panes: [
+                    (
+                        size: "1",
+                        pane: Pane(QueueHeader()),
+                    ),
+                    (
+                        size: "100%",
+                        pane: Pane(Queue),
+                    ),
+                ],
+            ),
+        ),
+        (
+            name: "Artists",
+            pane: Pane(Artists),
+        ),
+        (
+            name: "Albums",
+            pane: Pane(Albums),
+        ),
+        (
+            name: "Search",
+            pane: Pane(Search),
+        ),
+    ],
+)
