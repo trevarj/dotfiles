@@ -9,10 +9,10 @@
   "permissions": {
     "defaultMode": "auto"
   },
-  "model": "claude-fable-5[1m]",
-  "effortLevel": "medium",
-  "theme": "dark-daltonized",
+  "model": "opus[1m]",
   "enabledPlugins": {
     "rust-analyzer-lsp@claude-plugins-official": true
-  }
+  },
+  "effortLevel": "high",
+  "theme": "dark-daltonized"
 }
