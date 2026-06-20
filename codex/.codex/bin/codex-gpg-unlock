@@ -25,9 +25,13 @@ fi
 
 pinentry_name="${pinentry_program:t}"
 use_terminal=1
-if [[ "$pinentry_name" == "pinentry-fuzzel" ]]; then
-  use_terminal=0
-fi
+# GUI pinentries prompt via the display server and need no tty, so run the
+# unlock directly instead of spawning a terminal. Includes the local
+# pinentry-fuzzguy (fuzzel-based) alongside upstream GUI pinentries.
+case "$pinentry_name" in
+  pinentry-fuzzel|pinentry-fuzzguy|pinentry-gtk-2|pinentry-gnome3|pinentry-qt|pinentry-qt5)
+    use_terminal=0 ;;
+esac
 
 required_commands=(zsh gpg gpg-connect-agent)
 if (( use_terminal )); then
