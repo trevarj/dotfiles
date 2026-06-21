@@ -1,0 +1,1 @@
+@/home/trev/AGENTS.md

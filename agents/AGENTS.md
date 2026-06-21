@@ -3,6 +3,22 @@
 Global agent guidance for Trevor's machine (Guix System, zsh). Project-level
 `AGENTS.md` files extend or override this baseline.
 
+## General agent principles
+
+- Keep global memory concise. Put repo-specific facts in project `AGENTS.md`
+  files and move conditional workflows into skills when possible.
+- When a durable preference or repeated correction is learned, update the most
+  specific memory file directly. Keep the edit brief and agent-agnostic.
+- Do not add session logs, task notes, transcripts, or long explanations to
+  global memory.
+- For technical decisions, do not give much weight to development cost. Prefer
+  quality, simplicity, robustness, scalability, and maintainability.
+- For bug fixes, reproduce the issue in the closest realistic workflow before
+  changing code when feasible.
+- Prefer regression tests at the closest useful level: integration or end-to-end
+  for product behavior, unit tests for isolated logic.
+- Use plain, non-robotic prose. Avoid em dashes unless explicitly requested.
+
 ## Response style
 
 - Terse. Lead with results and key decisions; skip preamble.
