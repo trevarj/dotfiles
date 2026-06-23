@@ -91,6 +91,7 @@ commits render in UTC. Keep `.envrc`/manifests aligned with this.
 ## Git & commits
 
 - **Commit only when asked.** Don't auto-commit.
+- **Never open a PR without my approval.** Only when I explicitly tell you to.
 - Use **Conventional Commits**: `type(scope): summary`.
   - Add a scope when there's a natural one; bare `type:` is fine otherwise.
   - Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`, `build`, `ci`,
