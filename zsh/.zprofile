@@ -48,5 +48,5 @@ niri-session() {
     export CLUTTER_BACKEND="wayland"
     export MOZ_ENABLE_WAYLAND=1
 
-    exec niri --session
+    exec niri --session 2>>~/.local/state/niri.log
 }
