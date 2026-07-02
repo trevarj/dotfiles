@@ -61,7 +61,7 @@ When a project lacks them, **auto-scaffold**:
 
 Common manifest commands:
 
-- `guix build -f manifest.scm` — build the package defined in the manifest.
+- `guix build -m manifest.scm` — build the package defined in the manifest.
 - `guix shell -m manifest.scm` — dev shell with manifest deps available.
 - `guix shell --pure -m manifest.scm` — isolated shell, only manifest deps.
 - `guix shell -D -m manifest.scm` — shell with a package's *build* deps.
