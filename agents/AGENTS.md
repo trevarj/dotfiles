@@ -83,11 +83,6 @@ Example `.envrc`:
 use guix;
 ```
 
-## Timezone
-
-`TZ=Etc/UTC` is set globally in `~/.claude/settings.json` so all timestamps and
-commits render in UTC. Keep `.envrc`/manifests aligned with this.
-
 ## Git & commits
 
 - **Commit only when asked.** Don't auto-commit.
