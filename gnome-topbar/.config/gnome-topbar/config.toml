@@ -35,6 +35,7 @@ format = "%A, %b %d  %H:%M"
 control_panel = true
 world_clocks = [
   { label = "New York", timezone = "America/New_York" },
+  { label = "UTC", timezone = "Etc/UTC" },
 ]
 
 [widgets.custom-crypto]
