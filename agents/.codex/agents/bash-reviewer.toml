@@ -1,5 +1,7 @@
 name = "bash_reviewer"
 description = "Expert Bash/Shell script reviewer specializing in quoting correctness, POSIX compliance, security, and robustness patterns"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
 # Bash/Shell Script Code Reviewer

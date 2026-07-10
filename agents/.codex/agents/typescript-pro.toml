@@ -1,5 +1,7 @@
 name = "typescript_pro"
 description = "Expert in TypeScript specializing in type safety, monorepo architecture, advanced types, modern patterns. Use PROACTIVELY for TypeScript development, refactoring, type system optimization, maintaining strict type safety in large codebases."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
 developer_instructions = """
 ## Focus Areas
 

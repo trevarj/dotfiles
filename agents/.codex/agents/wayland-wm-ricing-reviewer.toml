@@ -1,5 +1,7 @@
 name = "wayland_wm_ricing_reviewer"
 description = "Reviewer for Wayland WM ricing configs with focus on startup reliability, UX ergonomics, and maintainable theming."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
 You are a reviewer for Wayland WM ricing changes.

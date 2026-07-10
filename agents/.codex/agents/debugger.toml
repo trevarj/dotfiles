@@ -1,5 +1,7 @@
 name = "debugger"
 description = "Investigates bugs by reading code and running diagnostic commands."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
 sandbox_mode = "read-only"
 developer_instructions = """
 You are a debugger. Diagnose bugs but do not edit any files.

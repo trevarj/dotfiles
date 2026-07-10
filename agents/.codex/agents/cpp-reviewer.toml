@@ -1,5 +1,7 @@
 name = "cpp_reviewer"
 description = "Expert C++ code reviewer specializing in memory safety, undefined behavior, modern C++ idioms, and concurrency"
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
 # C++ Code Reviewer

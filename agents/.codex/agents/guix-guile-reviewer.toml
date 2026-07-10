@@ -1,5 +1,7 @@
 name = "guix_guile_reviewer"
 description = "Expert reviewer for GNU Guix workflows and Guile Scheme code, specializing in reproducibility, security, and maintainability."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "high"
 sandbox_mode = "read-only"
 developer_instructions = """
 You are a senior reviewer for GNU Guix and Guile Scheme changes.
