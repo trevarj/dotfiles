@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# ytdl — yt-dlp wrapper that pulls its deps from Guix.
+# Defaults (cookies, JS runtime, output path, format) live in
+# ~/.config/yt-dlp/config, so `ytdl URL` just works. Any args passed
+# here are forwarded to yt-dlp and override the config.
+#
+#   ytdl https://youtu.be/VIDEO
+#   ytdl --no-playlist https://youtu.be/VIDEO
+#   ytdl -x --audio-format mp3 https://youtu.be/VIDEO
+exec guix shell yt-dlp ffmpeg nss-certs node -- yt-dlp "$@"

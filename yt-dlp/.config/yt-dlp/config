@@ -1,0 +1,22 @@
+# yt-dlp defaults. Run via the `ytdl` wrapper (~/.local/bin/ytdl), which
+# enters a Guix shell providing yt-dlp, ffmpeg, nss-certs, and node (JS
+# runtime). CLI args override anything here.
+
+# Pass YouTube's "you're not a bot" wall: reuse the logged-in Brave
+# (Flatpak) session cookies. Close Brave first if you hit a cookie-DB
+# lock error.
+--cookies-from-browser brave:/home/trev/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser/Default
+
+# JS runtime for solving the nsig/n challenge (node from the guix shell).
+--js-runtimes node
+
+# EJS challenge-solver component, fetched from GitHub and cached locally
+# after the first run. Without this, only thumbnails are downloadable.
+--remote-components ejs:github
+
+# Best A/V; ffmpeg (from the guix shell) merges the streams.
+-f bestvideo*+bestaudio/best
+
+# Output location and filename template. yt-dlp expands ~ and creates
+# the directory if needed.
+-o ~/Downloads/yt/%(title)s.%(ext)s
