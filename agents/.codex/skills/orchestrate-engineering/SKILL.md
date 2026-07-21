@@ -23,6 +23,9 @@ planning or delegating implementation.
   before selecting a mode. Preserve unrelated user changes.
 - Keep one specialist active at a time. Do not allow any specialist to spawn
   another. Do not parallelize writers.
+- Before spawning a worker, inspect the models and reasoning efforts exposed by
+  the agent-spawn tool. Use only `high`, `xhigh`, `max`, or `ultra` in this
+  workflow; never accept a `low` or `medium` worker route.
 - Use a fresh worker context when possible. Pass a compact task packet rather
   than relying on hidden controller context; include the complete accepted Plan
   Contract verbatim for implementation.
@@ -43,7 +46,7 @@ delegation.
 | --- | --- | --- |
 | `guided` | Normal multi-file feature, bug fix, or refactor | `engineering_planner` -> `engineering_implementer` -> controller validation |
 | `deep` | Architecture, concurrency, persistence, security, protocol, migration, public API, or unresolved root-cause work | optional `engineering_scout` -> `engineering_deep_planner` -> `engineering_implementer` -> `engineering_reviewer` -> controller validation |
-| `mechanical` | Exact, low-risk edits whose files, symbols, behavior, and tests are already prescribed | one bounded `worker` at `gpt-5.6-luna` / `medium`, then controller validation |
+| `mechanical` | Exact, low-risk edits whose files, symbols, behavior, and tests are already prescribed | one bounded high-or-higher `worker`, then controller validation |
 
 Do not use `mechanical` for ambiguous behavior, design choices, new public API,
 schema or persistence changes, concurrency, security, migrations, or a failed
@@ -54,6 +57,30 @@ Use `engineering_scout` only when a deep task needs a focused repository map,
 test-location discovery, or log triage before planning. Do not make scouting a
 default extra stage. If Ultra is unavailable, use `engineering_planner` and
 state the downgrade before proceeding.
+
+## Select a worker model
+
+After accepting a plan, select the lowest-cost available 5.6 worker route that
+meets the plan's uncertainty and risk:
+
+- Use Luna / `high` for an exact mechanical patch with prescribed behavior and
+  validation.
+- Use Terra / `high` for normal implementation; raise it to `xhigh` when the
+  worker must reconcile multiple integrations, ambiguous tests, or meaningful
+  compatibility risk.
+- Reserve Sol / `max` for an explicit implementation exception where the
+  accepted plan still leaves consequential technical judgment. Do not use it
+  for routine implementation. Reserve Ultra for the existing deep-planner
+  route unless the user explicitly expands the delegation policy.
+
+Set both `model` and `reasoning_effort` in every generic worker-spawn call. An
+omitted override is an inherited route and violates this skill. If the selected
+route is not offered or the spawn rejects it, choose the next suitable
+available 5.6 route at `high` or above and report the actual route. Do not
+claim a model is unavailable without catalog or rejected-spawn evidence. If no
+explicit high-or-higher worker route is available, use the configured
+`engineering_implementer` or stop for user direction; never silently inherit a
+worker model.
 
 ## Gather evidence
 
@@ -112,7 +139,7 @@ the user separately authorizes them.
 
 ## Controller output
 
-Lead with the outcome. Record the selected mode, delegated roles, material plan
-or scope changes, changed files, validation results, remaining risks, and any
-work not performed. Keep intermediate logs and repeated reasoning out of the
-final response.
+Lead with the outcome. Record the selected mode, delegated roles and actual
+model/effort, material plan or scope changes, changed files, validation results,
+remaining risks, and any work not performed. Keep intermediate logs and
+repeated reasoning out of the final response.
