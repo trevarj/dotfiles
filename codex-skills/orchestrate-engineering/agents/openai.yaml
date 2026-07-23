@@ -2,6 +2,3 @@ interface:
   display_name: "Engineering Orchestrator"
   short_description: "Deliberate Sol-to-worker engineering handoffs"
   default_prompt: "Use $orchestrate-engineering to choose the appropriate route and complete this engineering task with a source-backed handoff."
-
-policy:
-  allow_implicit_invocation: false
