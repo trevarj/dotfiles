@@ -1,1 +1,1 @@
-@/home/trev/AGENTS.md
+@/home/trev/.codex/AGENTS.md
