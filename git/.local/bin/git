@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Normalize only Git's timezone; leave the rest of the session unchanged.
+export TZ=UTC
+exec "$HOME/.guix-home/profile/bin/git" "$@"
