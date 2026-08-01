@@ -1,7 +1,7 @@
 # AGENTS.md
 
-Global agent guidance for Trevor's machine (Guix System, zsh). Project-level
-`AGENTS.md` files extend or override this baseline.
+Global agent guidance for Trevor's machine (Guix System with Nix project
+tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 ## Agent orchestration
 
@@ -70,58 +70,78 @@ Global agent guidance for Trevor's machine (Guix System, zsh). Project-level
 - Short paragraphs and bullet lists for scanability.
 - Don't write READMEs or docs files unless explicitly asked.
 
-## Environment: Guix System
+## Environment: Guix System with Nix
 
-This is a Guix System (zsh). Every project pins its dev dependencies in a
-`manifest.scm` and loads them via `guix shell`.
+The host runs Guix System (zsh), but projects use Nix for development
+environments by default. Use Guix instead when the project already has a
+`manifest.scm` or the user specifically requests Guix.
 
-- **Never** use `guix install`. Prefer temporary shells for everything.
+- **Never** use `guix install` or `nix profile install`. Prefer temporary shells
+  and project-pinned environments.
 - **Never** suggest apt, dnf, pacman, brew, or global npm/pip.
 - **Never** modify `~/.config/guix/current/` or `~/.guix-profile/` — those are
   managed by `guix pull` / `guix package`.
-- One-off tools: `guix shell <package> -- <command>`.
+- One-off tools: `nix shell nixpkgs#<package> -c <command>`.
 
 ### Runtime tool availability
 
 Python, node, make, gcc, etc. are **not** guaranteed on PATH. Check before use;
-if missing, wrap in a guix shell:
+if missing, use a temporary Nix shell:
 
 ```sh
-guix shell python python-<lib> -- python3 script.py
-guix shell node -- npm run build
-guix shell gcc-toolchain make -- make
+nix shell nixpkgs#python3 nixpkgs#python3Packages.requests -c python3 script.py
+nix shell nixpkgs#nodejs -c npm run build
+nix shell nixpkgs#gcc nixpkgs#gnumake -c make
 ```
 
 ### Project dependencies & builds
 
 When a project lacks them, **auto-scaffold**:
 
-- `manifest.scm` — a `specifications->manifest` listing dev dependencies.
-- `.envrc` — containing exactly `use guix;` so direnv auto-loads the shell.
+- `flake.nix` — a pinned Nix development shell listing dev dependencies.
+- `flake.lock` — generated from the flake inputs and committed with the project.
+- `.envrc` — containing exactly `use flake` so direnv auto-loads the shell.
 
-Common manifest commands:
+Common flake commands:
 
-- `guix build -m manifest.scm` — build the package defined in the manifest.
-- `guix shell -m manifest.scm` — dev shell with manifest deps available.
-- `guix shell --pure -m manifest.scm` — isolated shell, only manifest deps.
-- `guix shell -D -m manifest.scm` — shell with a package's *build* deps.
+- `nix develop` — enter the default development shell.
+- `nix develop -c <command>` — run a command in the development shell.
+- `nix build` — build the default package.
+- `nix flake check` — run the flake's checks.
 
-Add new tools to `manifest.scm` rather than assuming they're globally present.
+Add new tools to `flake.nix` rather than assuming they're globally present.
 
-Example `manifest.scm`:
+Example `flake.nix`:
 
-```scheme
-(specifications->manifest
- (list "rust"
-       "rust-cargo"
-       "pkg-config"))
+```nix
+{
+  description = "Project development environment";
+
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+
+  outputs = { nixpkgs, ... }:
+    let
+      system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
+    in {
+      devShells.${system}.default = pkgs.mkShell {
+        packages = with pkgs; [ rustc cargo pkg-config ];
+      };
+    };
+}
 ```
 
 Example `.envrc`:
 
 ```
-use guix;
+use flake
 ```
+
+### Existing Guix manifests
+
+When `manifest.scm` is already present, use `guix shell -m manifest.scm` and add
+new development tools to that manifest. Do not introduce a Nix flake unless the
+user asks to migrate the project.
 
 ## Git & commits
 
@@ -177,8 +197,9 @@ feat(parser): support nested manifests
 
 ## Verification before "done"
 
-Inspect config to find the project's linters/typecheckers/tests, then within the
-guix shell:
+Inspect config to find the project's linters/typecheckers/tests, then use
+`nix develop` by default or `guix shell -m manifest.scm` for an existing Guix
+manifest:
 
 - Run the test suite and report results.
 - Build / typecheck cleanly.
