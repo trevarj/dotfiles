@@ -2,4 +2,4 @@
 
 # Normalize only Git's timezone; leave the rest of the session unchanged.
 export TZ=UTC
-exec "$HOME/.guix-home/profile/bin/git" "$@"
+exec /etc/profiles/per-user/trev/bin/git "$@"

@@ -102,41 +102,20 @@ source $HOME/.zsh_eza.zsh
 # GUIX_PROFILE=$HOME/.guix-profile
 # [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
 
-guix_home_plugins="$HOME/.guix-home/profile/share/zsh/plugins"
-# Autosuggetions (ghost text)
-source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-autosuggestions/zsh-autosuggestions.zsh(N)
+# Autosuggestions, syntax highlighting, autopairs, and fzf-tab are loaded by
+# Home Manager before this file.
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
-
-# Syntax highlighting on command line
-source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh(N)
-
-# Autopairs
-source {$guix_home_plugins,/usr/share{,/zsh/plugins}}/zsh-autopair/zsh-autopair.zsh(N)
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
 
-# Load and initialise completion system
+# Completion is initialized by Home Manager before plugins are loaded.
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
-fpath=("$HOME/.guix-home/profile/share/zsh/site-functions" $fpath)
-autoload -Uz compinit
-compinit
 
 # Edit current line in $EDITOR
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-# Ffz-tab completion
-# must come after compinit
-rc_path=$(realpath ~/.zshrc)
+# fzf-tab completion must be configured after compinit.
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
-
-fzf_tab_plugin="fzf-tab/fzf-tab.plugin.zsh"
-if [ -d "$guix_home_plugins" ]; then
-    source "$guix_home_plugins/$fzf_tab_plugin"
-else
-    source "$(dirname $rc_path)/../fzf-tab/fzf-tab.plugin.zsh"
-fi
-
-eval "$(direnv hook zsh)"
