@@ -11,7 +11,7 @@
   },
   "model": "opus[1m]",
   "enabledPlugins": {
-    "rust-analyzer-lsp@claude-plugins-official": true
+    "github@claude-plugins-official": true
   },
   "effortLevel": "high",
   "theme": "dark-daltonized"
