@@ -1,7 +1,7 @@
 
 ! HiDPI
 Xft.dpi: 144
-xterm*faceName: Iosevka JBM
+xterm*faceName: Iosevka SS12
 xterm*faceSize: 16
 
 !Xft.autohint: 0

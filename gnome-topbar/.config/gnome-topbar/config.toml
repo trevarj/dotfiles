@@ -84,7 +84,7 @@ warning = "#f59e0b"
 urgent = "#ef4444"
 
 [theme.typography]
-font_family = "NotoSans, IosevkaJBM, Symbols Nerd Font Mono, Symbols Nerd Font"
+font_family = "NotoSans, Iosevka SS12, Symbols Nerd Font Mono, Symbols Nerd Font"
 
 [osd]
 enabled = true
