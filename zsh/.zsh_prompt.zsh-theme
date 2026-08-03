@@ -26,7 +26,7 @@ typeset -g prompt_guix_cached_env=''
 typeset -g prompt_guix_cached_info=''
 typeset -g prompt_first_line=''
 typeset -g prompt_right_info=''
-typeset -g prompt_symbol='%F{10}➜%f'
+typeset -g prompt_symbol='%F{10}❯%f'
 
 +vi-git-untracked() {
   local -a git_status
@@ -106,9 +106,9 @@ dotfiles_prompt_exit_info() {
   prompt_exit_info=''
   if (( last_status != 0 )); then
     prompt_exit_info=" %F{9}exit ${last_status}%f"
-    prompt_symbol='%F{9}➜%f'
+    prompt_symbol="%F{9}${prompt_symbol}%f"
   else
-    prompt_symbol='%F{10}➜%f'
+    prompt_symbol="%F{10}${prompt_symbol}%f"
   fi
 }
 
