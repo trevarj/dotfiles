@@ -102,20 +102,69 @@ source $HOME/.zsh_eza.zsh
 # GUIX_PROFILE=$HOME/.guix-profile
 # [ -f "$GUIX_PROFILE" ] && . "$GUIX_PROFILE/etc/profile"
 
-# Autosuggestions, syntax highlighting, autopairs, and fzf-tab are loaded by
-# Home Manager before this file.
+# Plugins, completion, and direnv. Home Manager provides all of these on the Nix
+# host, so every block below is guarded and turns into a no-op there. On Guix
+# Home (or a foreign distro) they are loaded from the first profile that has
+# them.
+zsh_plugin_dirs=(
+  "$HOME/.guix-home/profile/share/zsh/plugins"
+  /usr/share/zsh/plugins
+  /usr/share
+)
+
+# Source $1 from the first plugin directory that provides it.
+zsh_load_plugin() {
+  local dir
+  for dir in $zsh_plugin_dirs; do
+    if [[ -r "$dir/$1" ]]; then
+      source "$dir/$1"
+      return 0
+    fi
+  done
+  return 1
+}
+
+# Autosuggestions (ghost text)
+(( $+functions[_zsh_autosuggest_start] )) ||
+  zsh_load_plugin zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+# Syntax highlighting on command line
+(( $+functions[_zsh_highlight] )) ||
+  zsh_load_plugin zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Autopairs
+(( $+functions[autopair-init] )) ||
+  zsh_load_plugin zsh-autopair/zsh-autopair.zsh
 
 # Prompt
 source $HOME/.zsh_prompt.zsh-theme
 
-# Completion is initialized by Home Manager before plugins are loaded.
+# Load and initialise completion system
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+if (( ! $+functions[compdef] )); then
+  guix_site_functions="$HOME/.guix-home/profile/share/zsh/site-functions"
+  [[ -d "$guix_site_functions" ]] && fpath=("$guix_site_functions" $fpath)
+  unset guix_site_functions
+  autoload -Uz compinit
+  compinit
+fi
 
 # Edit current line in $EDITOR
 autoload -U edit-command-line
 zle -N edit-command-line
 bindkey '\C-x\C-e' edit-command-line
 
-# fzf-tab completion must be configured after compinit.
+# fzf-tab completion, must come after compinit
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
+(( $+functions[fzf-tab-complete] )) ||
+  zsh_load_plugin fzf-tab/fzf-tab.plugin.zsh
+
+# direnv hook. Home Manager's programs.direnv installs its own; the generated
+# hook is idempotent, so a second eval here would be harmless anyway.
+if (( ! $+functions[_direnv_hook] )) && (( $+commands[direnv] )); then
+  eval "$(direnv hook zsh)"
+fi
+
+unfunction zsh_load_plugin
+unset zsh_plugin_dirs
