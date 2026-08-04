@@ -1,0 +1,97 @@
+#!/usr/bin/env sh
+#
+# Dispatch user-service actions to whichever supervisor this host runs:
+# Shepherd under Guix Home, systemd --user under Home Manager.
+#
+#   svc <action> <service>...  forward an action (start/stop/restart/status)
+#   svc session-start          hand the Wayland session env to the supervisor,
+#                              then bring up the graphical daemons
+#
+set -eu
+
+# Unit names are identical under both supervisors, so this list is host-neutral.
+SESSION_DAEMONS='gnome-topbar hypridle awww-normal awww-overview'
+
+# Variables niri only sets once the session is up. Shepherd is started at login,
+# long before that, so it never inherits them and its children would otherwise
+# come up with no display to attach to.
+SESSION_ENV='WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XDG_RUNTIME_DIR NIRI_SOCKET DISPLAY'
+
+have() {
+	command -v "$1" >/dev/null 2>&1
+}
+
+# Shepherd can be installed but not running this session, so probe the socket
+# rather than just the binary.
+using_shepherd() {
+	have herd && herd status >/dev/null 2>&1
+}
+
+using_systemd() {
+	have systemctl && systemctl --user show-environment >/dev/null 2>&1
+}
+
+no_supervisor() {
+	echo "svc: no user service manager found" >&2
+	exit 127
+}
+
+# Shepherd has no import-environment, but its root service evaluates arbitrary
+# Scheme, so push each variable in with setenv.
+shepherd_import_env() {
+	for var in $SESSION_ENV; do
+		eval "value=\${$var-}"
+		[ -n "$value" ] || continue
+		escaped=$(printf '%s' "$value" | sed 's/\\/\\\\/g; s/"/\\"/g')
+		herd eval root "(setenv \"$var\" \"$escaped\")" >/dev/null
+	done
+}
+
+session_start() {
+	if using_shepherd; then
+		shepherd_import_env
+		for unit in $SESSION_DAEMONS; do
+			herd start "$unit" >/dev/null ||
+				echo "svc: failed to start $unit" >&2
+		done
+	elif using_systemd; then
+		# Home Manager binds these to graphical-session.target, so this is
+		# normally a no-op; it stays here so both hosts take the same path.
+		# shellcheck disable=SC2086
+		systemctl --user import-environment $SESSION_ENV
+		for unit in $SESSION_DAEMONS; do
+			systemctl --user start "$unit" ||
+				echo "svc: failed to start $unit" >&2
+		done
+	else
+		no_supervisor
+	fi
+}
+
+action=${1-}
+
+case $action in
+session-start)
+	session_start
+	;;
+'' | -h | --help)
+	echo "usage: svc <action> <service>... | svc session-start" >&2
+	[ -n "$action" ] && exit 0 || exit 2
+	;;
+*)
+	shift
+	[ $# -gt 0 ] || {
+		echo "usage: svc $action <service>..." >&2
+		exit 2
+	}
+	if using_shepherd; then
+		for unit in "$@"; do
+			herd "$action" "$unit"
+		done
+	elif using_systemd; then
+		systemctl --user "$action" "$@"
+	else
+		no_supervisor
+	fi
+	;;
+esac

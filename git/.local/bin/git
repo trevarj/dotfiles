@@ -2,4 +2,19 @@
 
 # Normalize only Git's timezone; leave the rest of the session unchanged.
 export TZ=UTC
-exec /etc/profiles/per-user/trev/bin/git "$@"
+
+# Resolve the real git from whichever profile this host provides. Every
+# candidate is an absolute path outside ~/.local/bin, so this wrapper can never
+# exec itself no matter where it sits in PATH.
+for candidate in \
+	"/etc/profiles/per-user/${USER:-$(id -un)}/bin/git" \
+	"${HOME}/.guix-home/profile/bin/git" \
+	/run/current-system/profile/bin/git \
+	/usr/bin/git; do
+	if [ -x "$candidate" ]; then
+		exec "$candidate" "$@"
+	fi
+done
+
+echo "git wrapper: no git found in any known profile" >&2
+exit 127

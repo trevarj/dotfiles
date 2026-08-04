@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+#
+# Launch Brave from whichever packaging this host provides: a native package on
+# the Nix host, a Flatpak under Guix.
+#
+# Deliberately not named "brave". Home Manager puts ~/.local/bin ahead of the
+# profile on PATH, so a wrapper by that name would find and exec itself.
+#
+set -eu
+
+if command -v brave >/dev/null 2>&1; then
+	exec brave "$@"
+fi
+
+if command -v flatpak >/dev/null 2>&1 &&
+	flatpak info com.brave.Browser >/dev/null 2>&1; then
+	exec flatpak --user run com.brave.Browser "$@"
+fi
+
+echo "browser: no Brave installation found" >&2
+exit 127
