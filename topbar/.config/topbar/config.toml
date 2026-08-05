@@ -1,0 +1,44 @@
+# topbar v2 — only the keys that differ from the built-in defaults.
+# Everything else: topbar --print-example-config
+
+[widgets]
+left = ["workspaces", "crypto"]
+center = ["weather", "clock"]
+right = [
+  "tray",
+  "system_monitor",
+  "headset",
+  "keyboard_layout",
+  "quick_settings",
+  "os_logo",
+]
+popover_background_opacity = 0.76
+
+[widgets.clock]
+format = "%A, %b %d  %H:%M"
+control_panel = true
+world_clocks = [
+  { label = "New York", timezone = "America/New_York" },
+  { label = "UTC", timezone = "Etc/UTC" },
+]
+
+[widgets.quick_settings]
+on_click_right = "loginctl lock-session"
+
+[theme]
+accent = "#70B49B"
+blur = true
+
+[theme.states]
+success = "#22c55e"
+warning = "#f59e0b"
+urgent = "#ef4444"
+
+[theme.typography]
+font_family = "NotoSans, Iosevka SS12, Symbols Nerd Font Mono, Symbols Nerd Font"
+
+[advanced]
+pango_font_rendering = true
+
+[updates]
+flake = "~/Workspace/trev-nix"
