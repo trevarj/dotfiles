@@ -24,6 +24,7 @@ world_clocks = [
 
 [widgets.quick_settings]
 on_click_right = "loginctl lock-session"
+mic = "always"
 
 [theme]
 accent = "#70B49B"
