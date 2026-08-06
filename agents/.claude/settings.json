@@ -14,5 +14,6 @@
     "github@claude-plugins-official": true
   },
   "effortLevel": "high",
+  "skipWorkflowUsageWarning": true,
   "theme": "dark-daltonized"
 }
