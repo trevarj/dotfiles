@@ -28,7 +28,7 @@ popover_background_opacity = 0.76
 label_type = "none"
 animate = true
 filter_by_output = true
-show_unoccupied = false
+show_unoccupied = true
 
 [widgets.clock]
 format = "%A, %b %d  %H:%M"
@@ -51,6 +51,7 @@ interval = 1800
 tooltip = "Weather"
 max_chars = 24
 forecast_days = 5
+show_description = false
 
 [widgets.headset]
 interval = 5
