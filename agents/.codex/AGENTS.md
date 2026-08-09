@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Global agent guidance for Trevor's machine (Guix System with Nix project
+Global agent guidance for Trevor's machine (NixOS with Nix project
 tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 ## Agent orchestration
@@ -72,18 +72,22 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 - Short paragraphs and bullet lists for scanability.
 - Don't write READMEs or docs files unless explicitly asked.
 
-## Environment: Guix System with Nix
+## Environment: NixOS (with Guix available)
 
-The host runs Guix System (zsh), but projects use Nix for development
-environments by default. Use Guix instead when the project already has a
-`manifest.scm` or the user specifically requests Guix.
+The host runs NixOS (zsh). Prefer the Nix package manager and Nix dev
+environments by default; Guix is still available for projects that already use
+it. Use Guix when the project already has a `manifest.scm` or the user
+specifically requests Guix.
 
-- **Never** use `guix install` or `nix profile install`. Prefer temporary shells
-  and project-pinned environments.
+- **Never** use `nix profile install` or `guix install`. Prefer temporary
+  shells and project-pinned environments.
 - **Never** suggest apt, dnf, pacman, brew, or global npm/pip.
-- **Never** modify `~/.config/guix/current/` or `~/.guix-profile/` — those are
-  managed by `guix pull` / `guix package`.
-- One-off tools: `nix shell nixpkgs#<package> -c <command>`.
+- **Never** modify NixOS system-manager paths (`/run/current-system`, the system
+  profile) or Guix-managed paths (`~/.config/guix/current/`,
+  `~/.guix-profile/`) by hand — manage the former through the NixOS
+  configuration and the latter through `guix pull` / `guix package`.
+- One-off tools: `nix shell nixpkgs#<package> -c <command>` (or `guix shell`
+  when a Guix package is needed).
 
 ### Runtime tool availability
 
