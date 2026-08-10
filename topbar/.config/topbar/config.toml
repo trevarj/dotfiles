@@ -36,7 +36,7 @@ warning = "#f59e0b"
 urgent = "#ef4444"
 
 [theme.typography]
-font_family = "NotoSans, Iosevka SS12, Symbols Nerd Font Mono, Symbols Nerd Font"
+font_family = "Noto Sans, Iosevka, Symbols Nerd Font Mono, Symbols Nerd Font"
 
 [advanced]
 pango_font_rendering = true
