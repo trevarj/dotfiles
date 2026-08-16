@@ -124,6 +124,10 @@ output "eDP-1" {
 output "DP-5" {
         mode "3840x2160@120.000"
         scale 1.5
+
+        // Engages only for windows carrying a variable-refresh-rate window rule
+        // (see the mpv rule below), not on the desktop.
+        variable-refresh-rate on-demand=true
 }
 
 // Settings that influence how windows are positioned and sized.
@@ -135,7 +139,11 @@ layout {
 
     background-color "transparent"
 
-    // always-center-single-column
+    // Center a lone column instead of leaving it pinned to the left edge.
+    // Only applies when it is the only column; center-focused-column below
+    // still governs every other case.
+    always-center-single-column
+
     // When to center a column when changing focus, options are:
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
@@ -157,8 +165,13 @@ layout {
         // fixed 1920
     }
 
-    // You can also customize the heights that "switch-preset-window-height" (Mod+Shift+R) toggles between.
-    // preset-window-heights { }
+    // Heights that "switch-preset-window-height" (Mod+Shift+R) toggles between,
+    // mirroring preset-column-widths above.
+    preset-window-heights {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
 
     // You can change the default width of the new windows.
     default-column-width { proportion 0.5; }
@@ -272,6 +285,26 @@ layout {
         color "#0008"
     }
 
+    // Indicator strip for tabbed columns (Mod+T). Colors follow the focus ring
+    // so tabbed columns read as part of the same theme.
+    tab-indicator {
+        hide-when-single-tab
+        place-within-column
+        gap 5
+        width 4
+        length total-proportion=0.5
+        position "left"
+        gaps-between-tabs 2
+        corner-radius 8
+        active-color "#4a997fcc"
+        inactive-color "#ffffff2e"
+    }
+
+    // Drop target shown while dragging a window, e.g. in the overview (Mod+O).
+    insert-hint {
+        color "#4a997f80"
+    }
+
     // Struts shrink the area occupied by windows, similarly to layer-shell panels.
     // You can think of them as a kind of outer gaps. They are set in logical pixels.
     // Left and right struts will cause the next window to the side to always be visible.
@@ -301,6 +334,10 @@ spawn-at-startup "~/.local/bin/svc" "session-start"
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
     skip-at-startup
+
+    // Only list actions that actually have a bind, instead of niri's full
+    // default action set.
+    hide-not-bound
 }
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
@@ -494,6 +531,12 @@ window-rule {
         match app-id="org.telegram.desktop"
         open-on-workspace "chat"
         open-maximized true
+}
+
+// Opts mpv into the on-demand VRR configured on DP-5.
+window-rule {
+        match app-id=r#"^mpv$"#
+        variable-refresh-rate true
 }
 
 
@@ -808,5 +851,13 @@ binds {
 gestures {
     hot-corners {
         off
+    }
+}
+
+// niri already disables eDP-1 on lid close; this adds the lock. Note it fires
+// while docked to DP-5 with the lid shut too.
+switch-events {
+    lid-close {
+        spawn "loginctl" "lock-session"
     }
 }
