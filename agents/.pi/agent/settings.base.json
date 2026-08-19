@@ -1,0 +1,11 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.6-sol",
+  "defaultThinkingLevel": "high",
+  "theme": "dark",
+  "defaultProjectTrust": "never",
+  "quietStartup": true,
+  "externalEditor": "emacs -nw",
+  "enableInstallTelemetry": false,
+  "enableAnalytics": false
+}
