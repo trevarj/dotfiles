@@ -75,6 +75,9 @@ else
   bindkey -M emacs "^[3;5~" delete-char
 fi
 
+# [Ctrl-Backspace] - delete whole backward-word
+bindkey -M emacs '^H' backward-kill-word
+bindkey -M emacs '^[[127;5u' backward-kill-word
 # [Ctrl-Delete] - delete whole forward-word
 bindkey -M emacs '^[[3;5~' kill-word
 # [Ctrl-RightArrow] - move forward one word
