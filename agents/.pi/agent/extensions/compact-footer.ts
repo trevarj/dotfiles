@@ -37,7 +37,7 @@ type Ctx = {
 	ui: { setFooter(factory: unknown): void };
 };
 
-const ANSI_PATTERN = /\[[0-9;]*m/g;
+const ANSI_PATTERN = /\x1b\[[0-9;]*m/g;
 const ELLIPSIS = "…";
 const SEPARATOR = " · ";
 const MIN_GAP = 2;
@@ -49,9 +49,55 @@ const MIN_GAP = 2;
  */
 const QUOTA_STATUS_KEY = "pi-quota-status";
 
-/** Printable width, ignoring color escapes. Good enough for paths and model ids. */
+// Grapheme-aware width: emoji and wide CJK count as 2 cells, not 1. The footer
+// contract is that a returned line never exceeds `width`, and pi-tui measures
+// with the same rule; counting code points made emoji-heavy status lines
+// (ponytail's 🌿🐴, etc.) underflow, the right-pinned quota overflowed the
+// viewport, and kitty outside tmux (no tmux clipping) wrapped it into
+// gibberish. Inside tmux the line just clipped, so it looked fine there.
+// ponytail: not the full East-Asian width table - only the ranges this footer
+// actually meets (emoji, misc symbols, CJK, fullwidth); widen if a status ever
+// shows something it misses.
+const graphemeSegmenter = new Intl.Segmenter(undefined, { granularity: "grapheme" });
+
+function isWideCp(cp: number): boolean {
+	return (
+		(cp >= 0x1100 && cp <= 0x115f) ||
+		(cp >= 0x231a && cp <= 0x231b) ||
+		(cp >= 0x2329 && cp <= 0x232a) ||
+		(cp >= 0x2e80 && cp <= 0x303e) ||
+		(cp >= 0x3041 && cp <= 0x33ff) ||
+		(cp >= 0x3400 && cp <= 0x4dbf) ||
+		(cp >= 0x4e00 && cp <= 0x9fff) ||
+		(cp >= 0xa000 && cp <= 0xa4cf) ||
+		(cp >= 0xac00 && cp <= 0xd7a3) ||
+		(cp >= 0xf900 && cp <= 0xfaff) ||
+		(cp >= 0xfe10 && cp <= 0xfe19) ||
+		(cp >= 0xfe30 && cp <= 0xfe6f) ||
+		(cp >= 0xff01 && cp <= 0xff60) ||
+		(cp >= 0xffe0 && cp <= 0xffe6) ||
+		(cp >= 0x1f000 && cp <= 0x1faff) ||
+		(cp >= 0x2600 && cp <= 0x27bf) ||
+		(cp >= 0x2b50 && cp <= 0x2bff)
+	);
+}
+
+function graphemeWidth(segment: string): number {
+	if (!segment) return 0;
+	const cp = segment.codePointAt(0)!;
+	if (cp < 0x20 || (cp >= 0x7f && cp < 0xa0)) return 0; // control
+	// A VS16 (emoji presentation selector) or ZWJ in the cluster forces width 2.
+	if (isWideCp(cp) || segment.includes("\uFE0F") || segment.includes("\u200D")) return 2;
+	return 1;
+}
+
+/** Printable width, ignoring color escapes. */
 function width(text: string): number {
-	return [...text.replace(ANSI_PATTERN, "")].length;
+	let total = 0;
+	for (const { segment } of graphemeSegmenter.segment(text.replace(ANSI_PATTERN, ""))) {
+		total += graphemeWidth(segment);
+	}
+	return total;
 }
 
 /** Free-form status text has to survive on one line. */
@@ -73,7 +119,16 @@ function contractHome(cwd: string): string {
 function truncate(text: string, max: number): string {
 	if (width(text) <= max) return text;
 	if (max <= 0) return "";
-	return `${[...text.replace(ANSI_PATTERN, "")].slice(0, max - 1).join("")}${ELLIPSIS}`;
+	const plain = text.replace(ANSI_PATTERN, "");
+	const out: string[] = [];
+	let used = 0;
+	for (const { segment } of graphemeSegmenter.segment(plain)) {
+		const gw = graphemeWidth(segment);
+		if (used + gw > max - 1) break; // reserve one cell for the ellipsis
+		out.push(segment);
+		used += gw;
+	}
+	return out.join("") + ELLIPSIS;
 }
 
 /** Last two path components, for when the full path will not fit. */
