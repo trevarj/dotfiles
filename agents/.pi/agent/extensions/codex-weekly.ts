@@ -193,7 +193,7 @@ export default function codexWeekly(pi: ExtensionAPI): void {
 			}
 			try {
 				const pct = await readWeekly();
-				ctx.ui.setStatus(STATUS_KEY, pct === undefined ? undefined : `Codex Wk ${pct}%`);
+				ctx.ui.setStatus(STATUS_KEY, pct === undefined ? undefined : `Wk ${pct}%`);
 			} catch {
 				ctx.ui.setStatus(STATUS_KEY, undefined);
 			}
