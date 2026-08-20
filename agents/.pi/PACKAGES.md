@@ -81,3 +81,12 @@ is linked into `~/.pi/agent/extensions/` by `modules/home/agents.nix` and
 replaces pi's built-in footer with a two-line one (session state, plus a second
 line only when an extension is reporting). It shells out to `git status` on a
 5s timer for the working-tree markers and touches nothing else.
+
+`agent/extensions/codex-weekly.ts` is linked the same way and always shows the
+Codex weekly quota (`Codex Wk NN%`) by polling the `codex` CLI app-server
+JSON-RPC (`account/rateLimits/read`) every 5 min. It exists because
+pi-quota-status only surfaces quota for the active `/login` model, so the figure
+is hidden while running a non-subscription provider (ollama, glm). It defers
+(no-ops) when a `openai-codex/*` model is active so pi-quota-status owns that
+case. It spawns `codex -s read-only -a untrusted app-server` per poll and kills
+it after the single request.
