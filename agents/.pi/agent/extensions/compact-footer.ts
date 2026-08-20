@@ -49,12 +49,6 @@ const MIN_GAP = 2;
  */
 const QUOTA_STATUS_KEY = "pi-quota-status";
 
-/**
- * The codex-weekly extension's key. Pinned to the right edge after the 5h
- * usage so it sits beside (not among) the left-running statuses.
- */
-const CODEX_WEEKLY_KEY = "codex-weekly";
-
 // Grapheme-aware width: emoji and wide CJK count as 2 cells, not 1. The footer
 // contract is that a returned line never exceeds `width`, and pi-tui measures
 // with the same rule; counting code points made emoji-heavy status lines
@@ -313,24 +307,21 @@ class CompactFooter {
 	}
 
 	/**
-	 * Line 2, or nothing at all when no extension is reporting. Subscription
-	 * usage and codex-weekly are pinned to the right edge (5h usage, then
-	 * Codex weekly); everything else runs from the left.
+	 * Line 2, or nothing at all when no extension is reporting. Active-model
+	 * subscription usage is pinned to the right edge; everything else runs
+	 * from the left.
 	 */
 	private statusLine(viewport: number): string | undefined {
 		let usage: string | undefined;
-		let codexWeekly: string | undefined;
 		const others: string[] = [];
 		for (const [key, status] of [...this.footerData.getExtensionStatuses()].sort(([a], [b]) => a.localeCompare(b))) {
 			// Statuses arrive styled by their own extension; pass them through.
 			const text = flatten(status);
 			if (!text) continue;
 			if (key === QUOTA_STATUS_KEY) usage = text;
-			else if (key === CODEX_WEEKLY_KEY) codexWeekly = text;
 			else others.push(text);
 		}
-		// codex-weekly rides the right edge after the 5h session usage.
-		const right = [usage, codexWeekly].filter(Boolean).join(this.theme.fg("dim", SEPARATOR));
+		const right = usage ?? "";
 		if (!right && others.length === 0) return undefined;
 
 		const left = others.join(this.theme.fg("dim", SEPARATOR));
