@@ -21,6 +21,7 @@ in the built bundle (exec use, outbound hosts, credential paths).
 | `pi-simplify` | 0.2.3 | Reviews changed code for clarity |
 | `pi-memory` | 0.4.2 | Daily logs, long-term memory, scratchpad |
 | `pi-caveman` | 1.0.8 | `/caveman`: token-saving output modes |
+| `pi-claude-bridge` | 0.7.0 | Claude Code Agent SDK provider (Opus/Sonnet/Haiku) + opt-in AskClaude tool |
 
 ## Notes worth keeping
 
@@ -53,6 +54,8 @@ you already extend by running a project's test suite.
 semantic search; without qmd it degrades to plain files. Its npm postinstall
 script is a no-op outside its own git checkout (verified), and scripts are
 disabled in the nix build regardless.
+
+**`pi-claude-bridge` shells out to the `claude` CLI.** Each turn runs Claude Code's Agent SDK (via the `claude` binary on PATH, overridable with `provider.pathToClaudeCodeExecutable`), so pi's tools are bridged into a real Claude Code session that uses its own OAuth auth at `~/.claude/.credentials.json`. Tool calls and results flow back through pi's TUI. The opt-in `AskClaude` tool (off by default; set `askClaude.enabled` in `~/.pi/agent/claude-bridge.json`) lets any other provider delegate a read/full task to Claude Code. Config lives in `~/.pi/agent/claude-bridge.json` (`provider.plan` for 1M context, `askClaude.*`). Replaces the old `pi-claude-auth` OAuth-reuse hack with the supported Agent SDK path.
 
 **The rest are prompt-shaping or TUI only.** `ponytail`, `pi-simplify`,
 `pi-caveman`, `pi-plan-mode` and `pi-tui-kit` contain no exec calls and no
