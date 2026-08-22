@@ -22,8 +22,8 @@ describe another harness, these rules win.
 
 ## Output style
 
-Stock voice is the default. `/caveman` and `/adhd` are the user's switches, not
-yours; do not adopt either unless asked.
+Stock voice is the default. `/caveman` is the user's switch, not yours; do not
+adopt it unless asked.
 
 ## Web access
 
