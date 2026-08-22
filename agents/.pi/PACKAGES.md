@@ -7,9 +7,11 @@ content hash. Renovate waits seven days for npm releases and never automerges.
 Normal `pi` runs in a systemd user sandbox. Extensions can read and modify all
 of `~/Workspace`, use network egress, execute project toolchains, and read Pi's
 own state under `~/.pi/agent` (including provider auth and Telegram bot config).
-They cannot reach SSH/GPG agents, Claude/Codex/GitHub CLI credentials, browser
-data, D-Bus, libvirt/Podman/Nym sockets, input devices, or the rest of home.
-Run `pi --sandbox-check` after system changes.
+They receive SSH-agent authentication plus the configured GPG public key,
+agent socket, and scoped encrypted signing-key copy for signed commits, without
+raw SSH key files or the host GPG home. Claude/Codex/GitHub CLI
+credentials, browser data, D-Bus, libvirt/Podman/Nym sockets, input devices, and
+the rest of home remain hidden. Run `pi --sandbox-check` after system changes.
 
 Reviewed pinned packages:
 
@@ -23,7 +25,7 @@ Reviewed pinned packages:
 | `pi-lens` | 4.0.1 | Executes project LSPs, linters, formatters, and analyzers; queries package/GitHub metadata. |
 | `pi-memory` | 0.4.2 | Writes Pi memory/state; optional `qmd` is absent and its install notice is patched out. |
 | `pi-simplify` | 0.2.3 | Reviews changed code for clarity. |
-| `pi-subagents` | 0.51.0 | Spawns nested Pi processes and scripted workflows inside the same sandbox. Share/upload paths cannot use host GitHub credentials. |
+| `pi-subagents` | 0.51.0 | Spawns nested Pi processes and scripted workflows inside the same sandbox, including inherited signed-commit and SSH-push access. |
 | `pi-web-access` | 0.24.0 | Reaches configured search/fetch providers, GitHub, PDFs, and video sources. Browser-cookie and hosted authenticated fetch profiles remain disabled. |
 
 ## Local extensions
@@ -33,7 +35,8 @@ Reviewed pinned packages:
   `~/.ollama`.
 - `trev-pi`: compact header/footer and session status.
 - `work-mode.ts`: Plan/Goal/direct workflow guard. Guided/collaborative modes
-  require push confirmation; solo/quick modes carry signed-commit/push authority.
+  require push confirmation; solo/quick authority permits signed commit and push
+  from the sandbox.
 - `@trevarj/pi-usage`: local bundled usage display.
 
 ## Review rules
