@@ -32,8 +32,8 @@ Reviewed pinned packages:
   itself runs as a loopback-only Home Manager service, so Pi does not mount
   `~/.ollama`.
 - `trev-pi`: compact header/footer and session status.
-- `work-mode.ts`: Plan/Goal/direct workflow guard, including explicit push
-  confirmation.
+- `work-mode.ts`: Plan/Goal/direct workflow guard. Guided/collaborative modes
+  require push confirmation; solo/quick modes carry signed-commit/push authority.
 - `@trevarj/pi-usage`: local bundled usage display.
 
 ## Review rules
