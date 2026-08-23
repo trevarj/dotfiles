@@ -6,19 +6,33 @@ describe another harness, these rules win.
 ## Delegation
 
 - Specialist routing in AGENTS.md names codex agents (Terra, Sol). Those do not
-  exist here. Delegation in pi goes through the `pi-subagents` extension, and
+  exist here. Delegation in pi goes through the `@tintinweb/pi-subagents`
+  extension (`Agent`, `get_subagent_result`, `steer_subagent`, `/agents`), and
   only when the user asks for it.
-- One delegate at a time. A delegate never spawns another.
+- One delegate at a time. A delegate never spawns another: `maxSubagentDepth` is
+  set to 1 in `~/.pi/agent/subagents.json`, so nesting is refused, not just
+  discouraged.
+- A top-level `Agent` call runs in the background unless it passes
+  `run_in_background: false`. Esc interrupts the turn, not the agents it
+  started; stop those from `/agents`.
+- Scheduled subagents are off (`schedulingEnabled: false`). Do not offer cron or
+  interval runs; the `schedule` parameter is not registered.
+- `~/.pi/agent/subagents.json` is hand-managed and outside nix. Edit it in place
+  when asked; it survives rebuilds.
 
 ## Packages
 
-- Extensions, skills and prompts are pinned by nix
-  (`~/Workspace/trev-nix/packages/pi/extensions`) and mounted read-only from the
-  store. Never run `pi install`, `pi update`, or npm inside `~/.pi`; the change
-  would be silently reverted on the next rebuild and it skips the review that
-  pinning exists for.
-- To add or bump an extension: edit `packages/pi/extensions/package.json`,
-  regenerate the lockfile, rebuild. Say so instead of installing it.
+- Extensions, skills and prompts are pinned by nix (`~/Workspace/pi-config`) and
+  mounted read-only from the store. Never run `pi install`, `pi update`, or npm
+  inside `~/.pi`; the change would be silently reverted on the next rebuild and
+  it skips the review that pinning exists for.
+- To add or bump an extension: edit `pi-config/extensions/package.json`,
+  regenerate `package-lock.json`, refresh `npmDepsHash` in
+  `extensions/default.nix` (`prefetch-npm-deps extensions/package-lock.json`),
+  then `nix flake check`. Record the package's authority in
+  `dotfiles/agents/.pi/PACKAGES.md`.
+- The flake is consumed by `~/Workspace/trev-nix`, so a pi-config change only
+  reaches the system after `nix flake update pi-config` there and a rebuild.
 
 ## Output style
 
@@ -27,7 +41,14 @@ adopt it unless asked.
 
 ## Web access
 
-`pi-web-access` is configured keyless: Exa needs no key, and OpenAI search
-reuses the Codex subscription auth from `/login`. Never ask for or set an API
-key for it. Browser-cookie access and remote hosted fetch providers are off on
-purpose; leave them off.
+`pi-web-access` routes search to Firecrawl first, then Exa. The Firecrawl key is
+read from `~/.pi/agent/secrets/firecrawl-api-key` by the generated config; Exa
+needs no key. Never paste a key into chat or config. Browser-cookie access and
+remote hosted fetch providers are off on purpose; leave them off.
+
+## Signing
+
+Commits are signed through the host gpg-agent socket that the sandbox binds in,
+so a locked key prompts pinentry on the host. `~/.codex/bin` is not mounted
+here: do not try to run `codex-gpg-unlock`. If signing fails, retry once, then
+report it and let the user unlock.
