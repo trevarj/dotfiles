@@ -28,7 +28,9 @@ typeset -g prompt_first_line=''
 typeset -g prompt_right_info=''
 typeset -g prompt_symbol='%F{10}❯%f'
 typeset -g prompt_ssh_info=''
-[[ -n ${SSH_CONNECTION:-} ]] && prompt_ssh_info='%B%F{13}ssh%f%b %F{14}%n@%m%f '
+typeset -g prompt_machine_suffix=''
+[[ -r /etc/machine-id ]] && prompt_machine_suffix="-${$(</etc/machine-id)[1,4]}"
+[[ -n ${SSH_CONNECTION:-} ]] && prompt_ssh_info="%B%F{13}ssh%f%b %F{14}%n@%m${prompt_machine_suffix}%f "
 
 +vi-git-untracked() {
   local -a git_status
