@@ -27,6 +27,8 @@ typeset -g prompt_guix_cached_info=''
 typeset -g prompt_first_line=''
 typeset -g prompt_right_info=''
 typeset -g prompt_symbol='%F{10}❯%f'
+typeset -g prompt_ssh_info=''
+[[ -n ${SSH_CONNECTION:-} ]] && prompt_ssh_info='%B%F{13}ssh%f%b %F{14}%n@%m%f '
 
 +vi-git-untracked() {
   local -a git_status
@@ -162,7 +164,7 @@ dotfiles_prompt_visible_length() {
 }
 
 dotfiles_prompt_first_line() {
-  local left="${prompt_path}${vcs_info_msg_0_}"
+  local left="${prompt_ssh_info}${prompt_path}${vcs_info_msg_0_}"
   local right=${prompt_guix_info# }
 
   if [[ -z ${right} ]]; then
