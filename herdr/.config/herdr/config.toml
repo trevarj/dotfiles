@@ -1,0 +1,54 @@
+# Herdr configuration. Persistent changes belong here; Home Manager deploys
+# this file read-only while Herdr keeps runtime state beside it.
+onboarding = false
+
+[theme]
+name = "terminal"
+
+[update]
+# Nix owns binary updates; live agent-detection rules may still update.
+version_check = false
+
+[keys]
+# Intentional tradeoff: Herdr owns C-x, so Emacs is not practical inside it.
+prefix = "ctrl+x"
+detach = "prefix+ctrl+c"
+goto = "prefix+b"
+new_tab = "prefix+t"
+previous_tab = "prefix+left"
+next_tab = "prefix+right"
+switch_tab = "prefix+alt+1..9"
+close_tab = "prefix+k"
+focus_pane_left = "prefix+ctrl+b"
+focus_pane_down = "prefix+ctrl+n"
+focus_pane_up = "prefix+ctrl+p"
+focus_pane_right = "prefix+ctrl+f"
+cycle_pane_next = "prefix+o"
+cycle_pane_previous = "prefix+shift+o"
+split_horizontal = "prefix+2"
+split_vertical = "prefix+3"
+close_pane = "prefix+0"
+zoom = "prefix+1"
+toggle_sidebar = "prefix+backtick"
+navigate_workspace_up = "ctrl+p"
+navigate_workspace_down = "ctrl+n"
+navigate_pane_left = "ctrl+b"
+navigate_pane_down = "alt+n"
+navigate_pane_up = "alt+p"
+navigate_pane_right = "ctrl+f"
+
+[ui]
+agent_panel_sort = "priority"
+status_indicators = "symbols"
+
+[ui.sidebar.agents]
+rows = [
+  ["state_icon", "agent", "state_text"],
+  ["workspace", "tab"],
+]
+
+[ui.toast]
+delivery = "system"
+
+[ui.sound]
+enabled = false

@@ -37,6 +37,12 @@ Reviewed pinned packages:
 - `work-mode.ts`: Plan/Goal/direct workflow guard. Guided/collaborative modes
   require push confirmation; solo/quick authority permits signed commit and push
   from the sandbox.
+- Herdr's official `herdr-agent-state.ts`, sourced from the exact pinned Herdr
+  release: reports Pi lifecycle and session identity over the active local Herdr
+  socket. The extension itself does not execute commands, read credentials, or
+  use outbound network access. Herdr has no socket ACL, so every loaded Pi
+  extension can technically read or control sibling Herdr panes while Pi runs
+  inside Herdr; only the active socket is mounted into the sandbox.
 - `@trevarj/pi-usage`: local bundled usage display.
 
 ## Review rules
