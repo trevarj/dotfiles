@@ -7,23 +7,25 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 ### Default workflow
 
-- Main agent coordinates every actionable task: understand the request, gather
-  enough evidence to scope it, then delegate one bounded investigation or
-  implementation task to the closest specialist before substantial execution.
+- Main agent coordinates every actionable task: inspect enough to scope it,
+  then delegate one bounded implementation task to the closest specialist
+  before substantial execution.
 - Main agent owns synthesis, integration, validation, and final reporting. It
-  may perform targeted reads and checks, but delegates substantial research or
-  implementation instead of duplicating the specialist's work.
+  may perform targeted reads and checks, but does not duplicate delegated work.
 - Skip delegation for conversation-only replies, clarification questions,
   trivial targeted lookups, or when the user explicitly asks for direct work.
 - Ask the user only when intent, permissions, destructive actions, or
   consequential tradeoffs require a decision.
-- Keep output paced and concise. Prefer one evidence-backed delegate over broad
-  parallel fan-out.
+- Keep output paced and concise. Default to one evidence-backed delegate. A
+  small parallel batch of read-only specialists is allowed only for genuinely
+  independent research, diagnosis, or review tracks when it materially reduces
+  latency.
 
 ### Specialist routing
 
 - Prefer the closest matching specialist over a generic worker.
-- Use at most one specialist at a time unless the user asks for parallel work.
+- Use one implementation specialist at a time. Parallel specialists must be
+  read-only and follow the default-workflow limits.
 
 #### Codex specialist routing
 
@@ -38,9 +40,8 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 - Do not allow recursive delegation. A delegated specialist must not spawn or
   consult another agent unless the user explicitly asks for that structure.
-- Parallel writers require explicit, non-overlapping file or subsystem
-  ownership. Serialize work that shares files, interfaces, schemas, or generated
-  artifacts.
+- Use one writer at a time per shared repository. Serialize implementation,
+  review fixes, and any work touching shared files or generated artifacts.
 - Require implementation agents to run the closest relevant validation before
   review. Reviewers report concrete correctness findings, not style-only noise.
 - Allow at most one fix-and-review cycle by default. If a material finding

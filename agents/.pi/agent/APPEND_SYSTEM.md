@@ -9,22 +9,28 @@ describe another harness, these rules win.
   exist here. Pi's main agent coordinates actionable tasks through the
   `@tintinweb/pi-subagents` extension (`Agent`, `get_subagent_result`,
   `steer_subagent`, `/agents`).
-- After enough targeted inspection to write a self-contained prompt, launch one
-  closest-matching subagent for substantial research or implementation. Use
-  `run_in_background: false` when its result gates integration; main agent then
-  verifies actual changes and owns final validation and reporting.
+- After enough targeted inspection to write a self-contained prompt, use one
+  closest writable agent for substantial implementation, normally
+  `general-purpose`, with `run_in_background: false`. The worker implements and
+  runs the closest relevant validation; main agent verifies changes and owns
+  synthesis, integration, final validation, and reporting.
+- Research and diagnosis default to one specialist. Up to four background
+  `Explore` agents are allowed only for independent tracks where parallel work
+  materially helps. Issue self-contained, non-overlapping scout prompts as one
+  bounded batch.
 - Skip delegation only for conversation, clarification, trivial targeted
   lookups, explicit direct-work requests, or when no enabled agent fits.
-- One delegate at a time. A delegate never spawns another: `maxSubagentDepth` is
-  set to 1 in `~/.pi/agent/subagents.json`, so nesting is refused, not just
-  discouraged.
+- Never run concurrent writers. Finish implementation before starting a reviewer
+  or fixer.
+- `maxConcurrent: 4` is read-only scout capacity, not automatic fan-out;
+  foreground capacity remains one. A delegate never spawns another:
+  `maxSubagentDepth` is 1, so nesting is refused.
 - A top-level `Agent` call runs in the background unless it passes
   `run_in_background: false`. Esc interrupts the turn, not the agents it
-  started; stop those from `/agents`.
-- Scheduled subagents are off (`schedulingEnabled: false`). Do not offer cron or
-  interval runs; the `schedule` parameter is not registered.
-- Scripted workflows are off (`workflowsEnabled: false`). Use one bounded
-  `Agent` call instead of `SubagentWorkflow`.
+  started; stop those from `/agents`. Unknown agent types fail closed.
+- Scheduled subagents are off (`schedulingEnabled: false`); the `schedule`
+  parameter is not registered. Scripted workflows are off
+  (`workflowsEnabled: false`); use bounded `Agent` calls instead.
 - `~/.pi/agent/subagents.json` is hand-managed and outside nix. Edit it in place
   when asked; it survives rebuilds.
 
