@@ -43,11 +43,19 @@ navigate_pane_right = "ctrl+f"
 [ui]
 agent_panel_sort = "priority"
 status_indicators = "symbols"
+pane_scrollbars = false
+show_agent_labels_on_pane_borders = true
 
 [ui.sidebar.agents]
 rows = [
   ["state_icon", "agent", "state_text"],
   ["workspace", "tab"],
+]
+
+[ui.sidebar.spaces]
+rows = [
+  ["state_icon", { token = "workspace", bold = true }],
+  ["branch", "git_status"],
 ]
 
 [ui.toast]
