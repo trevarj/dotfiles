@@ -6,9 +6,15 @@ describe another harness, these rules win.
 ## Delegation
 
 - Specialist routing in AGENTS.md names codex agents (Terra, Sol). Those do not
-  exist here. Delegation in pi goes through the `@tintinweb/pi-subagents`
-  extension (`Agent`, `get_subagent_result`, `steer_subagent`, `/agents`), and
-  only when the user asks for it.
+  exist here. Pi's main agent coordinates actionable tasks through the
+  `@tintinweb/pi-subagents` extension (`Agent`, `get_subagent_result`,
+  `steer_subagent`, `/agents`).
+- After enough targeted inspection to write a self-contained prompt, launch one
+  closest-matching subagent for substantial research or implementation. Use
+  `run_in_background: false` when its result gates integration; main agent then
+  verifies actual changes and owns final validation and reporting.
+- Skip delegation only for conversation, clarification, trivial targeted
+  lookups, explicit direct-work requests, or when no enabled agent fits.
 - One delegate at a time. A delegate never spawns another: `maxSubagentDepth` is
   set to 1 in `~/.pi/agent/subagents.json`, so nesting is refused, not just
   discouraged.
@@ -17,6 +23,8 @@ describe another harness, these rules win.
   started; stop those from `/agents`.
 - Scheduled subagents are off (`schedulingEnabled: false`). Do not offer cron or
   interval runs; the `schedule` parameter is not registered.
+- Scripted workflows are off (`workflowsEnabled: false`). Use one bounded
+  `Agent` call instead of `SubagentWorkflow`.
 - `~/.pi/agent/subagents.json` is hand-managed and outside nix. Edit it in place
   when asked; it survives rebuilds.
 

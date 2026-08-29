@@ -25,7 +25,7 @@ Reviewed pinned packages:
 | `pi-lens` | 4.0.1 | Executes project LSPs, linters, formatters, and analyzers; queries package/GitHub metadata. |
 | `pi-memory` | 0.4.2 | Writes Pi memory/state; optional `qmd` is absent and its install notice is patched out. |
 | `pi-simplify` | 0.2.3 | Reviews changed code for clarity. |
-| `@tintinweb/pi-subagents` | 0.18.0 | Spawns child Pi sessions inside the same sandbox, including inherited signed-commit and SSH-push access. Shells out to `git` (argv, no shell) for worktree isolation, which auto-commits agent work to `pi-agent-*` branches. No network of its own. Locally constrained by `~/.pi/agent/subagents.json`: nesting depth 1 and scheduled jobs off. |
+| `@tintinweb/pi-subagents` | 0.19.0 | Spawns child Pi sessions inside the same sandbox, including inherited signed-commit and SSH-push access. Uses `pi.exec` with argv for worktree Git operations and can expose deterministic JavaScript workflows whose gates execute shell commands; workflows are disabled locally to avoid their authority and ~5k-token prompt cost. No network of its own. `~/.pi/agent/subagents.json` limits foreground/background concurrency to one, disables nesting and schedules, and fails closed on unknown agent types. |
 | `pi-web-access` | 0.24.0 | Reaches configured search/fetch providers, GitHub, PDFs, and video sources. Browser-cookie and hosted authenticated fetch profiles remain disabled. |
 
 ## Local extensions

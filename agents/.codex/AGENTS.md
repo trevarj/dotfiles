@@ -7,19 +7,22 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 ### Default workflow
 
-- Work directly by default. Do not spawn subagents unless the user explicitly
-  asks for subagents, parallel agents, or a named specialist.
-- Run the normal single-agent pipeline autonomously: investigate, plan when
-  needed, implement, validate, review your own work, revise, and report. Ask the
-  user only when intent, permissions, destructive actions, or consequential
-  tradeoffs require a decision.
-- Keep output paced and concise. Prefer slower, evidence-backed progress in the
-  main thread over parallel fan-out.
+- Main agent coordinates every actionable task: understand the request, gather
+  enough evidence to scope it, then delegate one bounded investigation or
+  implementation task to the closest specialist before substantial execution.
+- Main agent owns synthesis, integration, validation, and final reporting. It
+  may perform targeted reads and checks, but delegates substantial research or
+  implementation instead of duplicating the specialist's work.
+- Skip delegation for conversation-only replies, clarification questions,
+  trivial targeted lookups, or when the user explicitly asks for direct work.
+- Ask the user only when intent, permissions, destructive actions, or
+  consequential tradeoffs require a decision.
+- Keep output paced and concise. Prefer one evidence-backed delegate over broad
+  parallel fan-out.
 
-### Optional specialist routing
+### Specialist routing
 
-- When the user explicitly requests delegation, prefer the closest matching
-  specialist over a generic worker.
+- Prefer the closest matching specialist over a generic worker.
 - Use at most one specialist at a time unless the user asks for parallel work.
 
 #### Codex specialist routing
@@ -160,6 +163,16 @@ user asks to migrate the project.
 - **Body**: concise bulleted points describing the changes. No ticket
   references unless asked.
 - **No** `Co-Authored-By` / attribution trailers.
+
+### Deploy
+
+When the user says **deploy**, treat it as explicit authorization to complete
+this sequence:
+
+1. Commit and push the current repository.
+2. Update its flake input in `~/Workspace/trev-nix`.
+3. Commit the resulting `trev-nix` changes.
+4. Tell the user to rebuild Nix; do not run the rebuild.
 
 ### Signing (required)
 
