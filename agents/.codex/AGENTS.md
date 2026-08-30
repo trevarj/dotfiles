@@ -55,6 +55,11 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
   specific memory file directly. Keep the edit brief and agent-agnostic.
 - Do not add session logs, task notes, transcripts, or long explanations to
   global memory.
+- After repeated correction or one costly or high-risk failure, briefly suggest
+  a skill; never create one automatically. Approved personal skills live in
+  `~/Workspace/agent-skills` and follow that repository's `AGENTS.md`.
+- Keep repository-specific guidance project-local instead of promoting it to a
+  global skill.
 - For technical decisions, do not give much weight to development cost. Prefer
   quality, simplicity, robustness, scalability, and maintainability.
 - For bug fixes, reproduce the issue in the closest realistic workflow before

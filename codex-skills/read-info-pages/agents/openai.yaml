@@ -1,4 +1,0 @@
-interface:
-  display_name: "Read Info Pages"
-  short_description: "Read GNU Info manuals locally"
-  default_prompt: "Use $read-info-pages to inspect the relevant GNU Info manual before answering."
