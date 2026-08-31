@@ -20,17 +20,16 @@ Reviewed pinned packages:
 | `@dietrichgebert/ponytail` | 4.9.0 | Prompt/skill policy; no host credentials required. |
 | `@narumitw/pi-plan-mode` | 0.56.0 | Enforces read-only Plan mode by changing active tools and prompt/session state; no process or network access of its own. |
 | `@narumitw/pi-goal` | 0.54.4 | Persists one autonomous objective and queues bounded continuation turns; can drive any tools already authorized in the Pi session. |
-| `@narumitw/pi-herdr` | 0.1.0 | Sole Herdr socket lifecycle/metadata/widget reporter. Sends bounded session identity, model, and status metadata only to the active local Herdr socket; bundled `herdr` skill requires an explicit Herdr request and can direct Pi to run Herdr CLI control commands. |
+| `@narumitw/pi-herdr` | 0.1.1 | Sole Herdr socket lifecycle/metadata/widget reporter. Sends bounded session identity, model, and status metadata only to the active local Herdr socket; after an explicit Herdr request, its bundled skill loads authoritative instructions from the pinned local `herdr --skill`. |
 | `@narumitw/pi-stamp` | 0.50.0 | Adds TUI-only custom transcript timestamp entries. Built-in defaults disable assistant metadata, response timing, and tool stamps; no process or network access. |
 | `@narumitw/pi-tui-kit` | 0.60.0 | Library only: shared read-only/menu TUI and RPC adapters; registers no Pi resources and has no credential, process, or network authority. |
 | `pi-caveman` | 1.0.8 | Output-style prompt mode only. |
 | `@gotgenes/pi-anthropic-auth` | 2.0.6 | Reads Pi's Anthropic OAuth state and talks to Anthropic APIs. |
-| `@llblab/pi-telegram` | 0.38.0 | Reads bot token/owner from Pi state and polls/sends through Telegram only after local `/telegram-connect`. Local Nix patch denies missing owners instead of pairing first contact. |
-| `pi-lens` | 4.1.1 | Executes project LSPs, linters, formatters, and analyzers; queries package/GitHub metadata. |
+| `@llblab/pi-telegram` | 0.40.0 | Reads bot token/owner from Pi state and polls/sends through Telegram only after local `/telegram-connect`; its inbound queue is owned by the active Pi session. Local Nix patch denies missing owners instead of pairing first contact. |
 | `pi-memory` | 0.4.2 | Writes Pi memory/state; optional `qmd` is absent and its install notice is patched out. |
 | `pi-simplify` | 0.2.3 | Reviews changed code for clarity. |
-| `@narumitw/pi-subagents` | 3.0.0 | Runs separate Pi child processes in same sandbox/current cwd; defaults read-only. `bash`, `edit`, and `write` grant process or mutation authority. Uses loopback authenticated broker; child inherits current provider/model/auth. No extension tools, worktrees, nesting, or persistence; session-owned jobs cancel on shutdown. |
-| `pi-web-access` | 0.24.2 | Reaches configured search/fetch providers, GitHub, PDFs, and video sources. Browser-cookie and hosted authenticated fetch profiles remain disabled. |
+| `@narumitw/pi-subagents` | 3.0.1 | Runs separate Pi child processes in same sandbox/current cwd; defaults read-only. `bash`, `edit`, and `write` grant process or mutation authority. Uses loopback authenticated broker; child inherits current provider/model/auth. No extension tools, worktrees, nesting, or persistence; session-owned jobs cancel on shutdown. |
+| `pi-web-access` | 0.27.0 | Reaches configured search/fetch providers, GitHub PRs/issues, PDFs, and video sources, with explicit per-call or configured proxy support plus Gemini ADC, Kimi, and XCrawl capabilities. GitHub credentials remain hidden; browser-cookie and hosted authenticated fetch profiles remain disabled. |
 
 ## Local extensions
 
