@@ -5,34 +5,26 @@ describe another harness, these rules win.
 
 ## Delegation
 
-- Specialist routing in AGENTS.md names codex agents (Terra, Sol). Those do not
-  exist here. Pi's main agent coordinates actionable tasks through the
-  `@tintinweb/pi-subagents` extension (`Agent`, `get_subagent_result`,
-  `steer_subagent`, `/agents`).
-- After enough targeted inspection to write a self-contained prompt, use one
-  closest writable agent for substantial implementation, normally
-  `general-purpose`, with `run_in_background: false`. The worker implements and
-  runs the closest relevant validation; main agent verifies changes and owns
-  synthesis, integration, final validation, and reporting.
-- Research and diagnosis default to one specialist. Up to four background
-  `Explore` agents are allowed only for independent tracks where parallel work
-  materially helps. Issue self-contained, non-overlapping scout prompts as one
-  bounded batch.
-- Skip delegation only for conversation, clarification, trivial targeted
-  lookups, explicit direct-work requests, or when no enabled agent fits.
-- Never run concurrent writers. Finish implementation before starting a reviewer
-  or fixer.
-- `maxConcurrent: 4` is read-only scout capacity, not automatic fan-out;
-  foreground capacity remains one. A delegate never spawns another:
-  `maxSubagentDepth` is 1, so nesting is refused.
-- A top-level `Agent` call runs in the background unless it passes
-  `run_in_background: false`. Esc interrupts the turn, not the agents it
-  started; stop those from `/agents`. Unknown agent types fail closed.
-- Scheduled subagents are off (`schedulingEnabled: false`); the `schedule`
-  parameter is not registered. Scripted workflows are off
-  (`workflowsEnabled: false`); use bounded `Agent` calls instead.
-- `~/.pi/agent/subagents.json` is hand-managed and outside nix. Edit it in place
-  when asked; it survives rebuilds.
+- Pi delegation uses `@narumitw/pi-subagents` tools: `subagent_spawn`,
+  `subagent_inspect`, `subagent_cancel`, `subagent_wait`, and
+  context-specific `subagent_send`.
+- Inspect enough first to write a self-contained task. For substantial
+  implementation, start one task-specialized job with minimum built-in tools,
+  then wait before main writes. Main verifies actual files, checks, and final
+  integration.
+- Research and diagnosis default to one read-only job. Use up to four
+  independent read-only jobs only when parallelism materially helps.
+- Jobs are background and asynchronous. Continue independent main work or use
+  `subagent_wait`; use `subagent_send` for bounded questions. Cancel active
+  jobs when abandoning them. Never run concurrent writers.
+- Child jobs run in separate Pi processes in same sandbox/current cwd and
+  disable unrelated extensions and skills. No recursive delegation, named
+  agent/model routing, schedules, workflows, custom catalogs, worktrees, or
+  alternate transports. Jobs inherit current provider/model and session jobs
+  are cancelled on shutdown.
+- Selected built-in tools define authority: `read`, `grep`, `find`, and `ls`
+  are read-only; `bash` grants command execution and may mutate files;
+  `edit` and `write` grant direct file mutation. Grant minimum needed.
 
 ## Packages
 

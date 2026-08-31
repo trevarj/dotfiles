@@ -18,15 +18,19 @@ Reviewed pinned packages:
 | Package | Version | Credential, process, and network authority |
 |---|---:|---|
 | `@dietrichgebert/ponytail` | 4.9.0 | Prompt/skill policy; no host credentials required. |
-| `@narumitw/pi-workflow` | 0.6.0 | Plan/Goal modes and session workflow state; coordinates Pi tools. |
+| `@narumitw/pi-plan-mode` | 0.56.0 | Enforces read-only Plan mode by changing active tools and prompt/session state; no process or network access of its own. |
+| `@narumitw/pi-goal` | 0.54.4 | Persists one autonomous objective and queues bounded continuation turns; can drive any tools already authorized in the Pi session. |
+| `@narumitw/pi-herdr` | 0.1.0 | Sole Herdr socket lifecycle/metadata/widget reporter. Sends bounded session identity, model, and status metadata only to the active local Herdr socket; bundled `herdr` skill requires an explicit Herdr request and can direct Pi to run Herdr CLI control commands. |
+| `@narumitw/pi-stamp` | 0.50.0 | Adds TUI-only custom transcript timestamp entries. Built-in defaults disable assistant metadata, response timing, and tool stamps; no process or network access. |
+| `@narumitw/pi-tui-kit` | 0.60.0 | Library only: shared read-only/menu TUI and RPC adapters; registers no Pi resources and has no credential, process, or network authority. |
 | `pi-caveman` | 1.0.8 | Output-style prompt mode only. |
 | `@gotgenes/pi-anthropic-auth` | 2.0.6 | Reads Pi's Anthropic OAuth state and talks to Anthropic APIs. |
-| `@llblab/pi-telegram` | 0.36.8 | Reads bot token/owner from Pi state and polls/sends through Telegram only after local `/telegram-connect`. Local Nix patch denies missing owners instead of pairing first contact. |
-| `pi-lens` | 4.0.1 | Executes project LSPs, linters, formatters, and analyzers; queries package/GitHub metadata. |
+| `@llblab/pi-telegram` | 0.38.0 | Reads bot token/owner from Pi state and polls/sends through Telegram only after local `/telegram-connect`. Local Nix patch denies missing owners instead of pairing first contact. |
+| `pi-lens` | 4.1.1 | Executes project LSPs, linters, formatters, and analyzers; queries package/GitHub metadata. |
 | `pi-memory` | 0.4.2 | Writes Pi memory/state; optional `qmd` is absent and its install notice is patched out. |
 | `pi-simplify` | 0.2.3 | Reviews changed code for clarity. |
-| `@tintinweb/pi-subagents` | 0.19.0 | Spawns child Pi sessions inside the same sandbox, including inherited signed-commit and SSH-push access. Uses `pi.exec` with argv for worktree Git operations and can expose deterministic JavaScript workflows whose gates execute shell commands; workflows are disabled locally to avoid their authority and ~5k-token prompt cost. No network of its own. `~/.pi/agent/subagents.json` limits foreground concurrency to one and background concurrency to four, disables nesting and schedules, and fails closed on unknown agent types; policy allows one writer or up to four independent read-only scouts. |
-| `pi-web-access` | 0.24.0 | Reaches configured search/fetch providers, GitHub, PDFs, and video sources. Browser-cookie and hosted authenticated fetch profiles remain disabled. |
+| `@narumitw/pi-subagents` | 3.0.0 | Runs separate Pi child processes in same sandbox/current cwd; defaults read-only. `bash`, `edit`, and `write` grant process or mutation authority. Uses loopback authenticated broker; child inherits current provider/model/auth. No extension tools, worktrees, nesting, or persistence; session-owned jobs cancel on shutdown. |
+| `pi-web-access` | 0.24.2 | Reaches configured search/fetch providers, GitHub, PDFs, and video sources. Browser-cookie and hosted authenticated fetch profiles remain disabled. |
 
 ## Local extensions
 
@@ -37,12 +41,9 @@ Reviewed pinned packages:
 - `work-mode.ts`: Plan/Goal/direct workflow guard. Guided/collaborative modes
   require push confirmation; solo/quick authority permits signed commit and push
   from the sandbox.
-- Herdr's official `herdr-agent-state.ts`, sourced from the exact pinned Herdr
-  release: reports Pi lifecycle and session identity over the active local Herdr
-  socket. The extension itself does not execute commands, read credentials, or
-  use outbound network access. Herdr has no socket ACL, so every loaded Pi
-  extension can technically read or control sibling Herdr panes while Pi runs
-  inside Herdr; only the active socket is mounted into the sandbox.
+- `herdr-fork.ts`: keeps Herdr pane identity correct across Pi forks. Herdr has
+  no socket ACL, so every loaded extension can technically control sibling panes;
+  only the active socket is mounted into the sandbox.
 - `@trevarj/pi-usage`: local bundled usage display.
 
 ## Review rules
