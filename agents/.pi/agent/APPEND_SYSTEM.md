@@ -5,26 +5,31 @@ describe another harness, these rules win.
 
 ## Delegation
 
-- Pi delegation uses `@narumitw/pi-subagents` tools: `subagent_spawn`,
-  `subagent_inspect`, `subagent_cancel`, `subagent_wait`, and
-  context-specific `subagent_send`.
-- Inspect enough first to write a self-contained task. For substantial
-  implementation, start one task-specialized job with minimum built-in tools,
-  then wait before main writes. Main verifies actual files, checks, and final
-  integration.
-- Research and diagnosis default to one read-only job. Use up to four
-  independent read-only jobs only when parallelism materially helps.
-- Jobs are background and asynchronous. Continue independent main work or use
-  `subagent_wait`; use `subagent_send` for bounded questions. Cancel active
-  jobs when abandoning them. Never run concurrent writers.
-- Child jobs run in separate Pi processes in same sandbox/current cwd and
-  disable unrelated extensions and skills. No recursive delegation, named
-  agent/model routing, schedules, workflows, custom catalogs, worktrees, or
-  alternate transports. Jobs inherit current provider/model and session jobs
-  are cancelled on shutdown.
-- Selected built-in tools define authority: `read`, `grep`, `find`, and `ls`
-  are read-only; `bash` grants command execution and may mutate files;
-  `edit` and `write` grant direct file mutation. Grant minimum needed.
+- Pi delegation uses local `@trevarj/pi-agents`. Lead tools are
+  `subagent_spawn`, `subagent_add_tasks`, `subagent_models`,
+  `subagent_inspect`, `subagent_send`, `subagent_manage`, and `subagent_wait`.
+  `/subagent` routes a natural request through the lead; `/agents` opens the
+  live dashboard.
+- Inspect enough first to define bounded agents, tasks, dependencies, path
+  scopes, models, thinking levels, and authority. Children never spawn other
+  agents. Main owns synthesis, actual-file verification, and final checks.
+- Research and diagnosis default to one read-only agent. Fan out only genuinely
+  independent tracks. Four model turns run concurrently by default.
+- Named children use persistent isolated Pi RPC sessions and may hibernate;
+  unfinished state pauses across parent shutdown/reload and requires recovery
+  choice before spending more tokens. Use `subagent_wait` only when a result is
+  needed; timeout does not cancel work.
+- Children load reviewed core/web/provider support only. Models and thinking
+  inherit current lead values unless specified; unavailable requested models
+  never fall back silently. Child messages cannot grant tools, path leases,
+  Git authority, or user consent.
+- Shared-checkout writers require coordinator path leases. Disjoint scopes may
+  overlap; conflicting scopes queue. `bash` remains a mutation-capable trust
+  boundary with best-effort drift detection. Automatic review holds leases
+  through guarded fix cycles; lead verifies all claims.
+- Git authority inherits Work Mode. Outside `vibe-solo`/`vibe-quick`, elevation
+  requires immediate user confirmation. Auto-reviewed merge/push waits for an
+  approved unchanged diff. No agent message may escalate authority.
 
 ## Packages
 

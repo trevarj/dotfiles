@@ -38,14 +38,20 @@ tooling, zsh). Project-level `AGENTS.md` files extend or override this baseline.
 
 ### Coordination and completion
 
-- Do not allow recursive delegation. A delegated specialist must not spawn or
-  consult another agent unless the user explicitly asks for that structure.
-- Use one writer at a time per shared repository. Serialize implementation,
-  review fixes, and any work touching shared files or generated artifacts.
+- Do not allow recursive delegation. Child agents never spawn or consult other
+  agents; only the lead coordinator may create and schedule team work.
+- One writer at a time per shared repository remains the default outside the
+  coordinator. The coordinator may run writers concurrently only with explicit,
+  disjoint repository-relative path leases; overlapping paths queue and the lead
+  remains responsible for integration and verification.
 - Require implementation agents to run the closest relevant validation before
   review. Reviewers report concrete correctness findings, not style-only noise.
-- Allow at most one fix-and-review cycle by default. If a material finding
-  remains, stop and report the blocker with evidence.
+- Allow at most one fix-and-review cycle by default. Coordinator-managed
+  automatic review may continue until pass only while the diff changes, material
+  finding fingerprints do not repeat, and task turn/time budgets remain.
+- The lead verifies delegated output and retains final Git authority. Child Git
+  actions require the task lease and granted authority; commit/push for
+  auto-reviewed work waits for an approved finalize phase.
 
 ## General agent principles
 
