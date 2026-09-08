@@ -1,0 +1,30 @@
+modelRoles:
+  default: openai-codex/gpt-5.6-sol:high
+symbolPreset: nerd
+composer:
+  shape: band
+theme:
+  dark: obsidian
+  light: light
+setupVersion: 2
+memory:
+  backend: "off"
+statusLine:
+  separator: powerline-thin
+  contextLine: annotated
+  transparent: true
+  compactThinkingLevel: false
+  showHookStatus: true
+tui:
+  codexResetFireworks: true
+display:
+  cacheMissMarker: true
+  hideToolActivity: true
+  showTokenUsage: true
+colorBlindMode: true
+task:
+  eager: preferred
+  enableEffort: true
+github:
+  enabled: true
+hideThinkingBlock: true
