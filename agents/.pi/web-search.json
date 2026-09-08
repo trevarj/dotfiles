@@ -1,6 +1,0 @@
-{
-  "allowBrowserCookies": false,
-  "fetchRouting": {
-    "allowRemoteHostedProviders": false
-  }
-}
