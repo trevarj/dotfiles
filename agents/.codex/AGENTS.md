@@ -190,10 +190,12 @@ this sequence:
 
 - **Never create an unsigned commit.** Every commit must be GPG-signed with the
   user's key.
-- If signing fails because the key is locked, run
-  `/home/trev/.codex/bin/codex-gpg-unlock`, then retry the signed commit. Repeat
-  the unlock-and-retry cycle up to 3 times. If it still fails, stop and ask —
-  never fall back to an unsigned commit.
+- Run signed commits directly with `git commit -S`. An uncached signing request
+  prompts through pinentry on the key-owning host's running desktop.
+- Without a host desktop, agents can sign only while the key is cached. If
+  signing or unlocking fails, report the failure and stop; ask the user to
+  unlock interactively before retrying. Never retry automatically or fall back
+  to an unsigned commit.
 
 Example:
 
@@ -243,6 +245,6 @@ If any step is skipped or fails, say so plainly with the output.
 - Never expose or log secrets, API keys, tokens, or credentials.
 - Warn before committing `.env`, `credentials.json`, or similar; refuse if a
   commit would include secrets.
-- For GPG passphrases, never ask the user to type one into chat — run
-  `/home/trev/.codex/bin/codex-gpg-unlock` so they can enter it in a terminal,
-  then retry.
+- GPG passphrases belong only in pinentry, never in chat, command arguments,
+  logs, or helper scripts. If unlocking fails or no host desktop is available,
+  report it without automatically retrying.

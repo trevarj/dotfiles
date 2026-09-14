@@ -56,16 +56,6 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["/home/trev/.codex/bin/codex-gpg-unlock"],
-    decision = "allow",
-    justification = "GPG passphrases must be entered by the user in a local terminal, never in chat.",
-    match = [
-        "/home/trev/.codex/bin/codex-gpg-unlock",
-        "/home/trev/.codex/bin/codex-gpg-unlock A6C20D0C2AD838F949070EA3A52D68794EBED758",
-    ],
-)
-
-prefix_rule(
     pattern = ["git", "worktree", "add"],
     decision = "allow",
     justification = "Worktrees keep larger changes isolated without touching existing work.",
