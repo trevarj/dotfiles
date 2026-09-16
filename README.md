@@ -25,6 +25,19 @@ Stow every top-level package into `$HOME`:
 `sync.sh` skips `_untracked` and handles Firefox by stowing into the detected
 `default-release` profile's `chrome` directory.
 
+## Global agent guidance
+
+Edit only `agents/.agents/AGENTS.md`. Stowing `agents` installs this shared
+policy at `~/.agents/AGENTS.md` with native relative symlinks:
+
+- `~/.codex/AGENTS.md` → `../.agents/AGENTS.md`
+- `~/.claude/CLAUDE.md` → `../.agents/AGENTS.md`
+- `~/.omp/agent/AGENTS.md` → `../../.agents/AGENTS.md`
+- `~/.pi/agent/AGENTS.md` → `../../.agents/AGENTS.md`
+
+Nix configurations source the canonical file directly. Project instructions
+remain project-local.
+
 ## Remove
 
 Unstow every package:
