@@ -861,3 +861,5 @@ switch-events {
         spawn "loginctl" "lock-session"
     }
 }
+
+include "~/.config/niri/theme-switcher.kdl"
