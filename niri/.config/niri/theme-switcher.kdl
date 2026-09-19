@@ -2,6 +2,6 @@ include "~/.local/share/trev-themes/current/niri.kdl"
 
 binds {
     Mod+Alt+T repeat=false hotkey-overlay-title="Choose theme" { spawn "theme-switch"; }
-    Mod+P repeat=false hotkey-overlay-title="Random wallpaper" { spawn "theme-switch" "--wallpaper"; }
+    Mod+P repeat=false hotkey-overlay-title="Next theme wallpaper" { spawn "theme-switch" "--wallpaper"; }
     Mod+Ctrl+P repeat=false hotkey-overlay-title="Refresh wallpaper on all outputs" { spawn "theme-switch" "--refresh-wallpaper"; }
 }

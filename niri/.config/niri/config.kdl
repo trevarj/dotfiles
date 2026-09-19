@@ -620,9 +620,6 @@ binds {
     // or do a four-finger swipe up on a touchpad.
     Mod+O repeat=false hotkey-overlay-title="Toggle overview" { toggle-overview; }
 
-    Mod+P repeat=false hotkey-overlay-title="Random wallpaper" { spawn "~/.local/bin/wallpaper-random"; }
-    Mod+Ctrl+P repeat=false hotkey-overlay-title="Refresh wallpaper on all outputs" { spawn "~/.local/bin/wallpaper-random" "--refresh"; }
-
     Mod+W repeat=false hotkey-overlay-title="Close focused window" { close-window; }
 
     Mod+Left  { focus-column-left; }
