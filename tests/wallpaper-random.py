@@ -99,6 +99,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
             WALLPAPER_NORMAL_NAMESPACE="test-normal",
             WALLPAPER_OVERVIEW_NAMESPACE="test-overview",
             WALLPAPER_BLUR_RADIUS="0x1",
+            WALLPAPER_TINT="",
             WALLPAPER_TEST_LOG=str(log),
             WALLPAPER_TEST_DISPLAY=str(display),
             MAGICK_THREAD_LIMIT="1",
@@ -120,7 +121,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
                 assert result.stderr.strip(), "failure must report a diagnostic"
             return [json.loads(line) for line in log.read_text().splitlines()]
 
-        def published():
+        def published(*, tinted=False):
             targets = []
             for link in links:
                 assert link.is_symlink(), link
@@ -128,7 +129,9 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
                 assert target.is_absolute() and target == link.resolve(strict=True), target
                 assert target.is_file(), target
                 targets.append(target)
-            assert (display / "normal").read_text() == str(targets[0])
+            normal = Path((display / "normal").read_text())
+            assert normal.is_absolute() and normal.is_file(), normal
+            assert (normal != targets[0]) == tinted, normal
             info = subprocess.run(
                 [imagemagick, str(targets[1]), "-format", "%m %wx%h", "info:"],
                 check=True,
@@ -138,6 +141,14 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
             ).stdout
             assert info == "PNG 3840x2160", info
             return tuple(targets)
+
+        def pixel(image):
+            return subprocess.run(
+                [imagemagick, str(image), "-crop", "1x1+0+0", "+repage", "-depth", "8", "RGB:-"],
+                check=True,
+                capture_output=True,
+                env=env,
+            ).stdout
 
         invoke(WALLPAPER_DIR=str(single), WALLPAPER_TEST_FAILURE="missing-overview")
         previous = published()
@@ -236,6 +247,45 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
                     link.rmdir()
                 link.symlink_to(target)
         assert published() == current
+
+        source = current[0]
+        invoke("--refresh", WALLPAPER_TINT="#00ff00")
+        current = published(tinted=True)
+        tinted = Path((display / "normal").read_text())
+        assert current[0] == source, "tint replaced the selected source"
+        assert pixel(source) == bytes((255, 0, 0)), "tint modified the source"
+        assert pixel(tinted) == bytes((204, 51, 0)), "normal image is not tinted 20%"
+        assert pixel(current[1]) == pixel(tinted), "blur did not derive from the tinted image"
+        assert (display / "overview").read_text() == str(current[1])
+
+        cached = [(image, image.stat()) for image in (tinted, current[1])]
+        invoke("--refresh", WALLPAPER_TINT="#00ff00")
+        assert published(tinted=True) == current
+        assert Path((display / "normal").read_text()) == tinted
+        for image, before in cached:
+            after = image.stat()
+            assert (after.st_ino, after.st_mtime_ns) == (before.st_ino, before.st_mtime_ns)
+
+        previous_tinted, previous_blurred = tinted, current[1]
+        invoke("--refresh", WALLPAPER_TINT="#0000ff")
+        current = published(tinted=True)
+        tinted = Path((display / "normal").read_text())
+        assert current[0] == source, "changing tint randomized the source"
+        assert tinted != previous_tinted and current[1] != previous_blurred
+        assert pixel(tinted) == bytes((204, 0, 51)), "new tint was not rendered"
+        assert pixel(current[1]) == pixel(tinted), "blur retained the previous tint"
+        assert (display / "overview").read_text() == str(current[1])
+
+        cache_entries = set(cache.rglob("*"))
+        assert not invoke("--refresh", success=False, WALLPAPER_TINT="not-a-color")
+        assert published(tinted=True) == current
+        assert Path((display / "normal").read_text()) == tinted
+        assert set(cache.rglob("*")) == cache_entries, "tint failure leaked temporary assets"
+
+        invoke("--refresh")
+        current = published()
+        assert current[0] == source
+        assert pixel(current[1]) == pixel(source), "clearing tint retained the tinted blur"
 
     print("wallpaper-random: behavior checks passed")
 

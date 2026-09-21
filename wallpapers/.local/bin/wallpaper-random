@@ -9,6 +9,7 @@ cache_dir="$cache_root/blurred"
 current_wallpaper="$cache_root/current.png"
 current_blurred="$cache_root/current-blurred.png"
 blur_radius="${WALLPAPER_BLUR_RADIUS:-0x18}"
+tint="${WALLPAPER_TINT:-}"
 refresh=false
 
 die() {
@@ -73,21 +74,34 @@ fi
 
 mkdir -p "$cache_dir"
 
-mtime="$(stat -c %Y "$wallpaper")"
+mtime="$(stat -c %y "$wallpaper")"
 size="$(stat -c %s "$wallpaper")"
-cache_key="$(printf '%s\0%s\0%s\0%s' "$wallpaper" "$mtime" "$size" "$blur_radius" | sha256sum | cut -d ' ' -f 1)"
-blurred="$cache_dir/$cache_key.png"
 tmp_dir="$(mktemp -d "$cache_root/.wallpaper.XXXXXX")"
 trap 'rm -rf "$tmp_dir"' EXIT
+rendered="$wallpaper"
+
+if [[ -n "$tint" ]]; then
+  tint_key="$(printf '%s\0%s\0%s\0%s' "$wallpaper" "$mtime" "$size" "$tint" | sha256sum | cut -d ' ' -f 1)"
+  tinted="$cache_root/tinted/$tint_key.png"
+  if [[ ! -f "$tinted" ]]; then
+    "${convert_cmd[@]}" "$wallpaper" -auto-orient -fill "$tint" -colorize 20 "PNG:$tmp_dir/tinted.png"
+    mkdir -p "$cache_root/tinted"
+    mv -T "$tmp_dir/tinted.png" "$tinted"
+  fi
+  rendered="$(readlink -f "$tinted")"
+fi
+
+cache_key="$(printf '%s\0%s\0%s\0%s' "$rendered" "$mtime" "$size" "$blur_radius" | sha256sum | cut -d ' ' -f 1)"
+blurred="$cache_dir/$cache_key.png"
 
 if [[ ! -f "$blurred" ]]; then
-  "${convert_cmd[@]}" "$wallpaper" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "PNG:$tmp_dir/blurred.png"
+  "${convert_cmd[@]}" "$rendered" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "PNG:$tmp_dir/blurred.png"
   mv -T "$tmp_dir/blurred.png" "$blurred"
 fi
 
 blurred="$(readlink -f "$blurred")"
 
-awww img -n "$normal_namespace" --resize crop "$wallpaper"
+awww img -n "$normal_namespace" --resize crop "$rendered"
 
 check_pointers
 ln -s "$wallpaper" "$tmp_dir/current.png"
