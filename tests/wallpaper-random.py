@@ -55,6 +55,7 @@ def main():
         display = root / "display"
         display.mkdir()
         log = root / "awww.jsonl"
+        notification_log = root / "notifications.jsonl"
         bin_dir = root / "bin"
         bin_dir.mkdir()
         fake_awww = bin_dir / "awww"
@@ -88,6 +89,25 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
 '''
         )
         fake_awww.chmod(0o755)
+        fake_notify = bin_dir / "notify-send"
+        fake_notify.write_text(
+            f"#!{sys.executable}\n"
+            + '''import json
+import os
+from pathlib import Path
+import sys
+
+args = sys.argv[1:]
+with Path(os.environ["WALLPAPER_TEST_NOTIFICATIONS"]).open("a") as log:
+    log.write(json.dumps(args) + "\\n")
+starting = "--print-id" in args
+if os.environ["WALLPAPER_TEST_FAILURE"] == ("notify-start" if starting else "notify-complete"):
+    sys.exit(1)
+if starting:
+    print(42)
+'''
+        )
+        fake_notify.chmod(0o755)
         env = os.environ.copy()
         env.pop("BASH_ENV", None)
         env.pop("ENV", None)
@@ -101,12 +121,14 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
             WALLPAPER_BLUR_RADIUS="0x1",
             WALLPAPER_TINT="",
             WALLPAPER_TEST_LOG=str(log),
+            WALLPAPER_TEST_NOTIFICATIONS=str(notification_log),
             WALLPAPER_TEST_DISPLAY=str(display),
             MAGICK_THREAD_LIMIT="1",
         )
 
         def invoke(*args, success=True, **overrides):
             log.write_text("")
+            notification_log.write_text("")
             result = subprocess.run(
                 ["bash", str(HELPER), *args],
                 cwd=home,
@@ -120,6 +142,17 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
             if not success:
                 assert result.stderr.strip(), "failure must report a diagnostic"
             return [json.loads(line) for line in log.read_text().splitlines()]
+
+        def notifications():
+            return [json.loads(line) for line in notification_log.read_text().splitlines()]
+
+        def rendered_notification():
+            start, complete = notifications()
+            assert "--print-id" in start
+            assert "--replace-id=42" in complete
+            for args, maximum in ((start, 60000), (complete, 5000)):
+                timeout = next(arg.split("=", 1)[1] for arg in args if arg.startswith("--expire-time="))
+                assert 0 < int(timeout) <= maximum, args
 
         def published(*, tinted=False):
             targets = []
@@ -151,6 +184,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
             ).stdout
 
         invoke(WALLPAPER_DIR=str(single), WALLPAPER_TEST_FAILURE="missing-overview")
+        rendered_notification()
         previous = published()
         assert previous[0] == first
         assert not (display / "overview").exists()
@@ -168,6 +202,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
         assert links[0].resolve(strict=True) == first, "theme replacement retargeted the wallpaper"
         cached = current[1].stat()
         invoke("--refresh")
+        assert not notifications(), "cache hit sent a rendering notification"
         assert published() == current
         assert current[1].stat().st_ino == cached.st_ino
         assert current[1].stat().st_mtime_ns == cached.st_mtime_ns
@@ -196,6 +231,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
         assert published() == current
         cache_entries = set(cache.rglob("*"))
         assert not invoke(success=False, WALLPAPER_DIR=str(broken))
+        assert len(notifications()) == 1 and "--print-id" in notifications()[0]
         assert published() == current
         assert set(cache.rglob("*")) == cache_entries, "conversion failure leaked temporary assets"
 
@@ -250,6 +286,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
 
         source = current[0]
         invoke("--refresh", WALLPAPER_TINT="#00ff00")
+        rendered_notification()
         current = published(tinted=True)
         tinted = Path((display / "normal").read_text())
         assert current[0] == source, "tint replaced the selected source"
@@ -260,6 +297,7 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
 
         cached = [(image, image.stat()) for image in (tinted, current[1])]
         invoke("--refresh", WALLPAPER_TINT="#00ff00")
+        assert not notifications(), "tinted cache hit sent a rendering notification"
         assert published(tinted=True) == current
         assert Path((display / "normal").read_text()) == tinted
         for image, before in cached:
@@ -286,6 +324,16 @@ state = Path(os.environ["WALLPAPER_TEST_DISPLAY"])
         current = published()
         assert current[0] == source
         assert pixel(current[1]) == pixel(source), "clearing tint retained the tinted blur"
+
+        for failure in ("notify-start", "notify-complete"):
+            current[1].unlink()
+            invoke("--refresh", WALLPAPER_TEST_FAILURE=failure)
+            assert published() == current
+            assert pixel(current[1]) == pixel(source), "notification failure prevented rendering"
+            if failure == "notify-start":
+                assert len(notifications()) == 1 and "--print-id" in notifications()[0]
+            else:
+                rendered_notification()
 
     print("wallpaper-random: behavior checks passed")
 

@@ -12,6 +12,18 @@ blur_radius="${WALLPAPER_BLUR_RADIUS:-0x18}"
 tint="${WALLPAPER_TINT:-}"
 refresh=false
 
+render_notified=false
+notification_id=""
+
+notify_rendering() {
+  if ! $render_notified; then
+    render_notified=true
+    if command -v notify-send >/dev/null 2>&1; then
+      notification_id="$(notify-send --print-id --expire-time=30000 "Rendering wallpaper" 2>/dev/null)" || notification_id=""
+    fi
+  fi
+}
+
 die() {
   printf 'wallpaper-random: %s\n' "$*" >&2
   exit 1
@@ -84,6 +96,7 @@ if [[ -n "$tint" ]]; then
   tint_key="$(printf '%s\0%s\0%s\0%s' "$wallpaper" "$mtime" "$size" "$tint" | sha256sum | cut -d ' ' -f 1)"
   tinted="$cache_root/tinted/$tint_key.png"
   if [[ ! -f "$tinted" ]]; then
+    notify_rendering
     "${convert_cmd[@]}" "$wallpaper" -auto-orient -fill "$tint" -colorize 20 "PNG:$tmp_dir/tinted.png"
     mkdir -p "$cache_root/tinted"
     mv -T "$tmp_dir/tinted.png" "$tinted"
@@ -95,8 +108,13 @@ cache_key="$(printf '%s\0%s\0%s\0%s' "$rendered" "$mtime" "$size" "$blur_radius"
 blurred="$cache_dir/$cache_key.png"
 
 if [[ ! -f "$blurred" ]]; then
+  notify_rendering
   "${convert_cmd[@]}" "$rendered" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "PNG:$tmp_dir/blurred.png"
   mv -T "$tmp_dir/blurred.png" "$blurred"
+fi
+
+if [[ -n "$notification_id" ]]; then
+  notify-send --replace-id="$notification_id" --expire-time=2000 "Wallpaper rendered" >/dev/null 2>&1 || true
 fi
 
 blurred="$(readlink -f "$blurred")"
