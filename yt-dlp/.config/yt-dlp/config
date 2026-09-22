@@ -3,9 +3,8 @@
 # runtime). CLI args override anything here.
 
 # Pass YouTube's "you're not a bot" wall: reuse the logged-in Brave
-# (Flatpak) session cookies. Close Brave first if you hit a cookie-DB
-# lock error.
---cookies-from-browser brave:/home/trev/.var/app/com.brave.Browser/config/BraveSoftware/Brave-Browser/Default
+# session cookies. Close Brave first if you hit a cookie-DB lock error.
+--cookies-from-browser brave
 
 # JS runtime for solving the nsig/n challenge (node from the guix shell).
 --js-runtimes node
