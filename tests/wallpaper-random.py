@@ -197,6 +197,30 @@ if starting:
             previous = current
 
         assert current[0] == first
+        invoke("--file", str(pool / "second.webp"))
+        current = published()
+        assert current[0] == second, "explicit selection did not resolve a pool symlink"
+        invoke("--file", "Pictures/Wallpapers/nested/first.PNG")
+        current = published()
+        assert current[0] == first, "relative selection with a nested pool entry failed"
+        assert (display / "overview").read_text() == str(current[1])
+
+        invalid_extension = pool / "notes.txt"
+        invalid_extension.write_text("not a wallpaper\n")
+        for selection in (
+            str(first),  # The target exists, but the entry is outside the pool.
+            str(pool / "../../themes/first/background image.png"),
+            str(invalid_extension),
+            str(pool / "missing.png"),
+            "",
+        ):
+            assert not invoke("--file", selection, success=False)
+            assert published() == current
+
+        invoke("--file", str(pool / "second.webp"), success=False,
+               WALLPAPER_TEST_FAILURE="normal")
+        assert published() == current, "failed display changed the selected image"
+
         theme_current.unlink()
         theme_current.symlink_to("second", target_is_directory=True)
         assert links[0].resolve(strict=True) == first, "theme replacement retargeted the wallpaper"
