@@ -39,7 +39,7 @@ urgent = "#ef4444"
 font_family = "Noto Sans, Iosevka, Symbols Nerd Font Mono, Symbols Nerd Font"
 
 [advanced]
-compositor = "hyprland"
+compositor = "auto"
 pango_font_rendering = true
 
 [updates]
