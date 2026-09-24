@@ -359,6 +359,17 @@ if starting:
             else:
                 rendered_notification()
 
+        # The picker passes pool entries with spaces; invalid images preserve pointers.
+        spaced = pool / "selected wallpaper.png"
+        spaced.symlink_to(first)
+        invoke("--file", str(spaced))
+        selected = published()
+        assert selected[0] == first
+        broken_entry = pool / "broken image.png"
+        broken_entry.symlink_to(broken / "broken.png")
+        assert not invoke("--file", str(broken_entry), success=False)
+        assert published() == selected
+
     print("wallpaper-random: behavior checks passed")
 
 

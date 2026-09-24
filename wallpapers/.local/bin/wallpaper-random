@@ -100,6 +100,15 @@ else
   die "ImageMagick is not on PATH"
 fi
 
+# A picker must reject corrupt images before rendering or changing cache pointers.
+if [[ -n "$selected_file" ]]; then
+  if command -v magick >/dev/null 2>&1; then
+    magick identify -ping "$wallpaper" >/dev/null 2>&1 || die "selected wallpaper is not a readable image: $selected_file"
+  else
+    identify -ping "$wallpaper" >/dev/null 2>&1 || die "selected wallpaper is not a readable image: $selected_file"
+  fi
+fi
+
 mkdir -p "$cache_dir"
 
 mtime="$(stat -c %y "$wallpaper")"
