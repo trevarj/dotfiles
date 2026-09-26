@@ -36,6 +36,22 @@ check_pointers() {
   done
 }
 
+canonicalize() {
+  # A NUL terminator keeps trailing newlines in pathnames intact.
+  IFS= read -r -d '' "$1" < <(readlink -f -z -- "$2")
+}
+
+supported_wallpaper() {
+  local name="$1"
+  while [[ "$name" == *$'\n' ]]; do
+    name="${name%$'\n'}"
+  done
+  case "${name,,}" in
+    *.jpg|*.jpeg|*.png|*.webp) ;;
+    *) return 1 ;;
+  esac
+}
+
 if [[ $# -eq 1 && "$1" == "--refresh" ]]; then
   refresh=true
 elif [[ $# -eq 2 && "$1" == "--file" ]]; then
@@ -51,31 +67,29 @@ check_pointers
 
 current=""
 if [[ -f "$current_wallpaper" ]]; then
-  current="$(readlink -f "$current_wallpaper")"
+  canonicalize current "$current_wallpaper"
 fi
 
 if [[ -n "$selected_file" ]]; then
   # Validate the pool entry, while allowing its image to be a symlink.
   [[ -f "$selected_file" ]] || die "$selected_file is not a wallpaper file"
-  case "${selected_file,,}" in
-    *.jpg|*.jpeg|*.png|*.webp) ;;
-    *) die "$selected_file is not a supported wallpaper image" ;;
-  esac
-  pool_dir="$(readlink -f -- "$wallpaper_dir")"
-  selected_parent="$(readlink -f -- "$(dirname -- "$selected_file")")"
+  supported_wallpaper "$selected_file" || die "$selected_file is not a supported wallpaper image"
+  canonicalize pool_dir "$wallpaper_dir"
+  IFS= read -r -d '' selected_parent < <(dirname -z -- "$selected_file")
+  canonicalize selected_parent "$selected_parent"
   [[ "$selected_parent" == "$pool_dir" || "$selected_parent" == "$pool_dir/"* ]] ||
     die "$selected_file is outside $wallpaper_dir"
-  wallpaper="$(readlink -f -- "$selected_file")"
+  canonicalize wallpaper "$selected_file"
 elif $refresh; then
   [[ -n "$current" ]] || die "no current wallpaper cache exists; run wallpaper-random first"
   wallpaper="$current"
 else
-  shopt -s nullglob globstar nocaseglob
+  shopt -s nullglob globstar
   wallpapers=()
   current_in_pool=false
-  for path in "$wallpaper_dir"/**/*.jpg "$wallpaper_dir"/**/*.jpeg "$wallpaper_dir"/**/*.png "$wallpaper_dir"/**/*.webp; do
-    [[ -f "$path" ]] || continue
-    path="$(readlink -f "$path")"
+  for path in "$wallpaper_dir"/**/*; do
+    [[ -f "$path" ]] && supported_wallpaper "$path" || continue
+    canonicalize path "$path"
     if [[ "$path" == "$current" ]]; then
       current_in_pool=true
     else

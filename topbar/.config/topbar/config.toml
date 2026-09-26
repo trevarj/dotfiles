@@ -26,6 +26,9 @@ world_clocks = [
 on_click_right = "loginctl lock-session"
 mic = "always"
 
+[widgets.os_logo]
+on_click = "topbar launcher toggle"
+
 [theme]
 accent = "#70B49B"
 blur = true

@@ -460,21 +460,8 @@ layer-rule {
     geometry-corner-radius 12
 }
 
-layer-rule {
-    // fuzzel
-    match namespace="^launcher$"
-    shadow {
-        on
-    }
-    geometry-corner-radius 12
-    background-effect {
-        xray false
-        blur true
-    }
-}
-
-// Make top and overlay layers use the regular blur (if enabled),
-// while bottom and background layers keep using the efficient xray blur.
+// General top and overlay surfaces use ordinary blur; the launcher below
+// specifically asks niri for blurred wallpaper through its xray effect.
 layer-rule {
     match layer="top"
     match layer="overlay"
@@ -483,6 +470,22 @@ layer-rule {
         xray false
     }
 }
+
+layer-rule {
+    match namespace="^topbar-launcher$"
+    background-effect {
+        xray true
+    }
+}
+
+layer-rule {
+    match namespace=r#"^topbar-(dialog|chooser|pinentry)$"#
+    background-effect {
+        xray false
+        blur true
+    }
+}
+
 
 workspace "browser"
 workspace "emacs"
@@ -589,7 +592,7 @@ binds {
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+Return hotkey-overlay-title="Open terminal (kitty)" { spawn "kitty"; }
-    Mod+E hotkey-overlay-title="Run fuzzel" { spawn "fuzzel"; }
+    Mod+E repeat=false hotkey-overlay-title="Open launcher" { spawn "topbar" "launcher" "toggle"; }
     Mod+Alt+L hotkey-overlay-title="Lock screen with hyprlock" { spawn "hyprlock"; }
     Mod+B hotkey-overlay-title="Launch Brave" { spawn "~/.local/bin/browser"; }
 
