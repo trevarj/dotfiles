@@ -460,8 +460,8 @@ layer-rule {
     geometry-corner-radius 12
 }
 
-// General top and overlay surfaces use ordinary blur; the launcher below
-// specifically asks niri for blurred wallpaper through its xray effect.
+// General top and overlay surfaces use ordinary blur. Blur modal backdrops
+// across the output while leaving their centered foreground surfaces clear.
 layer-rule {
     match layer="top"
     match layer="overlay"
@@ -472,14 +472,15 @@ layer-rule {
 }
 
 layer-rule {
-    match namespace="^topbar-launcher$"
+    match namespace=r#"^topbar-(launcher|chooser)-backdrop$"#
     background-effect {
-        xray true
+        xray false
+        blur true
     }
 }
 
 layer-rule {
-    match namespace=r#"^topbar-(dialog|chooser|pinentry)$"#
+    match namespace=r#"^topbar-(dialog|pinentry)$"#
     background-effect {
         xray false
         blur true
