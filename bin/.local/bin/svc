@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #
-# Dispatch user-service actions to whichever supervisor this host runs:
-# Shepherd under Guix Home, systemd --user under Home Manager.
+# Dispatch user-service actions to Shepherd under Guix Home or systemd --user
+# under Home Manager. Niri itself owns the topbar process on both.
 #
 #   svc <action> <service>...  forward an action (start/stop/restart/status)
 #   svc session-start          hand the Wayland session env to the supervisor,
@@ -9,8 +9,8 @@
 #
 set -eu
 
-# Unit names are identical under both supervisors, so this list is host-neutral.
-SESSION_DAEMONS='gnome-topbar hypridle awww-normal awww-overview'
+# Niri starts topbar; the supervisor starts the remaining graphical services.
+SESSION_DAEMONS='hypridle awww-normal awww-overview'
 
 # Variables niri only sets once the session is up. Shepherd is started at login,
 # long before that, so it never inherits them and its children would otherwise
@@ -47,6 +47,25 @@ shepherd_import_env() {
 	done
 }
 
+restart_niri_topbar() {
+	lock="${XDG_RUNTIME_DIR:?svc: XDG_RUNTIME_DIR is required}/topbar.lock"
+	# ponytail: the existing lock identifies the daemon; leave CLI and app PIDs alone.
+	for pid in $(pgrep -u "$(id -u)" -x 'topbar|\.topbar-wrapped' || :); do
+		for fd in /proc/"$pid"/fd/*; do
+			if [ "$fd" -ef "$lock" ]; then
+				kill "$pid"
+				break
+			fi
+		done
+	done
+	# The lock is released on exit; spawning sooner can lose to the old panel.
+	flock -w 5 "$lock" true || {
+		echo "svc: timed out waiting for topbar to exit" >&2
+		return 1
+	}
+	niri msg action spawn -- topbar
+}
+
 session_start() {
 	if using_shepherd; then
 		shepherd_import_env
@@ -66,6 +85,7 @@ session_start() {
 	else
 		no_supervisor
 	fi
+	niri msg action spawn -- topbar
 }
 
 action=${1-}
@@ -85,11 +105,19 @@ session-start)
 		exit 2
 	}
 	if using_shepherd; then
+		if [ "$action" = restart ] && [ "$#" -eq 1 ] && [ "$1" = topbar ]; then
+			restart_niri_topbar
+			exit
+		fi
 		for unit in "$@"; do
 			herd "$action" "$unit"
 		done
 	elif using_systemd; then
-		systemctl --user "$action" "$@"
+		if [ "$action" = restart ] && [ "$#" -eq 1 ] && [ "$1" = topbar ]; then
+			restart_niri_topbar
+		else
+			systemctl --user "$action" "$@"
+		fi
 	else
 		no_supervisor
 	fi
