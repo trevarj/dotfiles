@@ -119,7 +119,6 @@ if starting:
             WALLPAPER_NORMAL_NAMESPACE="test-normal",
             WALLPAPER_OVERVIEW_NAMESPACE="test-overview",
             WALLPAPER_BLUR_RADIUS="0x1",
-            WALLPAPER_TINT="",
             WALLPAPER_TEST_LOG=str(log),
             WALLPAPER_TEST_NOTIFICATIONS=str(notification_log),
             WALLPAPER_TEST_DISPLAY=str(display),
@@ -154,7 +153,7 @@ if starting:
                 timeout = next(arg.split("=", 1)[1] for arg in args if arg.startswith("--expire-time="))
                 assert 0 < int(timeout) <= maximum, args
 
-        def published(*, tinted=False):
+        def published():
             targets = []
             for link in links:
                 assert link.is_symlink(), link
@@ -164,7 +163,7 @@ if starting:
                 targets.append(target)
             normal = Path((display / "normal").read_text())
             assert normal.is_absolute() and normal.is_file(), normal
-            assert (normal != targets[0]) == tinted, normal
+            assert normal == targets[0], "normal display did not use the original image"
             info = subprocess.run(
                 [imagemagick, str(targets[1]), "-format", "%m %wx%h", "info:"],
                 check=True,
@@ -187,6 +186,7 @@ if starting:
         rendered_notification()
         previous = published()
         assert previous[0] == first
+        assert not (cache / "tinted").exists(), "normal display created a tinted cache"
         assert not (display / "overview").exists()
         for _ in range(6):
             invoke()
@@ -263,11 +263,13 @@ if starting:
         invoke("--refresh", WALLPAPER_BLUR_RADIUS="0x2")
         current = published()
         assert current[0] == first and current[1] != old_blurred
+        assert not old_blurred.exists(), "replaced lockscreen blur remains cached"
         cached = current[1].stat()
         invoke("--refresh", WALLPAPER_BLUR_RADIUS="0x2")
         assert published() == current
         assert current[1].stat().st_ino == cached.st_ino
         assert current[1].stat().st_mtime_ns == cached.st_mtime_ns
+        env["WALLPAPER_BLUR_RADIUS"] = "0x2"
 
         for args, overrides in (
             ((), {"WALLPAPER_DIR": str(empty)}),
@@ -309,45 +311,50 @@ if starting:
         assert published() == current
 
         source = current[0]
-        invoke("--refresh", WALLPAPER_TINT="#00ff00")
-        rendered_notification()
-        current = published(tinted=True)
-        tinted = Path((display / "normal").read_text())
-        assert current[0] == source, "tint replaced the selected source"
-        assert pixel(source) == bytes((255, 0, 0)), "tint modified the source"
-        assert pixel(tinted) == bytes((204, 51, 0)), "normal image is not tinted 20%"
-        assert pixel(current[1]) == pixel(tinted), "blur did not derive from the tinted image"
-        assert (display / "overview").read_text() == str(current[1])
+        assert pixel(current[1]) == pixel(source), "blur did not derive from the original image"
+        original_blur = current[1].stat()
+        tinted_cache = cache / "tinted"
+        tinted_cache.mkdir()
+        legacy_tint = tinted_cache / ("a" * 64 + ".png")
+        stale_blur = cache / "blurred" / ("b" * 64 + ".png")
+        shutil.copyfile(source, legacy_tint)
+        shutil.copyfile(current[1], stale_blur)
+        user_tint = tinted_cache / "keep.png"
+        user_blur = cache / "blurred" / "keep.png"
+        user_tint.write_bytes(b"user tint cache")
+        user_blur.write_bytes(b"user blur cache")
+        outside_cache = cache_storage / "unrelated.png"
+        outside_cache.write_bytes(b"unrelated XDG contents")
+        linked_image = tinted_cache / ("c" * 64 + ".png")
+        linked_image.symlink_to(outside_cache)
 
-        cached = [(image, image.stat()) for image in (tinted, current[1])]
-        invoke("--refresh", WALLPAPER_TINT="#00ff00")
-        assert not notifications(), "tinted cache hit sent a rendering notification"
-        assert published(tinted=True) == current
-        assert Path((display / "normal").read_text()) == tinted
-        for image, before in cached:
-            after = image.stat()
-            assert (after.st_ino, after.st_mtime_ns) == (before.st_ino, before.st_mtime_ns)
-
-        previous_tinted, previous_blurred = tinted, current[1]
-        invoke("--refresh", WALLPAPER_TINT="#0000ff")
-        current = published(tinted=True)
-        tinted = Path((display / "normal").read_text())
-        assert current[0] == source, "changing tint randomized the source"
-        assert tinted != previous_tinted and current[1] != previous_blurred
-        assert pixel(tinted) == bytes((204, 0, 51)), "new tint was not rendered"
-        assert pixel(current[1]) == pixel(tinted), "blur retained the previous tint"
-        assert (display / "overview").read_text() == str(current[1])
-
-        cache_entries = set(cache.rglob("*"))
-        assert not invoke("--refresh", success=False, WALLPAPER_TINT="not-a-color")
-        assert published(tinted=True) == current
-        assert Path((display / "normal").read_text()) == tinted
-        assert set(cache.rglob("*")) == cache_entries, "tint failure leaked temporary assets"
+        invoke("--refresh", success=False, WALLPAPER_TEST_FAILURE="normal")
+        assert legacy_tint.is_file() and stale_blur.is_file(), "failure pruned the cache"
+        assert published() == current
 
         invoke("--refresh")
-        current = published()
-        assert current[0] == source
-        assert pixel(current[1]) == pixel(source), "clearing tint retained the tinted blur"
+        assert not legacy_tint.exists() and not stale_blur.exists(), "stale generated images remain"
+        assert published() == current
+        assert (current[1].stat().st_ino, current[1].stat().st_mtime_ns) == (
+            original_blur.st_ino, original_blur.st_mtime_ns
+        ), "cleanup removed the active blur"
+        assert pixel(source) == bytes((255, 0, 0)), "source wallpaper was modified"
+        assert pixel(current[1]) == pixel(source), "blur did not derive from the source"
+        assert user_tint.read_bytes() == b"user tint cache"
+        assert user_blur.read_bytes() == b"user blur cache"
+        assert linked_image.is_symlink() and outside_cache.read_bytes() == b"unrelated XDG contents"
+
+        linked_image.unlink()
+        user_tint.unlink()
+        tinted_cache.rmdir()
+        outside_dir = cache_storage / "user images"
+        outside_dir.mkdir()
+        outside_image = outside_dir / ("d" * 64 + ".png")
+        outside_image.write_bytes(b"source image outside the cache")
+        tinted_cache.symlink_to(outside_dir, target_is_directory=True)
+        invoke("--refresh")
+        assert outside_image.read_bytes() == b"source image outside the cache"
+        assert tinted_cache.is_symlink()
 
         for failure in ("notify-start", "notify-complete"):
             current[1].unlink()

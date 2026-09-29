@@ -9,7 +9,6 @@ cache_dir="$cache_root/blurred"
 current_wallpaper="$cache_root/current.png"
 current_blurred="$cache_root/current-blurred.png"
 blur_radius="${WALLPAPER_BLUR_RADIUS:-0x18}"
-tint="${WALLPAPER_TINT:-}"
 refresh=false
 selected_file=""
 
@@ -62,6 +61,11 @@ elif [[ $# -gt 0 ]]; then
 fi
 
 command -v awww >/dev/null 2>&1 || die "awww is not on PATH"
+mkdir -p "$cache_root"
+# ponytail: one cache lock keeps concurrent switches from pruning each other's blur.
+[[ ! -L "$cache_root/.wallpaper.lock" ]] || die "wallpaper cache lock is a symlink"
+exec 9>>"$cache_root/.wallpaper.lock"
+flock 9
 [[ -d "$wallpaper_dir" ]] || die "$wallpaper_dir does not exist"
 check_pointers
 
@@ -129,26 +133,12 @@ mtime="$(stat -c %y "$wallpaper")"
 size="$(stat -c %s "$wallpaper")"
 tmp_dir="$(mktemp -d "$cache_root/.wallpaper.XXXXXX")"
 trap 'rm -rf "$tmp_dir"' EXIT
-rendered="$wallpaper"
-
-if [[ -n "$tint" ]]; then
-  tint_key="$(printf '%s\0%s\0%s\0%s' "$wallpaper" "$mtime" "$size" "$tint" | sha256sum | cut -d ' ' -f 1)"
-  tinted="$cache_root/tinted/$tint_key.png"
-  if [[ ! -f "$tinted" ]]; then
-    notify_rendering
-    "${convert_cmd[@]}" "$wallpaper" -auto-orient -fill "$tint" -colorize 20 "PNG:$tmp_dir/tinted.png"
-    mkdir -p "$cache_root/tinted"
-    mv -T "$tmp_dir/tinted.png" "$tinted"
-  fi
-  rendered="$(readlink -f "$tinted")"
-fi
-
-cache_key="$(printf '%s\0%s\0%s\0%s' "$rendered" "$mtime" "$size" "$blur_radius" | sha256sum | cut -d ' ' -f 1)"
+cache_key="$(printf '%s\0%s\0%s\0%s' "$wallpaper" "$mtime" "$size" "$blur_radius" | sha256sum | cut -d ' ' -f 1)"
 blurred="$cache_dir/$cache_key.png"
 
 if [[ ! -f "$blurred" ]]; then
   notify_rendering
-  "${convert_cmd[@]}" "$rendered" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "PNG:$tmp_dir/blurred.png"
+  "${convert_cmd[@]}" "$wallpaper" -auto-orient -resize 3840x2160^ -gravity center -extent 3840x2160 -blur "$blur_radius" "PNG:$tmp_dir/blurred.png"
   mv -T "$tmp_dir/blurred.png" "$blurred"
 fi
 
@@ -158,13 +148,23 @@ fi
 
 blurred="$(readlink -f "$blurred")"
 
-awww img -n "$normal_namespace" --resize crop "$rendered"
+awww img -n "$normal_namespace" --resize crop "$wallpaper"
 
 check_pointers
 ln -s "$wallpaper" "$tmp_dir/current.png"
 ln -s "$blurred" "$tmp_dir/current-blurred.png"
 mv -Tf "$tmp_dir/current.png" "$current_wallpaper"
 mv -Tf "$tmp_dir/current-blurred.png" "$current_blurred"
+
+for dir in "$cache_dir" "$cache_root/tinted"; do
+  [[ -d "$dir" && ! -L "$dir" ]] || continue
+  for image in "$dir"/*; do
+    [[ -f "$image" && ! -L "$image" ]] || continue
+    [[ "${image##*/}" =~ ^[0-9a-f]{64}\.png$ ]] || continue
+    [[ "$image" == "$cache_dir/$cache_key.png" ]] || rm -f -- "$image" || true
+  done
+done
+rmdir "$cache_root/tinted" 2>/dev/null || true
 
 # Treat a missing overview daemon as the user's one-line blur disable in niri.
 if ! awww query -n "$overview_namespace" >/dev/null 2>&1; then
