@@ -19,7 +19,7 @@ notify_rendering() {
   if ! $render_notified; then
     render_notified=true
     if command -v notify-send >/dev/null 2>&1; then
-      notification_id="$(notify-send --print-id --expire-time=30000 "Rendering wallpaper" 2>/dev/null)" || notification_id=""
+      notification_id="$(notify-send --app-name='Theme Switcher' --print-id --expire-time=30000 "Rendering wallpaper" 2>/dev/null)" || notification_id=""
     fi
   fi
 }
@@ -143,7 +143,7 @@ if [[ ! -f "$blurred" ]]; then
 fi
 
 if [[ -n "$notification_id" ]]; then
-  notify-send --replace-id="$notification_id" --expire-time=2000 "Wallpaper rendered" >/dev/null 2>&1 || true
+  notify-send --app-name='Theme Switcher' --replace-id="$notification_id" --expire-time=2000 "Wallpaper rendered" >/dev/null 2>&1 || true
 fi
 
 blurred="$(readlink -f "$blurred")"

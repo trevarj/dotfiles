@@ -38,6 +38,18 @@ policy at `~/.agents/AGENTS.md` with native relative symlinks:
 Nix configurations source the canonical file directly. Project instructions
 remain project-local.
 
+## Wallpapers
+
+`wallpaper-random` reports uncached blur rendering as **Theme Switcher**,
+replacing “Rendering wallpaper” with “Wallpaper rendered” when ready.
+
+Run the helper's isolated behavior checks without changing the desktop wallpaper
+(requires Python 3 and ImageMagick):
+
+```sh
+python3 tests/wallpaper-random.py
+```
+
 ## Remove
 
 Unstow every package:
