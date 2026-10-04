@@ -855,12 +855,4 @@ gestures {
     }
 }
 
-// niri already disables eDP-1 on lid close; this adds the lock. Note it fires
-// while docked to DP-5 with the lid shut too.
-switch-events {
-    lid-close {
-        spawn "loginctl" "lock-session"
-    }
-}
-
 include "~/.config/niri/theme-switcher.kdl"
