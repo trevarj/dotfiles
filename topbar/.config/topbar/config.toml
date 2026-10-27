@@ -45,5 +45,9 @@ font_family = "Noto Sans, Iosevka, Symbols Nerd Font Mono, Symbols Nerd Font"
 compositor = "auto"
 pango_font_rendering = true
 
+[advanced.mango]
+persistent_tags = [1, 2, 3]
+keyboard_layouts = ["English (US)", "Russian"]
+
 [updates]
 flake = "~/Workspace/trev-nix"
