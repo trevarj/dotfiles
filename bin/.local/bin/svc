@@ -47,7 +47,7 @@ shepherd_import_env() {
 	done
 }
 
-restart_niri_topbar() {
+restart_topbar() {
 	lock="${XDG_RUNTIME_DIR:?svc: XDG_RUNTIME_DIR is required}/topbar.lock"
 	# ponytail: the existing lock identifies the daemon; leave CLI and app PIDs alone.
 	for pid in $(pgrep -u "$(id -u)" -x 'topbar|\.topbar-wrapped' || :); do
@@ -63,7 +63,10 @@ restart_niri_topbar() {
 		echo "svc: timed out waiting for topbar to exit" >&2
 		return 1
 	}
-	niri msg action spawn -- topbar
+	case ":${XDG_CURRENT_DESKTOP-}:" in
+	*:mango:*) mmsg dispatch spawn,topbar ;;
+	*) niri msg action spawn -- topbar ;;
+	esac
 }
 
 session_start() {
@@ -106,7 +109,7 @@ session-start)
 	}
 	if using_shepherd; then
 		if [ "$action" = restart ] && [ "$#" -eq 1 ] && [ "$1" = topbar ]; then
-			restart_niri_topbar
+			restart_topbar
 			exit
 		fi
 		for unit in "$@"; do

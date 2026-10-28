@@ -26,9 +26,13 @@ with (root / "calls").open("a") as output:
     output.write(json.dumps([name, *args]) + "\n")
 if name == "herd":
     sys.exit(0 if os.environ["SVC_TEST_SUPERVISOR"] == "shepherd" else 1)
-if name == "niri":
-    assert args == ["msg", "action", "spawn", "--", "topbar"], args
-    env = os.environ | {"NIRI_ENV": "from-niri"}
+if name in ("niri", "mmsg"):
+    if name == "niri":
+        assert args == ["msg", "action", "spawn", "--", "topbar"], args
+        env = os.environ | {"NIRI_ENV": "from-niri"}
+    else:
+        assert args == ["dispatch", "spawn,topbar"], args
+        env = os.environ | {"MANGO_ENV": "from-mango"}
     subprocess.Popen([sys.executable, str(root / "panel.py")], env=env,
                      start_new_session=True, stdin=subprocess.DEVNULL,
                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
@@ -53,7 +57,7 @@ lock = (root / "runtime/topbar.lock").open("a+")
 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
 child = subprocess.Popen(["sleep", "60"])
 with (root / "panels").open("a") as output:
-    output.write(json.dumps([os.getpid(), child.pid, os.environ.get("NIRI_ENV")]) + "\n")
+    output.write(json.dumps([os.getpid(), child.pid, os.environ.get("NIRI_ENV") or os.environ.get("MANGO_ENV")]) + "\n")
 signal.signal(signal.SIGTERM, lambda *_: (time.sleep(0.2), sys.exit(0)))
 while True:
     time.sleep(1)
@@ -70,7 +74,7 @@ def main():
         (root / "bin/mock.py").write_text("#!" + sys.executable + "\n" + MOCK)
         (root / "bin/mock.py").chmod(0o755)
         (root / "panel.py").write_text(PANEL)
-        for name in ("herd", "systemctl", "niri"):
+        for name in ("herd", "systemctl", "niri", "mmsg"):
             (root / "bin" / name).symlink_to("mock.py")
         env = os.environ | {
             "PATH": str(root / "bin") + ":" + os.environ["PATH"],
@@ -81,9 +85,10 @@ def main():
             "XDG_CURRENT_DESKTOP": "niri",
         }
 
-        def invoke(*args, supervisor="systemd"):
-            subprocess.run(["sh", str(SVC), *args], env=env | {"SVC_TEST_SUPERVISOR": supervisor},
-                           check=True, timeout=10)
+        def invoke(*args, supervisor="systemd", desktop="niri"):
+            subprocess.run(["sh", str(SVC), *args], env=env | {
+                "SVC_TEST_SUPERVISOR": supervisor, "XDG_CURRENT_DESKTOP": desktop},
+                check=True, timeout=10)
 
         def calls():
             return [json.loads(line) for line in (root / "calls").read_text().splitlines()]
@@ -105,22 +110,23 @@ def main():
 
         decoy = None
         try:
-            (root / "calls").write_text("")
-            invoke("session-start")
-            assert [call for call in calls() if call[:3] == ["systemctl", "--user", "start"]] == [
-                ["systemctl", "--user", "start", unit]
-                for unit in ("hypridle", "awww-normal", "awww-overview", "topbar")
-            ], calls()
-            assert any(call[:3] == ["systemctl", "--user", "import-environment"]
-                       for call in calls()), calls()
-            invoke("restart", "topbar")
-            assert calls()[-1] == ["systemctl", "--user", "restart", "topbar"]
-            invoke("restart", "topbar", "awww-normal")
-            assert calls()[-1] == ["systemctl", "--user", "restart", "topbar", "awww-normal"]
-            invoke("restart", "awww-normal")
-            assert calls()[-1] == ["systemctl", "--user", "restart", "awww-normal"]
-            assert not any(call[0] == "niri" for call in calls()), calls()
-            assert not (root / "panels").read_text(), "systemd spawned a compositor-owned panel"
+            for desktop in ("niri", "mango"):
+                (root / "calls").write_text("")
+                invoke("session-start", desktop=desktop)
+                assert [call for call in calls() if call[:3] == ["systemctl", "--user", "start"]] == [
+                    ["systemctl", "--user", "start", unit]
+                    for unit in ("hypridle", "awww-normal", "awww-overview", "topbar")
+                ], calls()
+                assert any(call[:3] == ["systemctl", "--user", "import-environment"]
+                           for call in calls()), calls()
+                invoke("restart", "topbar", desktop=desktop)
+                assert calls()[-1] == ["systemctl", "--user", "restart", "topbar"]
+                invoke("restart", "topbar", "awww-normal", desktop=desktop)
+                assert calls()[-1] == ["systemctl", "--user", "restart", "topbar", "awww-normal"]
+                invoke("restart", "awww-normal", desktop=desktop)
+                assert calls()[-1] == ["systemctl", "--user", "restart", "awww-normal"]
+                assert not any(call[0] in ("niri", "mmsg") for call in calls()), calls()
+                assert not (root / "panels").read_text(), "systemd spawned a compositor-owned panel"
             # A same-named CLI process does not own the lock and must not be killed.
             decoy = subprocess.Popen(
                 [sys.executable, "-c",
@@ -156,6 +162,17 @@ def main():
             invoke("restart", "awww-normal", supervisor="shepherd")
             assert calls()[-1] == ["herd", "restart", "awww-normal"]
 
+            invoke("restart", "topbar", desktop="mango", supervisor="shepherd")
+            mango = panels(3)[2]
+            assert mango[0] != guix_restarted[0] and mango[2] == "from-mango", mango
+            assert b"MANGO_ENV=from-mango" in Path(f"/proc/{mango[1]}/environ").read_bytes()
+            assert not alive(guix_restarted[0]) and alive(guix_restarted[1]), "Mango restart killed an app child"
+            assert alive(decoy.pid), "Mango restart killed a same-named client"
+            assert [call for call in calls() if call[0] == "mmsg"] == [
+                ["mmsg", "dispatch", "spawn,topbar"],
+            ], calls()
+            assert not any("topbar" in call for call in calls() if call[0] == "herd"), calls()
+
         finally:
             if decoy is not None:
                 decoy.terminate()
@@ -164,7 +181,7 @@ def main():
                 for pid in (panel, child):
                     if alive(pid):
                         os.kill(pid, signal.SIGTERM)
-    print("svc: systemd owns topbar; Shepherd Niri restarts preserve app children")
+    print("svc: systemd owns topbar; Shepherd Niri/Mango restarts preserve app children")
 
 
 if __name__ == "__main__":
