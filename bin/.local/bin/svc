@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 #
 # Dispatch user-service actions to Shepherd under Guix Home or systemd --user
-# under Home Manager. The compositor itself owns the topbar process on both.
+# under Home Manager. Shepherd leaves topbar owned by the compositor.
 #
 #   svc <action> <service>...  forward an action (start/stop/restart/status)
 #   svc session-start          hand the Wayland session env to the supervisor,
@@ -9,7 +9,7 @@
 #
 set -eu
 
-# Niri starts topbar; the supervisor starts the remaining graphical services.
+# Shepherd starts these daemons; systemd also owns topbar.
 SESSION_DAEMONS='hypridle awww-normal awww-overview'
 
 # Variables niri only sets once the session is up. Shepherd is started at login,
@@ -47,7 +47,7 @@ shepherd_import_env() {
 	done
 }
 
-restart_topbar() {
+restart_niri_topbar() {
 	lock="${XDG_RUNTIME_DIR:?svc: XDG_RUNTIME_DIR is required}/topbar.lock"
 	# ponytail: the existing lock identifies the daemon; leave CLI and app PIDs alone.
 	for pid in $(pgrep -u "$(id -u)" -x 'topbar|\.topbar-wrapped' || :); do
@@ -63,10 +63,7 @@ restart_topbar() {
 		echo "svc: timed out waiting for topbar to exit" >&2
 		return 1
 	}
-	case ":${XDG_CURRENT_DESKTOP-}:" in
-	*:mango:*) mmsg dispatch spawn,topbar ;;
-	*) niri msg action spawn -- topbar ;;
-	esac
+	niri msg action spawn -- topbar
 }
 
 session_start() {
@@ -76,19 +73,19 @@ session_start() {
 			herd start "$unit" >/dev/null ||
 				echo "svc: failed to start $unit" >&2
 		done
+		niri msg action spawn -- topbar
 	elif using_systemd; then
 		# Home Manager binds these to graphical-session.target, so this is
 		# normally a no-op; it stays here so both hosts take the same path.
 		# shellcheck disable=SC2086
 		systemctl --user import-environment $SESSION_ENV
-		for unit in $SESSION_DAEMONS; do
+		for unit in $SESSION_DAEMONS topbar; do
 			systemctl --user start "$unit" ||
 				echo "svc: failed to start $unit" >&2
 		done
 	else
 		no_supervisor
 	fi
-	niri msg action spawn -- topbar
 }
 
 action=${1-}
@@ -109,18 +106,14 @@ session-start)
 	}
 	if using_shepherd; then
 		if [ "$action" = restart ] && [ "$#" -eq 1 ] && [ "$1" = topbar ]; then
-			restart_topbar
+			restart_niri_topbar
 			exit
 		fi
 		for unit in "$@"; do
 			herd "$action" "$unit"
 		done
 	elif using_systemd; then
-		if [ "$action" = restart ] && [ "$#" -eq 1 ] && [ "$1" = topbar ]; then
-			restart_topbar
-		else
-			systemctl --user "$action" "$@"
-		fi
+		systemctl --user "$action" "$@"
 	else
 		no_supervisor
 	fi
