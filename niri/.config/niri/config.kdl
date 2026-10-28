@@ -381,6 +381,15 @@ animations {
         curve "ease-out-quad"
     }
 
+    layer-open {
+        spring damping-ratio=0.70 stiffness=650 epsilon=0.001
+    }
+
+    layer-close {
+        duration-ms 150
+        curve "ease-out-quad"
+    }
+
     horizontal-view-movement {
         spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
     }
@@ -452,6 +461,19 @@ blur {
     offset 3.0
     noise 0.02
     saturation 1.5
+}
+
+// Keep wallpapers, persistent panels, and full-output modal backdrops still.
+layer-rule {
+    match layer="background"
+    match exclusive-zone="exclusive"
+    match namespace=r#"^awww-daemon\.?overview$"#
+    match namespace=r#"^topbar-((launcher|chooser)-backdrop|click-catcher)$"#
+
+    animations {
+        layer-open { off; }
+        layer-close { off; }
+    }
 }
 
 layer-rule {
