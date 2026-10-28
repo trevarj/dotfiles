@@ -25,6 +25,20 @@ Stow every top-level package into `$HOME`:
 `sync.sh` skips `_untracked` and handles Firefox by stowing into the detected
 `default-release` profile's `chrome` directory.
 
+## Fonts and Kitty themes
+
+The `fonts` package installs fontconfig policy, not font binaries. Install Iosevka
+(including SS12 where selected), Noto, Noto Color Emoji, Terminus, and the Symbols
+Nerd Font families through the host package manager. Waybar's optional crypto
+module also needs CryptoFont. Native Nerd Symbols can have different glyph
+metrics from the formerly vendored, locally adjusted copies.
+
+Kitty loads its local `current-theme.conf` when present, then the generated
+`~/.local/share/trev-themes/current/kitty.conf`. Without a runtime bundle, Kitty
+reports the missing include and keeps its local defaults. Managed Nix homes link
+only `kitty.conf`: stowing Kitty's automatic light/dark theme files would override
+the runtime colors.
+
 ## Global agent guidance
 
 Edit only `agents/.agents/AGENTS.md`. Stowing `agents` installs this shared
