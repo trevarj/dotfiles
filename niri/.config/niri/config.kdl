@@ -398,6 +398,11 @@ animations {
         spring damping-ratio=0.90 stiffness=800 epsilon=0.0001
     }
 
+    column-tab-switch {
+        spring damping-ratio=0.90 stiffness=800 epsilon=0.0001
+        direction "vertical"
+    }
+
     window-resize {
         spring damping-ratio=0.90 stiffness=800 epsilon=0.0001
     }
