@@ -30,7 +30,7 @@
         ),
         (
             name: "Artists",
-            pane: Pane(Artists),
+            pane: Pane(AlbumArtists),
         ),
         (
             name: "Albums",

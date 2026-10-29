@@ -74,6 +74,9 @@ bundle before starting Mango. Niri remains the default/recovery session.
 Layer blur samples live content (`blur_optimized=0`), matching Niri popovers.
 This costs more GPU time than Mango's wallpaper-only cache.
 
+Workspace changes retain a small overshoot; window open/move animations keep
+their stronger curve.
+
 Native lid bindings disable `eDP-1` on fold and enable it on unfold. At startup,
 Mango also checks logind's `LidClosed` property and disables `eDP-1` if the lid is
 already closed, leaving the external output available for initial focus. This

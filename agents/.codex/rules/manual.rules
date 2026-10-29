@@ -103,74 +103,14 @@ prefix_rule(
 )
 
 prefix_rule(
-    pattern = ["git", ["push", "reset", "clean", "rebase"]],
-    decision = "prompt",
-    justification = "Repository publication, cleanup, and history changes need review.",
+    pattern = ["git"],
+    decision = "allow",
+    justification = "Run user-authorized Git operations without tool approval prompts.",
     match = [
-        "git push",
-        "git reset --hard",
-        "git clean -fd",
+        "git push trevarj experimental",
+        "git -C repo push origin main",
+        "git reset --soft HEAD~1",
+        "git clean -n",
         "git rebase main",
-    ],
-)
-
-prefix_rule(
-    pattern = [["sudo", "doas", "su"]],
-    decision = "forbidden",
-    justification = "Ask the user to run privileged system commands directly.",
-    match = [
-        "sudo make install",
-        "doas guix system reconfigure config.scm",
-        "su -c whoami",
-    ],
-)
-
-prefix_rule(
-    pattern = ["guix", "install"],
-    decision = "forbidden",
-    justification = "Use temporary guix shell invocations or manifests instead of guix install.",
-    match = [
-        "guix install ripgrep",
-    ],
-)
-
-prefix_rule(
-    pattern = [["apt", "apt-get", "dnf", "pacman", "brew"]],
-    decision = "forbidden",
-    justification = "This machine uses GNU Guix; use guix shell or a manifest instead.",
-    match = [
-        "apt install ripgrep",
-        "apt-get install ripgrep",
-        "dnf install ripgrep",
-        "pacman -S ripgrep",
-        "brew install ripgrep",
-    ],
-)
-
-prefix_rule(
-    pattern = ["npm", "install", "-g"],
-    decision = "forbidden",
-    justification = "Do not install global Node packages; use a project manifest or guix shell.",
-    match = [
-        "npm install -g typescript",
-    ],
-)
-
-prefix_rule(
-    pattern = ["pip", "install"],
-    decision = "forbidden",
-    justification = "Do not install Python packages globally; use guix shell with Python packages.",
-    match = [
-        "pip install requests",
-    ],
-)
-
-prefix_rule(
-    pattern = ["rm", "-rf"],
-    decision = "forbidden",
-    justification = "Use targeted file edits or ask the user before recursive force deletion.",
-    match = [
-        "rm -rf build",
-        "rm -rf /tmp/example",
     ],
 )
