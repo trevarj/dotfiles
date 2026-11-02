@@ -1,0 +1,311 @@
+# Shared preferences; physical-output widget placement belongs to the host.
+[shell]
+font_family = "Noto Sans"
+telemetry_enabled = false
+external_ip_enabled = false
+polkit_agent = true
+launch_apps_as_systemd_services = true
+clipboard_enabled = true
+clipboard_history_max_entries = 100
+clipboard_auto_paste = "off"
+clipboard_confirm_clear_history = true
+
+[shell.screenshot]
+copy_to_clipboard = true
+save_to_file = true
+annotate = false
+pipe_to_command = false
+
+[shell.animation]
+enabled = true
+speed = 1.0
+
+[shell.shadow]
+direction = "down"
+alpha = 0.35
+
+[shell.panel]
+transparency_mode = "soft"
+shadow = true
+launcher_placement = "floating"
+clipboard_placement = "floating"
+control_center_placement = "attached"
+wallpaper_placement = "attached"
+session_placement = "attached"
+launcher_position = "center"
+clipboard_position = "center"
+
+[shell.launcher]
+layout = "full"
+default_view = "recent"
+categories = true
+show_navigation_labels = true
+track_usage = true
+sort_by_usage = true
+
+[dock]
+enabled = false
+
+[desktop_widgets]
+enabled = false
+
+[system.monitor]
+enabled = true
+
+[control_center]
+hidden_tabs = []
+
+[control_center.media]
+show_visualizer = false
+
+[[control_center.shortcuts]]
+type = "dark_mode"
+
+[[control_center.shortcuts]]
+type = "wallpaper"
+
+[[control_center.shortcuts]]
+type = "clipboard"
+
+[[control_center.shortcuts]]
+type = "notification"
+
+[[control_center.shortcuts]]
+type = "caffeine"
+
+[[control_center.shortcuts]]
+type = "session"
+
+[wallpaper]
+directory = "~/Pictures/Wallpapers"
+enabled = true
+fill_mode = "crop"
+transition = ["fade"]
+transition_duration = 600
+
+[wallpaper.automation]
+enabled = false
+
+[theme]
+source = "wallpaper"
+wallpaper_scheme = "soft"
+mode = "dark"
+shell_mode = "follow"
+pure_black_dark = false
+sync_color_scheme = false
+
+[nightlight]
+enabled = false
+
+[location]
+auto_locate = false
+address = ""
+
+[weather]
+enabled = true
+unit = "metric"
+refresh_minutes = 30
+
+[storage]
+key_source = "secret-service"
+
+[notification]
+enable_daemon = true
+position = "top_center"
+follow_focused_output = true
+max_visible = 3
+layer = "top"
+history_retention_hours = 168
+filter_order = ["quiet"]
+
+[notification.filter.quiet]
+enabled = true
+match_content = ".*"
+play_sound = false
+show_toast = true
+save_history = true
+
+[idle]
+pre_action_fade_seconds = 0
+behavior_order = ["dim", "lock", "screen-off", "locked-off"]
+
+[idle.behavior.dim]
+enabled = true
+timeout = 150
+locked_timeout = 0
+action = "command"
+
+[idle.behavior.lock]
+enabled = true
+timeout = 600
+locked_timeout = 0
+action = "lock"
+
+[idle.behavior.screen-off]
+enabled = true
+timeout = 601
+locked_timeout = 0
+action = "screen_off"
+
+[idle.behavior.locked-off]
+enabled = true
+timeout = 0
+locked_timeout = 30
+action = "screen_off"
+
+[lockscreen]
+enabled = true
+lock_before_suspend = true
+grace_period_seconds = 0
+allow_empty_password = false
+blurred_desktop = false
+blur_intensity = 0.5
+tint_intensity = 0.3
+wallpaper = ""
+transition = ["fade"]
+transition_duration = 300
+
+[bar.main]
+enabled = true
+position = "top"
+thickness = 38
+margin_ends = 0
+margin_edge = 0
+radius = 16
+radius_top_left = 0
+radius_top_right = 0
+concave_edge_corners = true
+reserve_space = true
+auto_hide = false
+layer = "top"
+font_family = "Noto Sans"
+background_opacity = 0.92
+compositor_blur = true
+widget_spacing = 6
+padding = 14
+capsule = true
+capsule_fill = "surface_container"
+capsule_thickness = 0.76
+capsule_padding = 6
+capsule_radius = 12
+# Only the idle fill is transparent; native hover feedback is separate.
+capsule_opacity = 0.0
+capsule_border = ""
+hover_highlight = true
+start = ["workspaces", "crypto"]
+center = ["weather", "clock"]
+end = ["tray", "disk", "headset", "keyboard_layout", "group:status", "launcher"]
+
+[[bar.main.capsule_group]]
+id = "status"
+members = ["network", "bluetooth", "output_volume", "input_volume", "battery", "privacy", "control-center"]
+accordion = false
+opacity = 0.0
+border = ""
+
+[widget.workspaces]
+type = "workspaces"
+monitors = []
+style = "regular"
+show_labels = false
+hide_when_empty = true
+
+[widget.crypto]
+type = "ayagmar/binance:bar"
+show = "cycle"
+assets = ["BTCUSDT", "ETHUSDT", "ETHBTC"]
+cycle_seconds = 10
+
+[widget.weather]
+type = "weather"
+
+[widget.clock]
+type = "clock"
+format = "{:%A, %b %d  %H:%M}"
+
+[widget.clock.actions]
+left = "panel-toggle control-center home"
+right = "panel-toggle noctalia/world_clock:panel"
+
+[widget.tray]
+type = "tray"
+
+[widget.disk]
+type = "sysmon"
+stat = "disk_used_pct"
+path = "/"
+visualization = "none"
+show_value = true
+show_glyph = true
+label_show_units = true
+
+[widget.headset]
+type = "vavadik/headsetcontrol:widget"
+show_percentage = true
+hide_when_unavailable = true
+
+[widget.keyboard_layout]
+type = "keyboard_layout"
+
+[widget.network]
+type = "network"
+
+[widget.network.actions]
+right = "session lock"
+
+[widget.bluetooth]
+type = "bluetooth"
+
+[widget.bluetooth.actions]
+right = "session lock"
+
+[widget.output_volume]
+type = "volume"
+device = "output"
+
+[widget.output_volume.actions]
+right = "session lock"
+
+[widget.input_volume]
+type = "volume"
+device = "input"
+hide_when_inactive = false
+
+[widget.input_volume.actions]
+right = "session lock"
+
+[widget.battery]
+type = "battery"
+
+[widget.battery.actions]
+right = "session lock"
+
+[widget.privacy]
+type = "privacy"
+
+[widget.privacy.actions]
+right = "session lock"
+
+[widget.control-center]
+type = "control-center"
+
+[widget.control-center.actions]
+right = "session lock"
+
+[widget.launcher]
+# Native glyphs use Tabler; use the label renderer for the Nerd Font snowflake.
+type = "custom_button"
+glyph = ""
+label = "\uf313"
+font_family = "Symbols Nerd Font Mono"
+tooltip = "Launcher"
+
+[widget.launcher.actions]
+left = "panel-toggle launcher"
+
+[plugins]
+auto_update = "none"
+enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance"]
+
+[plugin_settings."vavadik/headsetcontrol"]
+poll_interval = 5

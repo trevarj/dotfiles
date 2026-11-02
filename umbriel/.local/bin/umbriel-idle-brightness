@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+umask 077
+
+fail() {
+	printf 'umbriel-idle-brightness: %s\n' "$*" >&2
+	exit 1
+}
+
+[[ $# == 1 ]] || { echo 'usage: umbriel-idle-brightness dim|restore' >&2; exit 2; }
+case $1 in
+	dim|restore) mode=$1 ;;
+	*) echo 'usage: umbriel-idle-brightness dim|restore' >&2; exit 2 ;;
+esac
+
+runtime=${XDG_RUNTIME_DIR-}
+while [[ $runtime == */ ]]; do runtime=${runtime%/}; done
+[[ $runtime == /* && -d $runtime && ! -L $runtime && -O $runtime ]] || fail 'XDG_RUNTIME_DIR must be an owned, private directory'
+[[ $(stat -c %a -- "$runtime") == 700 ]] || fail 'XDG_RUNTIME_DIR must have mode 0700'
+cd -P -- "$runtime" || fail 'Could not enter XDG_RUNTIME_DIR'
+lock=umbriel-idle-brightness.lock
+state=umbriel-idle-brightness.state
+
+private_file() {
+	[[ -f $1 && ! -L $1 && -O $1 ]] && [[ $(stat -c '%a:%h' -- "$1") == 600:1 ]]
+}
+
+if [[ ! -e $lock && ! -L $lock ]]; then
+	# A concurrent invocation may create the same empty lock; never truncate it.
+	(set -o noclobber; : > "$lock") 2>/dev/null || [[ -e $lock ]] || fail 'Could not create runtime lock'
+fi
+private_file "$lock" && [[ ! -s $lock ]] || fail 'Unsafe runtime lock'
+exec {lock_fd}< "$lock" || fail 'Could not open runtime lock'
+flock --exclusive "$lock_fd" || fail 'Could not acquire runtime lock'
+[[ ! -L $lock && $lock -ef /dev/fd/$lock_fd ]] || fail 'Runtime lock changed while waiting'
+
+saved=0
+device=
+original=
+if [[ -e $state || -L $state ]]; then
+	private_file "$state" || fail 'Unsafe recovery state; left untouched'
+	mapfile -t lines < "$state" || fail 'Could not read recovery state'
+	state_pattern='^([a-zA-Z0-9_][a-zA-Z0-9_.:-]*) ([0-9]+)$'
+	[[ ${#lines[@]} == 1 && ${lines[0]} =~ $state_pattern ]] || fail 'Malformed recovery state; left untouched'
+	device=${BASH_REMATCH[1]}
+	original=${BASH_REMATCH[2]}
+	[[ $(stat -c %s -- "$state") == $((${#lines[0]} + 1)) ]] || fail 'Malformed recovery state; left untouched'
+	saved=1
+fi
+[[ $mode != restore || $saved == 1 ]] || exit 0
+
+if [[ $mode == dim ]]; then
+	# The pinned CLI unwraps its IPC response to an array of output objects.
+	outputs=$(umbriel outputs --json) || fail 'Could not query outputs'
+	powered=$(jq -er '
+		if type != "array" then error("expected output array")
+		else any(.[]; .name == "eDP-1" and .enabled == true and .powered == true) end
+		| tostring' <<< "$outputs") || fail 'Could not parse outputs'
+	[[ $powered == true ]] || exit 0
+fi
+
+if [[ $saved == 1 ]]; then
+	info=$(brightnessctl --class=backlight --device="$device" --machine-readable info) || fail "Could not read saved backlight $device; recovery state retained"
+else
+	info=$(brightnessctl --class=backlight --machine-readable info) || fail 'Could not query backlight'
+fi
+# device,class,current,percentage,max; reject glob characters before --device.
+info_pattern='^([a-zA-Z0-9_][a-zA-Z0-9_.:-]*),backlight,([0-9]+),([0-9]+)%,([0-9]+)$'
+[[ $info =~ $info_pattern ]] || fail 'Malformed backlight information; recovery state retained if present'
+queried_device=${BASH_REMATCH[1]}
+current=${BASH_REMATCH[2]}
+percentage=${BASH_REMATCH[3]}
+maximum=${BASH_REMATCH[4]}
+[[ $saved == 0 || $queried_device == "$device" ]] || fail 'Saved backlight did not match query; recovery state retained'
+jq -en --arg current "$current" --arg percentage "$percentage" --arg maximum "$maximum" \
+	--arg original "${original:-$current}" '
+	[$current, $percentage, $maximum, $original] | map(tonumber)
+	| .[2] > 0 and .[0] <= .[2] and .[1] <= 100 and .[3] <= .[2]
+' >/dev/null || fail 'Backlight or saved brightness is out of range; recovery state retained if present'
+
+if [[ $saved == 0 ]]; then
+	device=$queried_device
+	original=$current
+	staging=$(mktemp ".$state.XXXXXXXX") || fail 'Could not create recovery state'
+	trap 'rm -f -- "$staging"' EXIT
+	printf '%s %s\n' "$device" "$original" > "$staging" || fail 'Could not write recovery state; brightness unchanged'
+	# A same-filesystem hard link publishes complete state without replacing a path.
+	ln -T -- "$staging" "$state" || fail 'Could not publish recovery state; brightness unchanged'
+	rm -- "$staging" || fail 'Could not finish publishing recovery state; brightness unchanged'
+	trap - EXIT
+fi
+
+value=10
+[[ $mode != restore ]] || value=$original
+brightnessctl --class=backlight --device="$device" set "$value" >/dev/null || fail "Could not $mode backlight $device; recovery state retained"
+if [[ $mode == restore ]]; then
+	rm -- "$state" || fail 'Brightness restored but recovery state could not be removed'
+fi

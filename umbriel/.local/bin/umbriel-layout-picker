@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+choice=$(printf '%s\n' Scrolling Dwindle Master Stacking | noctalia dmenu --prompt 'Workspace layout') || exit 0
+case $choice in
+	Scrolling) layout=scrolling ;;
+	Dwindle) layout=dwindle ;;
+	Master) layout=master ;;
+	Stacking) layout=stacking ;;
+	'') exit 0 ;;
+	*) printf 'umbriel-layout-picker: unknown layout: %s\n' "$choice" >&2; exit 1 ;;
+esac
+exec umbriel msg workspace-set-layout "$layout"
