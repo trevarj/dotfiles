@@ -182,9 +182,9 @@ only when the adapter is off (not enabled/disconnected), with connection
 notifications enabled. Network and output volume are icon-only; network
 `vpn_status` is `both`. CPU/RAM/disk/input-microphone widgets and a separate
 Control Center button are absent from the bar. The center lane is weather,
-clock, World Clock (`widget.bar`, `font_scale = 1.01`), then notifications;
-notifications hide with no unread items. Clock left-click opens Control Center
-Home and right-click opens World Clock.
+clock, then notifications; notifications hide with no unread items.
+Clock left-click opens Control Center Home and right-click opens World Clock,
+which has no separate bar widget.
 
 Bar thickness stays 38px, with opaque background and font weight 700.
 Notifications use 0.8 background opacity without a border. Icons are 25% larger

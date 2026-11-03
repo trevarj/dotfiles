@@ -220,7 +220,7 @@ capsule_opacity = 0.0
 capsule_border = ""
 hover_highlight = true
 start = ["workspaces", "umbriel-companion", "crypto"]
-center = ["weather", "clock", "bar", "notifications"]
+center = ["weather", "clock", "notifications"]
 end = ["tray", "headset", "keyboard_layout", "group:status", "nixos-updates", "launcher"]
 
 [[bar.main.capsule_group]]
@@ -266,10 +266,6 @@ format = "{:%A, %b %d  %H:%M}"
 [widget.clock.actions]
 left = "panel-toggle control-center home"
 right = "panel-toggle noctalia/world_clock:panel"
-
-[widget.bar]
-type = "noctalia/world_clock:bar"
-font_scale = 1.01
 
 [widget.notifications]
 type = "notifications"
