@@ -1,4 +1,7 @@
 # Shared preferences; physical-output widget placement belongs to the host.
+[accessibility]
+ui_scale = 1.15
+
 [shell]
 font_family = "Noto Sans"
 telemetry_enabled = false
@@ -71,7 +74,7 @@ type = "clipboard"
 type = "notification"
 
 [[control_center.shortcuts]]
-type = "caffeine"
+type = "noctalia/wallhaven:shortcut"
 
 [[control_center.shortcuts]]
 type = "session"
@@ -93,6 +96,11 @@ mode = "dark"
 shell_mode = "follow"
 pure_black_dark = true
 sync_color_scheme = false
+
+[theme.templates]
+enable_builtin_templates = true
+builtin_ids = ["btop", "kitty", "qt", "gtk3", "gtk4"]
+enable_community_templates = false
 
 [nightlight]
 enabled = false
@@ -179,6 +187,8 @@ reserve_space = true
 auto_hide = false
 layer = "top"
 font_family = "Noto Sans"
+scale = 1.25
+font_scale = 0.8
 background_opacity = 0.92
 compositor_blur = true
 widget_spacing = 8
@@ -192,13 +202,13 @@ capsule_radius = 12
 capsule_opacity = 0.0
 capsule_border = ""
 hover_highlight = true
-start = ["workspaces", "crypto"]
-center = ["weather", "clock"]
-end = ["tray", "headset", "keyboard_layout", "group:status", "launcher"]
+start = ["workspaces", "umbriel-companion", "crypto"]
+center = ["weather", "clock", "notifications"]
+end = ["tray", "headset", "keyboard_layout", "group:status", "nixos-updates", "launcher"]
 
 [[bar.main.capsule_group]]
 id = "status"
-members = ["network", "bluetooth", "output_volume", "battery", "privacy", "control-center"]
+members = ["network", "tunnel-status", "bluetooth", "output_volume", "battery", "privacy"]
 accordion = false
 opacity = 0.0
 border = ""
@@ -209,6 +219,15 @@ monitors = []
 style = "regular"
 show_labels = false
 hide_when_empty = true
+scale = 0.8
+pill_scale = 0.75
+
+[widget.umbriel-companion]
+type = "noctalia/umbriel-companion:bar"
+display_mode = "layout"
+show_layout_name = false
+show_workspace_name = false
+scroll_cycles_layout = false
 
 [widget.crypto]
 type = "ayagmar/binance:bar"
@@ -226,6 +245,10 @@ format = "{:%A, %b %d  %H:%M}"
 [widget.clock.actions]
 left = "panel-toggle control-center home"
 right = "panel-toggle noctalia/world_clock:panel"
+
+[widget.notifications]
+type = "notifications"
+hide_when_no_unread = true
 
 [widget.tray]
 type = "tray"
@@ -253,8 +276,13 @@ type = "network"
 [widget.network.actions]
 right = "session lock"
 
+[widget.tunnel-status]
+type = "trev/tunnel-status:widget"
+
 [widget.bluetooth]
 type = "bluetooth"
+hide_when_adapter_off = true
+hide_when_no_connected_device = false
 
 [widget.bluetooth.actions]
 right = "session lock"
@@ -262,6 +290,7 @@ right = "session lock"
 [widget.output_volume]
 type = "volume"
 device = "output"
+show_label = false
 
 [widget.output_volume.actions]
 right = "session lock"
@@ -282,29 +311,29 @@ right = "session lock"
 
 [widget.privacy]
 type = "privacy"
+hide_inactive = true
 
 [widget.privacy.actions]
 right = "session lock"
 
-[widget.control-center]
-type = "control-center"
-
-[widget.control-center.actions]
-right = "session lock"
+[widget.nixos-updates]
+type = "dmopp/nixos-updates:updates"
 
 [widget.launcher]
 type = "custom_button"
 glyph = ""
 label = "\uf313"
 font_family = "Symbols Nerd Font Mono"
-tooltip = "Launcher"
+font_scale = 1.25
+tooltip = "Launcher (right-click: Cursor Manager)"
 
 [widget.launcher.actions]
 left = "panel-toggle launcher"
+right = "panel-toggle vn1k/cursor:manager"
 
 [plugins]
 auto_update = "none"
-enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance"]
+enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "vn1k/cursor", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status"]
 
 [plugin_settings."vavadik/headsetcontrol"]
 poll_interval = 5

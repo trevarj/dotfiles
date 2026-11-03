@@ -33,12 +33,20 @@ Nerd Font families through the host package manager. Waybar's optional crypto
 module also needs CryptoFont. Native Nerd Symbols can have different glyph
 metrics from the formerly vendored, locally adjusted copies.
 
-Kitty has exactly one runtime color include:
-`include ~/.local/share/trev-themes/active/kitty.conf`. It no longer loads local
-`current-theme.conf` or the Niri selection directly. Without a runtime bundle,
-Kitty reports the missing include and keeps its defaults. Managed Nix homes link
-only `kitty.conf`: stowing Kitty's automatic light/dark theme files would override
-the runtime colors. Fonts, opacity and other preferences are unchanged.
+Kitty's shared `kitty.conf` contains base preferences, not a runtime palette.
+Full-profile Nix homes link it as `~/.config/kitty/base.conf` and seed a writable
+tiny `kitty.conf` containing only `include base.conf`. Noctalia's native Kitty
+hook is the sole palette writer: it adds its own palette include and reloads
+Kitty, independently of the atomic Umbriel/Emacs bundle. Do not stow a link over
+that mutable root or let a hook write into Git/Nix store.
+
+Bootstrap keeps a Nix-managed root including base plus the named Niri
+`~/.local/share/trev-themes/current/kitty.conf`, without Noctalia dependencies.
+Migration removes only the exact old Home Manager root link, seeds only absent
+files, preserves user regular files and refuses unknown links/nonregular paths.
+Full → bootstrap may need a manual backup of the mutable root before linking.
+Local `current-theme.conf` and automatic light/dark theme files are not managed
+includes. Fonts, opacity and other base preferences are unchanged.
 
 ## Global agent guidance
 
@@ -152,20 +160,56 @@ area below. Zero end/edge margins select these native inner-edge curves; an end
 inset would instead curve the upper corners. Workspaces are output-local,
 unnumbered native pills. Module and status-group backgrounds/outlines are
 transparent at rest; native hover feedback remains. The logical status group
-keeps native service actions and volume scrolling; right-clicking any member
-locks the session. The clock opens control-center Home on left-click and World
-Clock on right-click. Only root-disk usage stays in the bar; click it for native
-Control Center → System, including CPU/RAM readings and graphs. Microphone
-controls remain available while inactive. The rightmost launcher button renders
-the NixOS snowflake through the installed Symbols Nerd Font: native icon glyphs
-use bundled Tabler, where U+F313 is a clock, so this built-in `custom_button`
-uses its font-aware label and opens the same native launcher panel.
+keeps configured service actions and output-volume scrolling; its configured
+right-click lock actions remain. Privacy hides when inactive, Bluetooth hides
+only when the adapter is off (not enabled/disconnected), and output volume is
+icon-only. CPU/RAM/disk/input-microphone widgets and a separate Control Center
+button are absent from the bar. The center lane is weather, clock, notifications;
+the latter hides with no unread items. Clock left-click opens Control Center
+Home and right-click opens World Clock.
 
-Managed Nix homes pin two plugin repository roots and disable automatic plugin
-updates. Only World Clock, HeadsetControl and Binance are enabled. These are
-unsandboxed user plugins: pinning constrains source drift, not their filesystem,
-process or network permissions. HeadsetControl uses the installed
-`headsetcontrol` executable; missing dependency/IPC errors remain visible.
+Bar thickness stays 38px. Icons are 25% larger (`scale = 1.25`), ordinary text
+stays unchanged (`font_scale = 0.8`), and accessibility UI scale is independently
+1.15. Workspaces use `scale = 0.8` and `pill_scale = 0.75` to compensate the bar
+scale for 25% smaller pills. The NixOS snowflake is a Symbols Nerd Font text
+label with `font_scale = 1.25` compensation, since Tabler's U+F313 is a clock.
+It opens the launcher on left-click and Cursor Manager on right-click, with a
+discoverable tooltip. Umbriel Companion sits near workspaces with a layout glyph,
+no labels and no wheel cycling; use its click controls.
+
+Managed Nix homes pin official/community sources plus local `trev/tunnel-status`;
+automatic plugin updates are `none`. Enabled plugins are World Clock,
+HeadsetControl, Binance, `vn1k/cursor`, `dmopp/nixos-updates`, Umbriel Companion,
+Wallhaven and tunnel-status. These execute unsandboxed as the user: pinning
+limits drift, not permissions. The highest review is **HIGH** for cursor config
+writes, Nix fetching and native hooks; tun0's new read-only scope is **LOW**.
+HeadsetControl requires the installed `headsetcontrol`; dependency/IPC errors
+remain visible.
+
+Cursor defaults are untouched. Apply can attempt edits to Nix-managed compositor
+roots/GTK settings and user Flatpak overrides; read-only layers can fail while
+others apply. Already-running apps may need restart. This is a known partial-
+Apply risk, not bypassed with relaxed permissions, custom paths or fake tools.
+Deployment checks do not Apply/reset the cursor. Nix supplies real Python,
+conversion, image and picker dependencies.
+
+Updates is inputs-only, every six hours, with package/Flatpak checks disabled,
+no token and no activation command; the empty command opens Settings. The
+checkout/profile follows the signing role, not hostname. Native 15-minute error
+retries remain; lockfile or system/user Flatpak stamp changes can trigger checks
+after a 20-second settle even with Flatpak checks disabled.
+
+Wallhaven replaces caffeine in the six Control Center slots: dark mode, local
+wallpaper, clipboard, notifications, `noctalia/wallhaven:shortcut`, session.
+Defaults are keyless SFW with the existing wallpaper directory and no automatic
+rotation. No extra cursor tile or hidden overflow is configured.
+
+`trev/tunnel-status:widget` is an icon-only native asynchronous filesystem reader
+of `/sys/class/net/tun0/flags` and `carrier`. Missing/down tun0 or carrier 0 hides
+it; malformed/unreadable data shows an alert. It reads flags before carrier to
+avoid treating down-device EINVAL as failure. An up icon proves only tun0
+up/carrier 1, not Nym health or traffic protection. There is no subprocess,
+RPC, Polkit, network, Nym CLI/auth workaround or credential dependency.
 
 Activation seeds only absent private plugin files with New York/UTC zones and a
 BTCUSDT/ETHUSDT/ETHBTC public watchlist. Existing regular state wins, with a
@@ -185,36 +229,43 @@ Launcher applications use separate systemd services, outside shell restart
 cleanup. GNOME keyring/GCR and the host's power/lid policy remain unchanged.
 
 Wallpaper selection is manual from `~/Pictures/Wallpapers`, starting with the
-packaged image; transitions are fade-only. Wallpaper colors use the soft scheme
-in dark mode, with no independent GTK/Qt palette writers configured. Weather
-uses metric units and remains unconfigured until a city is chosen privately in
-the GUI. Automatic location, external-IP lookup, telemetry and nightlight are
-disabled.
+packaged image; transitions are fade-only. Current color source is `built-in`,
+dark mode with pure-black dark enabled; wallpaper-derived soft colors remain a
+user choice, not a claim about every palette. Native `btop`, `kitty`, `qt`,
+`gtk3` and `gtk4` templates/hooks are enabled; community templates are disabled.
+Qt5/6ct select the generated custom palette, GTK uses mutable native imports,
+and the native btop hook selects `noctalia` on apply and signals running btop.
+Activation preserves existing regular configs; other btop preferences survive.
+Weather uses metric units and remains unconfigured until a city is chosen
+privately in the GUI. Automatic location, external-IP lookup, telemetry and
+nightlight are disabled.
 
-The saved Niri catalog and `~/.local/share/trev-themes/current` selection remain
-independent of wallpaper-derived colors. Shared Kitty and Emacs follow `active`,
-which points to relative `current` in Niri or a complete private Noctalia runtime
-generation in Umbriel. One synchronous composite user template renders the
-unchanged upstream Kitty, Umbriel and Emacs templates; the managed switcher
-validates the complete bundle and Umbriel TOML before publishing active
-atomically. Reload failures are reported separately after publication, without
-rolling back other consumers.
+The saved Niri catalog and `~/.local/share/trev-themes/current` remain independent
+of Noctalia colors. Emacs follows `active`, pointing to relative `current` after
+explicit named-theme actions or a complete private Noctalia generation.
+A synchronous Umbriel+Emacs user template is validated before atomic publication
+of four private files: `umbriel.toml`, `noctalia-theme.el`, `emacs-theme`, `mode`.
+Kitty is not in that bundle. Restart Emacs with the updated loader **before
+applying a Kitty-free bundle**; never reload the live init for verification.
+Compositor/Emacs reload failures are reported after publication without rollback;
+the five native builtin hooks run independently outside this atomic boundary.
 
-Noctalia session startup resets active to current and removes stale pending
-output. After shell/hooks stop, session cleanup restores saved Niri colors to
-shared applications and GTK without changing the Niri wallpaper. Until the first
-successful render, shared applications retain those saved colors and Umbriel
-uses its baseline. Run `theme-switch` without arguments for Noctalia Appearance
-settings in Umbriel or the Niri picker in Niri; Niri catalog/wallpaper mutation
-commands are rejected while Umbriel is managed and active. Retry an Umbriel
-publication with `noctalia msg templates-apply`, not Niri's `--apply-current`.
+Noctalia stop/start preserves valid active state and last shared-app colors,
+not automatic saved-Niri restoration. Full-profile Niri's `--niri-startup`
+applies only its desktop/wallpaper, without shared reset or reload. Runtime
+generation loss after reboot may still initialize active to current until a
+successful render. Explicit manual named-theme actions can change current/active
+and Emacs; full-profile Kitty stays owned by the native hook. `theme-switch`
+without arguments opens Noctalia Appearance in Umbriel or the Niri picker in
+Niri; catalog/wallpaper mutation is refused during managed Umbriel. Retry
+Umbriel publication with `noctalia msg templates-apply`, not `--apply-current`.
 
 Clipboard history is copy-only, capped at 100 unpinned items, with confirmation
 for clearing/deleting and Secret Service encrypted persistence. Native
 password-manager hints are honored, not a promise to detect arbitrary secrets.
 Notifications are quiet, top-center on the focused output, at most three at
-once, with seven-day history. Screenshots copy and save locally under
-`~/Pictures/Screenshots`, without annotation or command piping/upload.
+once, with seven-day history. Screenshots enable native annotation, copy and
+local save under `~/Pictures/Screenshots`, without command piping/upload.
 
 Nix wraps `umbriel-layout-picker` and `umbriel-idle-brightness` with their
 runtime dependencies. The layout chooser accepts only its four displayed
@@ -228,6 +279,11 @@ overrides are runtime-local, not persistent named-workspace assignments.
 Print, Shift+Print and Ctrl+Print request native region, fullscreen and window
 screenshots respectively; they are not allowed while locked. Native launcher,
 terminal, navigation, media and remaining scratchpad bindings are retained.
+Super+Shift+Slash opens the native cheatsheet. Mod+R and reverse cycle extent
+presets 0.333, 0.5, 0.667 and 1.0, where 1.0 is full usable width, not fullscreen.
+The host's native lid events handle initial state and disable eDP-1 on close
+only if another output is enabled; opening restores it. DP-5 gets startup focus,
+without cursor/focus warp or changes to logind, suspend or power policy.
 Three-finger horizontal strip panning, three-finger vertical workspace movement
 and four-finger overview use the compositor's native gestures.
 
@@ -251,11 +307,14 @@ fade-only transitions. Known-output clock/login placement is host-owned and
 compact/private. Previously unknown outputs retain native login-box defaults
 until configured; this is not a universal clock-only hotplug policy.
 
-Run the helpers' isolated fake-command regressions without changing a desktop or
-backlight (Python 3, `jq`, `flock` and normal shell utilities required):
+Run isolated helper checks without changing a desktop/backlight (Python 3, `jq`,
+`flock`, Lua 5.1+ and normal shell utilities required):
 
 ```sh
 python3 tests/umbriel.py
+lua tests/tunnel-status.lua
+# Optional offline native plugin/settings-code cross-check:
+noctalia plugins lint noctalia/.config/noctalia/plugins/tunnel-status
 ```
 
 `TREV_DESKTOP_DOTFILES=/path/to/source` selects another source tree for this

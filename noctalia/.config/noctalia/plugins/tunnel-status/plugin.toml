@@ -1,0 +1,13 @@
+id = "trev/tunnel-status"
+name = "Tunnel Status"
+version = "1.0.0"
+plugin_api = 23
+author = "trev"
+license = "MIT"
+icon = "shield-check"
+description = "Icon-only tun0 interface/carrier status, not Nym health or protection verification."
+tags = ["network", "bar"]
+
+[[widget]]
+id = "widget"
+entry = "widget.luau"
