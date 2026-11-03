@@ -13,7 +13,7 @@ clipboard_confirm_clear_history = true
 [shell.screenshot]
 copy_to_clipboard = true
 save_to_file = true
-annotate = false
+annotate = true
 pipe_to_command = false
 
 [shell.animation]
@@ -87,11 +87,11 @@ transition_duration = 600
 enabled = false
 
 [theme]
-source = "wallpaper"
+source = "built-in"
 wallpaper_scheme = "soft"
 mode = "dark"
 shell_mode = "follow"
-pure_black_dark = false
+pure_black_dark = true
 sync_color_scheme = false
 
 [nightlight]
@@ -181,7 +181,7 @@ layer = "top"
 font_family = "Noto Sans"
 background_opacity = 0.92
 compositor_blur = true
-widget_spacing = 6
+widget_spacing = 8
 padding = 14
 capsule = true
 capsule_fill = "surface_container"
@@ -194,11 +194,11 @@ capsule_border = ""
 hover_highlight = true
 start = ["workspaces", "crypto"]
 center = ["weather", "clock"]
-end = ["tray", "disk", "headset", "keyboard_layout", "group:status", "launcher"]
+end = ["tray", "headset", "keyboard_layout", "group:status", "launcher"]
 
 [[bar.main.capsule_group]]
 id = "status"
-members = ["network", "bluetooth", "output_volume", "input_volume", "battery", "privacy", "control-center"]
+members = ["network", "bluetooth", "output_volume", "battery", "privacy", "control-center"]
 accordion = false
 opacity = 0.0
 border = ""
@@ -293,7 +293,6 @@ type = "control-center"
 right = "session lock"
 
 [widget.launcher]
-# Native glyphs use Tabler; use the label renderer for the Nerd Font snowflake.
 type = "custom_button"
 glyph = ""
 label = "\uf313"
