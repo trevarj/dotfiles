@@ -28,10 +28,19 @@ offset_y = 6
 [colors]
 shadow = "#00000055"
 
+[effects]
+cursor = "glow"
+
+[effects.preset.glow]
+kind = "cursor"
+palette = true
+radius = 24
+# Nix adds the installed native shader path to this preset.
+
 [animation.windows_in]
 style = "popin"
 scale = 0.92
-curve = "spring:0.82,900"
+curve = "spring:0.82,750"
 
 [animation.windows_out]
 style = "popin"
@@ -50,7 +59,7 @@ curve = "spring:0.85,800"
 [layout]
 mode = "scrolling"
 gap = 20
-extent_presets = [0.333, 0.5, 0.667, 1.0]
+extent_presets = [0.5, 0.667, 1.0]
 client_maximize = "column"
 
 [layout.scrolling]

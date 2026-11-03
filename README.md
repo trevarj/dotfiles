@@ -146,6 +146,17 @@ the migration-only `config_version`, and unrelated runtime/plugin data are not
 imported. The existing private location and other GUI overrides stay untouched.
 
 Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
+Window opening keeps its `popin` style, 0.92 scale and 0.82 damping, with spring
+stiffness 750 instead of 900 for an approximately 10% longer opening. Closing,
+move, resize and workspace motion, lock fades and output-power timing are unchanged.
+The native palette-following cursor glow uses a compact 24-logical-pixel radius;
+radius limits its footprint, not brightness. Nix adds the installed upstream
+`effects/cursor/glow/shader.glsl` path to the shared preset in one generated
+baseline; do not also include the bundled `effect.toml` or redeclare `glow` in an
+override, as duplicate preset definitions are errors. The glow draws behind the
+cursor without changing hardware-cursor policy, cursor theme/size or output
+scaling. While visible on the pointer's output it prevents direct scanout and
+requests ongoing frames, including with a stationary pointer.
 Its own title bars are off, and `prefer_no_csd = true` requests that cooperating
 Wayland applications omit their client-side decorations. Restart applications
 after changing that preference; a new window may reuse the old Wayland
@@ -318,7 +329,7 @@ Print, Shift+Print and Ctrl+Print request native region, fullscreen and window
 screenshots respectively; they are not allowed while locked. Native launcher,
 terminal, navigation, media and remaining scratchpad bindings are retained.
 Super+Shift+Slash opens the native cheatsheet. Mod+R and reverse cycle extent
-presets 0.333, 0.5, 0.667 and 1.0, where 1.0 is full usable width, not fullscreen.
+presets 0.5, 0.667 and 1.0, where 1.0 is full usable width, not fullscreen.
 The host's native lid events handle initial state and disable eDP-1 on close
 only if another output is enabled; opening restores it. DP-5 gets startup focus,
 without cursor/focus warp or changes to logind, suspend or power policy.
