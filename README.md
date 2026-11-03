@@ -249,13 +249,15 @@ Activation seeds only absent private World Clock files with New York/UTC zones.
 Existing regular state wins, with a warning if it differs; unsafe paths are
 refused rather than replaced. Use the World Clock panel to edit existing zones.
 CoinGecko uses declarative settings, with no mutable CoinGecko seed. Crypto
-shows Bitcoin and Ethereum simultaneously as icons and prices in USD, with
-ticker labels and changes hidden. For icons-only, set `show_price = false` and
+shows BTC/USD and ETH/BTC simultaneously, with ticker labels and changes hidden
+and quote units visible. For icons-only, set `show_price = false` and
 `show_change = false`. An optional CoinGecko Demo API key is read from a
 user-chosen private file via `demo_api_key_file`; the empty default is keyless.
-For BTC/ETH, set `coins = ["bitcoin"]` and `quote_currency = "eth"`.
-All watched coins share the selected quote. Crypto quotes `btc` and `eth` use
-overlapping base/quote icons; icons-only mode retains both icons without text.
+`coins = ["bitcoin/usd", "ethereum/btc"]` selects these two exact markets,
+without adding ETH/USD or BTC/BTC. Plain CoinGecko IDs instead use
+`quote_currency` plus `additional_quote_currencies`. Requests batch by quote and
+share rate-limit backoff. Crypto quotes `btc` and `eth` use overlapping
+base/quote icons; icons-only mode retains both market entries without text.
 Old Binance data is left untouched; an existing connected Binance account still
 requires the user's **Account → Disconnect** action. The update widget hides
 when up to date.
