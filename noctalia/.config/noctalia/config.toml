@@ -4,6 +4,7 @@ ui_scale = 1.15
 
 [shell]
 font_family = "Noto Sans"
+avatar_path = "~/Pictures/Art_and_Design/duckling-brick-wall.jpg"
 telemetry_enabled = false
 external_ip_enabled = false
 polkit_agent = true
@@ -40,9 +41,11 @@ clipboard_position = "center"
 
 [shell.launcher]
 layout = "full"
+app_grid = true
+search_position = "top"
 default_view = "recent"
 categories = true
-show_navigation_labels = true
+show_navigation_labels = false
 track_usage = true
 sort_by_usage = true
 
@@ -51,6 +54,9 @@ enabled = false
 
 [desktop_widgets]
 enabled = false
+
+[bluetooth]
+connection_notifications = true
 
 [system.monitor]
 enabled = true
@@ -65,16 +71,16 @@ show_visualizer = false
 type = "dark_mode"
 
 [[control_center.shortcuts]]
-type = "wallpaper"
-
-[[control_center.shortcuts]]
 type = "clipboard"
 
 [[control_center.shortcuts]]
-type = "notification"
+type = "noctalia/wallhaven:shortcut"
 
 [[control_center.shortcuts]]
-type = "noctalia/wallhaven:shortcut"
+type = "theblackdon/theme-switcher:open"
+
+[[control_center.shortcuts]]
+type = "notification"
 
 [[control_center.shortcuts]]
 type = "session"
@@ -89,13 +95,21 @@ transition_duration = 600
 [wallpaper.automation]
 enabled = false
 
+[wallpaper.default]
+path = "~/Pictures/Wallpapers/autumn-valley-and-deer-painting.jpg"
+
+[wallpaper.last]
+path = "~/Pictures/Wallpapers/autumn-valley-and-deer-painting.jpg"
+
 [theme]
-source = "builtin"
+source = "community"
+builtin = "Ayu"
+community_palette = "Kanagawa Paper"
 wallpaper_scheme = "soft"
 mode = "dark"
 shell_mode = "follow"
 pure_black_dark = true
-sync_color_scheme = false
+sync_color_scheme = true
 
 [theme.templates]
 enable_builtin_templates = true
@@ -119,6 +133,8 @@ key_source = "secret-service"
 
 [notification]
 enable_daemon = true
+background_opacity = 0.8
+border = false
 position = "top_center"
 follow_focused_output = true
 max_visible = 3
@@ -187,9 +203,10 @@ reserve_space = true
 auto_hide = false
 layer = "top"
 font_family = "Noto Sans"
+font_weight = 700
 scale = 1.25
 font_scale = 0.8
-background_opacity = 0.92
+background_opacity = 1.0
 compositor_blur = true
 widget_spacing = 8
 padding = 14
@@ -203,7 +220,7 @@ capsule_opacity = 0.0
 capsule_border = ""
 hover_highlight = true
 start = ["workspaces", "umbriel-companion", "crypto"]
-center = ["weather", "clock", "notifications"]
+center = ["weather", "clock", "bar", "notifications"]
 end = ["tray", "headset", "keyboard_layout", "group:status", "nixos-updates", "launcher"]
 
 [[bar.main.capsule_group]]
@@ -218,7 +235,9 @@ type = "workspaces"
 monitors = []
 style = "regular"
 show_labels = false
-hide_when_empty = true
+hide_when_empty = false
+empty_color = "tertiary_container"
+occupied_color = "tertiary"
 scale = 0.8
 pill_scale = 0.75
 
@@ -231,7 +250,7 @@ scroll_cycles_layout = false
 
 [widget.crypto]
 type = "ayagmar/binance:bar"
-show = "cycle"
+show = "price"
 assets = ["BTCUSDT", "ETHUSDT", "ETHBTC"]
 cycle_seconds = 10
 
@@ -245,6 +264,10 @@ format = "{:%A, %b %d  %H:%M}"
 [widget.clock.actions]
 left = "panel-toggle control-center home"
 right = "panel-toggle noctalia/world_clock:panel"
+
+[widget.bar]
+type = "noctalia/world_clock:bar"
+font_scale = 1.01
 
 [widget.notifications]
 type = "notifications"
@@ -272,6 +295,8 @@ type = "keyboard_layout"
 
 [widget.network]
 type = "network"
+show_label = false
+vpn_status = "both"
 
 [widget.network.actions]
 right = "session lock"
@@ -318,6 +343,7 @@ right = "session lock"
 
 [widget.nixos-updates]
 type = "dmopp/nixos-updates:updates"
+hide_when_up_to_date = true
 
 [widget.launcher]
 type = "custom_button"
@@ -332,7 +358,7 @@ left = "panel-toggle launcher"
 
 [plugins]
 auto_update = "none"
-enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status"]
+enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status", "theblackdon/theme-switcher"]
 
 [plugin_settings."vavadik/headsetcontrol"]
 poll_interval = 5

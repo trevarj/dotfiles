@@ -140,6 +140,10 @@ module. Umbriel's managed root includes the generated baseline, host facts,
 active colors and local overrides in that order; it does not replace
 `~/.config/umbriel/overrides.toml`. Noctalia GUI overrides remain in
 `~/.local/state/noctalia/settings.toml` and survive rebuilds.
+The shared baseline statically captures saved non-location preferences; it does
+not read that private file at evaluation or activation. Geographic `location.*`,
+the migration-only `config_version`, and unrelated runtime/plugin data are not
+imported. The existing private location and other GUI overrides stay untouched.
 
 Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
 Its own title bars are off, and `prefer_no_csd = true` requests that cooperating
@@ -147,30 +151,40 @@ Wayland applications omit their client-side decorations. Restart applications
 after changing that preference; a new window may reuse the old Wayland
 connection. Application content headers/toolbars remain, and no global Kitty
 decoration setting changes Niri.
+Tiled Brave windows (`brave-browser`) open at full usable scrolling-column width
+with `default_scrolling_extent = 1.0`; native floating/dialog detection keeps
+those windows out of the rule. This is an initial size, not fullscreen or
+maximize, and remains manually resizable.
 Blur is opt-in for Kitty (its existing 0.88 opacity is unchanged) and the pinned
 Noctalia layer namespaces, not every application. Noctalia's launcher and
 clipboard float centrally; control-center, wallpaper and session panels attach
-to the bar. The full native launcher retains recent apps, categories and
-providers. Dock, desktop widgets and the control-center media visualizer are
-disabled. Iosevka application fonts and Noto Sans shell text remain unchanged.
+to the bar. The full native launcher uses an app grid and top search field,
+retaining recent apps, categories and providers with navigation labels hidden.
+Dock, desktop widgets and the control-center media visualizer are disabled.
+Iosevka application fonts and Noto Sans shell text remain unchanged.
 
 The single `main` bar spans every output flush to the top edge, with square
 upper corners and 16px inverse lower corners that visually round the desktop
 area below. Zero end/edge margins select these native inner-edge curves; an end
 inset would instead curve the upper corners. Workspaces are output-local,
-unnumbered native pills. Module and status-group backgrounds/outlines are
+unnumbered native pills, including empty ones: occupied uses `tertiary` and
+empty uses `tertiary_container`. Module and status-group backgrounds/outlines are
 transparent at rest; native hover feedback remains. The logical status group
 keeps configured service actions and output-volume scrolling; its configured
 right-click lock actions remain. Privacy hides when inactive, Bluetooth hides
-only when the adapter is off (not enabled/disconnected), and output volume is
-icon-only. CPU/RAM/disk/input-microphone widgets and a separate Control Center
-button are absent from the bar. The center lane is weather, clock, notifications;
-the latter hides with no unread items. Clock left-click opens Control Center
+only when the adapter is off (not enabled/disconnected), with connection
+notifications enabled. Network and output volume are icon-only; network
+`vpn_status` is `both`. CPU/RAM/disk/input-microphone widgets and a separate
+Control Center button are absent from the bar. The center lane is weather,
+clock, World Clock (`widget.bar`, `font_scale = 1.01`), then notifications;
+notifications hide with no unread items. Clock left-click opens Control Center
 Home and right-click opens World Clock.
 
-Bar thickness stays 38px. Icons are 25% larger (`scale = 1.25`), ordinary text
-stays unchanged (`font_scale = 0.8`), and accessibility UI scale is independently
-1.15. Workspaces use `scale = 0.8` and `pill_scale = 0.75` to compensate the bar
+Bar thickness stays 38px, with opaque background and font weight 700.
+Notifications use 0.8 background opacity without a border. Icons are 25% larger
+(`scale = 1.25`), ordinary text stays unchanged (`font_scale = 0.8`), and
+accessibility UI scale is independently 1.15. Workspaces use `scale = 0.8` and
+`pill_scale = 0.75` to compensate the bar
 scale for 25% smaller pills. The NixOS snowflake is a Symbols Nerd Font text
 label with `font_scale = 1.25` compensation, since Tabler's U+F313 is a clock.
 It opens the launcher on left-click, with no right-click action bound.
@@ -180,11 +194,28 @@ no labels and no wheel cycling; use its click controls.
 Managed Nix homes pin official/community sources plus local `trev/tunnel-status`;
 automatic plugin updates are `none`. Enabled plugins are World Clock,
 HeadsetControl, Binance, `dmopp/nixos-updates`, Umbriel Companion,
-Wallhaven and tunnel-status. These execute unsandboxed as the user: pinning
+Wallhaven, tunnel-status and `theblackdon/theme-switcher`. These execute
+unsandboxed as the user: pinning
 limits drift, not permissions. The highest review is **HIGH** for Nix fetching
 and native hooks; tun0's new read-only scope is **LOW**.
 HeadsetControl requires the installed `headsetcontrol`; dependency/IPC errors
 remain visible.
+
+Theme Switcher 0.2.1 (API 43, MIT, publisher `theblackdon`) was statically
+reviewed in the pinned `noctalia-dev/community-plugins` source, revision
+`eecb1579dff13d4334b2af9875e38084c42c8d50`; no new dependency is required.
+Risk is **MODERATE** for user-triggered actions, **LOW** from enabling alone:
+startup registers a wallpaper IPC service and checks the CLI path, without
+automatically applying a theme, running a subprocess or making a network request.
+Opening views reads private saved themes; edits write `themes.json` in its plugin
+data directory. The community editor fetches `https://api.noctalia.dev/palettes`
+and caches the response. Opening the wallpaper picker can execute an installed
+image tool to cache thumbnails; Capture desktop executes an installed screenshot
+tool. Apply changes wallpaper/palette and invokes the configured native templates
+and hooks via argv-based CLI calls. No telemetry, upload, credential collection
+or remote-code loading was found. Enabling is reasonable with trusted local
+images, image tools and existing hooks, not a sandbox or guarantee about future
+versions; interrupted unchecked theme-store writes can lose saved themes.
 
 Updates is inputs-only, every six hours, with package/Flatpak checks disabled,
 no token and no activation command; the empty command opens Settings. The
@@ -192,10 +223,11 @@ checkout/profile follows the signing role, not hostname. Native 15-minute error
 retries remain; lockfile or system/user Flatpak stamp changes can trigger checks
 after a 20-second settle even with Flatpak checks disabled.
 
-Wallhaven replaces caffeine in the six Control Center slots: dark mode, local
-wallpaper, clipboard, notifications, `noctalia/wallhaven:shortcut`, session.
-Defaults are keyless SFW with the existing wallpaper directory and no automatic
-rotation. No extra cursor tile or hidden overflow is configured.
+The six Control Center slots are, in order: dark mode, clipboard,
+`noctalia/wallhaven:shortcut`, `theblackdon/theme-switcher:open`, notifications,
+session. Wallhaven defaults remain keyless SFW with the existing wallpaper
+directory and no automatic rotation. No extra cursor tile or hidden overflow is
+configured.
 
 `trev/tunnel-status:widget` is an icon-only native asynchronous filesystem reader
 of `/sys/class/net/tun0/flags` and `carrier`. Missing/down tun0 or carrier 0 hides
@@ -211,9 +243,10 @@ World Clock panel to edit existing zones and the Binance panel to edit an
 existing watchlist. No `account.json` or credentials are created. An existing
 connected account requires the user's **Account → Disconnect** action before
 that installation can be called keyless; seeding does not disconnect it.
-Crypto cycles exchange USDT quotes and the ETH/BTC ratio, not aggregate USD
-prices. Upstream's history parser maps a malformed candle close to zero; that
-limitation is distinct from its ticker's unavailable-price/error handling.
+Crypto shows the current price rather than cycling; its retained watchlist holds
+exchange USDT quotes and the ETH/BTC ratio, not aggregate USD prices. The update
+widget hides when up to date. Upstream's history parser maps a malformed candle
+close to zero; that limitation is distinct from ticker unavailable-price/errors.
 
 In Umbriel, the upstream Home Manager `noctalia.service` alone owns the shell,
 wallpaper, notifications, tray, native Polkit and lock/idle policy. It belongs
@@ -221,10 +254,14 @@ only to `umbriel-session.target`; Niri keeps its separate desktop services.
 Launcher applications use separate systemd services, outside shell restart
 cleanup. GNOME keyring/GCR and the host's power/lid policy remain unchanged.
 
-Wallpaper selection is manual from `~/Pictures/Wallpapers`, starting with the
-packaged image; transitions are fade-only. Default color source is `builtin`,
-dark mode with pure-black dark enabled; wallpaper-derived soft colors remain a
-user choice, not a claim about every palette. Native `btop`, `kitty`, `qt`,
+Wallpaper selection is manual from `~/Pictures/Wallpapers`, with both default
+and last selection set to `autumn-valley-and-deer-painting.jpg`; transitions are
+fade-only. The avatar is `~/Pictures/Art_and_Design/duckling-brick-wall.jpg`.
+These paths reference local images; declaring them does not package the files.
+The default palette is community **Kanagawa Paper**, with **Ayu** as the builtin
+fallback, dark mode, pure-black dark and color-scheme synchronization enabled.
+The community palette is downloaded/cached by Noctalia, not pinned here.
+Wallpaper-derived soft colors remain an available user choice. Native `btop`, `kitty`, `qt`,
 `gtk3` and `gtk4` templates/hooks are enabled; community templates are disabled.
 Qt5/6ct select the generated custom palette, GTK uses mutable native imports,
 and the native btop hook selects `noctalia` on apply and signals running btop.

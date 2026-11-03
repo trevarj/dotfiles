@@ -97,6 +97,12 @@ natural_scroll = true
 [input.mouse]
 accel_profile = "flat"
 
+# Brave starts full-width without changing floating dialogs or locking its size.
+[[window_rule]]
+match.app_id = "^brave-browser$"
+match.is_floating = false
+default_scrolling_extent = 1.0
+
 # Kitty keeps its own 0.88 opacity; no global application blur or opacity rule.
 [[window_rule]]
 match.app_id = "^kitty$"
