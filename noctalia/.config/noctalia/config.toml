@@ -249,10 +249,11 @@ show_workspace_name = false
 scroll_cycles_layout = false
 
 [widget.crypto]
-type = "ayagmar/binance:bar"
-show = "price"
-assets = ["BTCUSDT", "ETHUSDT", "ETHBTC"]
-cycle_seconds = 10
+type = "trev/coingecko:bar"
+show_icon = true
+label = "none"
+show_price = true
+show_change = false
 
 [widget.weather]
 type = "weather"
@@ -358,7 +359,12 @@ left = "panel-toggle launcher"
 
 [plugins]
 auto_update = "none"
-enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status", "theblackdon/theme-switcher"]
+enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "trev/coingecko", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status", "theblackdon/theme-switcher"]
 
 [plugin_settings."vavadik/headsetcontrol"]
 poll_interval = 5
+
+[plugin_settings."trev/coingecko"]
+coins = ["bitcoin", "ethereum"]
+quote_currency = "usd"
+refresh_seconds = 300

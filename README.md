@@ -197,13 +197,16 @@ It opens the launcher on left-click, with no right-click action bound.
 Umbriel Companion sits near workspaces with a layout glyph,
 no labels and no wheel cycling; use its click controls.
 
-Managed Nix homes pin official/community sources plus local `trev/tunnel-status`;
-automatic plugin updates are `none`. Enabled plugins are World Clock,
-HeadsetControl, Binance, `dmopp/nixos-updates`, Umbriel Companion,
+Managed Nix homes pin official/community sources, the standalone
+`trevarj/noctalia-coingecko` source, and local `trev/tunnel-status`;
+automatic plugin updates are `none`. Enabled plugins are
+World Clock, HeadsetControl, CoinGecko, `dmopp/nixos-updates`, Umbriel Companion,
 Wallhaven, tunnel-status and `theblackdon/theme-switcher`. These execute
 unsandboxed as the user: pinning
 limits drift, not permissions. The highest review is **HIGH** for Nix fetching
 and native hooks; tun0's new read-only scope is **LOW**.
+CoinGecko is **MEDIUM**: a user-level third-party network client with an optional
+private Demo-key file, fixed HTTPS hosts and no new privileges or listeners.
 HeadsetControl requires the installed `headsetcontrol`; dependency/IPC errors
 remain visible.
 
@@ -242,17 +245,20 @@ avoid treating down-device EINVAL as failure. An up icon proves only tun0
 up/carrier 1, not Nym health or traffic protection. There is no subprocess,
 RPC, Polkit, network, Nym CLI/auth workaround or credential dependency.
 
-Activation seeds only absent private plugin files with New York/UTC zones and a
-BTCUSDT/ETHUSDT/ETHBTC public watchlist. Existing regular state wins, with a
-warning if it differs; unsafe paths are refused rather than replaced. Use the
-World Clock panel to edit existing zones and the Binance panel to edit an
-existing watchlist. No `account.json` or credentials are created. An existing
-connected account requires the user's **Account → Disconnect** action before
-that installation can be called keyless; seeding does not disconnect it.
-Crypto shows the current price rather than cycling; its retained watchlist holds
-exchange USDT quotes and the ETH/BTC ratio, not aggregate USD prices. The update
-widget hides when up to date. Upstream's history parser maps a malformed candle
-close to zero; that limitation is distinct from ticker unavailable-price/errors.
+Activation seeds only absent private World Clock files with New York/UTC zones.
+Existing regular state wins, with a warning if it differs; unsafe paths are
+refused rather than replaced. Use the World Clock panel to edit existing zones.
+CoinGecko uses declarative settings, with no mutable CoinGecko seed. Crypto
+shows Bitcoin and Ethereum simultaneously as icons and prices in USD, with
+ticker labels and changes hidden. For icons-only, set `show_price = false` and
+`show_change = false`. An optional CoinGecko Demo API key is read from a
+user-chosen private file via `demo_api_key_file`; the empty default is keyless.
+For BTC/ETH, set `coins = ["bitcoin"]` and `quote_currency = "eth"`.
+All watched coins share the selected quote. Crypto quotes `btc` and `eth` use
+overlapping base/quote icons; icons-only mode retains both icons without text.
+Old Binance data is left untouched; an existing connected Binance account still
+requires the user's **Account → Disconnect** action. The update widget hides
+when up to date.
 
 In Umbriel, the upstream Home Manager `noctalia.service` alone owns the shell,
 wallpaper, notifications, tray, native Polkit and lock/idle policy. It belongs
