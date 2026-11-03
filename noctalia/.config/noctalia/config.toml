@@ -325,15 +325,14 @@ glyph = ""
 label = "\uf313"
 font_family = "Symbols Nerd Font Mono"
 font_scale = 1.25
-tooltip = "Launcher (right-click: Cursor Manager)"
+tooltip = "Launcher"
 
 [widget.launcher.actions]
 left = "panel-toggle launcher"
-right = "panel-toggle vn1k/cursor:manager"
 
 [plugins]
 auto_update = "none"
-enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "vn1k/cursor", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status"]
+enabled = ["noctalia/world_clock", "vavadik/headsetcontrol", "ayagmar/binance", "dmopp/nixos-updates", "noctalia/umbriel-companion", "noctalia/wallhaven", "trev/tunnel-status"]
 
 [plugin_settings."vavadik/headsetcontrol"]
 poll_interval = 5

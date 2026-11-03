@@ -173,25 +173,18 @@ stays unchanged (`font_scale = 0.8`), and accessibility UI scale is independentl
 1.15. Workspaces use `scale = 0.8` and `pill_scale = 0.75` to compensate the bar
 scale for 25% smaller pills. The NixOS snowflake is a Symbols Nerd Font text
 label with `font_scale = 1.25` compensation, since Tabler's U+F313 is a clock.
-It opens the launcher on left-click and Cursor Manager on right-click, with a
-discoverable tooltip. Umbriel Companion sits near workspaces with a layout glyph,
+It opens the launcher on left-click, with no right-click action bound.
+Umbriel Companion sits near workspaces with a layout glyph,
 no labels and no wheel cycling; use its click controls.
 
 Managed Nix homes pin official/community sources plus local `trev/tunnel-status`;
 automatic plugin updates are `none`. Enabled plugins are World Clock,
-HeadsetControl, Binance, `vn1k/cursor`, `dmopp/nixos-updates`, Umbriel Companion,
+HeadsetControl, Binance, `dmopp/nixos-updates`, Umbriel Companion,
 Wallhaven and tunnel-status. These execute unsandboxed as the user: pinning
-limits drift, not permissions. The highest review is **HIGH** for cursor config
-writes, Nix fetching and native hooks; tun0's new read-only scope is **LOW**.
+limits drift, not permissions. The highest review is **HIGH** for Nix fetching
+and native hooks; tun0's new read-only scope is **LOW**.
 HeadsetControl requires the installed `headsetcontrol`; dependency/IPC errors
 remain visible.
-
-Cursor defaults are untouched. Apply can attempt edits to Nix-managed compositor
-roots/GTK settings and user Flatpak overrides; read-only layers can fail while
-others apply. Already-running apps may need restart. This is a known partial-
-Apply risk, not bypassed with relaxed permissions, custom paths or fake tools.
-Deployment checks do not Apply/reset the cursor. Nix supplies real Python,
-conversion, image and picker dependencies.
 
 Updates is inputs-only, every six hours, with package/Flatpak checks disabled,
 no token and no activation command; the empty command opens Settings. The
