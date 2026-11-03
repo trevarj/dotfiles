@@ -37,7 +37,7 @@ Kitty's shared `kitty.conf` contains base preferences, not a runtime palette.
 Full-profile Nix homes link it as `~/.config/kitty/base.conf` and seed a writable
 tiny `kitty.conf` containing only `include base.conf`. Noctalia's native Kitty
 hook is the sole palette writer: it adds its own palette include and reloads
-Kitty, independently of the atomic Umbriel/Emacs bundle. Do not stow a link over
+Kitty, independently of guarded Umbriel/cache publication. Do not stow a link over
 that mutable root or let a hook write into Git/Nix store.
 
 Bootstrap keeps a Nix-managed root including base plus the named Niri
@@ -272,13 +272,21 @@ nightlight are disabled.
 
 The saved Niri catalog and `~/.local/share/trev-themes/current` remain independent
 of Noctalia colors. Emacs follows `active`, pointing to relative `current` after
-explicit named-theme actions or a complete private Noctalia generation.
-A synchronous Umbriel+Emacs user template is validated before atomic publication
-of four private files: `umbriel.toml`, `noctalia-theme.el`, `emacs-theme`, `mode`.
-Kitty is not in that bundle. Restart Emacs with the updated loader **before
-applying a Kitty-free bundle**; never reload the live init for verification.
-Compositor/Emacs reload failures are reported after publication without rollback;
-the five native builtin hooks run independently outside this atomic boundary.
+explicit named-theme actions or a private Noctalia generation containing only
+`umbriel.toml`. One synchronous composite renders pinned Umbriel and native
+Kitty template bodies under the same palette/mode, without writing Kitty itself.
+The validated terminal data becomes private, data-only
+`$XDG_CACHE_HOME/noctalia/emacs-palette.json` (default
+`~/.cache/noctalia/emacs-palette.json`).
+Emacs applies its colors as theme-local native Modus overrides (`modus-vivendi`
+for dark, `modus-operandi` for light); named catalog generation is unchanged.
+The cache is written without an Emacs server and supports later Emacs starts
+without the shell or native Kitty output while active selects that runtime state.
+JSON replacement and active publication are individually atomic, not a cross-file
+transaction; both precede compositor/Emacs callbacks. Consumer failures are
+reported without rollback; the five native builtin hooks run independently.
+Restart Emacs with the updated loader before applying this format; never reload
+the live init for verification.
 
 Noctalia stop/start preserves valid active state and last shared-app colors,
 not automatic saved-Niri restoration. Full-profile Niri's `--niri-startup`
