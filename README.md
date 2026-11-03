@@ -149,14 +149,8 @@ Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
 Window opening keeps its `popin` style, 0.92 scale and 0.82 damping, with spring
 stiffness 750 instead of 900 for an approximately 10% longer opening. Closing,
 move, resize and workspace motion, lock fades and output-power timing are unchanged.
-The native palette-following cursor glow uses a compact 24-logical-pixel radius;
-radius limits its footprint, not brightness. Nix adds the installed upstream
-`effects/cursor/glow/shader.glsl` path to the shared preset in one generated
-baseline; do not also include the bundled `effect.toml` or redeclare `glow` in an
-override, as duplicate preset definitions are errors. The glow draws behind the
-cursor without changing hardware-cursor policy, cursor theme/size or output
-scaling. While visible on the pointer's output it prevents direct scanout and
-requests ongoing frames, including with a stationary pointer.
+Cursor effects use the native empty default (disabled); cursor theme/size,
+hardware-cursor policy and output scaling are unchanged.
 Its own title bars are off, and `prefer_no_csd = true` requests that cooperating
 Wayland applications omit their client-side decorations. Restart applications
 after changing that preference; a new window may reuse the old Wayland

@@ -28,15 +28,6 @@ offset_y = 6
 [colors]
 shadow = "#00000055"
 
-[effects]
-cursor = "glow"
-
-[effects.preset.glow]
-kind = "cursor"
-palette = true
-radius = 24
-# Nix adds the installed native shader path to this preset.
-
 [animation.windows_in]
 style = "popin"
 scale = 0.92
