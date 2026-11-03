@@ -52,7 +52,7 @@ function update()
       if carrier == nil then
         readFailed("carrier")
       elseif carrier:match("^1\n?$") then
-        finish(true, false, "Tun0 up (not Nym health/protection proof)")
+        finish(true, false, "Tun0 up")
       elseif carrier:match("^0\n?$") then
         finish(false)
       else
