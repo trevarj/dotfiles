@@ -222,7 +222,7 @@ Launcher applications use separate systemd services, outside shell restart
 cleanup. GNOME keyring/GCR and the host's power/lid policy remain unchanged.
 
 Wallpaper selection is manual from `~/Pictures/Wallpapers`, starting with the
-packaged image; transitions are fade-only. Current color source is `built-in`,
+packaged image; transitions are fade-only. Default color source is `builtin`,
 dark mode with pure-black dark enabled; wallpaper-derived soft colors remain a
 user choice, not a claim about every palette. Native `btop`, `kitty`, `qt`,
 `gtk3` and `gtk4` templates/hooks are enabled; community templates are disabled.
@@ -288,7 +288,7 @@ restoration fails. After an externally interrupted idle-policy reload, run
 There are no external-display/DDC writes.
 
 Noctalia dims at 150 seconds, locks at 600, and powers outputs off at 601.
-A separate 30-second locked timer handles manual locks without resetting the
+A separate 10-second locked timer handles manual locks without resetting the
 601-second automatic deadline. Native activity wakes powered-off outputs.
 D-Bus inhibitors can suppress every behavior, including the locked-off timer;
 there is no second idle daemon in Umbriel. Startup and shutdown attempt saved

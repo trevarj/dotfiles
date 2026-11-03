@@ -90,7 +90,7 @@ transition_duration = 600
 enabled = false
 
 [theme]
-source = "built-in"
+source = "builtin"
 wallpaper_scheme = "soft"
 mode = "dark"
 shell_mode = "follow"
@@ -158,7 +158,7 @@ action = "screen_off"
 [idle.behavior.locked-off]
 enabled = true
 timeout = 0
-locked_timeout = 30
+locked_timeout = 10
 action = "screen_off"
 
 [lockscreen]
