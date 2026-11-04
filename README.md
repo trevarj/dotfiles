@@ -146,9 +146,9 @@ the migration-only `config_version`, and unrelated runtime/plugin data are not
 imported. The existing private location and other GUI overrides stay untouched.
 
 Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
-Window opening uses `popin` from 0.88 scale, with 0.82 damping and spring
-stiffness 750 instead of 900 for an approximately 10% longer opening. Closing
-shrinks to 0.92 scale; move and resize keep their existing spring curves.
+Window opening uses `popin` from 0.92 scale with `spring:1,900`; closing
+shrinks to 0.96 scale with `spring:1,1400`. Move and resize use `spring:1,800`.
+These window springs are critically damped for restrained, non-bouncy settling.
 Workspace switching, overview zoom and overview workspace navigation use 220ms
 `easeout`, avoiding spring-settling tails. Unlike springs, ease-out does not
 preserve gesture-release velocity. Lock fades and output-power timing are unchanged.

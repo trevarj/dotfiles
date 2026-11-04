@@ -30,19 +30,19 @@ shadow = "#00000055"
 
 [animation.windows_in]
 style = "popin"
-scale = 0.88
-curve = "spring:0.82,750"
+scale = 0.92
+curve = "spring:1,900"
 
 [animation.windows_out]
 style = "popin"
-scale = 0.92
+scale = 0.96
 curve = "spring:1,1400"
 
 [animation.windows_move]
-curve = "spring:0.85,800"
+curve = "spring:1,800"
 
 [animation.windows_resize]
-curve = "spring:0.85,800"
+curve = "spring:1,800"
 
 [animation.workspaces]
 duration_ms = 220
