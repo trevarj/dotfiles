@@ -148,8 +148,10 @@ imported. The existing private location and other GUI overrides stay untouched.
 Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
 Window opening uses `popin` from 0.88 scale, with 0.82 damping and spring
 stiffness 750 instead of 900 for an approximately 10% longer opening. Closing
-shrinks to 0.92 scale; move, resize and workspace motion, lock fades and
-output-power timing are unchanged.
+shrinks to 0.92 scale; move and resize keep their existing spring curves.
+Workspace switching, overview zoom and overview workspace navigation use 220ms
+`easeout`, avoiding spring-settling tails. Unlike springs, ease-out does not
+preserve gesture-release velocity. Lock fades and output-power timing are unchanged.
 Cursor effects use the native empty default (disabled); cursor theme/size,
 hardware-cursor policy and output scaling are unchanged.
 Its own title bars are off, and `prefer_no_csd = true` requests that cooperating
