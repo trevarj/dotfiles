@@ -325,6 +325,12 @@ moves to Super+Alt+Space. Super+Alt+L cycles Scrolling/Dwindle/Master/Stacking,
 and Super+Alt+Shift+L opens the packaged chooser for the current output-local
 workspace. Super+Ctrl+H/L move columns left/right. Layout overrides are
 runtime-local, not persistent named-workspace assignments.
+Super+Shift+L locks through Noctalia, including while shortcuts are inhibited.
+Super+Ctrl+arrows focus the monitor in that direction without wrapping.
+Super+C centers the scrolling column; Super+Minus/Equal shrink/grow primary
+extent by 0.05 (five percentage points of the usable extent). These size keys
+repeat while held; outside horizontal scrolling the primary-axis target depends
+on the layout. Lock and centering do not repeat or run while already locked.
 Print, Shift+Print and Ctrl+Print request native region, fullscreen and window
 screenshots respectively; they are not allowed while locked. Native launcher,
 terminal, navigation, media and remaining scratchpad bindings are retained.

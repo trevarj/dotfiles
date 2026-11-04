@@ -109,6 +109,7 @@ accel_profile = "flat"
 "Mod+Escape" = "session-quit"
 "Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
 "Mod+Alt+T" = { action = "spawn theme-switch", repeat = false }
+"Mod+Shift+L" = { action = "spawn noctalia msg session lock", allow_when_inhibited = true, repeat = false }
 
 # Media, volume and brightness remain available while locked.
 "XF86AudioRaiseVolume" = { action = "spawn noctalia msg volume-up", allow_when_locked = true }
@@ -136,6 +137,10 @@ accel_profile = "flat"
 "Mod+Shift+Right" = "column-move-right"
 "Mod+Ctrl+H" = "column-move-left"
 "Mod+Ctrl+L" = "column-move-right"
+"Mod+Ctrl+Left" = "output-focus-left"
+"Mod+Ctrl+Down" = "output-focus-down"
+"Mod+Ctrl+Up" = "output-focus-up"
+"Mod+Ctrl+Right" = "output-focus-right"
 
 # Window state and layout
 "Mod+T" = { action = "window-toggle-floating", repeat = false }
@@ -146,6 +151,9 @@ accel_profile = "flat"
 "Mod+Ctrl+F" = { action = "window-toggle-maximize", repeat = false }
 "Mod+R" = "window-cycle-primary-extent"
 "Mod+Shift+R" = "window-cycle-primary-extent-back"
+"Mod+C" = { action = "column-center", repeat = false }
+"Mod+Minus" = "window-modify-primary-extent -0.05"
+"Mod+Equal" = "window-modify-primary-extent 0.05"
 "Mod+Comma" = "window-consume-left"
 "Mod+Period" = "window-consume-right"
 "Mod+Ctrl+Comma" = "window-consume-from-left"
