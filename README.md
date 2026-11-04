@@ -166,7 +166,7 @@ Noctalia layer namespaces, not every application. Noctalia's launcher and
 clipboard float centrally; control-center, wallpaper and session panels attach
 to the bar. The full native launcher uses an app grid and top search field,
 retaining recent apps, categories and providers with navigation labels hidden.
-Dock, desktop widgets and the control-center media visualizer are disabled.
+Dock and desktop widgets are disabled; the control-center media visualizer is enabled.
 Iosevka application fonts and Noto Sans shell text remain unchanged.
 
 The single `main` bar spans every output flush to the top edge, with square
@@ -186,12 +186,15 @@ clock, then notifications; notifications hide with no unread items.
 Clock left-click opens Control Center Home and right-click opens World Clock,
 which has no separate bar widget.
 
-Bar thickness stays 38px, with opaque background and font weight 700.
+Bar thickness stays 38px, with effectively opaque background
+(`background_opacity = 0.9999999776482582`) and font weight 700.
 Notifications use 0.8 background opacity without a border. Icons are 25% larger
 (`scale = 1.25`), ordinary text stays unchanged (`font_scale = 0.8`), and
-accessibility UI scale is independently 1.15. Workspaces use `scale = 0.8` and
-`pill_scale = 0.75` to compensate the bar
-scale for 25% smaller pills. The NixOS snowflake is a Symbols Nerd Font text
+accessibility UI scale is independently `1.1500000096857548`. Workspaces use
+`scale = 0.8` and `pill_scale = 0.75` to compensate the bar scale for 25% smaller
+pills. Regular inactive pills use `inactive_pill_size = 0.9500000000000001`;
+the saved `show_icons = false` only affects the unused Focus Hint style.
+The NixOS snowflake is a Symbols Nerd Font text
 label with `font_scale = 1.25` compensation, since Tabler's U+F313 is a clock.
 It opens the launcher on left-click, with no right-click action bound.
 Umbriel Companion sits near workspaces with a layout glyph,
@@ -200,31 +203,14 @@ no labels and no wheel cycling; use its click controls.
 Managed Nix homes pin official/community sources, the standalone
 `trevarj/noctalia-coingecko` source, and local `trev/tunnel-status`;
 automatic plugin updates are `none`. Enabled plugins are
-World Clock, HeadsetControl, CoinGecko, `dmopp/nixos-updates`, Umbriel Companion,
-Wallhaven, tunnel-status and `theblackdon/theme-switcher`. These execute
-unsandboxed as the user: pinning
+World Clock, HeadsetControl, `dmopp/nixos-updates`, Umbriel Companion,
+Wallhaven, tunnel-status and CoinGecko. These execute unsandboxed as the user: pinning
 limits drift, not permissions. The highest review is **HIGH** for Nix fetching
 and native hooks; tun0's new read-only scope is **LOW**.
 CoinGecko is **MEDIUM**: a user-level third-party network client with an optional
 private Demo-key file, fixed HTTPS hosts and no new privileges or listeners.
 HeadsetControl requires the installed `headsetcontrol`; dependency/IPC errors
 remain visible.
-
-Theme Switcher 0.2.1 (API 43, MIT, publisher `theblackdon`) was statically
-reviewed in the pinned `noctalia-dev/community-plugins` source, revision
-`eecb1579dff13d4334b2af9875e38084c42c8d50`; no new dependency is required.
-Risk is **MODERATE** for user-triggered actions, **LOW** from enabling alone:
-startup registers a wallpaper IPC service and checks the CLI path, without
-automatically applying a theme, running a subprocess or making a network request.
-Opening views reads private saved themes; edits write `themes.json` in its plugin
-data directory. The community editor fetches `https://api.noctalia.dev/palettes`
-and caches the response. Opening the wallpaper picker can execute an installed
-image tool to cache thumbnails; Capture desktop executes an installed screenshot
-tool. Apply changes wallpaper/palette and invokes the configured native templates
-and hooks via argv-based CLI calls. No telemetry, upload, credential collection
-or remote-code loading was found. Enabling is reasonable with trusted local
-images, image tools and existing hooks, not a sandbox or guarantee about future
-versions; interrupted unchecked theme-store writes can lose saved themes.
 
 Updates is inputs-only, every six hours, with package/Flatpak checks disabled,
 no token and no activation command; the empty command opens Settings. The
@@ -233,8 +219,8 @@ retries remain; lockfile or system/user Flatpak stamp changes can trigger checks
 after a 20-second settle even with Flatpak checks disabled.
 
 The six Control Center slots are, in order: dark mode, clipboard,
-`noctalia/wallhaven:shortcut`, `theblackdon/theme-switcher:open`, notifications,
-session. Wallhaven defaults remain keyless SFW with the existing wallpaper
+`noctalia/wallhaven:shortcut`, notifications, power profile, session.
+Wallhaven defaults remain keyless SFW with the existing wallpaper
 directory and no automatic rotation. No extra cursor tile or hidden overflow is
 configured.
 
@@ -249,15 +235,17 @@ Activation seeds only absent private World Clock files with New York/UTC zones.
 Existing regular state wins, with a warning if it differs; unsafe paths are
 refused rather than replaced. Use the World Clock panel to edit existing zones.
 CoinGecko uses declarative settings, with no mutable CoinGecko seed. Crypto
-shows BTC/USD and ETH/BTC simultaneously, with ticker labels and changes hidden
-and quote units visible. For icons-only, set `show_price = false` and
+shows BTC/USD, ETH/USD and ETH/BTC simultaneously, with ticker labels and changes
+hidden and quote units visible. For icons-only, set `show_price = false` and
 `show_change = false`. An optional CoinGecko Demo API key is read from a
 user-chosen private file via `demo_api_key_file`; the empty default is keyless.
-`coins = ["bitcoin/usd", "ethereum/btc"]` selects these two exact markets,
-without adding ETH/USD or BTC/BTC. Plain CoinGecko IDs instead use
+`coins = ["bitcoin/usd", "ethereum/usd", "ethereum/btc"]` selects these three
+exact markets without adding BTC/BTC. Plain CoinGecko IDs instead use
 `quote_currency` plus `additional_quote_currencies`. Requests batch by quote and
 share rate-limit backoff. Crypto quotes `btc` and `eth` use overlapping
 base/quote icons; icons-only mode retains both market entries without text.
+The saved `coingecko_live` widget instance retains the same display preferences
+as `crypto` but is not placed in a bar lane; the existing `crypto` lane is unchanged.
 Old Binance data is left untouched; an existing connected Binance account still
 requires the user's **Account → Disconnect** action. The update widget hides
 when up to date.
@@ -269,14 +257,16 @@ Launcher applications use separate systemd services, outside shell restart
 cleanup. GNOME keyring/GCR and the host's power/lid policy remain unchanged.
 
 Wallpaper selection is manual from `~/Pictures/Wallpapers`, with both default
-and last selection set to `autumn-valley-and-deer-painting.jpg`; transitions are
-fade-only. The avatar is `~/Pictures/Art_and_Design/duckling-brick-wall.jpg`.
+and last selection set to `windblown-orange-dune-ridge.jpg`; transitions are
+fade-only. The saved wallpaper and avatar paths are absolute under `/home/trev`;
+the avatar is `Pictures/Art_and_Design/duckling-brick-wall.jpg` there.
 These paths reference local images; declaring them does not package the files.
-The default palette is community **Kanagawa Paper**, with **Ayu** as the builtin
-fallback, dark mode, pure-black dark and color-scheme synchronization enabled.
-The community palette is downloaded/cached by Noctalia, not pinned here.
-Wallpaper-derived soft colors remain an available user choice. Native `btop`, `kitty`, `qt`,
-`gtk3` and `gtk4` templates/hooks are enabled; community templates are disabled.
+The default palette is builtin **Ayu**, with dark mode, pure-black dark and
+color-scheme synchronization enabled. Community **Kanagawa Paper** remains the
+saved alternative, downloaded/cached by Noctalia rather than pinned here.
+Wallpaper-derived soft colors remain an available user choice. Native `btop`,
+`gtk3`, `gtk4`, `kitty` and `qt` templates/hooks are enabled; community templates
+are disabled.
 Qt5/6ct select the generated custom palette, GTK uses mutable native imports,
 and the native btop hook selects `noctalia` on apply and signals running btop.
 Activation preserves existing regular configs; other btop preferences survive.
