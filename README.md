@@ -323,11 +323,18 @@ Nix wraps `umbriel-layout-picker` and `umbriel-idle-brightness` with their
 runtime dependencies. The layout chooser accepts only its four displayed
 labels; cancellation and freeform input cannot change the layout.
 
-Umbriel keeps the pinned compositor's complete native keymap. Super+Space is
-reserved for US/Russian switching; scratchpad toggle moves to Super+Alt+Space.
-Super+Ctrl+L cycles Scrolling/Dwindle/Master/Stacking, and Super+Ctrl+Shift+L
-opens the packaged chooser for the current output-local workspace. Layout
-overrides are runtime-local, not persistent named-workspace assignments.
+Umbriel's shared `[keybinds]` owns the ordinary keymap, with an explicit snapshot
+of retained native defaults rather than a runtime import of upstream bindings.
+Nix merges only four bindings requiring generated package paths: `Mod+B`
+(default browser), `Mod+Alt+Shift+L` (layout chooser), `Mod+Alt+W` (wallpaper
+panel) and `Mod+Alt+D` (theme mode). Ordinary bindings, including
+`Mod+Alt+T` → `spawn theme-switch`, belong in the shared TOML.
+Super+W closes the focused window, Super+Q is unbound and Super+Ctrl+T toggles
+column tabs. Super+Space is reserved for US/Russian switching; scratchpad toggle
+moves to Super+Alt+Space. Super+Alt+L cycles Scrolling/Dwindle/Master/Stacking,
+and Super+Alt+Shift+L opens the packaged chooser for the current output-local
+workspace. Super+Ctrl+H/L move columns left/right. Layout overrides are
+runtime-local, not persistent named-workspace assignments.
 Print, Shift+Print and Ctrl+Print request native region, fullscreen and window
 screenshots respectively; they are not allowed while locked. Native launcher,
 terminal, navigation, media and remaining scratchpad bindings are retained.
