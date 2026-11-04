@@ -332,8 +332,9 @@ extent by 0.05 (five percentage points of the usable extent). These size keys
 repeat while held; outside horizontal scrolling the primary-axis target depends
 on the layout. Lock and centering do not repeat or run while already locked.
 Print, Shift+Print and Ctrl+Print request native region, fullscreen and window
-screenshots respectively; they are not allowed while locked. Native launcher,
-terminal, navigation, media and remaining scratchpad bindings are retained.
+screenshots respectively; they are not allowed while locked. Super+E toggles the
+launcher without key repeat; tapping Super alone is unbound. Native terminal,
+navigation, media and remaining scratchpad bindings are retained.
 Super+Shift+Slash opens the native cheatsheet. Mod+R and reverse cycle extent
 presets 0.5, 0.667 and 1.0, where 1.0 is full usable width, not fullscreen.
 The host's native lid events handle initial state and disable eDP-1 on close
