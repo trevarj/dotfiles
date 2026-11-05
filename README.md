@@ -237,17 +237,22 @@ Activation seeds only absent private World Clock files with New York/UTC zones.
 Existing regular state wins, with a warning if it differs; unsafe paths are
 refused rather than replaced. Use the World Clock panel to edit existing zones.
 CoinGecko uses declarative settings, with no mutable CoinGecko seed. Crypto
-shows BTC/USD, ETH/USD and ETH/BTC simultaneously, with ticker labels and changes
-hidden and quote units visible. For icons-only, set `show_price = false` and
-`show_change = false`. An optional CoinGecko Demo API key is read from a
-user-chosen private file via `demo_api_key_file`; the empty default is keyless.
+shows BTC/USD, ETH/USD and ETH/BTC simultaneously using `presentation = "compact"`,
+three-significant-digit prices, 14px icons and 6px spacing. Ticker labels,
+changes and quote suffixes are hidden; tooltips retain exact prices, units and
+freshness. Choose `presentation = "stacked"` for icons above prices, or `"full"`
+for the original number formatting and decimal control. Every presentation
+honors the independent visibility settings. For icons-only, set
+`show_price = false` and `show_change = false`. An optional CoinGecko Demo API key
+is read from a user-chosen private file via `demo_api_key_file`; the empty default
+is keyless.
 `coins = ["bitcoin/usd", "ethereum/usd", "ethereum/btc"]` selects these three
 exact markets without adding BTC/BTC. Plain CoinGecko IDs instead use
 `quote_currency` plus `additional_quote_currencies`. Requests batch by quote and
 share rate-limit backoff. Crypto quotes `btc` and `eth` use overlapping
 base/quote icons; icons-only mode retains both market entries without text.
-The saved `coingecko_live` widget instance retains the same display preferences
-as `crypto` but is not placed in a bar lane; the existing `crypto` lane is unchanged.
+The saved `coingecko_live` widget retains its full presentation and is not placed
+in a bar lane; the existing `crypto` lane is unchanged.
 Old Binance data is left untouched; an existing connected Binance account still
 requires the user's **Account → Disconnect** action. The update widget hides
 when up to date.

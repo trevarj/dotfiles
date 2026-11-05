@@ -255,11 +255,14 @@ scroll_cycles_layout = false
 
 [widget.crypto]
 type = "trev/coingecko:bar"
+presentation = "compact"
 show_icon = true
 label = "none"
 show_price = true
 show_change = false
-show_quote = true
+show_quote = false
+icon_size = 14
+spacing = 6
 
 [widget.coingecko_live]
 type = "trev/coingecko:bar"
