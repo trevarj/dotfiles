@@ -272,8 +272,11 @@ The default palette is builtin **Ayu**, with dark mode, pure-black dark and
 color-scheme synchronization enabled. Community **Kanagawa Paper** remains the
 saved alternative, downloaded/cached by Noctalia rather than pinned here.
 Wallpaper-derived soft colors remain an available user choice. Native `btop`,
-`gtk3`, `gtk4`, `kitty` and `qt` templates/hooks are enabled; community templates
-are disabled.
+`gtk3`, `gtk4`, `kitty` and `qt` templates/hooks are enabled. The native
+community Telegram template generates
+`~/.config/telegram-desktop/themes/noctalia.tdesktop-theme`; import or re-import
+that file through Telegram's custom-theme controls to apply it. After its first
+download, `noctalia msg templates-apply` retries generation if the file is missing.
 Qt5/6ct select the generated custom palette, GTK uses mutable native imports,
 and the native btop hook selects `noctalia` on apply and signals running btop.
 Activation preserves existing regular configs; other btop preferences survive.

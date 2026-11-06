@@ -115,7 +115,8 @@ sync_color_scheme = true
 [theme.templates]
 enable_builtin_templates = true
 builtin_ids = ["btop", "gtk3", "gtk4", "kitty", "qt"]
-enable_community_templates = false
+enable_community_templates = true
+community_ids = ["telegram"]
 
 [nightlight]
 enabled = false
