@@ -22,27 +22,28 @@ saturation = 1.1
 [appearance.shadow]
 enabled = true
 softness = 24
-offset_x = 0
-offset_y = 6
+offset_x = 4
+offset_y = 4
 
 [colors]
 shadow = "#00000055"
 
+[animation]
+curve = "snappy"
+
 [animation.windows_in]
 style = "popin"
-scale = 0.92
-curve = "spring:1,900"
+scale = 0.75
+curve = "spring:0.6,600"
 
 [animation.windows_out]
 style = "popin"
-scale = 0.96
+scale = 0.8
 curve = "spring:1,1400"
 
 [animation.windows_move]
-curve = "spring:1,800"
 
 [animation.windows_resize]
-curve = "spring:1,800"
 
 [animation.workspaces]
 duration_ms = 220
@@ -50,8 +51,8 @@ curve = "easeout"
 
 [animation.overview]
 duration_ms = 220
-curve = "easeout"
-workspace_curve = "easeout"
+curve = "snappy"
+workspace_curve = "snappy"
 
 [layout]
 mode = "scrolling"
