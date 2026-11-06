@@ -345,6 +345,9 @@ launcher without key repeat; tapping Super alone is unbound. Native terminal,
 navigation, media and remaining scratchpad bindings are retained.
 Super+Shift+Slash opens the native cheatsheet. Mod+R and reverse cycle extent
 presets 0.5, 0.667 and 1.0, where 1.0 is full usable width, not fullscreen.
+Opening rules place Brave on workspace 1, Emacs on 2 and Telegram Desktop on 3
+of the preferred output. The host provides nine fixed workspaces per monitor.
+Existing windows are not moved by reloading, and manual moves remain allowed.
 The host's native lid events handle initial state and disable eDP-1 on close
 only if another output is enabled; opening restores it. DP-5 gets startup focus,
 without cursor/focus warp or changes to logind, suspend or power policy.

@@ -28,9 +28,6 @@ offset_y = 4
 [colors]
 shadow = "#00000055"
 
-[animation]
-curve = "snappy"
-
 [animation.windows_in]
 style = "popin"
 scale = 0.75
@@ -206,6 +203,19 @@ accel_profile = "flat"
 "Print" = { action = "spawn noctalia msg screenshot-region", repeat = false }
 "Shift+Print" = { action = "spawn noctalia msg screenshot-fullscreen", repeat = false }
 "Ctrl+Print" = { action = "spawn noctalia msg screenshot-window", repeat = false }
+
+# Opening placement on the preferred output; windows can still be moved manually.
+[[window_rule]]
+match.app_id = "^brave-browser$"
+default_workspace = 1
+
+[[window_rule]]
+match.app_id = "^Emacs$"
+default_workspace = 2
+
+[[window_rule]]
+match.app_id = '^org\.telegram\.desktop$'
+default_workspace = 3
 
 # Brave starts full-width without changing floating dialogs or locking its size.
 [[window_rule]]
