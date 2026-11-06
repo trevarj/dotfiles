@@ -327,8 +327,9 @@ Nix merges only four bindings requiring generated package paths: `Mod+B`
 panel) and `Mod+Alt+D` (theme mode). Ordinary bindings, including
 `Mod+Alt+T` → `spawn theme-switch`, belong in the shared TOML.
 Super+W closes the focused window, Super+Q is unbound and Super+Ctrl+T toggles
-column tabs. Super+Space is reserved for US/Russian switching; scratchpad toggle
-moves to Super+Alt+Space. Super+Alt+L cycles Scrolling/Dwindle/Master/Stacking,
+column tabs. Super+Space is reserved for US/Russian switching. Super+S toggles
+the scratchpad, Super+Shift+S sends a window there, Super+Ctrl+S restores it,
+and Super+Tab cycles its windows. Super+Alt+L cycles Scrolling/Dwindle/Master/Stacking,
 and Super+Alt+Shift+L opens the packaged chooser for the current output-local
 workspace. Super+Ctrl+H/L move columns left/right. Layout overrides are
 runtime-local, not persistent named-workspace assignments.
