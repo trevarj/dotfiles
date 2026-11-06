@@ -54,7 +54,6 @@ Edit only `agents/.agents/AGENTS.md`. Stowing `agents` installs this shared
 policy at `~/.agents/AGENTS.md` with native relative symlinks:
 
 - `~/.codex/AGENTS.md` → `../.agents/AGENTS.md`
-- `~/.claude/CLAUDE.md` → `../.agents/AGENTS.md`
 - `~/.omp/agent/AGENTS.md` → `../../.agents/AGENTS.md`
 - `~/.pi/agent/AGENTS.md` → `../../.agents/AGENTS.md`
 
