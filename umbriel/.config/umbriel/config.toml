@@ -30,8 +30,8 @@ shadow = "#00000055"
 
 [animation.windows_in]
 style = "popin"
-scale = 0.75
-curve = "spring:0.4,240"
+scale = 0.6
+curve = "spring:1,800"
 
 [animation.windows_out]
 style = "popin"
@@ -47,9 +47,7 @@ duration_ms = 220
 curve = "easeout"
 
 [animation.overview]
-duration_ms = 360
-curve = "easein"
-workspace_curve = "easein"
+curve = "spring:.8,460"
 
 [layout]
 mode = "scrolling"
