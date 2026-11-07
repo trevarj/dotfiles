@@ -1,5 +1,7 @@
 modelRoles:
-  default: openai-codex/gpt-5.6-sol:high
+  default: openai-codex/gpt-6.1-sol:medium
+  smol: openai-codex/gpt-6.1-terra
+  slow: openai-codex/gpt-6.1-sol:auto
 symbolPreset: nerd
 composer:
   shape: band
@@ -23,8 +25,19 @@ display:
   showTokenUsage: true
 colorBlindMode: true
 task:
+  maxEffort: medium
   eager: preferred
   enableEffort: true
+  agentPrewalk:
+    task: "off"
+    reviewer: "off"
+    scout: "off"
+  showResolvedModelBadge: true
 github:
   enabled: true
 hideThinkingBlock: true
+dev:
+  autoqaConsent: granted
+extendedContext: true
+codexResets:
+  autoRedeem: "no"
