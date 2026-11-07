@@ -1,5 +1,12 @@
 # Shared preferences; Nix assembles the include-only root.
 # Physical output modes and workspace topology belong to the host.
+
+[general]
+autostart = ["brave", "Telegram", "emacs"]
+xwayland_native_resolution = true
+nvidia_sync_workaround = false
+show_cheatsheet = false
+
 [appearance]
 corner_radius = 16
 border_width = 2
