@@ -14,12 +14,11 @@ Baseline for Trevor's NixOS machine. Project `AGENTS.md` files extend or overrid
 
 - Favor quality, simplicity, robustness, scalability, and maintainability;
   give development cost little weight.
-- Before bug fixes, reproduce in the closest realistic workflow when feasible.
-  Regressions belong at the closest useful level: integration/end-to-end for
-  product behavior, unit tests for isolated logic.
 - Follow existing style, libraries, and conventions; no new patterns. Prefer editing existing files.
-- Find configured tests, typecheckers, and linters. In the project environment
-  below, run tests, build/typecheck, formatter, and linter; fix failures before handoff.
+- Do not add code comments unless requested to.
+- Run verification only when requested or before a commit. Before committing,
+  run incremental compilation, linting/formatting, and tests; target checks to
+  the changes where possible. Report what was and was not verified.
 - Prefer `rg` over `grep` for content and `fd` over `find` for files when available.
 
 ## Responses & docs
@@ -33,23 +32,19 @@ Baseline for Trevor's NixOS machine. Project `AGENTS.md` files extend or overrid
 
 ## Environment
 
-- Default to Nix and project-pinned environments; use Guix for an existing
-  `manifest.scm` or an explicit Guix request.
-- Check tool availability before use; runtimes/build tools are not guaranteed on PATH.
-  Missing tools use temporary Nix shells: `nix shell nixpkgs#<package> -c <command>`.
-  Use `guix shell` when a Guix package is needed.
-- Never use `nix profile install` or `guix install`, or suggest apt, dnf, pacman,
+- Default to Nix and project-pinned environments.
+- Check tool availability before use and add missing tools to the project manifest.
+- Use Bash or Python for scripting in non-JavaScript projects, not JavaScript or
+  TypeScript.
+- Never use `nix profile install`, or suggest apt, dnf, pacman,
   brew, or global npm/pip.
-- Never hand-edit `/run/current-system`, the system profile,
-  `~/.config/guix/current/`, or `~/.guix-profile/`. Manage these through NixOS
-  configuration or `guix pull` / `guix package`, respectively.
+- Never hand-edit `/run/current-system`, the system profile. Manage these
+  through NixOS.
 - Auto-scaffold missing `flake.nix` with a pinned development shell listing dev
   dependencies, generated `flake.lock`, and `.envrc` containing exactly `use flake`.
   Commit the lock with the project only when committing is requested.
 - Add tools to `flake.nix`, not global assumptions; run project commands with
   `nix develop -c <command>`.
-- Existing `manifest.scm` overrides Nix scaffolding: use `guix shell -m manifest.scm`
-  and add tools to the manifest. No Nix flake unless the user requests migration.
 
 ## Git & commits
 
