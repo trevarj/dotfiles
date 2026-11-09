@@ -14,6 +14,8 @@ clipboard_enabled = true
 clipboard_history_max_entries = 100
 clipboard_auto_paste = "off"
 clipboard_confirm_clear_history = true
+umbriel_overview_close_on_launch_enabled = true
+umbriel_overview_type_to_launch_enabled = true
 
 [shell.screenshot]
 copy_to_clipboard = true
@@ -26,13 +28,13 @@ enabled = true
 speed = 1.0
 
 [shell.shadow]
-direction = "down"
+direction = "down_right"
 alpha = 0.35
 
 [shell.panel]
 transparency_mode = "soft"
 shadow = true
-launcher_placement = "floating"
+launcher_placement = "attached"
 clipboard_placement = "floating"
 control_center_placement = "attached"
 wallpaper_placement = "attached"
@@ -41,11 +43,13 @@ launcher_position = "center"
 clipboard_position = "center"
 
 [shell.launcher]
-layout = "full"
+layout = "simple"
 app_grid = true
 search_position = "top"
 default_view = "recent"
-categories = true
+categories = false
+category_icons_only = true
+show_app_origin_indicator = false
 show_navigation_labels = false
 track_usage = true
 sort_by_usage = true
@@ -105,9 +109,9 @@ path = "/home/trev/Pictures/Wallpapers/windblown-orange-dune-ridge.jpg"
 [theme]
 source = "builtin"
 builtin = "Ayu"
-community_palette = "Kanagawa Paper"
+community_palette = "Catppuccin Macchiato Peach"
 wallpaper_scheme = "soft"
-mode = "dark"
+mode = "light"
 shell_mode = "follow"
 pure_black_dark = true
 sync_color_scheme = true
@@ -263,6 +267,7 @@ show_price = true
 show_change = false
 show_quote = false
 icon_size = 14
+font_scale = 0.9000000000000001
 spacing = 6
 
 [widget.coingecko_live]
@@ -318,6 +323,7 @@ right = "session lock"
 
 [widget.tunnel-status]
 type = "trev/tunnel-status:widget"
+scale = 0.9000000000000001
 
 [widget.bluetooth]
 type = "bluetooth"

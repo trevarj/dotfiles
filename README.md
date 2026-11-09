@@ -139,10 +139,11 @@ module. Umbriel's managed root includes the generated baseline, host facts,
 active colors and local overrides in that order; it does not replace
 `~/.config/umbriel/overrides.toml`. Noctalia GUI overrides remain in
 `~/.local/state/noctalia/settings.toml` and survive rebuilds.
-The shared baseline statically captures saved non-location preferences; it does
-not read that private file at evaluation or activation. Geographic `location.*`,
-the migration-only `config_version`, and unrelated runtime/plugin data are not
-imported. The existing private location and other GUI overrides stay untouched.
+The shared baseline statically captures portable saved preferences; it does not
+read that private file at evaluation or activation. Saved wallpaper and
+geographic `location.*` values, the migration-only `config_version`, plugin
+source paths, obsolete Binance widget fields, and unrelated runtime/plugin data
+are not imported. Existing GUI overrides stay untouched.
 
 Umbriel uses 16px corners, 2px borders, soft shadows and native spring curves.
 Window opening uses `popin` from 0.6 scale with `spring:1,800`; closing
