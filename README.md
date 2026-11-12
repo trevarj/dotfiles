@@ -330,7 +330,6 @@ Nix merges only four bindings requiring generated package paths: `Mod+B`
 (default browser), `Mod+Alt+Shift+L` (layout chooser), `Mod+Alt+W` (wallpaper
 panel) and `Mod+Alt+D` (theme mode). Ordinary bindings, including
 `Mod+Alt+T` → `spawn theme-switch`, belong in the shared TOML.
-Super+grave toggles Voxtype recording without key repeat.
 Super+W closes the focused window, Super+Q is unbound and Super+Ctrl+T toggles
 column tabs. Super+Space is reserved for US/Russian switching. Super+S toggles
 the scratchpad, Super+Shift+S sends a window there, Super+Ctrl+S restores it,
