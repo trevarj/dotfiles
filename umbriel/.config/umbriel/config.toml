@@ -114,6 +114,7 @@ accel_profile = "flat"
 # Applications and session
 "Mod+Return" = { action = "spawn kitty", repeat = false }
 "Mod+E" = { action = "spawn noctalia msg panel-toggle launcher", repeat = false }
+"Mod+grave" = { action = "spawn voxtype record toggle", repeat = false }
 "Mod+W" = { action = "window-close", repeat = false }
 "Mod+Escape" = "session-quit"
 "Mod+Shift+Escape" = { action = "shortcuts-inhibit-toggle", allow_when_inhibited = true, repeat = false }
