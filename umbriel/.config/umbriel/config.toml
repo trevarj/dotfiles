@@ -7,9 +7,6 @@ xwayland_native_resolution = true
 nvidia_sync_workaround = false
 show_cheatsheet = false
 
-[effects]
-cursor = "ghost-thread"
-
 [appearance]
 corner_radius = 16
 border_width = 2
