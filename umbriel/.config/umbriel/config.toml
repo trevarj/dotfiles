@@ -7,6 +7,9 @@ xwayland_native_resolution = true
 nvidia_sync_workaround = false
 show_cheatsheet = false
 
+[effects]
+cursor = "ghost-thread"
+
 [appearance]
 corner_radius = 16
 border_width = 2
@@ -82,7 +85,7 @@ new_becomes_master = false
 drop_zones = true
 
 [input.focus]
-follows_mouse = true
+follows_mouse = "sloppy"
 hover_raises = false
 follows_mouse_max_scroll = 0.0
 

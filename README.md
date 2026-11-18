@@ -153,8 +153,8 @@ inherits the native default. Workspace switching remains 220ms `easeout`.
 Springs set their own duration, so no explicit `duration_ms` accompanies them.
 Built-in tiled pop-in clamps progress: underdamping alone cannot add size overshoot.
 Lock fades and output-power timing are unchanged.
-Cursor effects use the native empty default (disabled); cursor theme/size,
-hardware-cursor policy and output scaling are unchanged.
+The Ghost Thread cursor effect is enabled; cursor theme/size, hardware-cursor
+policy and output scaling are unchanged.
 Its own title bars are off, and `prefer_no_csd = true` requests that cooperating
 Wayland applications omit their client-side decorations. Restart applications
 after changing that preference; a new window may reuse the old Wayland
